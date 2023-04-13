@@ -1,8 +1,9 @@
 # Teensy Nano Board
 
 This code is for the CAN based motors on boards where the nano handles low frequency sampling (eg. battery voltage), and Bluetooth communication; and the teensy handles high frequency sampling and controls.  
-The two boards communicate through SPI/UART (still figuring it out).
 Check out the [Documentation Folder](/Documentation) for details.
+
+
 
 
 ## Common Code (Mixed [in progress])
