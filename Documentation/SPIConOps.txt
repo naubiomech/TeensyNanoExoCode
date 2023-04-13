@@ -1,0 +1,16 @@
+# SPI Protocol
+Messages come in pairs first message is a controller (Nano) command where the peripheral (Teensy) returns a data message length for the current configuration.
+The second message is where the data is actually Transferred.  This will generally be a parameter update coming from the controller, and a data update coming from the peripheral, but following the specific command of requesting the config the peripheral will send the config data.
+
+## Concept of Operation (ConOps)
+1. System Startup
+2. Teensy configures
+3. Teensy puts data message size in buffer (e.g. 42 for a bilateral hip, or 80 for a bilateral hip ankle system. These numbers are just made up.)
+4. Nano requests config and reads data size.
+5. Teensy puts config in buffer.
+6. Nano sends message of config size to read config data.
+7. Teensy puts data message size in buffer
+8. Nano sends message about specific parameter update (e.g. left hip controller change) and and reads data size.
+9. Teensy puts data in buffer.
+10. Nano sends parameter related to message (e.g. left hip controller is zero torque) with padding to complete data length, and reads data.
+11. Loop steps 7-10

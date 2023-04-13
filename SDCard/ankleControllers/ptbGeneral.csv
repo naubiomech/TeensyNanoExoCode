@@ -1,0 +1,6 @@
+5,"header Size, the first N rows will be ignored, except for this first cells in the first two rows",,,,,,,
+9,"parameter number, the number of parameters to read per line",,,,,,,
+,Parameter list for the  Sine controller,,,,,,,
+,Parameter order:,,,,,,,
+Mode,Settings 1,Settings 2,Settings 3,Settings 4,"PID Flag (1 = USE, 0 = DON'T)",P Gain,I Gain,D Gain
+0,0,0,0,0,1,10,0,30

@@ -1,0 +1,8 @@
+5,"header Size, the first N rows will be ignored, except for this first cells in the first two rows",,,,
+6,"parameter number, the number of parameters to read per line",,,,
+,Parameter list for the HeelToe controller,,,,
+,Parameter order: NOTE BOTH FLEXION AND EXTENSION SHOULD BE +,,,,
+Flexion Setpoint (Nm),Extension Setpoint (Nm),use_pid,p_gain,i_gain,d_gain
+0,0,0,0,0,0
+1,1,0,0,0,0
+2,2,0,0,0,0

@@ -1,0 +1,6 @@
+5,"header Size, the first N rows will be ignored, except for this first cells in the first two rows",,,,,,
+8,"parameter number, the number of parameters to read per line",,,,,,
+,Parameter list for the BangBang controller,,,,,,
+,Parameter order:,,,,,,
+Resistance Setpoint (Nm),On/Off Angle for Torque ,Clear Angle,Velocity Threshold ,use_pid,p_gain,i_gain,d_gain
+1,80,0,-0.175,0,0,0,0

@@ -1,0 +1,7 @@
+5,"header Size, the first N rows will be ignored, except for this first cells in the first two rows",,,,,,
+8,"parameter number, the number of parameters to read per line",,,,,,
+,Parameter list for the PJMC (proportional joint moment controller),,,,,,
+,Parameter order : ,,,,,,
+max stance torque (Nm),swing setpoint,"Assistance 1, resistance 0",use PID,p gain,I gain,d gain,"torque alpha [0, 1)"
+0,0,1,0,0,0,0,1
+20,2,1,1,10,0,30,1
