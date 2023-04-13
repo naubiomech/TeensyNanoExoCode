@@ -3,6 +3,7 @@
 This code is for the CAN based motors on boards where the nano handles low frequency sampling (eg. battery voltage), and Bluetooth communication; and the teensy handles high frequency sampling and controls.  
 Check out the [Documentation Folder](/Documentation) for details.
 
+All changes to main require a pull request to be reviewed by one other person. Please follow the Github Flow Branch Strategy, detailed [here](https://www.gitkraken.com/learn/git/best-practices/git-branch-strategy#github-flow-branch-strategy).
 
 
 
