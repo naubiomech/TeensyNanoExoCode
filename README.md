@@ -3,8 +3,12 @@
 This code is for the CAN based motors on boards where the nano handles low frequency sampling (eg. battery voltage), and Bluetooth communication; and the teensy handles high frequency sampling and controls.  
 Check out the [Documentation Folder](/Documentation) for details.
 
-All changes to main require a pull request to be reviewed by one other person. Please follow the Github Flow Branch Strategy, detailed [here](https://www.gitkraken.com/learn/git/best-practices/git-branch-strategy#github-flow-branch-strategy).
-
+All changes to main require a pull request to be reviewed by another person. Please follow the Github Flow Branch Strategy, detailed [here](https://www.gitkraken.com/learn/git/best-practices/git-branch-strategy#github-flow-branch-strategy).
+In this branch strategy the main branch is protected from frequent pushes and should at all times be deployable. New features are added in what are
+called feature branches. Feature branches should be created frequently for every small change, there should be no direct changes to main! You can
+and should push changes to feature branches very frequently. Once you have THOROUGHLY tested you're feature branch, you may submit a pull request
+to main. The feature branch should have a descriptive name. For example, if you're working on implementing a new hip controller the branch name
+would be 'controllername-hip-controller'.
 
 
 ## Common Code (Mixed [in progress])
