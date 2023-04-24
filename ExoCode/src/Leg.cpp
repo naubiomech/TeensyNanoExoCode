@@ -30,6 +30,7 @@ Leg::Leg(bool is_left, ExoData* exo_data)
     _prev_heel_contact_state = true; // initialized to true so we don't get a strike the first time we read
     _prev_toe_contact_state = true;
     _prev_toe_contact_state_toe_off = true;
+    _prev_toe_contact_state_toe_on = true;
     
     for (int i = 0; i<_num_steps_avg; i++)
     {
@@ -96,7 +97,21 @@ void Leg::read_data()
     }
 
     _leg_data->toe_off = _check_toe_off();
+    _leg_data->toe_on = _check_toe_on();
+
+    if (_leg_data->toe_off == true)
+    {
+        _leg_data->expected_stance_duration = _update_expected_stance_duration();
+    }
+
+    if (_leg_data->toe_on == true)
+    {
+        _leg_data->expected_swing_duration = _update_expected_swing_duration();
+    }
+
     _leg_data->percent_gait = _calc_percent_gait();
+    _leg_data->percent_stance = _calc_percent_stance();
+    _leg_data->percent_swing = _calc_percent_swing();
 
     _heel_fsr.get_contact_thresholds(_leg_data->heel_fsr_lower_threshold, _leg_data->heel_fsr_upper_threshold);
     _toe_fsr.get_contact_thresholds(_leg_data->toe_fsr_lower_threshold, _leg_data->toe_fsr_upper_threshold);
@@ -209,19 +224,69 @@ bool Leg::_check_ground_strike()
     return ground_strike;
 };
 
+bool Leg::_check_toe_on()
+{
+    bool toe_on = false;
+
+    if (_leg_data->toe_stance > _prev_toe_contact_state_toe_on)
+    {
+        toe_on = true;
+
+        //if (_is_left == 0)
+        //{
+        //    Serial.print("Leg::_check_toe_on : toe_strike = ");
+        //    Serial.print(toe_on);
+        //    Serial.print("\n");
+        //}
+
+        _prev_toe_strike_timestamp = _toe_strike_timestamp;
+        _toe_strike_timestamp = millis();
+
+        //if (_is_left == 0)
+        //{
+        //    Serial.print("Leg::_toe_strike_timestamp = ");
+        //    Serial.print(_toe_strike_timestamp);
+        //    Serial.print("\n");
+        //}
+
+    }
+
+    _prev_toe_contact_state_toe_on = _leg_data->toe_stance;
+
+    return toe_on;
+};
+
 bool Leg::_check_toe_off()
 {
     bool toe_off = false;
-    if(_prev_toe_contact_state_toe_off) //If we were previously in stance
+
+    if (_leg_data->toe_stance < _prev_toe_contact_state_toe_off)
     {
-        //check for falling edge on toe
-        toe_off = (_leg_data->toe_stance < _prev_toe_contact_state_toe_off);
+        toe_off = true;
+
+        //if (_is_left == 0)
+        //{
+        //    Serial.print("Leg::_check_toe_off : toe_strike = ");
+        //    Serial.print(toe_off);
+        //    Serial.print("\n");
+        //}
+
+        _prev_toe_off_timestamp = _toe_off_timestamp;
+        _toe_off_timestamp = millis();
+
+        //if (_is_left == 0)
+        //{
+        //    Serial.print("Leg::_toe_off_timestamp = ");
+        //    Serial.print(_toe_off_timestamp);
+        //    Serial.print("\n");
+        //}
+
     }
 
     _prev_toe_contact_state_toe_off = _leg_data->toe_stance;
 
     return toe_off;
-}
+};
 
 float Leg::_calc_percent_gait()
 {
@@ -237,6 +302,54 @@ float Leg::_calc_percent_gait()
         // logger::print("\n");
     }
     return percent_gait;
+};
+
+float Leg::_calc_percent_stance()
+{
+    int timestamp = millis();
+    int percent_stance = -1;
+    // only calulate if the expected step duration has been established.
+    if (_leg_data->expected_stance_duration > 0)
+    {
+        percent_stance = 100 * ((float)timestamp - _toe_strike_timestamp) / _leg_data->expected_stance_duration;
+        percent_stance = min(percent_stance, 100); // set saturation.
+
+        //if (_is_left == 0)
+        //{
+        //    Serial.print("Leg::Percent_Stance = ");
+        //    Serial.print(percent_stance);
+        //    Serial.print("\n");
+        //}
+    }
+
+    if (_leg_data->toe_stance == 0)
+    {
+        percent_stance = 0;
+    }
+
+    if (_is_left == 0)
+    {
+        Serial.print("Leg::Percent_Stance = ");
+        Serial.print(percent_stance);
+        Serial.print("\n");
+    }
+    return percent_stance;
+};
+
+float Leg::_calc_percent_swing()
+{
+    int timestamp = millis();
+    int percent_swing = -1;
+    // only calulate if the expected step duration has been established.
+    if (_leg_data->expected_stance_duration > 0)
+    {
+        percent_swing = 100 * ((float)timestamp - _toe_off_timestamp) / _leg_data->expected_swing_duration;
+        percent_swing = min(percent_swing, 100); // set saturation.
+        // logger::print("Leg::_calc_percent_gait : percent_gait_x10 = ");
+        // logger::print(percent_gait_x10);
+        // logger::print("\n");
+    }
+    return percent_swing;
 };
 
 float Leg::_update_expected_duration()
@@ -297,6 +410,131 @@ float Leg::_update_expected_duration()
         // logger::print("\n");
     }
     return expected_step_duration;
+};
+
+float Leg::_update_expected_stance_duration()
+{
+    unsigned int stance_time = _toe_off_timestamp - _toe_strike_timestamp;
+    float expected_stance_duration = _leg_data->expected_stance_duration;
+
+    //Serial.print("Leg:: _update_expected_stance_duration :: stance_time = ");
+    //Serial.print(stance_time);
+    //Serial.print("\n");
+
+    if (0 == _prev_toe_strike_timestamp) // if the prev time isn't set just return.
+    {
+        return expected_stance_duration;
+    }
+    uint8_t num_uninitialized = 0;
+    // check that everything is set.
+    for (int i = 0; i < _num_steps_avg; i++)
+    {
+        num_uninitialized += (_stance_times[i] == 0);
+    }
+
+    // get the max and min values of the array for determining the window for expected values.
+    unsigned int* max_val = std::max_element(_stance_times, _stance_times + _num_steps_avg);
+    unsigned int* min_val = std::min_element(_stance_times, _stance_times + _num_steps_avg);
+
+    if (num_uninitialized > 0)  // if all the values haven't been replaced
+    {
+        // shift all the values and insert the new one
+        for (int i = 1; i < _num_steps_avg; i++)
+        {
+            _stance_times[i] = _stance_times[i - 1];
+        }
+        _stance_times[0] = stance_time;
+
+        // logger::print("Leg::_update_expected_duration : _step_times not fully initialized- [\t");
+        // for (int i = 0; i<_num_steps_avg; i++)
+        // {
+            // logger::print(_step_times[i]);
+            // logger::print("\t");
+        // }
+        // logger::print("\t]\n");
+
+
+    }
+    // consider it a good step if the ground strike falls within a window around the expected duration.
+    // Then shift the step times and put in the new value.
+    else if ((stance_time <= (_leg_data->expected_duration_window_upper_coeff * *max_val)) & (stance_time >= (_leg_data->expected_duration_window_lower_coeff * *min_val))) // and (armed_time > ARMED_DURATION_PERCENT * self.expected_duration)): # a better check can be used.  If the person hasn't stopped or the step is good update the vector.  
+    {
+        int sum_stance_times = stance_time;
+        for (int i = 1; i < _num_steps_avg; i++)
+        {
+            sum_stance_times += _stance_times[i - 1];
+            _stance_times[i] = _stance_times[i - 1];
+        }
+        _stance_times[0] = stance_time;
+
+        // TODO: Add rate limiter for change in expected duration so it can't make big jumps
+        expected_stance_duration = sum_stance_times / _num_steps_avg;  // Average to the nearest ms
+        // logger::print("Leg::_update_expected_duration : _expected_step_duration - ");
+        // logger::print(_expected_step_duration);
+        // logger::print("\n");
+    }
+    return expected_stance_duration;
+};
+
+
+float Leg::_update_expected_swing_duration()
+{
+    unsigned int swing_time = _toe_strike_timestamp - _toe_off_timestamp;
+    float expected_swing_duration = _leg_data->expected_swing_duration;
+
+    if (0 == _prev_toe_off_timestamp) // if the prev time isn't set just return.
+    {
+        return expected_swing_duration;
+    }
+    uint8_t num_uninitialized = 0;
+    // check that everything is set.
+    for (int i = 0; i < _num_steps_avg; i++)
+    {
+        num_uninitialized += (_swing_times[i] == 0);
+    }
+
+    // get the max and min values of the array for determining the window for expected values.
+    unsigned int* max_val = std::max_element(_swing_times, _swing_times + _num_steps_avg);
+    unsigned int* min_val = std::min_element(_swing_times, _swing_times + _num_steps_avg);
+
+    if (num_uninitialized > 0)  // if all the values haven't been replaced
+    {
+        // shift all the values and insert the new one
+        for (int i = 1; i < _num_steps_avg; i++)
+        {
+            _swing_times[i] = _swing_times[i - 1];
+        }
+        _swing_times[0] = swing_time;
+
+        // logger::print("Leg::_update_expected_duration : _step_times not fully initialized- [\t");
+        // for (int i = 0; i<_num_steps_avg; i++)
+        // {
+            // logger::print(_step_times[i]);
+            // logger::print("\t");
+        // }
+        // logger::print("\t]\n");
+
+
+    }
+    // consider it a good step if the ground strike falls within a window around the expected duration.
+    // Then shift the step times and put in the new value.
+    else if ((swing_time <= (_leg_data->expected_duration_window_upper_coeff * *max_val)) & (swing_time >= (_leg_data->expected_duration_window_lower_coeff * *min_val))) // and (armed_time > ARMED_DURATION_PERCENT * self.expected_duration)): # a better check can be used.  If the person hasn't stopped or the step is good update the vector.  
+    {
+        int sum_swing_times = swing_time;
+        for (int i = 1; i < _num_steps_avg; i++)
+        {
+            sum_swing_times += _swing_times[i - 1];
+            _swing_times[i] = _swing_times[i - 1];
+        }
+        _swing_times[0] = swing_time;
+
+        // TODO: Add rate limiter for change in expected duration so it can't make big jumps
+        expected_swing_duration = sum_swing_times / _num_steps_avg;  // Average to the nearest ms
+        // logger::print("Leg::_update_expected_duration : _expected_step_duration - ");
+        // logger::print(_expected_step_duration);
+        // logger::print("\n");
+    }
+    return expected_swing_duration;
 };
 
 void Leg::clear_step_time_estimate()

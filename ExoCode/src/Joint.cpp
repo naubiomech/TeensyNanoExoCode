@@ -755,6 +755,7 @@ AnkleJoint::AnkleJoint(config_defs::joint_id id, ExoData* exo_data)
 , _constant_torque(id, exo_data)
 , _ptb_general(id, exo_data)
 , _propulsive_assistive(id, exo_data)
+, _elbow_min_max(id, exo_data)
 {
     #ifdef JOINT_DEBUG
         logger::print(_is_left ? "Left " : "Right ");
@@ -956,6 +957,9 @@ void AnkleJoint::set_controller(uint8_t controller_id)  // changes the high leve
             break;
         case (uint8_t)config_defs::ankle_controllers::gasp:
             _controller = &_propulsive_assistive;
+            break;
+		case (uint8_t)config_defs::ankle_controllers::elbow_min_max:
+            _controller = &_elbow_min_max;
             break;
         default :
             logger::print("Unkown Controller!\n", LogLevel::Error);

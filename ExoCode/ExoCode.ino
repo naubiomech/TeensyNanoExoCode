@@ -57,9 +57,9 @@ void setup()
   
   Serial.begin(115200);
  // TODO: Remove serial while for deployed version as this would hang
-     //while (!Serial) {
-      //; // wait for serial port to connect. Needed for native USB
-     //}
+//     while (!Serial) {
+//      ; // wait for serial port to connect. Needed for native USB
+//     }
 
     // get the config information from the SD card.
     ini_parser(config_info::config_to_send);

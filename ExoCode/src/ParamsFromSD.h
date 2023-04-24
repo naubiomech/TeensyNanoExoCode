@@ -88,6 +88,7 @@
             {(uint8_t)config_defs::ankle_controllers::constant_torque, "ankleControllers/constantTorque.csv"},
             {(uint8_t)config_defs::ankle_controllers::ptb_general,"ankleControllers/ptbGeneral.csv"},
             {(uint8_t)config_defs::ankle_controllers::gasp,"ankleControllers/GAsP.csv"},
+			{(uint8_t)config_defs::ankle_controllers::elbow_min_max, "ankleControllers/elbowMinMax.csv"},
         };
     };
     

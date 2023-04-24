@@ -46,6 +46,12 @@ class LegData {
         
         float percent_gait;  /**< Estimate of the percent gait based on heel strike */
         float expected_step_duration;  /**< Estimate of how long the next step will take based on the most recent step times */
+
+        float percent_stance;
+        float expected_stance_duration;
+
+        float percent_swing;
+        float expected_swing_duration;
         
         float heel_fsr;  /**< Calibrated FSR reading for the heel */
         float heel_fsr_upper_threshold;
@@ -58,6 +64,7 @@ class LegData {
         bool ground_strike;  /**< Trigger when we go from swing to one FSR making contact. */
         bool toe_strike;
         bool toe_off; /**< Trigger when we go from one FSR making contact to swing. */
+        bool toe_on;
         bool heel_stance;  /**< High when the heel FSR is in ground contact */
         bool toe_stance;  /**< High when the toe FSR is in ground contact */
         bool prev_heel_stance;  /**< High when the heel FSR was in ground contact on the previous iteration */

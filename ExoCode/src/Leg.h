@@ -94,6 +94,24 @@ class Leg
          * @return percent gait from heel strike
          */
         float _calc_percent_gait();
+
+        /**
+         * @brief Calculates the percent of stance based on the toe contact reading
+         * and an estimate of the stance time based on the average time of the last few stance phases.
+         * returns the percent stance which saturates at 100%
+         *
+         * @return percent stance from toe strike
+         */
+        float _calc_percent_stance();
+
+        /**
+         * @brief Calculates the percent of stance based on the toe contact reading
+         * and an estimate of the stance time based on the average time of the last few stance phases.
+         * returns the percent stance which saturates at 100%
+         *
+         * @return percent stance from toe strike
+         */
+        float _calc_percent_swing();
         
         /**
          * @brief Calculates the expected duration of a step by averaging the time the last N steps took.
@@ -103,6 +121,22 @@ class Leg
          */
         float _update_expected_duration();
         
+        /**
+         * @brief Calculates the expected duration of a step by averaging the time the last N steps took.
+         * Should only be called when a ground strike has occurred.
+         *
+         * @return expected stance duration in ms
+         */
+        float _update_expected_stance_duration();
+
+        /**
+         * @brief Calculates the expected duration of a step by averaging the time the last N steps took.
+         * Should only be called when a ground strike has occurred.
+         *
+         * @return expected stance duration in ms
+         */
+        float _update_expected_swing_duration();
+
         /**
          * @brief Checks for state changes in the FSRs to find the point when ground contact is made
          * Simple check for a rising edge of either FSR during swing and returns 1 if they have.
@@ -114,11 +148,12 @@ class Leg
 
         /**
          * @brief MUST BE CALLED AFTER _check_ground_strike()! Checks for state changes in the FSRs to find 
-         * the point when ground contact is lost. Simple check for a falling edge of either FSR during stance 
+         * the point when ground contact is gained and lost. Simple check for a rising/falling edge of either FSR during stance 
          * and returns 1 if they have. The returned value should just be high for a single cycle. 
          *
-         * @return 1 if the foot has gone from ground contact to non-contact. 0 Otherwise
+         * @return 1 if the foot has gone from ground contact to non-contact or vice versa. 0 Otherwise
          */
+        bool _check_toe_on();
         bool _check_toe_off();
 		
         // data that can be accessed
@@ -144,13 +179,24 @@ class Leg
         bool _prev_toe_contact_state; /**< Prev toe contact state used for ground strike detection */
 
         bool _prev_toe_contact_state_toe_off; /**< Prev toe off state used for toe off detection */
+        bool _prev_toe_contact_state_toe_on; /**< Prev toe off state used for toe off detection */
         
         static const uint8_t _num_steps_avg = 3;  /**< the number of prior steps used to estimate the expected duration, used for percent gait calculation */
         unsigned int _step_times[_num_steps_avg];  /**< stores the duration of the last N steps, used for percent gait calculation */// 
+
+        unsigned int _stance_times[_num_steps_avg];
+        unsigned int _swing_times[_num_steps_avg];
         
         unsigned int _ground_strike_timestamp;   /**< Records the time of the ground strike to determine if the next strike is within the expected window. */ 
         unsigned int _prev_ground_strike_timestamp;   /**< Stores the last value to determine the difference in strike times. */ 
         unsigned int _expected_step_duration;   /**< The expected step duration to calculate the percent gait.*/
+        
+        unsigned int _toe_strike_timestamp;
+        unsigned int _prev_toe_strike_timestamp;
+        unsigned int _expected_stance_duration;
+        unsigned int _toe_off_timestamp;
+        unsigned int _prev_toe_off_timestamp;
+        unsigned int _expected_swing_duration;
         
 };
 #endif

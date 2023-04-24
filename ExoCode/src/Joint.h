@@ -252,6 +252,7 @@ class AnkleJoint : public _Joint
         ConstantTorque _constant_torque; /**< constant torque controller*/
         PtbGeneral _ptb_general; /**< Generalized Perturbation Controller>*/
         PropulsiveAssistive _propulsive_assistive; /**< Propulsive Assistive */
+		ElbowMinMax _elbow_min_max; /**< Arm exo controller */
         
 };
 

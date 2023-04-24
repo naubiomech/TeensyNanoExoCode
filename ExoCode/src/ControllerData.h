@@ -246,8 +246,8 @@ namespace controller_defs /**< stores the parameter indexes for different contro
 
     namespace elbow_min_max
     {
-        //const uint8_t amplitude_idx = 0;    // amplitude in Nm
-        //const uint8_t direction_idx = 1;     // direction in which the torque will be applied
+        const uint8_t amplitude_idx = 0;    // amplitude in Nm
+        const uint8_t fsr_threshold_idx = 1;     
         //const uint8_t num_parameter = 2;
         
         
@@ -265,7 +265,8 @@ namespace controller_defs /**< stores the parameter indexes for different contro
         const uint8_t p_gain_idx = 6;
         const uint8_t i_gain_idx = 7;
         const uint8_t d_gain_idx = 8;
-        const uint8_t num_parameter = 9;
+		const uint8_t ptb_settings_9_idx = 9;
+        const uint8_t num_parameter = 10;
         
     }
 
@@ -350,6 +351,7 @@ class ControllerData {
         bool is_first_fsr_reading_elbow = true;
         float fsr_toe_previous_elbow = 0;
         float fsr_heel_previous_elbow = 0;
+		float elbow_cmd = 0;
 
         // Variables for the Generalizable Perturbation Controller (ptbGeneral)
         bool isPerturbing = false;
@@ -370,6 +372,8 @@ class ControllerData {
 		//uint16_t fsrThreshold = 0.3;
 		uint8_t ptb_frequency = 0;
 		uint16_t ptb_iiStep = 0;
+		uint16_t ptb_setpoint = 0;
+		bool ptb_fsrGotHigh = false;
 };      
 
 #endif

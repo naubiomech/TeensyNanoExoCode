@@ -1,6 +1,6 @@
-5,"header Size, the first N rows will be ignored, except for this first cells in the first two rows"
-2,"parameter number, the number of parameters to read per line"
-,Parameter list for the  Sine controller
-,Parameter order:
-Mode,Settings
-1,6
+5,"header Size, the first N rows will be ignored, except for this first cells in the first two rows",,,
+5,"parameter number, the number of parameters to read per line",,,
+,Parameter list for the  Sine controller,,,
+,Parameter order:,,,
+Mode,cmd,Start,End,Frequency
+0,0,0,0,0
