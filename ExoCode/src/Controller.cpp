@@ -267,7 +267,7 @@ void PropulsiveAssistive::_update_reference_angles(LegData* leg_data, Controller
     if (should_update)
     {
         controller_data->reference_angle_updated = true;
-        controller_data->reference_angle = leg_data->ankle.joint_position;
+        controller_data->reference_angle = leg_data->ankle.joint_position + (controller_data->neutral_angle - leg_data->ankle.joint_position);
         controller_data->reference_angle_offset = leg_data->ankle.joint_global_angle;
     }
 
@@ -281,12 +281,32 @@ void PropulsiveAssistive::_update_reference_angles(LegData* leg_data, Controller
     }
 }
 
+void PropulsiveAssistive::_capture_neutral_angle(LegData* leg_data, ControllerData* controller_data)
+{
+    // On the start of torque calibration reset the neutral angle
+    if (controller_data->prev_calibrate_trq_sensor < leg_data->ankle.calibrate_torque_sensor)
+    {
+        controller_data->neutral_angle = leg_data->ankle.joint_position;
+    }
+
+    if (leg_data->ankle.calibrate_torque_sensor) 
+    {
+        // Update the neutral angle with an ema filter
+        controller_data->neutral_angle = utils::ewma(leg_data->ankle.joint_position, 
+            controller_data->neutral_angle, controller_data->cal_neutral_angle_alpha);
+    }
+
+    controller_data->prev_calibrate_trq_sensor = leg_data->ankle.calibrate_torque_sensor;
+}
+
 float PropulsiveAssistive::calc_motor_cmd()
 {
     #ifdef CONTROLLER_DEBUG
     logger::println("PropulsiveAssistive::calc_motor_cmd : start");
     #endif
     static const float sigmoid_exp_scalar{50.0f};
+
+    _capture_neutral_angle(_leg_data, _controller_data);
 
     // Calculate Generic Contribution
     const float plantar_setpoint = _controller_data->parameters[controller_defs::propulsive_assistive::plantar_scaling];
@@ -301,7 +321,7 @@ float PropulsiveAssistive::calc_motor_cmd()
     const float k = _controller_data->parameters[controller_defs::propulsive_assistive::spring_stiffness];
     const float b = _controller_data->parameters[controller_defs::propulsive_assistive::damping];
     const float equilibrium_angle_offset = _controller_data->parameters[controller_defs::propulsive_assistive::neutral_angle]/100;
-    const float delta = _controller_data->reference_angle + equilibrium_angle_offset - _leg_data->ankle.joint_position;
+    const float delta = _controller_data->reference_angle - _leg_data->ankle.joint_position + equilibrium_angle_offset;
     const float assistive = max(k*delta - b*_leg_data->ankle.joint_velocity, 0);
     // Use a tuned sigmoid to squelch the spring output during the 'swing' phase
     const float squelch_offset = -(1.5*threshold); // 1.5 ensures that the spring activates after the new angle is captured

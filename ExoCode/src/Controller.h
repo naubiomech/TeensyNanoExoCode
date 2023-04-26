@@ -118,6 +118,7 @@ class PropulsiveAssistive : public _Controller
         float calc_motor_cmd();
     private:
         void _update_reference_angles(LegData* leg_data, ControllerData* controller_data, float percent_grf);
+        void _capture_neutral_angle(LegData* leg_data, ControllerData* controller_data);
 };
 
 /**

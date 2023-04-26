@@ -240,7 +240,7 @@ namespace UART_command_handlers
     inline static void update_cal_trq_sensor(UARTHandler* handler, ExoData* exo_data, UART_msg_t msg)
     {
         //logger::println("UART_command_handlers::update_cal_trq_sensor->Got Cal trq sensor");
-        exo_data->for_each_joint([](JointData* j_data, float* args) {j_data->calibrate_torque_sensor = j_data->is_used;});
+        exo_data->start_pretrial_cal();
     }
 
     inline static void get_cal_fsr(UARTHandler* handler, ExoData* exo_data, UART_msg_t msg)

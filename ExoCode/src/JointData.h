@@ -49,6 +49,7 @@ class JointData {
         bool flip_direction; /**< if true invert the current to the motor and the position/velocity readings */
         bool is_used; /**< stores if the joint is used, joint is skipped if it is not used */
         bool calibrate_torque_sensor;  /**< flag for if we should calibrate the torque sensor. */ 
+        bool calibrate_angle_sensor;  /**< flag for if we should calibrate the angle sensor. */
         
         float position; /**< The position of the joint, this should be motor position with compensated for gearing. */
         float velocity; /**< The velocity of the joint, this should be motor velocity with compensated for gearing. */

@@ -113,6 +113,12 @@ void ExoData::set_default_parameters()
     #endif
 }
 
+void ExoData::start_pretrial_cal()
+{
+    // Calibrate the Torque Sensors
+    exo_data->for_each_joint([](JointData* j_data, float* args) {j_data->calibrate_torque_sensor = j_data->is_used;});
+}
+
 
 void ExoData::print()
 {
