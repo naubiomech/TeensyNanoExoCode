@@ -303,7 +303,7 @@ float PropulsiveAssistive::calc_motor_cmd()
     const float equilibrium_angle_offset = _controller_data->parameters[controller_defs::propulsive_assistive::neutral_angle]/100;
     const float delta = _controller_data->reference_angle + equilibrium_angle_offset - _leg_data->ankle.joint_position;
     const float assistive = max(k*delta - b*_leg_data->ankle.joint_velocity, 0);
-    // Use a tuned sigmoid to disable the spring output during the 'swing' phase
+    // Use a tuned sigmoid to squelch the spring output during the 'swing' phase
     const float squelch_offset = -(1.5*threshold); // 1.5 ensures that the spring activates after the new angle is captured
     const float grf_squelch_multiplier = (exp(sigmoid_exp_scalar*(percent_grf+squelch_offset))) / 
             (exp(sigmoid_exp_scalar*(percent_grf+squelch_offset))+1);
@@ -375,6 +375,7 @@ ProportionalJointMoment::ProportionalJointMoment(config_defs::joint_id id, ExoDa
 
 float ProportionalJointMoment::calc_motor_cmd()
 {
+	Serial.print("\nRunning PJMC...");
     #ifdef CONTROLLER_DEBUG
         logger::println("ProportionalJointMoment::calc_motor_cmd : start");
     #endif
@@ -402,16 +403,17 @@ float ProportionalJointMoment::calc_motor_cmd()
             // saturate and account for assistance
             cmd_ff = max(0, cmd_ff);
             //cmd_ff = min(max(0, cmd_ff), _controller_data->parameters[controller_defs::proportional_joint_moment::stance_max_idx]);
-            cmd_ff = cmd_ff * (_controller_data->parameters[controller_defs::proportional_joint_moment::is_assitance_idx] ? 1 : -1);
+            cmd_ff = -1 * cmd_ff * (_controller_data->parameters[controller_defs::proportional_joint_moment::is_assitance_idx] ? 1 : -1);
         }
         else
         {
-            cmd_ff = -_controller_data->parameters[controller_defs::proportional_joint_moment::swing_max_idx];
+            cmd_ff = _controller_data->parameters[controller_defs::proportional_joint_moment::swing_max_idx];
         }
     }
 
     // low pass filter on torque_reading
-    const float torque = _joint_data->torque_reading * (_leg_data->is_left ? 1 : -1);
+    // const float torque = _joint_data->torque_reading * (_leg_data->is_left ? 1 : -1);
+	const float torque = _joint_data->torque_reading;
     const float alpha = (_controller_data->parameters[controller_defs::proportional_joint_moment::torque_alpha_idx] != 0) ? 
             _controller_data->parameters[controller_defs::proportional_joint_moment::torque_alpha_idx] : 0.5;
     _controller_data->filtered_torque_reading = utils::ewma(torque, 
@@ -420,8 +422,11 @@ float ProportionalJointMoment::calc_motor_cmd()
     // find max measured and max setpoint during stance
     if (_leg_data->toe_stance) 
     {
-        const float new_torque = _controller_data->filtered_torque_reading < 0 ? _controller_data->filtered_torque_reading*(-1) : _controller_data->filtered_torque_reading;
-        const float new_ff = cmd_ff < 0 ? cmd_ff*(-1) : cmd_ff;
+       /*  const float new_torque = _controller_data->filtered_torque_reading < 0 ? _controller_data->filtered_torque_reading*(-1) : _controller_data->filtered_torque_reading;
+        const float new_ff = cmd_ff < 0 ? cmd_ff*(-1) : cmd_ff; */
+		const float new_torque = _controller_data->filtered_torque_reading;
+		const float new_ff = cmd_ff;
+		
 
         _controller_data->max_measured = (_controller_data->max_measured < new_torque) ? new_torque : _controller_data->max_measured;
         //_controller_data->max_measured = max(abs(_controller_data->max_measured), abs(_controller_data->filtered_torque_reading));
@@ -490,7 +495,20 @@ float ProportionalJointMoment::calc_motor_cmd()
     #ifdef CONTROLLER_DEBUG
         logger::println("ProportionalJointMoment::calc_motor_cmd : end");
     #endif
+	/* if (_joint_data->is_left) {
+		Serial.print("\nLeft cmd: ");
+		Serial.print(_controller_data->filtered_cmd);
+	}
+	else {
+		Serial.print("Right cmd: ");
+		Serial.print(_controller_data->filtered_cmd);
+	} */
+	if (!_leg_data->do_calibration_toe_fsr) {
     return _controller_data->filtered_cmd;
+	}
+	else {
+		return 0;
+	}
 }
 
 
@@ -1504,6 +1522,7 @@ ZhangCollins::ZhangCollins(config_defs::joint_id id, ExoData* exo_data)
     #endif
 
         torque_cmd = 0;
+		cmd = 0;
 
 };
 
@@ -1512,6 +1531,13 @@ float ZhangCollins::calc_motor_cmd()
     
     //Define the variables
     float percent_gait = _leg_data->percent_stance;
+/* 	_controller_data->ptb_iStep++;
+	_controller_data->ptb_iiStep++;
+	if (_controller_data->ptb_iStep > 100) {
+		_controller_data->ptb_iStep = 0;
+	}
+	float percent_gait = _controller_data->ptb_iStep; */
+			
 
     //Pull in user defined parameter values
     float peak_torque_Nm = _controller_data->parameters[controller_defs::zhang_collins::torque_idx];
@@ -1525,25 +1551,60 @@ float ZhangCollins::calc_motor_cmd()
     float node3 = peak_time + fall_time;
 
     //Calculates Torque Command
-    torque_cmd = _spline_generation(node1, node2, node3, peak_torque_Nm, percent_gait);
+    torque_cmd = -1* _spline_generation(node1, node2, node3, peak_torque_Nm, percent_gait);
     _controller_data->ff_setpoint = torque_cmd;
     
     _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, 0.5);
 
     //Low Pass Filter for Torque Sensor
-    if (_joint_data->is_left == 0)
+/*     if (_joint_data->is_left == 0)
     {
         _controller_data->filtered_torque_reading = -1 * _controller_data->filtered_torque_reading;
-    }
+    } */
 
 
     //PID Control
-    float cmd = torque_cmd + (_controller_data->parameters[controller_defs::zhang_collins::use_pid_idx]
-        ? _pid(torque_cmd, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::zhang_collins::p_gain_idx], _controller_data->parameters[controller_defs::zhang_collins::i_gain_idx], _controller_data->parameters[controller_defs::zhang_collins::d_gain_idx])
-        : 0);
-
+	if (_controller_data->parameters[controller_defs::zhang_collins::use_pid_idx])
+	{
+		cmd = _pid(torque_cmd, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::zhang_collins::p_gain_idx], _controller_data->parameters[controller_defs::zhang_collins::i_gain_idx], _controller_data->parameters[controller_defs::zhang_collins::d_gain_idx]);
+/* 		if (_joint_data->is_left) {
+			cmd = _pid(torque_cmd, -1*_controller_data->PIDMLTPLR * _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::zhang_collins::p_gain_idx], _controller_data->parameters[controller_defs::zhang_collins::i_gain_idx], _controller_data->parameters[controller_defs::zhang_collins::d_gain_idx]);
+		} */
+	}
+	else
+	{
+		cmd = torque_cmd;
+	}
+	if (cmd != cmd) {
+		// cmd = 0;
+		cmd = (_controller_data->previous_cmd)/2;
+	}
+/* 	if ((_controller_data->ptb_iiStep < 202) && (_joint_data->is_left)) {
+	Serial.print("\n Percent gait: ");
+	Serial.print(percent_gait);
+	Serial.print("  |  Left leg cmd: ");
+	Serial.print(cmd);
+	} */
+	_controller_data->previous_cmd = cmd;
+	
+	/* if (_joint_data->is_left) {
+		Serial.print("\nLeft cmd: ");
+		Serial.print(cmd);
+		Serial.print("Left torque_cmd: ");
+		Serial.print(torque_cmd);
+		Serial.print("  |  Left torque: ");
+		Serial.print(_controller_data->filtered_torque_reading);
+	}
+	else {
+		Serial.print("Right cmd: ");
+		Serial.print(cmd);
+		Serial.print("Right torque_cmd: ");
+		Serial.print(torque_cmd);
+		Serial.print("  |  Right torque: ");
+		Serial.print(_controller_data->filtered_torque_reading);
+	} */
+	
     return cmd;
-
 };
 
 float ZhangCollins::_spline_generation(float node1, float node2, float node3, float torque_magnitude, float percent_gait)
@@ -1951,7 +2012,7 @@ float ElbowMinMax::calc_motor_cmd()
 	if ((_leg_data->toe_fsr > _leg_data->heel_fsr) && (_leg_data->toe_fsr > 0.1*_controller_data->parameters[controller_defs::elbow_min_max::fsr_threshold_idx])) {
 		cmd = _controller_data->parameters[controller_defs::elbow_min_max::amplitude_idx];
 	}
-	else if ((_leg_data->heel_fsr > _leg_data->toe_fsr) && (_leg_data->heel_fsr > 0.1*_controller_data->parameters[controller_defs::elbow_min_max::fsr_threshold_idx])) {
+	else if ((_leg_data->heel_fsr > _leg_data->toe_fsr) && (_leg_data->heel_fsr > 0.1*_controller_data->parameters[controller_defs::elbow_min_max::fsr_threshold1_idx])) {
 		cmd = -1*_controller_data->parameters[controller_defs::elbow_min_max::amplitude_idx];
 	}
 	else {
@@ -2093,12 +2154,19 @@ float ElbowMinMax::calc_motor_cmd()
     // Serial.print(cmd, 2);
     // Serial.print("\n"); */
 	
+	// low pass filter on torque_reading
+    /* const float torque = _joint_data->torque_reading * (_leg_data->is_left ? 1 : -1); */
+
+    _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, 0.5);
+	
+	
+	
 	Serial.print("\n Pre PID cmd: ");
 	Serial.print(cmd);
 	
-	//cmd = _pid(cmd, -1*_joint_data->torque_reading,10,0,200);
-	Serial.print("  |  Post PID cmd: ");
-	Serial.print(cmd);
+	cmd = _pid(cmd, _joint_data->torque_reading,10,0,200);
+/* 	Serial.print("  |  Post PID cmd: ");
+	Serial.print(cmd); */
 	_controller_data->elbow_cmd = cmd;
     return cmd;
 }
@@ -2136,7 +2204,7 @@ float PtbGeneral::calc_motor_cmd()
 		Serial.print(_controller_data->parameters[controller_defs::ptb_general::ptb_settings_3_idx]);
 		Serial.print(" | ");
 		Serial.print(_controller_data->parameters[controller_defs::ptb_general::ptb_settings_4_idx]);
-        cmd_ff = -1*_controller_data->parameters[controller_defs::ptb_general::ptb_settings_1_idx];
+        cmd_ff = -1 * _controller_data->parameters[controller_defs::ptb_general::ptb_settings_1_idx];
         break;
 		
 		case 2: //FSR triggered
@@ -2160,14 +2228,14 @@ float PtbGeneral::calc_motor_cmd()
 		_controller_data->ptb_fsrGotHigh = false;//reset the HighFSR cursor
 		}
 		
-		if (_leg_data->toe_fsr >= 0.1*_controller_data->parameters[controller_defs::ptb_general::ptb_settings_9_idx]) {//FSR has reached high in the current step
+		if (_leg_data->toe_fsr >= _controller_data->parameters[controller_defs::ptb_general::ptb_settings_9_idx]) {//FSR has reached high in the current step
 			_controller_data->ptb_fsrGotHigh = true;
 		}
 		
 		
 		if (_controller_data->ptb_iStep == _controller_data->ptb_frequency) {
-			if ((_controller_data->ptb_fsrGotHigh) && (_leg_data->toe_stance < 0.1*_controller_data->parameters[controller_defs::ptb_general::ptb_settings_2_idx]) && (_controller_data->ptb_iiStep < 100*_controller_data->parameters[controller_defs::ptb_general::ptb_settings_3_idx])) {
-			cmd_ff = -1*_controller_data->parameters[controller_defs::ptb_general::ptb_settings_1_idx];
+			if ((_controller_data->ptb_fsrGotHigh) && (_leg_data->toe_stance < _controller_data->parameters[controller_defs::ptb_general::ptb_settings_2_idx]) && (_controller_data->ptb_iiStep < 100*_controller_data->parameters[controller_defs::ptb_general::ptb_settings_3_idx])) {
+			cmd_ff = -1 * _controller_data->parameters[controller_defs::ptb_general::ptb_settings_1_idx];
 			}
 			else {
 				cmd_ff = 0;
@@ -2215,7 +2283,7 @@ float PtbGeneral::calc_motor_cmd()
 		}		
 		if (_controller_data->ptb_iStep == _controller_data->ptb_frequency) {
 			if ((_controller_data->ptb_iiStep > 100*_controller_data->parameters[controller_defs::ptb_general::ptb_settings_2_idx]) && (_controller_data->ptb_iiStep < 100*_controller_data->parameters[controller_defs::ptb_general::ptb_settings_3_idx])){
-			cmd_ff = -1*_controller_data->parameters[controller_defs::ptb_general::ptb_settings_1_idx];
+			cmd_ff = -1 * _controller_data->parameters[controller_defs::ptb_general::ptb_settings_1_idx];
 			}
 			else {
 				cmd_ff = 0;
@@ -2251,7 +2319,7 @@ float PtbGeneral::calc_motor_cmd()
 		}
 		if (_controller_data->ptb_iStep == _controller_data->ptb_frequency) {
 			if ((_leg_data->percent_gait > _controller_data->parameters[controller_defs::ptb_general::ptb_settings_2_idx]) && (_leg_data->percent_gait < _controller_data->parameters[controller_defs::ptb_general::ptb_settings_3_idx])){
-			cmd_ff = -1*_controller_data->parameters[controller_defs::ptb_general::ptb_settings_1_idx];
+			cmd_ff = -1 * _controller_data->parameters[controller_defs::ptb_general::ptb_settings_1_idx];
 			}
 			else {
 				cmd_ff = 0;
@@ -2309,4 +2377,83 @@ float PtbGeneral::calc_motor_cmd()
     return _controller_data->filtered_cmd;
 }
 
+
+//****************************************************
+
+
+CalibrManager::CalibrManager(config_defs::joint_id id, ExoData* exo_data)
+    : _Controller(id, exo_data)
+{
+#ifdef CONTROLLER_DEBUG
+    Serial.println("CalibrManager::CalibrManager");
+#endif
+
+}
+
+float CalibrManager::calc_motor_cmd()
+{
+	float cmd;
+	//float calibrSum;
+	uint16_t exo_status = _data->get_status();
+    bool active_trial = (exo_status == status_defs::messages::trial_on) || 
+        (exo_status == status_defs::messages::fsr_calibration) ||
+        (exo_status == status_defs::messages::fsr_refinement);
+		
+		if (_joint_data->is_left) {
+		Serial.print("\nLeft angle: ");
+		Serial.print(_leg_data->ankle.joint_position);
+		Serial.print("  |  Left torque: ");
+		Serial.print(_joint_data->torque_reading);
+		// cmd = _controller_data->parameters[controller_defs::calibr_manager::calibr_cmd];
+		cmd = 3.5;
+		Serial.print("  |  Left cmd: ");
+		Serial.print(cmd);
+	}
+	else {
+		Serial.print("  |  Right angle: ");
+		Serial.print(_leg_data->ankle.joint_position);
+		Serial.print("  |  Right torque: ");
+		Serial.print(_joint_data->torque_reading);
+		cmd = 3.5;
+		Serial.print("  |  Right cmd: ");
+		Serial.print(cmd);
+	}
+		
+/*     if (_data->user_paused || !active_trial)
+    {
+        return;
+    } */
+/* _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, 0.5);
+if (_leg_data->do_calibration_toe_fsr || _leg_data->do_calibration_refinement_toe_fsr) {
+	cmd = 0;
+}
+else {
+	_controller_data->iCalibr++;
+	if (_controller_data->iCalibr < 100) {
+		cmd = -3.5;
+		_controller_data->calibrSum = _controller_data->calibrSum + _controller_data->filtered_torque_reading * cmd;
+		if (_controller_data->calibrSum > 0) {
+			_controller_data->PIDMLTPLR = 1;
+		}
+		if (_controller_data->calibrSum < 0) {
+			_controller_data->PIDMLTPLR = -1;
+		}
+	}
+	else {
+		_controller_data->iCalibr = 0;
+		_controller_data->calibrSum = 0;
+	} */
+/* 	if (!_joint_data->is_left) {
+	Serial.print(_controller_data->PIDMLTPLR);
+	Serial.print("  |  Torque reading: ");
+	Serial.print(_controller_data->filtered_torque_reading);
+	Serial.print("  |  cmd: ");
+	Serial.print(cmd);
+	Serial.print("\n");
+	} */
+	
+//}
+return cmd;
+	
+}
 #endif

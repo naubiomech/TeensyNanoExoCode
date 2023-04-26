@@ -254,6 +254,14 @@
         // logger::print("\t");
         // logger::println(config_map::flip_dir[data.ankle_flip_dir]);
         config_to_send[config_defs::ankle_flip_dir_idx] = config_map::flip_dir[data.ankle_flip_dir];
+		
+		get_section_key(ini, temp_exo_name, "ankleFlipMotorDir", buffer, buffer_len);
+        data.ankle_flip_motor_dir = buffer;
+        config_to_send[config_defs::ankle_flip_motor_dir_idx] = config_map::flip_dir[data.ankle_flip_motor_dir];
+		
+		get_section_key(ini, temp_exo_name, "ankleFlipTorqueDir", buffer, buffer_len);
+        data.ankle_flip_torque_dir = buffer;
+        config_to_send[config_defs::ankle_flip_torque_dir_idx] = config_map::flip_dir[data.ankle_flip_torque_dir];
     }
 
     /*

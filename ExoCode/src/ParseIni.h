@@ -166,6 +166,7 @@ namespace config_defs
         ptb_general = 10,
         gasp = 11,
 		elbow_min_max = 12,
+		calibr_manager = 13,
     };
     
     enum class flip_dir : uint8_t
@@ -199,6 +200,18 @@ namespace config_defs
     static const int hip_flip_dir_idx = 14;
     static const int knee_flip_dir_idx = 15;
     static const int ankle_flip_dir_idx = 16;
+	
+	static const int hip_flip_motor_dir_idx = 17;
+	static const int knee_flip_motor_dir_idx = 18;
+	static const int ankle_flip_motor_dir_idx = 19;
+	
+	static const int hip_flip_torque_dir_idx = 20;
+	static const int knee_flip_torque_dir_idx = 21;
+	static const int ankle_flip_torque_dir_idx = 22;
+	
+	static const int hip_flip_angle_dir_idx = 23;
+	static const int knee_flip_angle_dir_idx = 24;
+	static const int ankle_flip_angle_dir_idx = 25;
 }
 
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41) 
@@ -380,6 +393,7 @@ namespace config_defs
             {"ptbGeneral", (uint8_t)config_defs::ankle_controllers::ptb_general},
             {"GAsP", (uint8_t)config_defs::ankle_controllers::gasp},
 			{"elbowMinMax", (uint8_t)config_defs::ankle_controllers::elbow_min_max},
+			{"calibrManager", (uint8_t)config_defs::ankle_controllers::calibr_manager},
         };  
         
         const IniKeyCode flip_dir 
@@ -423,6 +437,18 @@ namespace config_defs
         std::string hip_flip_dir;
         std::string knee_flip_dir;
         std::string ankle_flip_dir;
+		
+		std::string hip_flip_motor_dir;
+        std::string knee_flip_motor_dir;
+        std::string ankle_flip_motor_dir;
+		
+		std::string hip_flip_torque_dir;
+        std::string knee_flip_torque_dir;
+        std::string ankle_flip_torque_dir;
+		
+		std::string hip_flip_angle_dir;
+        std::string knee_flip_angle_dir;
+        std::string ankle_flip_angle_dir;
     };
 #endif
 

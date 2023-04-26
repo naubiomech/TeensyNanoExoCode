@@ -135,7 +135,7 @@ MotorData::MotorData(config_defs::joint_id id, uint8_t* config_to_send)
                 }
             }  
             
-            if ((config_to_send[config_defs::ankle_flip_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::ankle_flip_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::ankle_flip_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            if ((config_to_send[config_defs::ankle_flip_motor_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::ankle_flip_motor_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::ankle_flip_motor_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
             {
                 this->flip_direction = 1;
             }
@@ -285,7 +285,7 @@ void MotorData::reconfigure(uint8_t* config_to_send)
                 }
             }  
             
-            if ((config_to_send[config_defs::ankle_flip_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::ankle_flip_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::ankle_flip_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            if ((config_to_send[config_defs::ankle_flip_motor_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::ankle_flip_motor_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::ankle_flip_motor_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
             {
                 this->flip_direction = 1;
             }

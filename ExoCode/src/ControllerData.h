@@ -247,8 +247,9 @@ namespace controller_defs /**< stores the parameter indexes for different contro
     namespace elbow_min_max
     {
         const uint8_t amplitude_idx = 0;    // amplitude in Nm
-        const uint8_t fsr_threshold_idx = 1;     
-        //const uint8_t num_parameter = 2;
+        const uint8_t fsr_threshold_idx = 1;  
+		const uint8_t fsr_threshold1_idx = 2;
+        const uint8_t num_parameter = 3;
         
         
     }
@@ -283,6 +284,12 @@ namespace controller_defs /**< stores the parameter indexes for different contro
         const uint8_t kd = 8;
         const uint8_t num_parameter = 9;
     }
+	
+	namespace calibr_manager
+	{
+		const uint8_t calibr_cmd = 0;
+		const uint8_t num_parameter = 1;
+	}
 
     const uint8_t max_parameters = franks_collins_hip::num_parameter;//user_defined::num_parameter;  // this should be the largest of all the num_parameters
 }
@@ -374,6 +381,17 @@ class ControllerData {
 		uint16_t ptb_iiStep = 0;
 		uint16_t ptb_setpoint = 0;
 		bool ptb_fsrGotHigh = false;
+		
+		// Variables for the Calibration Manger "Controller"
+		bool calibrComplete = false;
+		uint16_t iCalibr = 0;
+		int PIDMLTPLR = 0;
+		bool calibrStart = false;
+		float calibrSum = 0;
+
+		
+		// Variables for the Zhang-Collins Controller
+		float previous_cmd = 0;
 };      
 
 #endif

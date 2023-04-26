@@ -426,6 +426,8 @@ class ZhangCollins: public _Controller
         float _spline_generation(float node1, float node2, float node3, float torque_magnitude, float percent_gait);
 
         float torque_cmd;
+		
+		float cmd;
 };
 
 /**
@@ -553,6 +555,15 @@ class PtbGeneral : public _Controller
 public:
     PtbGeneral(config_defs::joint_id id, ExoData* exo_data);
     ~PtbGeneral() {};
+
+    float calc_motor_cmd();
+};
+
+class CalibrManager : public _Controller
+{
+public:
+    CalibrManager(config_defs::joint_id id, ExoData* exo_data);
+    ~CalibrManager() {};
 
     float calc_motor_cmd();
 };

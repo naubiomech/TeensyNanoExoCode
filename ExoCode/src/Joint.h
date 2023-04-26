@@ -253,6 +253,7 @@ class AnkleJoint : public _Joint
         PtbGeneral _ptb_general; /**< Generalized Perturbation Controller>*/
         PropulsiveAssistive _propulsive_assistive; /**< Propulsive Assistive */
 		ElbowMinMax _elbow_min_max; /**< Arm exo controller */
+		CalibrManager _calibr_manager; /**< Calibration Manager "Controller" */
         
 };
 

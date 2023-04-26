@@ -329,9 +329,9 @@ float Leg::_calc_percent_stance()
 
     if (_is_left == 0)
     {
-        Serial.print("Leg::Percent_Stance = ");
-        Serial.print(percent_stance);
-        Serial.print("\n");
+        // Serial.print("Leg::Percent_Stance = ");
+        // Serial.print(percent_stance);
+        // Serial.print("\n");
     }
     return percent_stance;
 };

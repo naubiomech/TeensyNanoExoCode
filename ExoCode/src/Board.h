@@ -259,6 +259,9 @@
                 
                 
                 const unsigned int speed_check_pin = 33;
+
+                const unsigned int left_ankle_angle_pin;
+                const unsigned int right_ankle_angle_pin;
                 
                 // I2C 
                 // SDA 18
@@ -341,9 +344,9 @@
                 
             #if defined(ARDUINO_TEENSY41)    
                 // SPI Follower Pins
-                const unsigned int miso_pin = 12;
+                const unsigned int miso_pin ;
                 const unsigned int mosi_pin= 11;
-                const unsigned int sck_pin = 13;
+                const unsigned int sck_pin ;
                 const unsigned int cs_pin = 10;
                 const unsigned int irq_pin = 34;
                 const unsigned int rst_pin = 4;
@@ -363,8 +366,8 @@
                 
                 const unsigned int speed_check_pin = 33;
 				
-				const unsigned int left_ankle_angle_pin;
-                const unsigned int right_ankle_angle_pin;
+				const unsigned int left_ankle_angle_pin = A13;
+                const unsigned int right_ankle_angle_pin = A12;
                 
                 // I2C 
                 // SDA 18
