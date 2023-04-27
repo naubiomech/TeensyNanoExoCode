@@ -306,8 +306,6 @@ float PropulsiveAssistive::calc_motor_cmd()
     #endif
     static const float sigmoid_exp_scalar{50.0f};
 
-    _capture_neutral_angle(_leg_data, _controller_data);
-
     // Calculate Generic Contribution
     const float plantar_setpoint = _controller_data->parameters[controller_defs::propulsive_assistive::plantar_scaling];
     const float dorsi_setpoint = -_controller_data->parameters[controller_defs::propulsive_assistive::dorsi_scaling];
@@ -317,6 +315,7 @@ float PropulsiveAssistive::calc_motor_cmd()
     const float generic = max(((slope*(percent_grf - threshold)) + dorsi_setpoint), dorsi_setpoint);
 
     // Assistive Contribution
+    _capture_neutral_angle(_leg_data, _controller_data);
     _update_reference_angles(_leg_data, _controller_data, percent_grf);
     const float k = _controller_data->parameters[controller_defs::propulsive_assistive::spring_stiffness];
     const float b = _controller_data->parameters[controller_defs::propulsive_assistive::damping];
