@@ -342,10 +342,10 @@ float PropulsiveAssistive::calc_motor_cmd()
     const float squelched_propulsive_term = propulsive*propulsive_grf_squelch_multiplier;
     
     // Sum for ff
-    const float cmd_ff = _controller_data->filtered_squelched_supportive_term+generic+squelched_propulsive_term;
+    const float cmd_ff = -(_controller_data->filtered_squelched_supportive_term+generic+squelched_propulsive_term);
 
     // low pass filter on torque_reading
-    const float torque = _joint_data->torque_reading * (_leg_data->is_left ? 1 : -1);
+    const float torque = _joint_data->torque_reading;
     const float alpha = 0.5;
     _controller_data->filtered_torque_reading = utils::ewma(torque, 
             _controller_data->filtered_torque_reading, alpha);
