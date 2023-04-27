@@ -281,7 +281,7 @@ void PropulsiveAssistive::_update_reference_angles(LegData* leg_data, Controller
         }
 
         controller_data->reference_angle_updated = true;
-        controller_data->reference_angle = leg_data->ankle.joint_position + (leg_data->ankle.joint_position - controller_data->level_entrance_angle);
+        controller_data->reference_angle = leg_data->ankle.joint_position;
 
         if (leg_data->is_left)
         {
@@ -350,7 +350,8 @@ float PropulsiveAssistive::calc_motor_cmd()
     const float k = _controller_data->parameters[controller_defs::propulsive_assistive::spring_stiffness];
     const float b = _controller_data->parameters[controller_defs::propulsive_assistive::damping];
     const float equilibrium_angle_offset = _controller_data->parameters[controller_defs::propulsive_assistive::neutral_angle]/100;
-    const float delta = _controller_data->reference_angle - _leg_data->ankle.joint_position + equilibrium_angle_offset;
+    const float angle_from_level = (_controller_data->reference_angle - _controller_data->level_entrance_angle);
+    const float delta = _controller_data->reference_angle + angle_from_level - _leg_data->ankle.joint_position + equilibrium_angle_offset;
     const float assistive = max(k*delta - b*_leg_data->ankle.joint_velocity, 0);
     // print assistive 
     Serial.print("assistive: ");
