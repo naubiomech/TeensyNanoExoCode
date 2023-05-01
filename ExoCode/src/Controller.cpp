@@ -350,12 +350,12 @@ float PropulsiveAssistive::calc_motor_cmd()
     const float k = _controller_data->parameters[controller_defs::propulsive_assistive::spring_stiffness];
     const float b = _controller_data->parameters[controller_defs::propulsive_assistive::damping];
     const float equilibrium_angle_offset = _controller_data->parameters[controller_defs::propulsive_assistive::neutral_angle]/100;
-    const float angle_from_level = (_controller_data->reference_angle - _controller_data->level_entrance_angle);
-    const float delta = _controller_data->reference_angle + angle_from_level - _leg_data->ankle.joint_position + equilibrium_angle_offset;
+    const float deviation_from_level = (_controller_data->reference_angle - _controller_data->level_entrance_angle);
+    const float delta = _controller_data->reference_angle + deviation_from_level - _leg_data->ankle.joint_position + equilibrium_angle_offset;
     const float assistive = max(k*delta - b*_leg_data->ankle.joint_velocity, 0);
     // print assistive 
-    Serial.print("assistive: ");
-    Serial.println(assistive);
+    // Serial.print("assistive: ");
+    // Serial.println(assistive);
     // Use a tuned sigmoid to squelch the spring output during the 'swing' phase
     const float squelch_offset = -(1.5*threshold); // 1.5 ensures that the spring activates after the new angle is captured
     const float grf_squelch_multiplier = (exp(sigmoid_exp_scalar*(percent_grf+squelch_offset))) / 
