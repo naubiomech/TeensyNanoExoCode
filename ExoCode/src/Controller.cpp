@@ -264,11 +264,38 @@ void PropulsiveAssistive::_update_reference_angles(LegData* leg_data, Controller
     const float threshold = controller_data->parameters[controller_defs::propulsive_assistive::timing_threshold]/100;
     // When the percent_grf passes the threshold, update the reference angle
     const bool should_update = (percent_grf > threshold) && !controller_data->reference_angle_updated;
+    const bool should_capture_level_entrance = leg_data->do_calibration_refinement_toe_fsr && !leg_data->do_calibration_toe_fsr;
+    const bool should_reset_level_entrance_angle = controller_data->prev_calibrate_level_entrance < should_capture_level_entrance;
+
+    if (should_reset_level_entrance_angle)
+    {
+        controller_data->level_entrance_angle = 0.5;
+    }
+
     if (should_update)
     {
+        if (should_capture_level_entrance)
+        {
+            controller_data->level_entrance_angle = utils::ewma(leg_data->ankle.joint_position, 
+                controller_data->level_entrance_angle, controller_data->cal_level_entrance_angle_alpha);
+        }
+
         controller_data->reference_angle_updated = true;
         controller_data->reference_angle = leg_data->ankle.joint_position;
-        controller_data->reference_angle_offset = leg_data->ankle.joint_global_angle;
+
+        if (leg_data->is_left)
+        {
+            // Serial.print("level_entrance_angle: ");
+            // Serial.println(controller_data->level_entrance_angle);
+            // Serial.print("joint_position: ");
+            // Serial.println(leg_data->ankle.joint_position);
+            // Serial.print("reference_angle: ");
+            // Serial.println(controller_data->reference_angle);
+            // // Print delimiting newline
+            // Serial.println();
+        }
+        
+        //controller_data->reference_angle_offset = leg_data->ankle.joint_global_angle;
     }
 
     // When the percent_grf drops below the threshold, reset the reference angle updated flag and expire the reference angle
@@ -279,7 +306,28 @@ void PropulsiveAssistive::_update_reference_angles(LegData* leg_data, Controller
         controller_data->reference_angle = 0;
         controller_data->reference_angle_offset = 0;
     }
+
+    controller_data->prev_calibrate_level_entrance = should_capture_level_entrance;
 }
+
+void PropulsiveAssistive::_capture_neutral_angle(LegData* leg_data, ControllerData* controller_data)
+{
+    // On the start of torque calibration reset the neutral angle
+    if (controller_data->prev_calibrate_trq_sensor < leg_data->ankle.calibrate_torque_sensor)
+    {
+        controller_data->neutral_angle = leg_data->ankle.joint_position;
+    }
+
+    if (leg_data->ankle.calibrate_torque_sensor) 
+    {
+        // Update the neutral angle with an ema filter
+        controller_data->neutral_angle = utils::ewma(leg_data->ankle.joint_position, 
+            controller_data->neutral_angle, controller_data->cal_neutral_angle_alpha);
+    }
+
+    controller_data->prev_calibrate_trq_sensor = leg_data->ankle.calibrate_torque_sensor;
+}
+
 
 float PropulsiveAssistive::calc_motor_cmd()
 {
@@ -297,12 +345,17 @@ float PropulsiveAssistive::calc_motor_cmd()
     const float generic = max(((slope*(percent_grf - threshold)) + dorsi_setpoint), dorsi_setpoint);
 
     // Assistive Contribution
+    _capture_neutral_angle(_leg_data, _controller_data);
     _update_reference_angles(_leg_data, _controller_data, percent_grf);
     const float k = _controller_data->parameters[controller_defs::propulsive_assistive::spring_stiffness];
     const float b = _controller_data->parameters[controller_defs::propulsive_assistive::damping];
     const float equilibrium_angle_offset = _controller_data->parameters[controller_defs::propulsive_assistive::neutral_angle]/100;
-    const float delta = _controller_data->reference_angle + equilibrium_angle_offset - _leg_data->ankle.joint_position;
+    const float deviation_from_level = (_controller_data->reference_angle - _controller_data->level_entrance_angle);
+    const float delta = _controller_data->reference_angle + deviation_from_level - _leg_data->ankle.joint_position + equilibrium_angle_offset;
     const float assistive = max(k*delta - b*_leg_data->ankle.joint_velocity, 0);
+    // print assistive 
+    // Serial.print("assistive: ");
+    // Serial.println(assistive);
     // Use a tuned sigmoid to squelch the spring output during the 'swing' phase
     const float squelch_offset = -(1.5*threshold); // 1.5 ensures that the spring activates after the new angle is captured
     const float grf_squelch_multiplier = (exp(sigmoid_exp_scalar*(percent_grf+squelch_offset))) / 
@@ -323,10 +376,10 @@ float PropulsiveAssistive::calc_motor_cmd()
     const float squelched_propulsive_term = propulsive*propulsive_grf_squelch_multiplier;
     
     // Sum for ff
-    const float cmd_ff = _controller_data->filtered_squelched_supportive_term+generic+squelched_propulsive_term;
+    const float cmd_ff = -(_controller_data->filtered_squelched_supportive_term+generic+squelched_propulsive_term);
 
     // low pass filter on torque_reading
-    const float torque = _joint_data->torque_reading * (_leg_data->is_left ? 1 : -1);
+    const float torque = _joint_data->torque_reading;
     const float alpha = 0.5;
     _controller_data->filtered_torque_reading = utils::ewma(torque, 
             _controller_data->filtered_torque_reading, alpha);
@@ -344,10 +397,11 @@ float PropulsiveAssistive::calc_motor_cmd()
     // Print the propulsive terms for the right leg
     if (!_leg_data->is_left)
     {
-        Serial.print("Vel:" + String(_leg_data->ankle.joint_velocity) + "\t");
-        Serial.print("kProp:" + String(kProp) + "\t");
-        Serial.print("SQPM:" + String(propulsive_grf_squelch_multiplier) + "\t");
-        Serial.print("SQP:" + String(squelched_propulsive_term) + "\n");
+        // Serial.print("Vel:" + String(_leg_data->ankle.joint_velocity) + "\t");
+        // Serial.print("kProp:" + String(kProp) + "\t");
+        // Serial.print("SQPM:" + String(propulsive_grf_squelch_multiplier) + "\t");
+        // Serial.print("SQP:" + String(squelched_propulsive_term) + "\n");
+
         
     }
 

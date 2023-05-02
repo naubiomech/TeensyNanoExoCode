@@ -17,7 +17,7 @@
     #define LOOP_FREQ_HZ 500
     #define LOOP_TIME_TOLERANCE 0.1 
     
-    #define USE_SPEED_CHECK 1 
+    #define USE_SPEED_CHECK 0 
 
     // MACRO magic to convert a define to a string
     #define VAL(str) #str

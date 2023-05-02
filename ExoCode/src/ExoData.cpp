@@ -98,7 +98,7 @@ void ExoData::set_status(uint16_t status_to_set)
 uint16_t ExoData::get_status(void)
 {
     return this->_status;
-};
+}
 
 void ExoData::set_default_parameters()
 {
@@ -113,6 +113,11 @@ void ExoData::set_default_parameters()
     #endif
 }
 
+void ExoData::start_pretrial_cal()
+{
+    // Calibrate the Torque Sensors
+    this->for_each_joint([](JointData* j_data, float* args) {j_data->calibrate_torque_sensor = j_data->is_used;});
+}
 
 void ExoData::print()
 {

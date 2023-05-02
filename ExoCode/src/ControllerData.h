@@ -341,6 +341,12 @@ class ControllerData {
         float reference_angle_offset = 0; /**< offset for the reference angle */
         bool reference_angle_updated = false; /**< flag to indicate if the reference angle was updated this step */
         float filtered_squelched_supportive_term = 0; /**< low pass on final spring output */
+        float neutral_angle = 0.0f; /**< neutral angle for the spring term */
+        bool prev_calibrate_trq_sensor = false; /**< previous value of the calibrate torque sensor flag */
+        const float cal_neutral_angle_alpha = 0.01f; /**< alpha for the low pass on the neutral angle calibration */
+        float level_entrance_angle = 0.0f; /**< level entrance angle for the spring term */
+        float prev_calibrate_level_entrance = false; /**< previous value of the calibrate level entrance flag */
+        const float cal_level_entrance_angle_alpha = 0.01f; /**< alpha for the low pass on the level entrance calibration */
 
         // Variables for the ElbowMinMax Controller
         float fsr_toe_min_elbow = 0;

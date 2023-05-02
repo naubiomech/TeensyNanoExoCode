@@ -106,6 +106,13 @@ class ExoData
          * 
          */
         void set_default_parameters();
+
+        /**
+         * @brief Start the pretrial calibration process
+         * 
+         */
+        void start_pretrial_cal();
+
         
         
         bool sync_led_state; /**< state of the sync led */
