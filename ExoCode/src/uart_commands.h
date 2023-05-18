@@ -535,14 +535,14 @@ namespace UART_command_utils
 
             if ((millis() - start_time) > timeout)
             {
-                // logger::println("UART_command_utils::get_config->timed out");
+                logger::println("UART_command_utils::get_config->timed out");
                 return 1;
             }
 
             // the length of the message needs to be equal to the config length
             if (msg.len != ini_config::number_of_keys)
             {
-                // logger::println("UART_command_utils::get_config->msg.len != number_of_keys");
+                logger::println("UART_command_utils::get_config->msg.len != number_of_keys");
                 // keep trying to get config
                 continue;
             }
@@ -551,14 +551,14 @@ namespace UART_command_utils
                 // a valid config will not contain a zero
                 if (!msg.data[i]) 
                 {
-                    // logger::print("UART_command_utils::get_config->Config contained a zero at index ");
-                    // logger::println(i);
+                    logger::print("UART_command_utils::get_config->Config contained a zero at index ");
+                    logger::println(i);
 
                     // keep trying to get config
                     continue;
                 }
             }
-            // logger::println("UART_command_utils::get_config->got good config");
+            logger::println("UART_command_utils::get_config->got good config");
             break;
         }
 
@@ -576,11 +576,11 @@ namespace UART_command_utils
         float start_time = millis();
         while (true)
         {
-            //logger::println("UART_command_utils::wait_for_config->Polling for config");
+            logger::println("UART_command_utils::wait_for_config->Polling for config");
             rx_msg = handler->poll(100000);
             if (rx_msg.command == UART_command_names::get_config)
             {
-                //logger::println("UART_command_utils::wait_for_config->Got config request");
+                logger::println("UART_command_utils::wait_for_config->Got config request");
                 UART_command_handlers::get_config(handler, data, rx_msg);
                 break;
             }
@@ -588,17 +588,25 @@ namespace UART_command_utils
 
             if ((millis() - start_time) > timeout)
             {
-                //logger::println("UART_command_utils::wait_for_config->Timed out");
+                logger::println("UART_command_utils::wait_for_config->Timed out");
                 return;
             }
         }
-        //logger::println("UART_command_utils::wait_for_config->Sent config");
+        logger::println("UART_command_utils::wait_for_config->Sent config");
     }
 
     
 
     static void handle_msg(UARTHandler* handler, ExoData* exo_data, UART_msg_t msg)
     {
+        if (msg.command == UART_command_names::empty_msg)
+        {
+            return;
+        }
+        
+        logger::println("UART_command_utils::handle_message->got message: ");
+        UART_msg_t_utils::print_msg(msg);
+
         switch (msg.command)
         {
         case UART_command_names::empty_msg:
@@ -688,7 +696,7 @@ namespace UART_command_utils
 
         
         default:
-            logger::println("UART_command_utils::handle_message->Unknown Message!");
+            logger::println("UART_command_utils::handle_message->Unknown Message!", LogLevel::Error);
             UART_msg_t_utils::print_msg(msg);
             break;
         }

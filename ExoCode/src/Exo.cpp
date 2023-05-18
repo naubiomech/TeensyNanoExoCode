@@ -61,11 +61,10 @@ bool Exo::run()
     if (delta_t >= (lower_bound))
     {
         
-        #ifdef USE_SPEED_CHECK
+        #if USE_SPEED_CHECK
         logger::print(String(delta_t) + "\n");
             speed_check.toggle();
         #endif
-
 
         // check if we should update the sync LED and record the LED on/off state.
         data->sync_led_state = sync_led.handler();
@@ -89,16 +88,7 @@ bool Exo::run()
 
         // check for incoming uart messages
         UART_msg_t msg = handler->poll(UART_times::CONT_MCU_TIMEOUT);       //UART_times::CONT_MCU_TIMEOUT is in Config.h
-        if (msg.command) 
-        {
-            #ifdef EXO_DEBUG
-                logger::println("Exo::run->Got message:");
-                UART_msg_t_utils::print_msg(msg);
-            #endif
-
-            UART_command_utils::handle_msg(handler, data, msg);
-        }
-
+        UART_command_utils::handle_msg(handler, data, msg);
 
         // send the coms mcu the real time data every _real_time_msg_delay microseconds
         rt_delta_t += t_helper->tick(rt_context);

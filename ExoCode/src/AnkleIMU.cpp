@@ -3,6 +3,8 @@
 #include <utility/imumaths.h>
 #include "Logger.h"
 
+#if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41) 
+
 #if BOARD_VERSION == AK_Board_V0_3 
 #define IMU_WIRE Wire1
 #endif
@@ -54,3 +56,5 @@ float AnkleIMU::get_global_angle()
     // imu::Vector<3> euler = _imu.getVector(Adafruit_BNO055::VECTOR_EULER);
     // return euler.y();
 }
+
+#endif

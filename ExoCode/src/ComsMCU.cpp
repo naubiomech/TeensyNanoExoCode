@@ -90,7 +90,7 @@ void ComsMCU::update_UART()
     {
         UARTHandler* handler = UARTHandler::get_instance();
         UART_msg_t msg = handler->poll(UART_times::COMS_MCU_TIMEOUT);
-        if (msg.command) 
+        if (msg.command)
         {
             // UART_msg_t_utils::print_msg(msg);
             UART_command_utils::handle_msg(handler, _data, msg);
@@ -170,8 +170,8 @@ void ComsMCU::handle_errors()
 
 void ComsMCU::_process_complete_gui_command(BleMessage* msg) 
 {
-    // logger::print("ComsMCU::_process_complete_gui_command->Got Command: ");
-    // BleMessage::print(*msg);
+    logger::print("ComsMCU::_process_complete_gui_command->Got Command: ");
+    BleMessage::print(*msg);
 
     switch (msg->command)
     {

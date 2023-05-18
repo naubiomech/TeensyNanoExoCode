@@ -3,7 +3,6 @@
 #include "Logger.h"
 //#define JOINT_DEBUG
 
-
 // Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41) 
 // initialize the used joint counters that will be used to select the TorqueSensor pin.  If you don't do it it won't work.
@@ -552,7 +551,7 @@ void HipJoint::set_controller(uint8_t controller_id)
             logger::print("Unkown Controller!\n", LogLevel::Error);
             _controller = &_stasis;
             break;
-    } 
+    }
     #ifdef JOINT_DEBUG
         logger::println("Hip : set_controller : End");
     #endif

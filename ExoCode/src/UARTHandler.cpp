@@ -8,6 +8,9 @@
 #define UART_DATA_TYPE short int
 #define FIXED_POINT_FACTOR 100
 
+// set to 1 to enable debug prints
+#define DEBUG_UART_HANDLER 1 
+
 typedef enum 
 {
   COMMAND = 0,
@@ -32,24 +35,38 @@ UARTHandler* UARTHandler::get_instance()
 void UARTHandler::UART_msg(uint8_t msg_id, uint8_t len, uint8_t joint_id, float *buffer)
 {
     uint8_t _packed_len = _get_packed_length(msg_id, len, joint_id, buffer);
-  //  logger::print("UARTHandler::UART_msg->Packing Bytes: "); logger::println(_packed_len);
+
+    #if DEBUG_UART_HANDLER
+    logger::print("UARTHandler::UART_msg->Packing Bytes: "); logger::println(_packed_len);
+    #endif
+
     uint8_t _byte_data[_packed_len] = {0};
     _pack(msg_id, len, joint_id, buffer, _byte_data);
-  //  logger::println("UARTHandler::UART_msg->Packed data:");
-  //  for (int i=0; i<_packed_len; i++)
-  //  {
-  //    logger::print(_byte_data[i], HEX); logger::print(", ");
-  //  }
-  //  logger::println();
+
+    #if DEBUG_UART_HANDLER
+   logger::println("UARTHandler::UART_msg->Packed data:");
+   for (int i=0; i<_packed_len; i++)
+   {
+     logger::print(_byte_data[i]); logger::print(", ");
+   }
+   logger::println();
+    #endif
+
     _send_packet(_byte_data, _packed_len);
     MY_SERIAL.flush();
-  //  logger::println("UARTHandler::UART_msg->Flushed tx buffer");
+
+    #if DEBUG_UART_HANDLER
+   logger::println("UARTHandler::UART_msg->Flushed tx buffer");
+    #endif
 }
 
 void UARTHandler::UART_msg(UART_msg_t msg)
 {
-     //logger::print("UARTHandler::UART_msg->Sending Message");
-     //UART_msg_t_utils::print_msg(msg);
+    #if DEBUG_UART_HANDLER
+     logger::print("UARTHandler::UART_msg->Sending Message");
+     UART_msg_t_utils::print_msg(msg);
+    #endif
+
     UART_msg(msg.command, msg.len, msg.joint_id, msg.data);
 }
 
@@ -60,58 +77,75 @@ UART_msg_t UARTHandler::poll(float timeout_us)
     
     uint32_t _available_bytes = check_for_data();
     if (!_available_bytes) {return empty_msg;}
-    //logger::print("UARTHandler::poll->Bytes Available: "); logger::println(_available_bytes);
+
+    #if DEBUG_UART_HANDLER
+    logger::print("UARTHandler::poll->Bytes Available: "); logger::println(_available_bytes);
+    #endif
 
     uint8_t _msg_buffer[MAX_RX_LEN];
-    uint8_t _recv_len = _recv_packet(_msg_buffer, MAX_RX_LEN);
+    int _recv_len = _recv_packet(_msg_buffer, MAX_RX_LEN);
+    
     if (_recv_len > 0)
     {
+      // add the partial data to the message
       if (_partial_packet_len) 
       {
-      //  logger::println("UARTHandler::poll->Packet requires shifting");
-        // this occurs if there was a timeout during _recv_packet and we have a new partial packet
+        // this occurs if there was a timeout during _recv_packet and we have a complete message
+        #if DEBUG_UART_HANDLER
+       logger::println("UARTHandler::poll->_recv_len > 0 && _partial_packet_len");
+        #endif
+
         // shift _msg_buffer _partial_packet_len bytes to fit the previous partial packet using memmove
         memmove(_msg_buffer + _partial_packet_len, _msg_buffer, _recv_len);
+        // copy the partial packet to the beginning of the buffer
         memcpy(_msg_buffer, _partial_packet, _partial_packet_len);
         _recv_len += _partial_packet_len;
 
-      //  memmove(_msg_buffer + (_partial_packet_len-1), _msg_buffer, _recv_len);
-
-      //  // append the _partial packet to the full message
-      //  memcpy(_msg_buffer, _partial_packet, _partial_packet_len);
-       
-       _partial_packet_len = 0;
+       _reset_partial_packet();
      }
 
       UART_msg_t msg = _unpack(_msg_buffer, _recv_len);
-      // logger::print("UARTHandler::poll->Got Message: ");
-      // UART_msg_t_utils::print_msg(msg);
+
+      #if DEBUG_UART_HANDLER
+      logger::print("UARTHandler::poll->Got Message: ");
+      UART_msg_t_utils::print_msg(msg);
+      #endif
       //TODO: Implement MSG queue architecture
 
       return msg;
     }
 
-    if (_recv_len < 0) 
+    if (_recv_len < 0)
     {
-      //  logger::println("UARTHandler::poll->Packet requires shifting");
-       // this only occurs if there was a timeout during the previous _recv_packet and an end flag before any new data
+      // this only occurs if there was a timeout during the previous _recv_packet and an end flag before any new data
+      // in this case the partial packet is the full message
+      #if DEBUG_UART_HANDLER
+      logger::println("UARTHandler::poll->_recv_len < 0");
+      #endif
 
-      //  logger::println("UARTHandler::poll->_msg_buffer after shifting: ");
-      //  for (int i=0; i<(_recv_len + _partial_packet_len); i++)
-      //  {
-      //    logger::print(_msg_buffer[i], HEX); logger::print(", ");
-      //  }
-      //  logger::println();
-       // append the _partial packet to the full message
-       memcpy(_msg_buffer, _partial_packet, _partial_packet_len);
+      // append the _partial packet to the full message
+      memcpy(_msg_buffer, _partial_packet, _partial_packet_len);
        
-      //  logger::println("UARTHandler::poll->_msg_buffer after copyting _packed_data: ");
-      //  for (int i=0; i<(_recv_len + _partial_packet_len); i++)
-      //  {
-      //    logger::print(_msg_buffer[i], HEX); logger::print(", ");
-      //  }
-      //  logger::println();
-       _partial_packet_len = 0;
+      #if DEBUG_UART_HANDLER
+      logger::println("UARTHandler::poll->_msg_buffer after copyting _packed_data: ");
+      for (int i=0; i<(_partial_packet_len); i++)
+      {
+        logger::print(_msg_buffer[i]); logger::print(", ");
+      }
+      logger::println();
+      #endif
+
+      UART_msg_t msg = _unpack(_msg_buffer, _partial_packet_len);
+
+      _reset_partial_packet();
+
+      #if DEBUG_UART_HANDLER
+      logger::print("UARTHandler::poll->Got Message: ");
+      UART_msg_t_utils::print_msg(msg);
+      #endif
+      //TODO: Implement MSG queue architecture
+
+      return msg;
      }
     return empty_msg;
 }
@@ -158,7 +192,7 @@ UART_msg_t UARTHandler::_unpack(uint8_t* data, uint8_t len)
         utils::short_fixed_point_bytes_to_float((uint8_t*)data+_data_offset, &tmp, FIXED_POINT_FACTOR);
         msg.data[i] = tmp;
     }
-  
+
     return msg;
 }
 
@@ -175,15 +209,21 @@ uint8_t UARTHandler::_get_packed_length(uint8_t msg_id, uint8_t len, uint8_t joi
 
 void UARTHandler::_send_char(uint8_t val)
 {
-//  logger::print("UARTHandler::_send_char->Sending: 0x");
-//  logger::println(val, HEX);
+  #if DEBUG_UART_HANDLER
+  logger::print("UARTHandler::_send_char->Sending: 0x");
+  logger::println(val);
+  #endif
+
   MY_SERIAL.write(val);
 }
 
 uint8_t UARTHandler::_recv_char(void)
 {  
   uint8_t _data = MY_SERIAL.read();
-  // logger::print("UARTHandler::_recv_char->Read: "); logger::println(_data, HEX);
+
+  #if DEBUG_UART_HANDLER
+  logger::print("UARTHandler::_recv_char->Read: "); logger::println(_data);
+  #endif
 
   return _data;
 }
@@ -224,7 +264,7 @@ void UARTHandler::_send_packet(uint8_t* p, uint8_t len)
       /* otherwise, we just send the character
       */
       default:
-        //logger::print("UARTHandler::_send_packet->Sending: 0x"); logger::println(*p, HEX);
+        //logger::print("UARTHandler::_send_packet->Sending: 0x"); logger::println(*p);
         _send_char(*p);
     }
 
@@ -250,7 +290,6 @@ int UARTHandler::_recv_packet(uint8_t *p, uint8_t len)
   _time_left(1);
   while (_time_left())
   {
-//    logger::println("UARTHandler::_recv_packet->Loop");
     if (!check_for_data()) 
     {
       continue;
@@ -258,8 +297,10 @@ int UARTHandler::_recv_packet(uint8_t *p, uint8_t len)
 
     c = _recv_char();
 
-//    logger::print("UARTHandler::_recv_packet->Got char: ");
-//    logger::println(c);
+    #if DEBUG_UART_HANDLER
+    logger::print("UARTHandler::_recv_packet->Got char: ");
+    logger::println(c);
+    #endif
 
     // handle bytestuffing if necessary
     switch (c) 
@@ -267,20 +308,31 @@ int UARTHandler::_recv_packet(uint8_t *p, uint8_t len)
 
       // if it's an END character then we're done with the packet
       case END:
-        // logger::println("UARTHandler::_recv_packet->END CASE");
+        #if DEBUG_UART_HANDLER
+        logger::println("UARTHandler::_recv_packet->END CASE");
+        #endif
+
         if (received)
         {
-            // logger::print("UARTHandler::_recv_packet->Returning: ");
-            // logger::println(received);
+            #if DEBUG_UART_HANDLER
+            logger::print("UARTHandler::_recv_packet->Returning: ");
+            logger::println(received);
+            #endif
+
             return received;
         }
         else if (_partial_packet_len)
         {
-            //logger::print("UARTHandler::_recv_packet->Returning because of _partial_packet: ");
+            #if DEBUG_UART_HANDLER
+            logger::print("UARTHandler::_recv_packet->Returning because of _partial_packet: ");
+            logger::println(_partial_packet_len);
+            #endif
+
             return -1;
         }
         else
-        {
+        {   
+            // TODO: Maybe Reset Buffer
             break;
         }
 
@@ -289,10 +341,13 @@ int UARTHandler::_recv_packet(uint8_t *p, uint8_t len)
          what to store in the packet based on that.
       */
       case ESC:
-//        logger::println("UARTHandler::_recv_packet->ESC CASE");
         c = _recv_char();
-//        logger::print("UARTHandler::_recv_packet->ESC Char: ");
-//        logger::println(c);
+
+        #if DEBUG_UART_HANDLER
+        logger::println("UARTHandler::_recv_packet->ESC CASE");
+        logger::print("UARTHandler::_recv_packet->ESC Char: ");
+        logger::println(c);
+        #endif
 
         /* if "c" is not one of these two, then we
            have a protocol violation.  The best bet
@@ -302,35 +357,65 @@ int UARTHandler::_recv_packet(uint8_t *p, uint8_t len)
         switch (c) 
         {
           case ESC_END:
-//            logger::println("UARTHandler::_recv_packet->ESC_END");
+              #if DEBUG_UART_HANDLER
+              logger::println("UARTHandler::_recv_packet->ESC_END");
+              #endif
             c = END;
             break;
           case ESC_ESC:
-//            logger::println("UARTHandler::_recv_packet->ESC_ESC");
+              #if DEBUG_UART_HANDLER
+              logger::println("UARTHandler::_recv_packet->ESC_ESC");
+              #endif
+
             c = ESC;
             break;
         }
 
       default:
-//        logger::println("UARTHandler::_recv_packet->Default CASE");
+        #if DEBUG_UART_HANDLER
+        logger::println("UARTHandler::_recv_packet->Default CASE");
+        #endif
+
         if (received < len)
         {
-//          logger::println("UARTHandler::_recv_packet->Added to buffer");
+          #if DEBUG_UART_HANDLER
+          logger::println("UARTHandler::_recv_packet->Added to buffer");
+          #endif
+
           p[received++] = c;
         }
     }
   }
 
-//  // there was a timeout before a full message was recieved, save the data to be reconstructed later
-  //logger::println("UARTHandler::_recv_packet->Timeout!");
- _partial_packet_len = received;
-//  logger::print("UARTHandler::_recv_packet->Saved Bytes: "); logger::println(_partial_packet_len);
- for (int i=0; i<_partial_packet_len; i++)
- {
-   _partial_packet[i] = p[i];
-  //  logger::print(_partial_packet[i], HEX); logger::println(", ");
- }
-//  logger::println();
+ // there was a timeout before a full message was recieved, save the data to be reconstructed later
+  int prior_packet_len = _partial_packet_len;
+  _partial_packet_len += received;
+
+  #if DEBUG_UART_HANDLER
+  logger::println("UARTHandler::_recv_packet->Timeout!");
+  logger::print("UARTHandler::_recv_packet->Saved Bytes: "); 
+  logger::print("Prior Packet Length: "); 
+  logger::print(prior_packet_len);
+  logger::print("\t");
+  logger::print("Received: ");
+  logger::print(received);
+  logger::print("\t");
+  logger::print("Partial Packet Length: ");
+  logger::println(_partial_packet_len);
+  #endif
+
+  for (int i=0; i<(_partial_packet_len); i++)
+  {
+    _partial_packet[i+prior_packet_len] = p[i];
+
+    #if DEBUG_UART_HANDLER
+     logger::print(_partial_packet[i]); logger::println(", ");
+    #endif
+  }
+
+  #if DEBUG_UART_HANDLER
+  logger::println();
+  #endif
 
   return 0;
 }
@@ -342,12 +427,19 @@ uint8_t UARTHandler::_time_left(uint8_t should_latch)
     if (should_latch)
     {
       _start_time = micros();
-//      logger::print("UARTHandler::_time_left->Latching on ");
-//      logger::println(_start_time);
+
+      #if DEBUG_UART_HANDLER
+      logger::print("UARTHandler::_time_left->Latching on ");
+      logger::println(_start_time);
+      #endif
     }
     float del_t = micros() - _start_time;
-//    logger::print("UARTHandler::_time_left->Del_T: ");
-//    logger::println(micros() - _start_time);
 
     return (del_t <= _timeout_us);
+}
+
+void UARTHandler::_reset_partial_packet()
+{
+  memset(_partial_packet, 0, _partial_packet_len+1);
+  _partial_packet_len = 0;
 }

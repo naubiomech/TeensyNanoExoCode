@@ -429,7 +429,6 @@ ProportionalJointMoment::ProportionalJointMoment(config_defs::joint_id id, ExoDa
 
 float ProportionalJointMoment::calc_motor_cmd()
 {
-	Serial.print("\nRunning PJMC...");
     #ifdef CONTROLLER_DEBUG
         logger::println("ProportionalJointMoment::calc_motor_cmd : start");
     #endif

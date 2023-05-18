@@ -29,7 +29,7 @@
 #define UART_BAUD 256000
 
 #define MAX_RX_LEN 64 // bytes
-#define RX_TIMEOUT_US 1000
+#define RX_TIMEOUT_US 100   // microseconds
 
 /* SLIP special character codes
 */
@@ -109,6 +109,7 @@ class UARTHandler
 
         uint8_t _time_left(uint8_t should_latch = 0);
 
+        void _reset_partial_packet();
 
         /* Data */
         //circular_buffer<uint8_t, 64> _rx_raw;
@@ -117,6 +118,8 @@ class UARTHandler
         
         uint8_t _partial_packet[MAX_RX_LEN];
         uint8_t _partial_packet_len = 0;
+        uint8_t _msg_buffer[MAX_RX_LEN];
+        uint8_t _msg_buffer_len = 0;
 
 };
 
