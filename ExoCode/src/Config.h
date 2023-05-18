@@ -25,7 +25,7 @@
 
     namespace logging
     {
-        const LogLevel level = LogLevel::Debug;
+        const LogLevel level = LogLevel::Release;
         const int baud_rate = 115200;
     }
     

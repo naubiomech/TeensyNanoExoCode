@@ -29,7 +29,7 @@
 #define UART_BAUD 256000
 
 #define MAX_RX_LEN 64 // bytes
-#define RX_TIMEOUT_US 100   // microseconds
+#define RX_TIMEOUT_US 1000   // microseconds
 
 /* SLIP special character codes
 */

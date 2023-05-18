@@ -9,7 +9,7 @@
 #define FIXED_POINT_FACTOR 100
 
 // set to 1 to enable debug prints
-#define DEBUG_UART_HANDLER 1 
+#define DEBUG_UART_HANDLER 0 
 
 typedef enum 
 {
@@ -440,6 +440,6 @@ uint8_t UARTHandler::_time_left(uint8_t should_latch)
 
 void UARTHandler::_reset_partial_packet()
 {
-  memset(_partial_packet, 0, _partial_packet_len+1);
+  memset(_partial_packet, 0, _partial_packet_len);
   _partial_packet_len = 0;
 }

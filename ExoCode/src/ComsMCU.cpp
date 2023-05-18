@@ -11,7 +11,7 @@
 
 #if defined(ARDUINO_ARDUINO_NANO33BLE) | defined(ARDUINO_NANO_RP2040_CONNECT)
 
-#define COMSMCU_DEBUG 1
+#define COMSMCU_DEBUG 0
 
 ComsMCU::ComsMCU(ExoData* data, uint8_t* config_to_send):_data{data}
 {
@@ -170,8 +170,8 @@ void ComsMCU::handle_errors()
 
 void ComsMCU::_process_complete_gui_command(BleMessage* msg) 
 {
-    logger::print("ComsMCU::_process_complete_gui_command->Got Command: ");
-    BleMessage::print(*msg);
+    // logger::print("ComsMCU::_process_complete_gui_command->Got Command: ");
+    // BleMessage::print(*msg);
 
     switch (msg->command)
     {
