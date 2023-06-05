@@ -58,8 +58,16 @@ void ComsMCU::handle_ble()
     bool non_empty_ble_queue = _exo_ble->handle_updates();
     if (non_empty_ble_queue)
     {
+        #if COMSMCU_DEBUG
+        logger::println("ComsMCU::handle_ble->non_empty_ble_queue");
+        #endif
+
         BleMessage msg = ble_queue::pop();
         _process_complete_gui_command(&msg);
+
+        #if COMSMCU_DEBUG
+        logger::println("ComsMCU::handle_ble->processed message");
+        #endif
     }
 }
 
@@ -170,8 +178,8 @@ void ComsMCU::handle_errors()
 
 void ComsMCU::_process_complete_gui_command(BleMessage* msg) 
 {
-    // logger::print("ComsMCU::_process_complete_gui_command->Got Command: ");
-    // BleMessage::print(*msg);
+    logger::print("ComsMCU::_process_complete_gui_command->Got Command: ");
+    BleMessage::print(*msg);
 
     switch (msg->command)
     {
