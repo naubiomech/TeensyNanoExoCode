@@ -38,7 +38,7 @@ class ErrorManager
                 // current error code
                 ErrorCodes error_code = static_cast<ErrorCodes>(i_error);
                 // get error type
-                ErrorType* error = error_map[error_code];
+                ErrorType* error = error_map.at(error_code);
                 // check for error
                 if (error->check(_data))
                 {

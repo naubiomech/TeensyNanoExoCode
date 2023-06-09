@@ -8,7 +8,7 @@
 #include "Motor.h"
 #include "CAN.h"
 #include "ErrorManager.h"
-#include "error_types.h"
+#include "error_codes.h"
 #include "Logger.h"
 //#define MOTOR_DEBUG
 

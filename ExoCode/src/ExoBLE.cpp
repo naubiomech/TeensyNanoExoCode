@@ -5,7 +5,7 @@
 #include "Time_Helper.h"
 #include "ComsLed.h"
 #include "Config.h"
-#include "error_types.h"
+#include "error_codes.h"
 #include "Logger.h"
 
 #define EXOBLE_DEBUG 0

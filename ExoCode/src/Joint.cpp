@@ -1,6 +1,7 @@
 #include "Joint.h"
 #include "Time_Helper.h"
 #include "Logger.h"
+#include "ErrorReporter.h"
 //#define JOINT_DEBUG
 
 // Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
@@ -452,15 +453,30 @@ void HipJoint::run_joint()
         logger::print("HipJoint::run_joint::Start");
     #endif
 
-    // enable or disable the motor.
-    _motor->on_off(); 
-    _motor->enable();
-
     // make sure the correct controller is running.
     set_controller(_joint_data->controller.controller);
     
     // Calculate the motor command
     _joint_data->controller.setpoint = _controller->calc_motor_cmd();
+
+    // Check for joint errors
+    const bool error = _error_manager.run(_joint_data);
+    if (error) 
+    {
+        // Send all errors to the other microcontroller
+        for (int i=0; i < _error_manager.errorQueueSize(); i++)
+        {
+            ErrorReporter::get_instance()->report(
+                _error_manager.popError(),
+                _id
+            );
+        }
+    }
+
+    // enable or disable the motor.
+    _motor->on_off(); 
+    _motor->enable();
+
     // Send the new command to the motor.
     _motor->transaction(_joint_data->controller.setpoint / _joint_data->motor.gearing);
 
@@ -657,20 +673,32 @@ void KneeJoint::run_joint()
     #ifdef JOINT_DEBUG
         logger::print("KneeJoint::run_joint::Start");
     #endif
-    // enable or disable the motor.
-    _motor->on_off(); 
-    _motor->enable();
 
     // make sure the correct controller is running.
     set_controller(_joint_data->controller.controller);
     
     // Calculate the motor command
     _joint_data->controller.setpoint = _controller->calc_motor_cmd();
+
+        // Check for joint errors
+    const bool error = _error_manager.run(_joint_data);
+    if (error) 
+    {
+        // Send all errors to the other microcontroller
+        for (int i=0; i < _error_manager.errorQueueSize(); i++)
+        {
+            ErrorReporter::get_instance()->report(
+                _error_manager.popError(),
+                _id
+            );
+        }
+    }
+
+    // enable or disable the motor.
+    _motor->on_off(); 
+    _motor->enable();
+
     // Send the new command to the motor.
-    // logger::print(_joint_data->controller.setpoint);
-    // logger::print(" Knee\t");
-    // Use transaction because the motors are call and response
-    // _motor->transaction(0 / _joint_data->motor.gearing);
     _motor->transaction(_joint_data->controller.setpoint / _joint_data->motor.gearing);
 
         #ifdef JOINT_DEBUG
@@ -857,9 +885,6 @@ void AnkleJoint::run_joint()
     #ifdef JOINT_DEBUG
         logger::print("AnkleJoint::run_joint::Start");
     #endif
-    // enable or disable the motor.
-    _motor->on_off();
-    _motor->enable();
 
     // Angle Sensor data
     _joint_data->prev_joint_position = _joint_data->joint_position;
@@ -886,6 +911,25 @@ void AnkleJoint::run_joint()
     set_controller(_joint_data->controller.controller);
     // Calculate the motor command
     _joint_data->controller.setpoint = _controller->calc_motor_cmd();
+
+        // Check for joint errors
+    const bool error = _error_manager.run(_joint_data);
+    if (error) 
+    {
+        // Send all errors to the other microcontroller
+        for (int i=0; i < _error_manager.errorQueueSize(); i++)
+        {
+            ErrorReporter::get_instance()->report(
+                _error_manager.popError(),
+                _id
+            );
+        }
+    }
+
+    // enable or disable the motor.
+    _motor->on_off(); 
+    _motor->enable();
+
     // Send the new command to the motor.
     _motor->transaction(_joint_data->controller.setpoint / _joint_data->motor.gearing);
 

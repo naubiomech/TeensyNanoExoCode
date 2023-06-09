@@ -6,7 +6,7 @@
 #include "uart_commands.h"
 #include "UART_msg_t.h"
 #include "Config.h"
-#include "error_types.h"
+#include "error_codes.h"
 #include "Logger.h"
 
 #if defined(ARDUINO_ARDUINO_NANO33BLE) | defined(ARDUINO_NANO_RP2040_CONNECT)
@@ -160,10 +160,10 @@ void ComsMCU::update_gui()
 
 void ComsMCU::handle_errors()
 {
-    static int error_code = NO_ERROR;
-    if (_data->error_code != error_code)
+    static ErrorCodes error_code = NO_ERROR;
+    if (_data->error_code != static_cast<int>(error_code))
     {
-        error_code = _data->error_code;
+        error_code = static_cast<ErrorCodes>(_data->error_code);
         _exo_ble->send_error(_data->error_code, _data->error_joint_id);
     }
 }

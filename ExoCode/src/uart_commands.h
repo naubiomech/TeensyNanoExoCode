@@ -92,7 +92,7 @@ namespace UART_command_enums
     enum class real_time_data:uint8_t {
         
     };
-    enum class error_code:uint8_t {
+    enum class get_error_code:uint8_t {
         ERROR_CODE = 0,
         LENGTH
     };
@@ -455,7 +455,7 @@ namespace UART_command_handlers
         //UART_msg_t_utils::print_msg(msg);
         
         // Set the error code
-        exo_data->error_code = msg.data[0];
+        exo_data->error_code = msg.data[(uint8_t)UART_command_enums::get_error_code::ERROR_CODE];
         exo_data->error_joint_id = msg.joint_id;
     }
 
@@ -463,11 +463,10 @@ namespace UART_command_handlers
     {
         UART_msg_t tx_msg;
         tx_msg.command = UART_command_names::update_error_code;
-        tx_msg.joint_id = exo_data->error_joint_id;
+        tx_msg.joint_id = msg.joint_id;
         tx_msg.len = 1;
-        tx_msg.data[0] = exo_data->error_code;
+        tx_msg.data[(uint8_t)UART_command_enums::get_error_code::ERROR_CODE] = msg.data[(uint8_t)UART_command_enums::get_error_code::ERROR_CODE];
         handler->UART_msg(tx_msg);
-        // logger::println("Sent error code");
     }
 
     inline static void get_FSR_thesholds(UARTHandler* handler, ExoData* exo_data, UART_msg_t msg)

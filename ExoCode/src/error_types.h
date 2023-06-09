@@ -8,7 +8,7 @@
 #define ERROR_TYPES_H
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41)
 
-#include "ExoData.h"
+#include "JointData.h"
 #include "error_codes.h"
 
 // create abstract class for error types
@@ -16,24 +16,22 @@ class ErrorType
 {
 public:
     ErrorType() {};
-    virtual bool check(ExoData* _data) = 0;
-    virtual void handle(ExoData* _data) = 0;
+    virtual bool check(JointData* _data) = 0;
+    virtual void handle(JointData* _data) = 0;
 };
 
 //TODO: implement error types
-
 class PoorStateVarianceError : public ErrorType
 {
 public:
-    Error() : ErrorType() {};
+    PoorStateVarianceError() : ErrorType() {};
 
-    
-    bool check(ExoData* _data)
+    bool check(JointData* _data)
     {
 
         return false;
     }
-    void handle(ExoData* _data)
+    void handle(JointData* _data)
     {
 
     }
@@ -42,14 +40,13 @@ public:
 class PoorTransmissionEfficiencyError : public ErrorType
 {
 public:
-    Error() : ErrorType() {};
+    PoorTransmissionEfficiencyError() : ErrorType() {};
 
-    
-    bool check(ExoData* _data)
+    bool check(JointData* _data)
     {
         return false;
     }
-    void handle(ExoData* _data)
+    void handle(JointData* _data)
     {
 
     }
@@ -58,14 +55,13 @@ public:
 class JointPositionOutOfBoundsError : public ErrorType
 {
 public:
-    Error() : ErrorType() {};
+    JointPositionOutOfBoundsError() : ErrorType() {};
 
-    
-    bool check(ExoData* _data)
+    bool check(JointData* _data)
     {
         return false;
     }
-    void handle(ExoData* _data)
+    void handle(JointData* _data)
     {
 
     }
@@ -74,14 +70,13 @@ public:
 class TorqueOutOfBoundsError : public ErrorType
 {
 public:
-    Error() : ErrorType() {};
+    TorqueOutOfBoundsError() : ErrorType() {};
 
-    
-    bool check(ExoData* _data)
+    bool check(JointData* _data)
     {
         return false;
     }
-    void handle(ExoData* _data)
+    void handle(JointData* _data)
     {
 
     }
@@ -90,14 +85,13 @@ public:
 class TorqueVarianceError : public ErrorType
 {
 public:
-    Error() : ErrorType() {};
+    TorqueVarianceError() : ErrorType() {};
 
-    
-    bool check(ExoData* _data)
+    bool check(JointData* _data)
     {
         return false;
     }
-    void handle(ExoData* _data)
+    void handle(JointData* _data)
     {
 
     }
@@ -106,14 +100,13 @@ public:
 class ForceVarianceError : public ErrorType
 {
 public:
-    Error() : ErrorType() {};
+    ForceVarianceError() : ErrorType() {};
 
-    
-    bool check(ExoData* _data)
+    bool check(JointData* _data)
     {
         return false;
     }
-    void handle(ExoData* _data)
+    void handle(JointData* _data)
     {
 
     }
@@ -122,14 +115,13 @@ public:
 class TrackingError : public ErrorType
 {
 public:
-    Error() : ErrorType() {};
+    TrackingError() : ErrorType() {};
 
-    
-    bool check(ExoData* _data)
+    bool check(JointData* _data)
     {
         return false;
     }
-    void handle(ExoData* _data)
+    void handle(JointData* _data)
     {
 
     }
@@ -138,14 +130,13 @@ public:
 class MotorTimeoutError : public ErrorType
 {
 public:
-    Error() : ErrorType() {};
+    MotorTimeoutError() : ErrorType() {};
 
-    
-    bool check(ExoData* _data)
+    bool check(JointData* _data)
     {
         return false;
     }
-    void handle(ExoData* _data)
+    void handle(JointData* _data)
     {
 
     }
