@@ -26,6 +26,8 @@
 #include "config.h"
 #include "Utilities.h"
 #include "StatusDefs.h"
+#include "ErrorManager.h"
+
 #include "AnkleAngles.h"
 #include "AnkleIMU.h"
 
@@ -129,7 +131,9 @@ class _Joint
         // give access to the larger data object and the joint specific data 
         ExoData* _data;/**< pointer to the full data instance*/
         JointData* _joint_data;/**< pointer to this joints data */
+        ErrorManager _error_manager; /**< Error manager for the joint */
         
+
         // IO objects for the joint
         //_Motor* _motor; /**< pointer to the base _Motor class so we can use any motor type.*/
 		//TorqueSensor _torque_sensor; /**< Torque sensor for the joint*/
