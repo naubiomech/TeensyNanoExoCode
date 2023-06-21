@@ -142,6 +142,12 @@ float _Controller::_cf_mfac(float reference, float current_measurement)
  
 float _Controller::_pid(float cmd, float measurement, float p_gain, float i_gain, float d_gain)
 {
+	
+	if (_leg_data->do_calibration_toe_fsr) {
+		Serial.print("\nCalibrating tor FSR... PID returns 0.");
+		return 0;
+	}
+	
     //check if time is ok
     bool time_good = true;
     if (_t_helper->tick(_t_helper_context) > ((float) 1/LOOP_FREQ_HZ * 1000000 * (1 + LOOP_TIME_TOLERANCE)))
@@ -350,7 +356,9 @@ float PropulsiveAssistive::calc_motor_cmd()
     const float k = _controller_data->parameters[controller_defs::propulsive_assistive::spring_stiffness];
     const float b = _controller_data->parameters[controller_defs::propulsive_assistive::damping];
     const float equilibrium_angle_offset = _controller_data->parameters[controller_defs::propulsive_assistive::neutral_angle]/100;
-    const float deviation_from_level = (_controller_data->reference_angle - _controller_data->level_entrance_angle);
+	const float enable_dynamic_offset = _controller_data->parameters[controller_defs::propulsive_assistive::enable_dynamic_offset];
+    const float deviation_from_level = (static_cast<int>(enable_dynamic_offset) == 1) ? 
+		(_controller_data->reference_angle - _controller_data->level_entrance_angle):(0);
     const float delta = _controller_data->reference_angle + deviation_from_level - _leg_data->ankle.joint_position + equilibrium_angle_offset;
     const float assistive = max(k*delta - b*_leg_data->ankle.joint_velocity, 0);
     // print assistive 
@@ -364,7 +372,10 @@ float PropulsiveAssistive::calc_motor_cmd()
     // low pass the squelched supportive term
     _controller_data->filtered_squelched_supportive_term = utils::ewma(squelched_supportive_term, 
             _controller_data->filtered_squelched_supportive_term, 0.075);
-
+			if (!_leg_data->is_left)
+    {
+	Serial.println(_controller_data->filtered_squelched_supportive_term);
+	}
     // Propulsive Contribution
     const float kProp = _controller_data->parameters[controller_defs::propulsive_assistive::propulsive_gain];
     const float saturated_velocity = _leg_data->ankle.joint_velocity > 0 ? _leg_data->ankle.joint_velocity:0;

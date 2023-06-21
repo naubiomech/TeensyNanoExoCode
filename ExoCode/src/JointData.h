@@ -60,7 +60,7 @@ class JointData {
         float prev_joint_position; /**< The position of the joint, after any transmission */
         float joint_velocity;
         const float joint_position_alpha = 0.1f;
-        const float joint_velocity_alpha = 0.1f;
+        const float joint_velocity_alpha = 0.03f;
 
 };
 

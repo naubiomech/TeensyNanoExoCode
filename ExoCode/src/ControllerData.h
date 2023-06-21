@@ -282,7 +282,8 @@ namespace controller_defs /**< stores the parameter indexes for different contro
         const uint8_t propulsive_gain = 6;
         const uint8_t kp = 7;
         const uint8_t kd = 8;
-        const uint8_t num_parameter = 9;
+		const uint8_t enable_dynamic_offset = 9;
+        const uint8_t num_parameter = 10;
     }
 	
 	namespace calibr_manager
