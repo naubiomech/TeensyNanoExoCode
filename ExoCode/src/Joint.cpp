@@ -2,6 +2,7 @@
 #include "Time_Helper.h"
 #include "Logger.h"
 #include "ErrorReporter.h"
+#include "error_codes.h"
 //#define JOINT_DEBUG
 
 // Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
@@ -920,25 +921,16 @@ void AnkleJoint::run_joint()
     // Calculate the motor command
     _joint_data->controller.setpoint = _controller->calc_motor_cmd();
 
+
     // Check for joint errors
     static float start = micros();
-    if (_is_left)
-    {
-        start = micros();
-    }
-        // Check if the exo is in the correct state to run the error manager (i.e. not in a trial
+
+    // Check if the exo is in the correct state to run the error manager (i.e. not in a trial
     const uint16_t exo_status = _data->get_status();
     const bool correct_status = (exo_status == status_defs::messages::trial_on) || 
             (exo_status == status_defs::messages::fsr_calibration) || 
             (exo_status == status_defs::messages::fsr_refinement);
     const bool error = correct_status ? _error_manager.run(_joint_data) : false;
-
-    if (_is_left)
-    {
-        logger::print("Ankle::run_joint::Error Manager Time:: ", LogLevel::Error);
-        logger::print(micros() - start, LogLevel::Error);
-        logger::print("\n", LogLevel::Error);
-    }
 
     if (error) 
     {

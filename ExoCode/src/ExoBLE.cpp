@@ -210,21 +210,17 @@ void ExoBLE::send_error(int error_code, int joint_id)
     }
 
     #if EXOBLE_DEBUG
-    logger::print("Exoble::send_error->Sending: ");
-    logger::println(error_code);
+    logger::print("Exoble::send_error->Sending: ", LogLevel::Error);
+    logger::print(joint_id, LogLevel::Error);
+    logger::print(", ", LogLevel::Error);
+    logger::println(error_code, LogLevel::Error);
     #endif
+
     String error_string = String(error_code) + ":" + String(joint_id);
-    logger::println("Error String: " + error_string);
     // convert to char array
     char error_char[error_string.length() + 1];
     error_string.toCharArray(error_char, error_string.length() + 1);
-    logger::println("Char Array:");
-    for (char c : error_char)
-    {
-        logger::print(c);
-        logger::print(", ");
-    }
-    logger::println();
+
     _gatt_db.ErrorChar.writeValue(error_char);
 }
 
@@ -246,7 +242,6 @@ void ble_rx::on_rx_recieved(BLEDevice central, BLECharacteristic characteristic)
         for (int i=0; i<len;i++)
         {
             logger::print(data[i]);
-            logger::print(data[i], HEX);
             logger::print(", ");
         }
         logger::println();
