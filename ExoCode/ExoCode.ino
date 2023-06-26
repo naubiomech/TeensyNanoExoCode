@@ -1,7 +1,7 @@
 /*
    Code used to run the exo from the teensy.  This communicates with the nano over UART.
-  
-  
+   
+   
    P. Stegall Jan 2022
 */  
 

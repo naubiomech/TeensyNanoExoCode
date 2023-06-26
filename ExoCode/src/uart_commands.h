@@ -461,6 +461,9 @@ namespace UART_command_handlers
 
     inline static void get_error_code(UARTHandler* handler, ExoData* exo_data, UART_msg_t msg) 
     {
+        logger::print("Sending error: ", LogLevel::Error);
+        logger::println(msg.data[0], LogLevel::Error);
+        
         UART_msg_t tx_msg;
         tx_msg.command = UART_command_names::update_error_code;
         tx_msg.joint_id = msg.joint_id;

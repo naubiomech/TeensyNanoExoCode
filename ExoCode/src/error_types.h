@@ -10,6 +10,7 @@
 
 #include "JointData.h"
 #include "error_codes.h"
+#include "Utilities.h"
 
 // create abstract class for error types
 class ErrorType
@@ -20,7 +21,7 @@ public:
     virtual void handle(JointData* _data) = 0;
 };
 
-//TODO: implement error types
+//TODO: implement this types
 class PoorStateVarianceError : public ErrorType
 {
 public:
@@ -52,21 +53,6 @@ public:
     }
 };
 
-class JointPositionOutOfBoundsError : public ErrorType
-{
-public:
-    JointPositionOutOfBoundsError() : ErrorType() {};
-
-    bool check(JointData* _data)
-    {
-        return false;
-    }
-    void handle(JointData* _data)
-    {
-
-    }
-};
-
 class TorqueOutOfBoundsError : public ErrorType
 {
 public:
@@ -74,11 +60,11 @@ public:
 
     bool check(JointData* _data)
     {
-        return false;
+        return abs(_data->torque_reading) > _data->torque_output_threshold;
     }
     void handle(JointData* _data)
     {
-
+        _data->motor.enabled = false;
     }
 };
 
@@ -89,11 +75,22 @@ public:
 
     bool check(JointData* _data)
     {
-        return false;
+        _data->torque_data_window.push(_data->torque_reading);
+        if (_data->torque_data_window.size() > _data->torque_data_window_max_size)
+        {
+            _data->torque_data_window.pop();
+            std::pair<float, float> pop_vals = utils::online_std_dev(_data->torque_data_window);
+            std::pair<float, float> bounds = std::make_pair(
+                pop_vals.first - _data->torque_std_dev_multiple*pop_vals.second,
+                pop_vals.first + _data->torque_std_dev_multiple*pop_vals.second);
+            _data->torque_failure_count += (int)utils::is_outside_range(_data->torque_reading, bounds.first, bounds.second);
+        }
+
+        return _data->torque_failure_count >= _data->torque_failure_count_max;
     }
     void handle(JointData* _data)
     {
-
+        _data->motor.enabled = false;
     }
 };
 
@@ -134,11 +131,13 @@ public:
 
     bool check(JointData* _data)
     {
-        return false;
+        const bool timeout_error = _data->motor.timeout_count >= _data->motor.timeout_count_max;
+        _data->motor.timeout_count = 0;
+        return timeout_error;
     }
     void handle(JointData* _data)
     {
-
+        _data->motor.enabled = false;
     }
 };
 

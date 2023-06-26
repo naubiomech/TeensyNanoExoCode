@@ -10,6 +10,8 @@
 #include "ErrorManager.h"
 #include "error_codes.h"
 #include "Logger.h"
+#include "ErrorReporter.h"
+#include "error_codes.h"
 //#define MOTOR_DEBUG
 
 // Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
@@ -154,7 +156,7 @@ void _CANMotor::read_data()
                     logger::print("\n");
                 #endif
                 // reset timout_count because we got a valid message
-                this->_timeout_count = 0;
+                _motor_data->timeout_count = 0;
                 return;
             }
             searching = ((micros() - start) < _timeout);
@@ -313,8 +315,7 @@ bool _CANMotor::enable(bool overide)
         msg.buf[5] = 0xFF;
         msg.buf[6] = 0xFF;
 
-        // TODO: Dont reenable after after errror, or if estop is pulled
-        
+        // TODO: Dont reenable after error, or if estop is pulled
         if (_motor_data->enabled)
         {
             // !!! A delay check between when turning on power and when timeouts stopped happening gave a delay of 1930 ms rounding to 2000.
@@ -337,7 +338,7 @@ bool _CANMotor::enable(bool overide)
         can->send(msg);
         delayMicroseconds(500);
         read_data();
-        if (_timeout_count == 0)
+        if (_motor_data->timeout_count == 0)
         {
             _enable_response = true;
         }
@@ -381,18 +382,7 @@ void _CANMotor::set_Kt(float Kt)
 
 void _CANMotor::_handle_read_failure()
 {
-    _timeout_count++;
-    if (_timeout_count >= _timeout_count_max)
-    {
-        // TODO: Handle timeout
-        
-        _timeout_count = 0;
-#ifdef MOTOR_DEBUG
-        logger::print("_CANMotor::_handle_read_failure() : Timeout: ");
-        logger::print(uint32_t(_motor_data->id));
-        logger::print("\n");
-#endif
-    }
+    _motor_data->timeout_count++;
 };
 
 float _CANMotor::_float_to_uint(float x, float x_min, float x_max, int bits)

@@ -460,7 +460,11 @@ void HipJoint::run_joint()
     _joint_data->controller.setpoint = _controller->calc_motor_cmd();
 
     // Check for joint errors
-    const bool error = _error_manager.run(_joint_data);
+    const uint16_t exo_status = _data->get_status();
+    const bool correct_status = (exo_status == status_defs::messages::trial_on) || 
+            (exo_status == status_defs::messages::fsr_calibration) || 
+            (exo_status == status_defs::messages::fsr_refinement);
+    const bool error = correct_status ? _error_manager.run(_joint_data) : false;
     if (error) 
     {
         // Send all errors to the other microcontroller
@@ -680,9 +684,13 @@ void KneeJoint::run_joint()
     // Calculate the motor command
     _joint_data->controller.setpoint = _controller->calc_motor_cmd();
 
-        // Check for joint errors
-    const bool error = _error_manager.run(_joint_data);
-    if (error) 
+    // Check for joint errors
+    const uint16_t exo_status = _data->get_status();
+    const bool correct_status = (exo_status == status_defs::messages::trial_on) || 
+            (exo_status == status_defs::messages::fsr_calibration) || 
+            (exo_status == status_defs::messages::fsr_refinement);
+    const bool error = correct_status ? _error_manager.run(_joint_data) : false;
+    if (error)
     {
         // Send all errors to the other microcontroller
         for (int i=0; i < _error_manager.errorQueueSize(); i++)
@@ -912,8 +920,26 @@ void AnkleJoint::run_joint()
     // Calculate the motor command
     _joint_data->controller.setpoint = _controller->calc_motor_cmd();
 
-        // Check for joint errors
-    const bool error = _error_manager.run(_joint_data);
+    // Check for joint errors
+    static float start = micros();
+    if (_is_left)
+    {
+        start = micros();
+    }
+        // Check if the exo is in the correct state to run the error manager (i.e. not in a trial
+    const uint16_t exo_status = _data->get_status();
+    const bool correct_status = (exo_status == status_defs::messages::trial_on) || 
+            (exo_status == status_defs::messages::fsr_calibration) || 
+            (exo_status == status_defs::messages::fsr_refinement);
+    const bool error = correct_status ? _error_manager.run(_joint_data) : false;
+
+    if (_is_left)
+    {
+        logger::print("Ankle::run_joint::Error Manager Time:: ", LogLevel::Error);
+        logger::print(micros() - start, LogLevel::Error);
+        logger::print("\n", LogLevel::Error);
+    }
+
     if (error) 
     {
         // Send all errors to the other microcontroller
@@ -938,7 +964,7 @@ void AnkleJoint::run_joint()
         logger::print(_controller->calc_motor_cmd());
         logger::print("\n");
     #endif
-}; 
+};
 
 /*
  * reads data for sensors for the joint, torque and motor.

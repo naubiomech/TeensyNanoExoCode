@@ -30,9 +30,7 @@ public:
         msg.joint_id = static_cast<uint8_t>(joint_id);
         msg.data[(uint8_t)UART_command_enums::get_error_code::ERROR_CODE] = (float)static_cast<int>(error_code);
         UART_command_handlers::get_error_code(
-            UARTHandler::get_instance(),
-            nullptr,
-            msg);
+            UARTHandler::get_instance(), nullptr, msg);
     }
 };
 
