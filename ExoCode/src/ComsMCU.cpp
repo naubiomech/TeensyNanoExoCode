@@ -8,6 +8,7 @@
 #include "Config.h"
 #include "error_types.h"
 #include "Logger.h"
+#include "ComsLed.h"
 
 #if defined(ARDUINO_ARDUINO_NANO33BLE) | defined(ARDUINO_NANO_RP2040_CONNECT)
 
@@ -85,6 +86,8 @@ void ComsMCU::local_sample()
         _data->battery_value = filtered_value;
         del_t = 0;
     }
+
+    ComsLed::get_instance()->life_pulse();
 }
 
 void ComsMCU::update_UART()
@@ -178,9 +181,6 @@ void ComsMCU::handle_errors()
 
 void ComsMCU::_process_complete_gui_command(BleMessage* msg) 
 {
-    logger::print("ComsMCU::_process_complete_gui_command->Got Command: ");
-    BleMessage::print(*msg);
-
     switch (msg->command)
     {
     case ble_names::start:
