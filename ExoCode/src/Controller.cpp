@@ -2214,8 +2214,8 @@ float ElbowMinMax::calc_motor_cmd()
 	
 	
 	
-	Serial.print("\n Pre PID cmd: ");
-	Serial.print(cmd);
+	// Serial.print("\n Pre PID cmd: ");
+	// Serial.print(cmd);
 	
 	cmd = _pid(cmd, _joint_data->torque_reading,10,0,200);
 /* 	Serial.print("  |  Post PID cmd: ");
@@ -2230,7 +2230,7 @@ PtbGeneral::PtbGeneral(config_defs::joint_id id, ExoData* exo_data)
     : _Controller(id, exo_data)
 {
 #ifdef CONTROLLER_DEBUG
-    Serial.println("PtbGeneral::Constructor");
+    // Serial.println("PtbGeneral::Constructor");
 #endif
 
 }
@@ -2249,14 +2249,14 @@ float PtbGeneral::calc_motor_cmd()
      //Serial.print(" | ");
     switch ((int)_controller_data->parameters[controller_defs::ptb_general::ptb_mode_idx]) {
 		case 1: // constant torque during swing phase; the exact percent gait will be random
-        Serial.print("\nIs in Mode 1 (continuous rotation). idx: 1 |  ");
-        Serial.print(_controller_data->parameters[controller_defs::ptb_general::ptb_settings_1_idx]);
-        Serial.print(" | ");
-		Serial.print(_controller_data->parameters[controller_defs::ptb_general::ptb_settings_2_idx]);
-		Serial.print(" | ");
-		Serial.print(_controller_data->parameters[controller_defs::ptb_general::ptb_settings_3_idx]);
-		Serial.print(" | ");
-		Serial.print(_controller_data->parameters[controller_defs::ptb_general::ptb_settings_4_idx]);
+        // Serial.print("\nIs in Mode 1 (continuous rotation). idx: 1 |  ");
+        // Serial.print(_controller_data->parameters[controller_defs::ptb_general::ptb_settings_1_idx]);
+        // Serial.print(" | ");
+		// Serial.print(_controller_data->parameters[controller_defs::ptb_general::ptb_settings_2_idx]);
+		// Serial.print(" | ");
+		// Serial.print(_controller_data->parameters[controller_defs::ptb_general::ptb_settings_3_idx]);
+		// Serial.print(" | ");
+		// Serial.print(_controller_data->parameters[controller_defs::ptb_general::ptb_settings_4_idx]);
         cmd_ff = -1 * _controller_data->parameters[controller_defs::ptb_general::ptb_settings_1_idx];
         break;
 		
@@ -2388,9 +2388,9 @@ float PtbGeneral::calc_motor_cmd()
 		break;
 
 		default:
-		Serial.print("\n");
-		Serial.print("Is in default mode. Toe FSR: ");
-		Serial.print(ptb_fsrToe);
+		// Serial.print("\n");
+		// Serial.print("Is in default mode. Toe FSR: ");
+		// Serial.print(ptb_fsrToe);
 		_controller_data->isPerturbing = false;
 		_controller_data->ptbApplied = false;
 		_controller_data->ptbDetermined = false;
@@ -2406,11 +2406,11 @@ float PtbGeneral::calc_motor_cmd()
     Serial.print(run_time_ptb); */
 	
 	if ((_joint_data->is_left)&&(cmd_ff != 0 )) {
-		Serial.print("\n Percent gait (left side): ");
-		Serial.print(_leg_data->percent_gait);
+		// Serial.print("\n Percent gait (left side): ");
+		// Serial.print(_leg_data->percent_gait);
 	}
-	Serial.print("\ncmd: ");
-	Serial.print(cmd_ff);
+	// Serial.print("\ncmd: ");
+	// Serial.print(cmd_ff);
 
     _controller_data->filtered_setpoint = utils::ewma(cmd_ff, _controller_data->filtered_setpoint, 0.1);
     _controller_data->ff_setpoint = _controller_data->filtered_setpoint;
@@ -2423,8 +2423,8 @@ float PtbGeneral::calc_motor_cmd()
         ? _pid(cmd_ff, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::ptb_general::p_gain_idx], _controller_data->parameters[controller_defs::ptb_general::i_gain_idx], _controller_data->parameters[controller_defs::ptb_general::d_gain_idx])
         : 0);
 
-	Serial.print(" | cmd_pid: ");
-	Serial.print(cmd);
+	// Serial.print(" | cmd_pid: ");
+	// Serial.print(cmd);
 
     _controller_data->filtered_cmd = utils::ewma(cmd, _controller_data->filtered_cmd, 1);
     return _controller_data->filtered_cmd;
@@ -2438,7 +2438,7 @@ CalibrManager::CalibrManager(config_defs::joint_id id, ExoData* exo_data)
     : _Controller(id, exo_data)
 {
 #ifdef CONTROLLER_DEBUG
-    Serial.println("CalibrManager::CalibrManager");
+    // Serial.println("CalibrManager::CalibrManager");
 #endif
 
 }
@@ -2453,23 +2453,23 @@ float CalibrManager::calc_motor_cmd()
         (exo_status == status_defs::messages::fsr_refinement);
 		
 		if (_joint_data->is_left) {
-		Serial.print("\nLeft angle: ");
-		Serial.print(_leg_data->ankle.joint_position);
-		Serial.print("  |  Left torque: ");
-		Serial.print(_joint_data->torque_reading);
+		// Serial.print("\nLeft angle: ");
+		// Serial.print(_leg_data->ankle.joint_position);
+		// Serial.print("  |  Left torque: ");
+		// Serial.print(_joint_data->torque_reading);
 		// cmd = _controller_data->parameters[controller_defs::calibr_manager::calibr_cmd];
 		cmd = 3.5;
-		Serial.print("  |  Left cmd: ");
-		Serial.print(cmd);
+		// Serial.print("  |  Left cmd: ");
+		// Serial.print(cmd);
 	}
 	else {
-		Serial.print("  |  Right angle: ");
-		Serial.print(_leg_data->ankle.joint_position);
-		Serial.print("  |  Right torque: ");
-		Serial.print(_joint_data->torque_reading);
+		// Serial.print("  |  Right angle: ");
+		// Serial.print(_leg_data->ankle.joint_position);
+		// Serial.print("  |  Right torque: ");
+		// Serial.print(_joint_data->torque_reading);
 		cmd = 3.5;
-		Serial.print("  |  Right cmd: ");
-		Serial.print(cmd);
+		// Serial.print("  |  Right cmd: ");
+		// Serial.print(cmd);
 	}
 		
 /*     if (_data->user_paused || !active_trial)
