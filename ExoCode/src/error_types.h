@@ -132,7 +132,10 @@ public:
     bool check(JointData* _data)
     {
         const bool timeout_error = _data->motor.timeout_count >= _data->motor.timeout_count_max;
-        _data->motor.timeout_count = 0;
+        if (timeout_error) 
+        {
+            _data->motor.timeout_count = 0;
+        }
         return timeout_error;
     }
     void handle(JointData* _data)
