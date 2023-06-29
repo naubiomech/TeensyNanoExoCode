@@ -14,7 +14,6 @@
 #include "ble_commands.h"
 #include "BleMessage.h"
 #include "GattDb.h"
-#include <vector>
 
 class BleParser
 {
@@ -55,7 +54,7 @@ private:
     BleMessage _working_message = BleMessage();
     bool _waiting_for_data = false;
     int _bytes_collected = 0;
-    byte _buffer[64];
+    byte _buffer[64] = {0};
 
     /**
      * @brief Checks if the incoming command is valid, and sets expecting value in the working message

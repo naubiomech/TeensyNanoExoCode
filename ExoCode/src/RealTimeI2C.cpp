@@ -100,18 +100,16 @@ void real_time_i2c::init()
 
 bool real_time_i2c::poll(float* pack_array) 
 {
+    noInterrupts();
     if (!new_bytes)
     {
         return false;
     }
 
     const uint8_t len = byte_buffer[1];
-
     uint8_t buff[byte_buffer_len];
-    noInterrupts();
     memcpy(buff, byte_buffer, byte_buffer_len);
     new_bytes = false;
-    interrupts();
 
     for (int i=0; i<len; i++)
     {
@@ -120,5 +118,7 @@ bool real_time_i2c::poll(float* pack_array)
         utils::short_fixed_point_bytes_to_float((uint8_t*)(buff+data_offset), &tmp, FIXED_POINT_FACTOR);
         pack_array[i] =  tmp;
     }
+
+    interrupts();
     return true;
 }

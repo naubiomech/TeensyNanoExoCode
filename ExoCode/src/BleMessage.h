@@ -9,7 +9,6 @@
 #ifndef BLEMESSAGE_H
 #define BLEMESSAGE_H
 
-#include <vector>
 static const int _max_size = 10;
 
 class BleMessage
@@ -41,7 +40,7 @@ public:
     // Variable to indicate the message has all of its data
     bool is_complete = false;
     // Array to hold the message parameters
-    float data[_max_size];
+    float data[_max_size] = {0};
 
     /**
      * @brief Print the message values to the Serial monitor

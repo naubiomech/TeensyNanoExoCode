@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include "BleMessage.h"
 #include "Logger.h"
 

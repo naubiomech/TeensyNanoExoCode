@@ -5,7 +5,6 @@
 #include "Utilities.h"
 #include "BleMessageQueue.h"
 #include "Logger.h"
-#include <vector>
 
 #define BLE_PARSER_DEBUG 1
 
@@ -87,12 +86,12 @@ BleMessage *BleParser::handle_raw_data(char *buffer, int length)
 int BleParser::package_raw_data(byte *buffer, BleMessage &msg)
 {
 #if BLE_PARSER_DEBUG
-    // logger::print("BleParser::package_raw_data");
-    // BleMessage::print(msg);
+    logger::print("BleParser::package_raw_data");
+    BleMessage::print(msg);
 #endif
 
     // Size must be declared at initialization because of itoa()
-    char cBuffer[_maxChars];
+    char cBuffer[_maxChars] = {0};
     int buffer_index = 0;
     buffer[buffer_index++] = _start_char;
     buffer[buffer_index++] = msg.command;
@@ -107,7 +106,7 @@ int BleParser::package_raw_data(byte *buffer, BleMessage &msg)
         int cLength = utils::get_char_length(modData);
         if (cLength > _maxChars)
         {
-            logger::print("BleParser::package_raw_data: cLength > _maxChars", LogLevel::Warn);
+            logger::print("BleParser::package_raw_data: cLength > _maxChars", LogLevel::Error);
             cLength = 1;
             modData = 0;
         }
@@ -119,14 +118,17 @@ int BleParser::package_raw_data(byte *buffer, BleMessage &msg)
         buffer[buffer_index++] = _delimiter;
     }
 
+    // TODO: Check what is being sent
+    
+
 #if BLE_PARSER_DEBUG
-    // logger::print("BleParser::package_raw_data: buffer: ");
-    // for (int i = 0; i < buffer_index; i++)
-    // {
-    //     logger::print(buffer[i]);
-    //     logger::print(" ");
-    // }
-    // logger::println("");
+    logger::print("BleParser::package_raw_data: buffer: ");
+    for (int i = 0; i < buffer_index; i++)
+    {
+        logger::print(buffer[i]);
+        logger::print(" ");
+    }
+    logger::println("");
 #endif
 
     return buffer_index;
@@ -157,7 +159,7 @@ void BleParser::_handle_command(char command)
     {
         // Didnt find command in list
         _working_message.clear();
-        logger::println("BleParser::_handle_command: Command is not in list", LogLevel::Warn);
+        logger::println("BleParser::_handle_command: Command is not in list", LogLevel::Error);
     }
     else
     {
