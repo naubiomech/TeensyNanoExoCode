@@ -194,10 +194,8 @@ class _CANMotor : public _Motor
         float _P_MAX; /**< Max angle of the motor */
         float _I_MAX; /**< Max current of the motor */
         float _V_MAX; /**< Max velocity of the motor */
-        int _timeout_count = 0; /**< Current count of the number of timeouts */
         bool _enable_response; /**< True if the motor responded to an enable command */
         const uint32_t _timeout = 500;  /**< Time to wait for response from the motor in micro-seconds */
-        const uint32_t _timeout_count_max = 40; /**< Number of timeouts before the motor is disabled */
 
         std::queue<float> _measured_current; /**< Queue of the measured current values */
         const int _current_queue_size = 25; /**< Size of the queue of measured current values */

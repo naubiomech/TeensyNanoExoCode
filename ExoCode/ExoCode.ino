@@ -1,7 +1,7 @@
 /*
    Code used to run the exo from the teensy.  This communicates with the nano over UART.
-  
-  
+   
+   
    P. Stegall Jan 2022
 */  
 
@@ -33,11 +33,6 @@
 #include "src/uart_commands.h"
 #include "src/UART_msg_t.h"
 
-// Error Handling
-#include "src/error_handlers.h"
-#include "src/error_triggers.h"
-#include "src/ErrorManager.h"
-
 // Logging
 #include "src/Logger.h"
 #include "src/PiLogger.h"
@@ -52,20 +47,15 @@ namespace config_info
 
 void setup()
 {
-  //analogWriteResolution(12);
-  analogReadResolution(12);
-  
-  Serial.begin(115200);
- // TODO: Remove serial while for deployed version as this would hang
-//     while (!Serial) {
-//      ; // wait for serial port to connect. Needed for native USB
-//     }
-
+    //analogWriteResolution(12);
+    analogReadResolution(12);
+    
+    Serial.begin(115200);
+    delay(100);
+    Serial.println();
+    logger::print("\n");
     // get the config information from the SD card.
     ini_parser(config_info::config_to_send);
-
-    // wait for the nano to get started
-    //delay(500);
     
     // Print to confirm config came through correctly. Should not contain zeros.
     #ifdef MAIN_DEBUG
@@ -115,7 +105,6 @@ void loop()
         }
     #endif
 
-    static ErrorManager error_manager(&exo, &exo_data);
     static UARTHandler* uart_handler = UARTHandler::get_instance();
     
     if (first_run)
@@ -124,9 +113,6 @@ void loop()
         
         UART_command_utils::wait_for_get_config(uart_handler, &exo_data, UART_times::CONFIG_TIMEOUT);
 
-        // assign the error handlers and triggers
-        error_manager.assign_handlers(error_handlers::soft, error_handlers::hard, error_handlers::fatal);
-        error_manager.assign_triggers(error_triggers::soft, error_triggers::hard, error_triggers::fatal);
       
         #ifdef MAIN_DEBUG
             logger::print("Superloop :: Start First Run Conditional\n");
@@ -442,46 +428,6 @@ void loop()
 
     // do exo calculations
     bool ran = exo.run();
-    if (ran) 
-    {
-        //pi_logger.sendUpdate();
-    }
-
-    // manage system errors
-    static bool reported_error{false};
-    static bool new_error{false};
-    static bool active_trial{false};
-    uint16_t exo_status = exo_data.get_status();
-    active_trial = (exo_status == status_defs::messages::trial_on) || 
-        (exo_status == status_defs::messages::fsr_calibration) ||
-        (exo_status == status_defs::messages::fsr_refinement) ||
-        (exo_status == status_defs::messages::error);
-    
-    if (active_trial && ran && !exo_data.user_paused)
-    {
-        //new_error = error_manager.check();
-    }
-    
-    if (new_error && !reported_error)
-    {
-        // Only report the first error
-        reported_error = true;
-        const int error_code = error_manager.get_error();
-        
-        exo_data.error_code = error_code;
-        exo_data.set_status(status_defs::messages::error);
-        UART_command_handlers::get_error_code(uart_handler, &exo_data, UART_msg_t());
-    }
-    
-    // print the exo_data at a fixed period.
-//    unsigned int data_print_ms = 5000;
-//    static unsigned int last_data_time = millis();
-//    if(millis() - last_data_time > data_print_ms)
-//    {
-//        logger::print("\n\n\nSuperloop :: Timed print : ");
-//        exo_data.print();
-//        last_data_time = millis();
-//    }
     
     // Print some dots so we know it is doing something
     #ifdef MAIN_DEBUG

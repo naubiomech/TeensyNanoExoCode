@@ -21,6 +21,7 @@
 
 
 #include <stdint.h>
+#include <queue>
 
 
 // forward declaration
@@ -54,13 +55,27 @@ class JointData {
         float position; /**< The position of the joint, this should be motor position with compensated for gearing. */
         float velocity; /**< The velocity of the joint, this should be motor velocity with compensated for gearing. */
 
-
         float joint_position; /**< The position of the joint, after any transmission */
         float joint_global_angle; /**< The angle of the joint relative to the ground */
         float prev_joint_position; /**< The position of the joint, after any transmission */
         float joint_velocity;
         const float joint_position_alpha = 0.1f;
         const float joint_velocity_alpha = 0.1f;
+
+        /* Error handling data */
+        // Torque tracking check
+        float torque_output_alpha = 0.2; /**< low pass to describe the lag of the low level controller relative to setpoint. */
+        float post_transmission_torque = 0; /**< torque after torque_output_alpha. */
+
+        // Torque absolute check
+        float torque_output_threshold = 45; /**< maximum value of the the filtered torque. */
+
+        // Torque variance check
+        const int torque_failure_count_max = 2; /**< ammount of samples outside of error bounds. */
+        const int torque_std_dev_multiple = 10; /**< number of standard deviations from the mean to be considered an error. */
+        const float torque_data_window_max_size = 100; /**< number of samples to use for the standard deviation calculation. */
+        std::queue<float> torque_data_window; /**< queue to store torque sensor values. */
+        int torque_failure_count = 0; /**< number of successive samples outside of error bounds. */
 
 };
 

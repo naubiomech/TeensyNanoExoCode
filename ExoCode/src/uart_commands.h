@@ -101,7 +101,7 @@ namespace UART_command_enums
     {
 
     };
-    enum class error_code : uint8_t
+    enum class get_error_code : uint8_t
     {
         ERROR_CODE = 0,
         LENGTH
@@ -457,23 +457,28 @@ namespace UART_command_handlers
 
     inline static void update_error_code(UARTHandler *handler, ExoData *exo_data, UART_msg_t msg)
     {
-        // logger::println("UART_command_handlers::update_error_code->got message: ");
-        // UART_msg_t_utils::print_msg(msg);
-
+        //logger::println("UART_command_handlers::update_error_code->got message: ");
+        //UART_msg_t_utils::print_msg(msg);
+        
         // Set the error code
-        exo_data->error_code = msg.data[0];
+        exo_data->error_code = msg.data[(uint8_t)UART_command_enums::get_error_code::ERROR_CODE];
         exo_data->error_joint_id = msg.joint_id;
     }
 
     inline static void get_error_code(UARTHandler *handler, ExoData *exo_data, UART_msg_t msg)
     {
+        logger::print("Sending error: ", LogLevel::Error);
+        logger::print(msg.joint_id, LogLevel::Error);
+        logger::print(", ", LogLevel::Error);
+        logger::println(msg.data[0], LogLevel::Error);
+
+        
         UART_msg_t tx_msg;
         tx_msg.command = UART_command_names::update_error_code;
-        tx_msg.joint_id = exo_data->error_joint_id;
+        tx_msg.joint_id = msg.joint_id;
         tx_msg.len = 1;
-        tx_msg.data[0] = exo_data->error_code;
+        tx_msg.data[(uint8_t)UART_command_enums::get_error_code::ERROR_CODE] = msg.data[(uint8_t)UART_command_enums::get_error_code::ERROR_CODE];
         handler->UART_msg(tx_msg);
-        // logger::println("Sent error code");
     }
 
     inline static void get_FSR_thesholds(UARTHandler *handler, ExoData *exo_data, UART_msg_t msg)
@@ -696,6 +701,7 @@ namespace UART_command_utils
         case UART_command_names::update_FSR_thesholds:
             UART_command_handlers::update_FSR_thesholds(handler, exo_data, msg);
             break;
+
 
         default:
             logger::println("UART_command_utils::handle_message->Unknown Message!", LogLevel::Error);

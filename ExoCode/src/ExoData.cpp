@@ -1,5 +1,5 @@
 #include "ExoData.h"
-#include "error_types.h"
+#include "error_codes.h"
 #include "Logger.h"
 #include "ParamsFromSD.h"
 
@@ -23,7 +23,7 @@ ExoData::ExoData(uint8_t* config_to_send)
 
     this->mark = 10;  
 
-    this->error_code = NO_ERROR;
+    this->error_code = static_cast<int>(NO_ERROR);
     this->error_joint_id = 0;
     this->user_paused = false;
 };

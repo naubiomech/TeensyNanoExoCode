@@ -5,7 +5,7 @@
 #include "Time_Helper.h"
 #include "ComsLed.h"
 #include "Config.h"
-#include "error_types.h"
+#include "error_codes.h"
 #include "Logger.h"
 
 #define EXOBLE_DEBUG 1
@@ -214,22 +214,18 @@ void ExoBLE::send_error(int error_code, int joint_id)
         return; /* Don't bother sending anything if no one is listening */
     }
 
-#if EXOBLE_DEBUG
-    logger::print("Exoble::send_error->Sending: ");
-    logger::println(error_code);
-#endif
+    #if EXOBLE_DEBUG
+    logger::print("Exoble::send_error->Sending: ", LogLevel::Error);
+    logger::print(joint_id, LogLevel::Error);
+    logger::print(", ", LogLevel::Error);
+    logger::println(error_code, LogLevel::Error);
+    #endif
+
     String error_string = String(error_code) + ":" + String(joint_id);
-    logger::println("Error String: " + error_string);
     // convert to char array
     char error_char[error_string.length() + 1];
     error_string.toCharArray(error_char, error_string.length() + 1);
-    logger::println("Char Array:");
-    for (char c : error_char)
-    {
-        logger::print(c);
-        logger::print(", ");
-    }
-    logger::println();
+
     _gatt_db.ErrorChar.writeValue(error_char);
 }
 
@@ -248,17 +244,15 @@ void ble_rx::on_rx_recieved(BLEDevice central, BLECharacteristic characteristic)
     int len = characteristic.valueLength();
     characteristic.readValue(data, len);
 
-    logger::println("on_rx_recieved->Read Value");
-
-#if EXOBLE_DEBUG
-// logger::print("On Rx Recieved: ");
-// for (int i=0; i<len;i++)
-// {
-//     logger::print(data[i]);
-//     logger::print(", ");
-// }
-// logger::println();
-#endif
+        #if EXOBLE_DEBUG
+        logger::print("On Rx Recieved: ");
+        for (int i=0; i<len;i++)
+        {
+            logger::print(data[i]);
+            logger::print(", ");
+        }
+        logger::println();
+        #endif
 
     msg = parser->handle_raw_data(data, len);
     if (msg->is_complete)

@@ -1,41 +1,148 @@
+/**
+ * @file error_types.h
+ * @author Chancelor Cuddeback
+ * @brief Defines the abstract class for the error types, and implements the error types.
+ * 
+ */
 #ifndef ERROR_TYPES_H
 #define ERROR_TYPES_H
+#if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41)
 
-#include "ExoData.h"
-#include "Exo.h"
+#include "JointData.h"
+#include "error_codes.h"
+#include "Utilities.h"
 
-#if defined(ARDUINO_TEENSY36) | defined(ARDUINO_TEENSY41) // Nano has issues with these declarations
-typedef void (*error_handler_t) (Exo*, ExoData*, int error_code);
-
-typedef int (*error_trigger_t) (Exo*, ExoData*);
-#endif
-
-enum ErrorCodes : int
+// create abstract class for error types
+class ErrorType
 {
-    NO_ERROR = 0,
+public:
+    ErrorType() {};
+    virtual bool check(JointData* _data) = 0;
+    virtual void handle(JointData* _data) = 0;
+};
 
-    // Soft Errors
-    SOFT_ERROR, // General Soft Error
-    POOR_CALIBRATION,
-    // Hard Errors
-    HARD_ERROR, // General Hard Error
-    POOR_STATE_VARIANCE,
-    // Fatal Errors
-    FATAL_ERROR, // General Fatal Error
-    POOR_TRANSMISSION_EFFICIENCY,
-    MOTOR_INERTIA_ERROR,
-    MOTOR_POSTION_OUT_OF_BOUNDS,
-    JOINT_POSITION_OUT_OF_BOUNDS,
-    TORQUE_OUT_OF_BOUNDS,
-    TORQUE_VARIANCE_ERROR,
-    FORCE_VARIANCE_ERROR,
-    TRACKING_ERROR,
+//TODO: implement this types
+class PoorStateVarianceError : public ErrorType
+{
+public:
+    PoorStateVarianceError() : ErrorType() {};
 
-    // System Errors
-    SYSTEM_ERROR, // General System Error
-    MOTOR_TIMEOUT,
+    bool check(JointData* _data)
+    {
 
-    ERROR_CODE_LENGTH
+        return false;
+    }
+    void handle(JointData* _data)
+    {
+
+    }
+};
+
+class PoorTransmissionEfficiencyError : public ErrorType
+{
+public:
+    PoorTransmissionEfficiencyError() : ErrorType() {};
+
+    bool check(JointData* _data)
+    {
+        return false;
+    }
+    void handle(JointData* _data)
+    {
+
+    }
+};
+
+class TorqueOutOfBoundsError : public ErrorType
+{
+public:
+    TorqueOutOfBoundsError() : ErrorType() {};
+
+    bool check(JointData* _data)
+    {
+        return abs(_data->torque_reading) > _data->torque_output_threshold;
+    }
+    void handle(JointData* _data)
+    {
+        _data->motor.enabled = false;
+    }
+};
+
+class TorqueVarianceError : public ErrorType
+{
+public:
+    TorqueVarianceError() : ErrorType() {};
+
+    bool check(JointData* _data)
+    {
+        _data->torque_data_window.push(_data->torque_reading);
+        if (_data->torque_data_window.size() > _data->torque_data_window_max_size)
+        {
+            _data->torque_data_window.pop();
+            std::pair<float, float> pop_vals = utils::online_std_dev(_data->torque_data_window);
+            std::pair<float, float> bounds = std::make_pair(
+                pop_vals.first - _data->torque_std_dev_multiple*pop_vals.second,
+                pop_vals.first + _data->torque_std_dev_multiple*pop_vals.second);
+            _data->torque_failure_count += (int)utils::is_outside_range(_data->torque_reading, bounds.first, bounds.second);
+        }
+
+        return _data->torque_failure_count >= _data->torque_failure_count_max;
+    }
+    void handle(JointData* _data)
+    {
+        _data->motor.enabled = false;
+    }
+};
+
+class ForceVarianceError : public ErrorType
+{
+public:
+    ForceVarianceError() : ErrorType() {};
+
+    bool check(JointData* _data)
+    {
+        return false;
+    }
+    void handle(JointData* _data)
+    {
+
+    }
+};
+
+class TrackingError : public ErrorType
+{
+public:
+    TrackingError() : ErrorType() {};
+
+    bool check(JointData* _data)
+    {
+        return false;
+    }
+    void handle(JointData* _data)
+    {
+
+    }
+};
+
+class MotorTimeoutError : public ErrorType
+{
+public:
+    MotorTimeoutError() : ErrorType() {};
+
+    bool check(JointData* _data)
+    {
+        const bool timeout_error = _data->motor.timeout_count >= _data->motor.timeout_count_max;
+        if (timeout_error) 
+        {
+            _data->motor.timeout_count = 0;
+        }
+        return timeout_error;
+    }
+    void handle(JointData* _data)
+    {
+        _data->motor.enabled = false;
+    }
 };
 
 #endif
+#endif // ERROR_TYPES_H
