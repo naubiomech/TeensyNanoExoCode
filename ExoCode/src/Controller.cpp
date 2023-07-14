@@ -2453,23 +2453,23 @@ float CalibrManager::calc_motor_cmd()
         (exo_status == status_defs::messages::fsr_refinement);
 		
 		if (_joint_data->is_left) {
-		// Serial.print("\nLeft angle: ");
-		// Serial.print(_leg_data->ankle.joint_position);
-		// Serial.print("  |  Left torque: ");
-		// Serial.print(_joint_data->torque_reading);
-		// cmd = _controller_data->parameters[controller_defs::calibr_manager::calibr_cmd];
+		Serial.print("\nLeft angle: ");
+		Serial.print(_leg_data->ankle.joint_position);
+		Serial.print("  |  Left torque: ");
+		Serial.print(_joint_data->torque_reading);
+		cmd = _controller_data->parameters[controller_defs::calibr_manager::calibr_cmd];
 		cmd = 3.5;
-		// Serial.print("  |  Left cmd: ");
-		// Serial.print(cmd);
+		Serial.print("  |  Left cmd: ");
+		Serial.print(cmd);
 	}
 	else {
-		// Serial.print("  |  Right angle: ");
-		// Serial.print(_leg_data->ankle.joint_position);
-		// Serial.print("  |  Right torque: ");
-		// Serial.print(_joint_data->torque_reading);
+		Serial.print("  |  Right angle: ");
+		Serial.print(_leg_data->ankle.joint_position);
+		Serial.print("  |  Right torque: ");
+		Serial.print(_joint_data->torque_reading);
 		cmd = 3.5;
-		// Serial.print("  |  Right cmd: ");
-		// Serial.print(cmd);
+		Serial.print("  |  Right cmd: ");
+		Serial.print(cmd);
 	}
 		
 /*     if (_data->user_paused || !active_trial)

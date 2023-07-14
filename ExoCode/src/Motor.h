@@ -243,5 +243,12 @@ class AK80 : public _CANMotor
 		~AK80(){};   
 };
 
+class AK70 : public _CANMotor
+{
+    public:
+        AK70(config_defs::joint_id id, ExoData* exo_data, int enable_pin); // constructor: type is the motor type
+        ~AK70(){};
+};
+
 #endif
 #endif

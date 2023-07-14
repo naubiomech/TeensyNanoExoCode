@@ -427,6 +427,12 @@ HipJoint::HipJoint(config_defs::joint_id id, ExoData* exo_data)
                 #endif
                 HipJoint::set_motor(new AK60_v1_1_T(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
                 break;
+            case (uint8_t)config_defs::motor::AK70:
+                #ifdef JOINT_DEBUG
+                    logger::println("AK70");
+                #endif
+                HipJoint::set_motor(new AK70(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
+                break;
             default :
                 //_motor = nullptr;
                 #ifdef JOINT_DEBUG
@@ -650,6 +656,12 @@ KneeJoint::KneeJoint(config_defs::joint_id id, ExoData* exo_data)
                 #endif
                 KneeJoint::set_motor(new AK60_v1_1_T(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
                 break;
+            case (uint8_t)config_defs::motor::AK70:
+                #ifdef JOINT_DEBUG
+                    logger::println("AK70");
+                #endif
+                KneeJoint::set_motor(new AK70(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
+                break;
             default :
                 #ifdef JOINT_DEBUG
                     logger::println("NULL");
@@ -857,6 +869,12 @@ AnkleJoint::AnkleJoint(config_defs::joint_id id, ExoData* exo_data)
                 #endif
                 AnkleJoint::set_motor(new AK60_v1_1_T(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
                 break;
+            case (uint8_t)config_defs::motor::AK70:
+                #ifdef JOINT_DEBUG
+                    logger::println("AK70");
+                #endif
+                AnkleJoint::set_motor(new AK70(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
+                break;
             default :
                 #ifdef JOINT_DEBUG
                     logger::println("NULL");
@@ -906,21 +924,15 @@ void AnkleJoint::run_joint()
         _joint_data->joint_velocity, 
         _joint_data->joint_velocity_alpha);
 
-
-    // IMU Sensor Data
-    // const float current_us = micros();
-    // if ((current_us - _previous_sample_us) >= _imu_sample_rate_us)
-    // {
-    //     _previous_sample_us = current_us;    
-    //     const float raw_global_angle = _imu.get_global_angle();
-    //     _joint_data->joint_global_angle = (_is_left ? (raw_global_angle):(-1*raw_global_angle));
-    // }
+    Serial.print(_is_left ? "Left " : "Right ");
+    Serial.print("Ankle Angle: ");
+    Serial.print(_joint_data->joint_position);
+    Serial.print("\n");
 
     // make sure the correct controller is running.
     set_controller(_joint_data->controller.controller);
     // Calculate the motor command
     _joint_data->controller.setpoint = _controller->calc_motor_cmd();
-
 
     // Check for joint errors
     static float start = micros();
@@ -947,6 +959,13 @@ void AnkleJoint::run_joint()
     // enable or disable the motor.
     _motor->on_off(); 
     _motor->enable();
+
+    if (_is_left)
+    {
+        logger::print("Left Ankle: ");
+        // print the motor command
+        logger::println(_joint_data->controller.setpoint);
+    }
 
     // Send the new command to the motor.
     _motor->transaction(_joint_data->controller.setpoint / _joint_data->motor.gearing);

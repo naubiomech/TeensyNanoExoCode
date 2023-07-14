@@ -481,5 +481,12 @@ _CANMotor(id, exo_data, enable_pin)
 #endif
 };
 
+AK70::AK70(config_defs::joint_id id, ExoData* exo_data, int enable_pin): // constructor: type is the motor type
+_CANMotor(id, exo_data, enable_pin)
+{
+    _I_MAX = 23.2f;
+    _V_MAX = 15.5f;
+    set_Kt(0.13 * 10);
+};
 
 #endif
