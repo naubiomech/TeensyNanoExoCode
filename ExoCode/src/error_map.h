@@ -14,6 +14,7 @@
 #include <map>
 
 const std::map<ErrorCodes, ErrorType*> error_map = {
+    {TEST_ERROR, new TestError()},
     {POOR_STATE_VARIANCE_ERROR, new PoorStateVarianceError()},
     {POOR_TRANSMISSION_EFFICIENCY_ERROR, new PoorTransmissionEfficiencyError()},
     {TORQUE_OUT_OF_BOUNDS_ERROR, new TorqueOutOfBoundsError()},

@@ -104,6 +104,8 @@ class _Motor
         virtual config_defs::joint_id get_id();
 
         virtual float get_Kt() = 0; /**< Torque constant of the motor, at the motor output. [Nm/A] */
+
+        virtual void set_error() = 0; /**< Sets the error flag for the motor. */
 		
 	protected:
         config_defs::joint_id _id; //motor id 
@@ -113,6 +115,7 @@ class _Motor
         int _enable_pin;
         bool _prev_motor_enabled; 
         bool _prev_on_state;
+        bool _error = false;
         float _Kt; // Torque constant of the motor, at the motor output. [Nm/A]   
 };
 
@@ -131,6 +134,7 @@ class NullMotor : public _Motor
     bool enable(bool overide) {return true;};
     void zero() {};
     float get_Kt() {return 0.0;};
+    void set_error() {};
 };
 
 
@@ -151,6 +155,7 @@ class _CANMotor : public _Motor
         void zero();
         float get_Kt();
         void check_response();
+        void set_error();
         
     protected:
 
@@ -200,7 +205,6 @@ class _CANMotor : public _Motor
         std::queue<float> _measured_current; /**< Queue of the measured current values */
         const int _current_queue_size = 25; /**< Size of the queue of measured current values */
         const float _variance_threshold = 0.01; /**< Threshold for the variance of the measured current values */
-        
 };
 
 /**

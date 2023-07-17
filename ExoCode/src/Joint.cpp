@@ -477,6 +477,7 @@ void HipJoint::run_joint()
         // Send all errors to the other microcontroller
         for (int i=0; i < _error_manager.errorQueueSize(); i++)
         {
+            _motor->set_error();
             ErrorReporter::get_instance()->report(
                 _error_manager.popError(),
                 _id
@@ -705,6 +706,7 @@ void KneeJoint::run_joint()
     const bool error = correct_status ? _error_manager.run(_joint_data) : false;
     if (error)
     {
+        _motor->set_error();
         // Send all errors to the other microcontroller
         for (int i=0; i < _error_manager.errorQueueSize(); i++)
         {
@@ -924,10 +926,10 @@ void AnkleJoint::run_joint()
         _joint_data->joint_velocity, 
         _joint_data->joint_velocity_alpha);
 
-    Serial.print(_is_left ? "Left " : "Right ");
-    Serial.print("Ankle Angle: ");
-    Serial.print(_joint_data->joint_position);
-    Serial.print("\n");
+    // Serial.print(_is_left ? "Left " : "Right ");
+    // Serial.print("Ankle Angle: ");
+    // Serial.print(_joint_data->joint_position);
+    // Serial.print("\n");
 
     // make sure the correct controller is running.
     set_controller(_joint_data->controller.controller);
@@ -946,6 +948,9 @@ void AnkleJoint::run_joint()
 
     if (error) 
     {
+        _motor->set_error();
+        _motor->on_off();
+        _motor->enable();
         // Send all errors to the other microcontroller
         for (int i=0; i < _error_manager.errorQueueSize(); i++)
         {
@@ -957,7 +962,7 @@ void AnkleJoint::run_joint()
     }
 
     // enable or disable the motor.
-    _motor->on_off(); 
+    _motor->on_off();
     _motor->enable();
 
     if (_is_left)

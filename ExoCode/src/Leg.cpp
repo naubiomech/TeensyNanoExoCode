@@ -90,6 +90,11 @@ void Leg::read_data()
     _leg_data->heel_fsr = _heel_fsr.read();
     _leg_data->toe_fsr = _toe_fsr.read();
 
+    // Print the heel fsr
+    // Serial.print(_is_left ? "Left " : "Right ");
+    // Serial.print("Leg :: read_data : Heel FSR : ");
+    // Serial.println(_leg_data->heel_fsr);
+
     _leg_data->ground_strike = _check_ground_strike();
     if (_leg_data->ground_strike)
     {

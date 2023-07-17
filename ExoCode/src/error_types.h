@@ -11,6 +11,7 @@
 #include "JointData.h"
 #include "error_codes.h"
 #include "Utilities.h"
+#include "Logger.h"
 
 // create abstract class for error types
 class ErrorType
@@ -21,7 +22,23 @@ public:
     virtual void handle(JointData* _data) = 0;
 };
 
-//TODO: implement this types
+class TestError : public ErrorType
+{
+public:
+    TestError() : ErrorType() {};
+
+    bool check(JointData* _data)
+    {
+        //return millis() > 45000;
+        return false;
+    }
+    void handle(JointData* _data)
+    {
+        _data->motor.enabled = false;
+        logger::println("Test Error", LogLevel::Error);
+    }
+};
+
 class PoorStateVarianceError : public ErrorType
 {
 public:
@@ -65,6 +82,7 @@ public:
     void handle(JointData* _data)
     {
         _data->motor.enabled = false;
+        logger::println("Torque Out of Bounds Error", LogLevel::Error);
     }
 };
 
@@ -91,6 +109,7 @@ public:
     void handle(JointData* _data)
     {
         _data->motor.enabled = false;
+        logger::println("Torque Variance Error", LogLevel::Error);
     }
 };
 
@@ -141,8 +160,10 @@ public:
     void handle(JointData* _data)
     {
         _data->motor.enabled = false;
+        logger::println("Motor Timeout Error", LogLevel::Error);
     }
 };
+
 
 #endif
 #endif // ERROR_TYPES_H

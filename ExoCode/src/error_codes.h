@@ -11,7 +11,7 @@
 enum ErrorCodes : int
 {
     NO_ERROR = 0, // This must be the first element
-
+    TEST_ERROR,
     POOR_STATE_VARIANCE_ERROR,
     POOR_TRANSMISSION_EFFICIENCY_ERROR,
     TORQUE_OUT_OF_BOUNDS_ERROR,
