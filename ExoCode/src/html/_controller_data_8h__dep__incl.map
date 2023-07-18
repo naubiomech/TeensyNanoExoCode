@@ -1,0 +1,50 @@
+<map id="ControllerData.h" name="ControllerData.h">
+<area shape="rect" id="Node000001" title="Declares a class used to store data for controllers to access." alt="" coords="78,5,192,32"/>
+<area shape="rect" id="Node000002" href="$_controller_data_8cpp.html" title=" " alt="" coords="5,80,134,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,45,83,81,79,78,112,41"/>
+<area shape="rect" id="Node000003" href="$_joint_data_8h.html" title="Declares a class used to store data for joint to access." alt="" coords="158,80,245,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="158,41,192,78,188,81,154,45"/>
+<area shape="rect" id="Node000004" href="$_joint_data_8cpp.html" title=" " alt="" coords="63,155,164,181"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="177,118,130,156,127,152,173,114"/>
+<area shape="rect" id="Node000005" href="$_leg_data_8h.html" title="Declares a class used to store data for leg to access." alt="" coords="276,155,356,181"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="235,113,297,152,295,156,232,117"/>
+<area shape="rect" id="Node000015" href="$uart__commands_8h.html" title=" " alt="" coords="139,379,264,405"/>
+<area shape="poly" id="edge27_Node000003_Node000015" title=" " alt="" coords="204,122,204,378,199,378,199,122"/>
+<area shape="rect" id="Node000006" href="$_exo_data_8h.html" title="Declares a class used to store data for the Exo to access." alt="" coords="418,229,500,256"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="355,186,435,226,433,231,353,191"/>
+<area shape="rect" id="Node000021" href="$_leg_data_8cpp.html" title=" " alt="" coords="269,229,363,256"/>
+<area shape="poly" id="edge26_Node000005_Node000021" title=" " alt="" coords="319,196,319,229,314,229,314,196"/>
+<area shape="rect" id="Node000007" href="$_coms_m_c_u_8h.html" title="The top of the composite structure for the communication microcontroller. This class manages the blue..." alt="" coords="673,304,768,331"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="515,257,675,301,674,306,514,262"/>
+<area shape="rect" id="Node000009" href="$_exo_data_8cpp.html" title=" " alt="" coords="501,379,598,405"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="496,263,518,280,536,303,545,322,550,343,552,378,547,379,544,344,539,324,531,305,514,284,493,267"/>
+<area shape="rect" id="Node000010" href="$_params_from_s_d_8h.html" title="Declares the functions to pull controller parameters from the SD card and defines the mapping to the ..." alt="" coords="396,304,522,331"/>
+<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="462,271,462,304,456,304,456,271"/>
+<area shape="rect" id="Node000012" href="$ble__commands_8h.html" title="This file declares the BLE commands, and the functions that should be called when they are received." alt="" coords="404,453,524,480"/>
+<area shape="poly" id="edge24_Node000006_Node000012" title=" " alt="" coords="501,261,531,279,561,302,593,336,612,378,616,393,612,407,594,426,573,441,526,459,524,454,570,436,591,422,607,404,611,393,607,380,588,339,557,306,528,283,498,265"/>
+<area shape="poly" id="edge25_Node000006_Node000015" title=" " alt="" coords="404,257,342,275,309,289,279,306,258,323,239,343,211,380,207,377,235,340,254,319,276,302,307,284,340,270,403,252"/>
+<area shape="rect" id="Node000020" href="$_pi_logger_8h.html" title=" " alt="" coords="289,304,373,331"/>
+<area shape="poly" id="edge23_Node000006_Node000020" title=" " alt="" coords="425,266,355,306,352,301,423,261"/>
+<area shape="rect" id="Node000008" href="$_coms_m_c_u_8cpp.html" title=" " alt="" coords="590,453,699,480"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="709,345,653,454,648,452,705,343"/>
+<area shape="poly" id="edge10_Node000010_Node000009" title=" " alt="" coords="487,338,536,376,532,380,484,342"/>
+<area shape="rect" id="Node000011" href="$_params_from_s_d_8cpp.html" title=" " alt="" coords="288,379,427,405"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="431,342,377,380,374,376,428,337"/>
+<area shape="poly" id="edge12_Node000010_Node000012" title=" " alt="" coords="462,346,466,453,461,453,457,346"/>
+<area shape="poly" id="edge16_Node000010_Node000015" title=" " alt="" coords="401,338,247,381,246,375,399,333"/>
+<area shape="rect" id="Node000013" href="$_ble_parser_8cpp.html" title=" " alt="" coords="413,603,516,629"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="458,495,451,528,453,569,462,602,457,603,448,569,446,528,453,493"/>
+<area shape="rect" id="Node000014" href="$_ble_parser_8h.html" title="This class is used to serialize and deserialize the BLE data. The application uses Nordic&#39;s UART serv..." alt="" coords="461,528,550,555"/>
+<area shape="poly" id="edge14_Node000012_Node000014" title=" " alt="" coords="481,492,501,526,496,529,476,494"/>
+<area shape="poly" id="edge15_Node000014_Node000013" title=" " alt="" coords="493,569,474,604,469,601,489,566"/>
+<area shape="poly" id="edge17_Node000015_Node000008" title=" " alt="" coords="279,403,590,454,589,459,278,409"/>
+<area shape="poly" id="edge22_Node000015_Node000012" title=" " alt="" coords="262,407,419,450,417,455,261,412"/>
+<area shape="rect" id="Node000016" href="$_error_reporter_8h.html" title="Singleton class to report errors to the other microcontroller." alt="" coords="91,453,200,480"/>
+<area shape="poly" id="edge18_Node000015_Node000016" title=" " alt="" coords="185,419,157,455,153,451,181,416"/>
+<area shape="rect" id="Node000019" href="$_exo_8cpp.html" title=" " alt="" coords="224,453,294,480"/>
+<area shape="poly" id="edge21_Node000015_Node000019" title=" " alt="" coords="223,416,251,451,247,455,219,419"/>
+<area shape="rect" id="Node000017" href="$_joint_8cpp.html" title=" " alt="" coords="60,528,133,555"/>
+<area shape="poly" id="edge19_Node000016_Node000017" title=" " alt="" coords="131,494,107,529,102,526,127,491"/>
+<area shape="rect" id="Node000018" href="$_motor_8cpp.html" title=" " alt="" coords="157,528,236,555"/>
+<area shape="poly" id="edge20_Node000016_Node000018" title=" " alt="" coords="165,491,190,526,185,529,160,494"/>
+</map>

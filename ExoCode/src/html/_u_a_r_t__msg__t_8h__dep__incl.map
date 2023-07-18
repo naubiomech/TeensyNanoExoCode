@@ -1,0 +1,35 @@
+<map id="UART_msg_t.h" name="UART_msg_t.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="347,5,456,32"/>
+<area shape="rect" id="Node000002" href="$_coms_m_c_u_8cpp.html" title=" " alt="" coords="5,229,115,256"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="333,34,268,52,236,66,205,82,160,118,121,160,70,230,66,227,117,157,156,114,203,78,234,61,267,47,331,29"/>
+<area shape="rect" id="Node000003" href="$_error_reporter_8h.html" title="Singleton class to report errors to the other microcontroller." alt="" coords="139,229,248,256"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="336,39,291,57,244,81,201,114,183,134,168,156,163,174,167,194,186,228,181,230,162,195,158,174,163,154,178,130,197,110,241,77,289,52,335,34"/>
+<area shape="rect" id="Node000006" href="$_exo_8cpp.html" title=" " alt="" coords="408,229,477,256"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="433,39,485,87,510,118,529,154,533,168,529,182,518,198,504,212,474,231,471,227,501,208,514,195,524,180,528,168,524,156,506,121,482,91,430,43"/>
+<area shape="rect" id="Node000007" href="$_u_a_r_t_handler_8h.html" title="Singleton class that manages the UART data. NOT THREAD SAFE. The class queues recieved messages." alt="" coords="297,80,407,107"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="387,46,363,81,358,78,382,43"/>
+<area shape="rect" id="Node000009" href="$ble__commands_8h.html" title="This file declares the BLE commands, and the functions that should be called when they are received." alt="" coords="501,229,622,256"/>
+<area shape="poly" id="edge20_Node000001_Node000009" title=" " alt="" coords="447,36,479,54,509,78,535,113,551,154,560,195,563,229,558,230,555,196,545,155,530,115,505,82,476,59,445,41"/>
+<area shape="rect" id="Node000012" href="$uart__commands_8h.html" title=" " alt="" coords="389,155,515,181"/>
+<area shape="poly" id="edge21_Node000001_Node000012" title=" " alt="" coords="413,45,450,153,445,155,408,47"/>
+<area shape="rect" id="Node000004" href="$_joint_8cpp.html" title=" " alt="" coords="106,304,179,331"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="178,270,154,305,149,302,174,267"/>
+<area shape="rect" id="Node000005" href="$_motor_8cpp.html" title=" " alt="" coords="203,304,282,331"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="212,267,236,302,232,305,208,270"/>
+<area shape="poly" id="edge7_Node000007_Node000002" title=" " alt="" coords="283,113,225,131,167,157,113,195,74,231,70,227,110,191,164,152,223,126,282,108"/>
+<area shape="poly" id="edge8_Node000007_Node000003" title=" " alt="" coords="283,102,254,109,226,120,200,135,180,156,173,174,174,193,188,228,183,230,169,194,168,173,175,153,197,131,223,115,253,104,282,97"/>
+<area shape="poly" id="edge9_Node000007_Node000006" title=" " alt="" coords="359,121,366,150,380,180,402,207,426,227,423,231,398,210,375,183,361,152,353,122"/>
+<area shape="rect" id="Node000008" href="$_u_a_r_t_handler_8cpp.html" title=" " alt="" coords="190,155,314,181"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="324,118,271,156,268,152,321,113"/>
+<area shape="poly" id="edge11_Node000007_Node000009" title=" " alt="" coords="422,102,478,120,505,134,529,153,543,171,553,191,562,228,557,230,548,193,538,174,525,157,502,139,476,125,421,107"/>
+<area shape="poly" id="edge15_Node000007_Node000012" title=" " alt="" coords="383,113,436,152,433,156,380,118"/>
+<area shape="rect" id="Node000010" href="$_ble_parser_8cpp.html" title=" " alt="" coords="510,379,613,405"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="555,271,548,304,550,345,559,378,554,379,545,345,543,304,550,269"/>
+<area shape="rect" id="Node000011" href="$_ble_parser_8h.html" title="This class is used to serialize and deserialize the BLE data. The application uses Nordic&#39;s UART serv..." alt="" coords="558,304,647,331"/>
+<area shape="poly" id="edge13_Node000009_Node000011" title=" " alt="" coords="578,268,598,302,593,305,573,270"/>
+<area shape="poly" id="edge14_Node000011_Node000010" title=" " alt="" coords="591,345,571,380,566,377,586,342"/>
+<area shape="poly" id="edge16_Node000012_Node000002" title=" " alt="" coords="375,186,116,234,115,229,374,181"/>
+<area shape="poly" id="edge17_Node000012_Node000003" title=" " alt="" coords="394,188,239,231,238,226,392,183"/>
+<area shape="poly" id="edge18_Node000012_Node000006" title=" " alt="" coords="451,197,447,229,442,229,446,196"/>
+<area shape="poly" id="edge19_Node000012_Node000009" title=" " alt="" coords="484,187,544,226,541,231,481,192"/>
+</map>

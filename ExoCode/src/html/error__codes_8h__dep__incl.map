@@ -1,0 +1,15 @@
+<map id="error_codes.h" name="error_codes.h">
+<area shape="rect" id="Node000001" title="Error codes for the exoskeleton. These are used to index the error map." alt="" coords="194,5,294,32"/>
+<area shape="rect" id="Node000002" href="$_coms_m_c_u_8cpp.html" title=" " alt="" coords="5,80,115,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,40,93,82,91,77,198,35"/>
+<area shape="rect" id="Node000003" href="$_error_reporter_8h.html" title="Singleton class to report errors to the other microcontroller." alt="" coords="189,80,299,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="247,47,247,80,241,80,241,47"/>
+<area shape="rect" id="Node000004" href="$_joint_8cpp.html" title=" " alt="" coords="137,155,210,181"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="213,43,194,60,180,81,174,100,172,120,174,154,168,154,166,120,169,99,175,79,190,56,210,39"/>
+<area shape="rect" id="Node000005" href="$_motor_8cpp.html" title=" " alt="" coords="275,155,354,181"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="278,39,298,56,313,79,319,99,322,120,320,154,314,154,316,120,314,100,308,81,294,60,275,43"/>
+<area shape="rect" id="Node000006" href="$_exo_data_8cpp.html" title=" " alt="" coords="373,80,470,107"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="289,35,391,77,389,82,287,40"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="223,119,187,156,184,152,220,116"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="268,116,304,152,301,156,265,119"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="I2CHandler.h" name="I2CHandler.h">
+<area shape="rect" id="Node000001" title="This file defines the I2CHandler which is using the singleton pattern. To use you must first get a re..." alt="" coords="59,5,155,32"/>
+<area shape="rect" id="Node000002" href="$_battery_8h.html" title="Defines the battery interface and implements the child battery classes." alt="" coords="70,80,144,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,47,110,80,104,80,104,47"/>
+<area shape="rect" id="Node000003" href="$_battery_8cpp.html" title=" " alt="" coords="5,155,94,181"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="90,120,61,156,57,153,86,117"/>
+<area shape="rect" id="Node000004" href="$_coms_m_c_u_8h.html" title="The top of the composite structure for the communication microcontroller. This class manages the blue..." alt="" coords="118,155,213,181"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="128,117,157,153,153,156,124,120"/>
+<area shape="rect" id="Node000005" href="$_coms_m_c_u_8cpp.html" title=" " alt="" coords="111,229,220,256"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="168,196,168,229,163,229,163,196"/>
+</map>

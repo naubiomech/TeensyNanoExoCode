@@ -1,0 +1,18 @@
+<map id="ControllerData.h" name="ControllerData.h">
+<area shape="rect" id="Node000001" title="Declares a class used to store data for controllers to access." alt="" coords="58,5,172,32"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,155,70,181"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,35,51,54,37,66,27,81,22,95,21,110,28,140,23,141,16,111,17,94,22,79,33,63,48,49,80,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="149,229,225,256"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="121,32,181,215,176,216,116,33"/>
+<area shape="rect" id="Node000004" href="$_board_8h.html" title="Defines the pins and peripherals for the board being used." alt="" coords="191,80,257,107"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="135,30,195,69,192,74,132,35"/>
+<area shape="rect" id="Node000007" href="$_parse_ini_8h.html" title="Declares the functions needed and defines mapping between the INI keys and the exo components." alt="" coords="36,80,116,107"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="110,34,92,68,87,66,106,31"/>
+<area shape="poly" id="edge7_Node000004_Node000003" title=" " alt="" coords="224,108,196,215,191,214,218,107"/>
+<area shape="rect" id="Node000005" href="$_config_8h.html" title="Configuration variables for the codebase." alt="" coords="242,155,310,181"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="235,106,261,141,257,144,231,109"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="262,184,215,222,212,218,259,180"/>
+<area shape="rect" id="Node000006" href="$_log_levels_8h.html" title=" " alt="" coords="249,229,338,256"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="282,181,290,214,285,215,277,182"/>
+<area shape="poly" id="edge9_Node000007_Node000002" title=" " alt="" coords="72,108,53,143,49,140,67,106"/>
+</map>

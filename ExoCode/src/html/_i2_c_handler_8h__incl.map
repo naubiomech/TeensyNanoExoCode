@@ -1,0 +1,5 @@
+<map id="I2CHandler.h" name="I2CHandler.h">
+<area shape="rect" id="Node000001" title="This file defines the I2CHandler which is using the singleton pattern. To use you must first get a re..." alt="" coords="5,5,101,32"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="15,80,91,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="56,33,56,65,50,65,50,33"/>
+</map>

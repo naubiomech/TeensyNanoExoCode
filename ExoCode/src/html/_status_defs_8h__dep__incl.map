@@ -1,0 +1,47 @@
+<map id="StatusDefs.h" name="StatusDefs.h">
+<area shape="rect" id="Node000001" title="Stores the different status messages for the system." alt="" coords="363,5,459,32"/>
+<area shape="rect" id="Node000002" href="$_coms_m_c_u_8cpp.html" title=" " alt="" coords="620,379,729,405"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="474,19,554,29,597,38,638,52,675,71,706,96,726,128,733,166,733,244,728,284,715,323,685,380,681,377,710,321,723,283,728,244,728,167,721,130,702,99,672,75,636,57,595,43,553,34,473,24"/>
+<area shape="rect" id="Node000003" href="$_exo_data_8h.html" title="Declares a class used to store data for the Exo to access." alt="" coords="287,155,369,181"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="386,44,370,61,356,81,340,120,332,155,327,154,335,119,351,79,366,58,383,40"/>
+<area shape="rect" id="Node000008" href="$ble__commands_8h.html" title="This file declares the BLE commands, and the functions that should be called when they are received." alt="" coords="179,379,299,405"/>
+<area shape="poly" id="edge27_Node000001_Node000008" title=" " alt="" coords="348,32,247,51,135,81,85,99,44,120,17,143,10,154,8,167,8,244,12,272,25,296,44,317,67,334,123,361,179,377,177,382,121,366,64,339,40,321,20,299,7,273,3,244,3,166,5,153,13,139,41,115,83,94,133,76,246,46,347,27"/>
+<area shape="rect" id="Node000017" href="$_status_defs_8cpp.html" title=" " alt="" coords="481,80,591,107"/>
+<area shape="poly" id="edge23_Node000001_Node000017" title=" " alt="" coords="446,37,515,77,513,82,443,42"/>
+<area shape="rect" id="Node000018" href="$_status_led_8h.html" title="Class to set an RGB LED to different colors based on the state of the system." alt="" coords="365,80,456,107"/>
+<area shape="poly" id="edge24_Node000001_Node000018" title=" " alt="" coords="413,47,413,80,408,80,408,47"/>
+<area shape="rect" id="Node000004" href="$_coms_m_c_u_8h.html" title="The top of the composite structure for the communication microcontroller. This class manages the blue..." alt="" coords="536,229,632,256"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="384,182,540,226,539,231,383,188"/>
+<area shape="rect" id="Node000005" href="$_exo_data_8cpp.html" title=" " alt="" coords="133,304,230,331"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="301,193,255,231,219,271,192,305,188,302,215,267,251,227,297,189"/>
+<area shape="rect" id="Node000006" href="$_params_from_s_d_8h.html" title="Declares the functions to pull controller parameters from the SD card and defines the mapping to the ..." alt="" coords="265,229,391,256"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="331,196,331,229,325,229,325,196"/>
+<area shape="poly" id="edge21_Node000003_Node000008" title=" " alt="" coords="275,190,234,208,192,233,153,265,124,305,120,317,122,328,137,347,163,363,194,376,192,381,161,368,133,351,117,330,115,317,119,303,149,261,189,228,232,203,273,185"/>
+<area shape="rect" id="Node000011" href="$uart__commands_8h.html" title=" " alt="" coords="467,304,592,331"/>
+<area shape="poly" id="edge22_Node000003_Node000011" title=" " alt="" coords="358,188,514,301,511,306,355,192"/>
+<area shape="rect" id="Node000016" href="$_pi_logger_8h.html" title=" " alt="" coords="42,229,126,256"/>
+<area shape="poly" id="edge20_Node000003_Node000016" title=" " alt="" coords="274,188,127,231,125,226,272,183"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="602,268,669,377,665,380,597,270"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="291,265,208,306,206,301,288,260"/>
+<area shape="rect" id="Node000007" href="$_params_from_s_d_8cpp.html" title=" " alt="" coords="304,304,443,331"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="346,267,368,302,363,305,341,270"/>
+<area shape="poly" id="edge9_Node000006_Node000008" title=" " alt="" coords="315,270,249,380,244,377,311,268"/>
+<area shape="poly" id="edge13_Node000006_Node000011" title=" " alt="" coords="378,259,495,301,493,306,376,264"/>
+<area shape="rect" id="Node000009" href="$_ble_parser_8cpp.html" title=" " alt="" coords="216,528,320,555"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="245,420,255,479,267,527,262,528,249,481,239,421"/>
+<area shape="rect" id="Node000010" href="$_ble_parser_8h.html" title="This class is used to serialize and deserialize the BLE data. The application uses Nordic&#39;s UART serv..." alt="" coords="265,453,354,480"/>
+<area shape="poly" id="edge11_Node000008_Node000010" title=" " alt="" coords="263,414,299,451,295,455,259,418"/>
+<area shape="poly" id="edge12_Node000010_Node000009" title=" " alt="" coords="297,494,277,529,273,526,293,492"/>
+<area shape="poly" id="edge14_Node000011_Node000002" title=" " alt="" coords="569,335,650,376,648,380,567,340"/>
+<area shape="poly" id="edge19_Node000011_Node000008" title=" " alt="" coords="465,337,290,381,289,375,464,332"/>
+<area shape="rect" id="Node000012" href="$_error_reporter_8h.html" title="Singleton class to report errors to the other microcontroller." alt="" coords="479,379,588,405"/>
+<area shape="poly" id="edge15_Node000011_Node000012" title=" " alt="" coords="533,346,535,378,530,378,528,346"/>
+<area shape="rect" id="Node000015" href="$_exo_8cpp.html" title=" " alt="" coords="385,379,455,405"/>
+<area shape="poly" id="edge18_Node000011_Node000015" title=" " alt="" coords="500,341,441,380,438,376,497,337"/>
+<area shape="rect" id="Node000013" href="$_joint_8cpp.html" title=" " alt="" coords="421,453,494,480"/>
+<area shape="poly" id="edge16_Node000012_Node000013" title=" " alt="" coords="511,418,472,455,469,451,508,414"/>
+<area shape="rect" id="Node000014" href="$_motor_8cpp.html" title=" " alt="" coords="518,453,597,480"/>
+<area shape="poly" id="edge17_Node000012_Node000014" title=" " alt="" coords="545,419,556,452,551,454,540,420"/>
+<area shape="poly" id="edge25_Node000018_Node000002" title=" " alt="" coords="469,110,513,128,561,153,608,186,646,228,666,267,676,310,679,349,678,378,673,378,673,350,670,311,661,269,642,231,604,190,559,158,511,133,467,114"/>
+<area shape="poly" id="edge26_Node000018_Node000003" title=" " alt="" coords="387,119,344,156,340,152,384,115"/>
+</map>

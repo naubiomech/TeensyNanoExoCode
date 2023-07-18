@@ -1,0 +1,11 @@
+<map id="ExoData::reconfigure" name="ExoData::reconfigure">
+<area shape="rect" id="Node000001" title="reconfigures the the exo data if the configuration changes after constructor called." alt="" coords="5,31,148,57"/>
+<area shape="rect" id="Node000002" href="$class_leg_data.html#a9055a1080c742557f26458ab7da3a496" title="reconfigures the the leg data if the configuration changes after constructor called." alt="" coords="196,31,336,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,41,181,41,181,47,148,47"/>
+<area shape="rect" id="Node000003" href="$class_joint_data.html#a966c7b2eeb8fb0a9f0c09ee27ef30b21" title="reconfigures the the joint data if the configuration changes after constructor called." alt="" coords="384,31,530,57"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="336,41,369,41,369,47,336,47"/>
+<area shape="rect" id="Node000004" href="$class_controller_data.html#aa5379adfd775e094bc3408f250a2d8a0" title="reconfigures the the controller data if the configuration changes after constructor called." alt="" coords="578,5,753,32"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="530,32,563,28,564,34,531,38"/>
+<area shape="rect" id="Node000005" href="$class_motor_data.html#a6c785789ec1689cc0108a6928cb44172" title="reconfigures the the motor data if the configuration changes after constructor called." alt="" coords="589,56,742,83"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="531,50,575,56,574,61,530,56"/>
+</map>
