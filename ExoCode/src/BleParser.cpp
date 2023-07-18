@@ -6,7 +6,7 @@
 #include "BleMessageQueue.h"
 #include "Logger.h"
 
-#define BLE_PARSER_DEBUG 1
+#define BLE_PARSER_DEBUG 0
 
 BleParser::BleParser()
 {
@@ -159,7 +159,8 @@ void BleParser::_handle_command(char command)
     {
         // Didnt find command in list
         _working_message.clear();
-        logger::println("BleParser::_handle_command: Command is not in list", LogLevel::Error);
+        logger::print("BleParser::_handle_command: Command is not in list: ", LogLevel::Error);
+        logger::print(command, LogLevel::Error);
     }
     else
     {
@@ -174,4 +175,3 @@ void BleParser::_handle_command(char command)
     BleMessage::print(_working_message);
 #endif
 }
-// #endif

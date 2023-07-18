@@ -56,6 +56,9 @@ ComsMCU::ComsMCU(ExoData* data, uint8_t* config_to_send):_data{data}
 
 void ComsMCU::handle_ble()
 {
+    #if COMSMCU_DEBUG
+    logger::println("ComsMCU::handle_ble->Start");
+    #endif
     bool non_empty_ble_queue = _exo_ble->handle_updates();
     if (non_empty_ble_queue)
     {
@@ -70,10 +73,16 @@ void ComsMCU::handle_ble()
         logger::println("ComsMCU::handle_ble->processed message");
         #endif
     }
+    #if COMSMCU_DEBUG
+    logger::println("ComsMCU::handle_ble->End");
+    #endif
 }
 
 void ComsMCU::local_sample()
 {
+    #if COMSMCU_DEBUG
+    logger::println("ComsMCU::local_sample->Start");
+    #endif
     Time_Helper* t_helper = Time_Helper::get_instance();
     static const float context = t_helper->generate_new_context();
     static float del_t = 0;
@@ -88,10 +97,16 @@ void ComsMCU::local_sample()
     }
 
     ComsLed::get_instance()->life_pulse();
+    #if COMSMCU_DEBUG
+    logger::println("ComsMCU::local_sample->End");
+    #endif
 }
 
 void ComsMCU::update_UART()
 {
+    #if COMSMCU_DEBUG
+    logger::println("ComsMCU::update_UART->Start");
+    #endif
     static Time_Helper* t_helper = Time_Helper::get_instance();
     static const float _context = t_helper->generate_new_context();
     static float del_t = 0;
@@ -108,11 +123,17 @@ void ComsMCU::update_UART()
         }
         del_t = 0;
     }
+    #if COMSMCU_DEBUG
+    logger::println("ComsMCU::update_UART->End");
+    #endif
 }
 
 
 void ComsMCU::update_gui() 
 {
+    #if COMSMCU_DEBUG
+    logger::println("ComsMCU::update_gui->Start");
+    #endif
     static Time_Helper* t_helper = Time_Helper::get_instance();
     static float my_mark = _data->mark;
     static float* rt_floats = new float(rt_data::len);
@@ -121,12 +142,12 @@ void ComsMCU::update_gui()
     const bool new_rt_data = real_time_i2c::poll(rt_floats);
     if (new_rt_data || rt_data::new_rt_msg)
     {
+        #if COMSMCU_DEBUG
+        logger::println("ComsMCU::update_gui->new_rt_data");
+        #endif
+
         _life_pulse();
         rt_data::new_rt_msg = false;
-        // float now = millis();
-        // float delta = now - before;
-        // logger::print("ComsMCU::update_gui->delta: "); logger::println(delta);
-        // before = now;
 
         BleMessage rt_data_msg = BleMessage();
         rt_data_msg.command = ble_names::send_real_time_data;
@@ -141,8 +162,6 @@ void ComsMCU::update_gui()
             #endif
         }
 
-        //rt_data_msg.data[rt_data_msg.expecting++] = 0;//time_since_last_message/1000.0;
-
         if (my_mark < _data->mark)
         {
             my_mark = _data->mark;
@@ -150,6 +169,9 @@ void ComsMCU::update_gui()
         }
 
         _exo_ble->send_message(rt_data_msg);
+        #if COMSMCU_DEBUG
+        logger::println("ComsMCU::update_gui->sent message");
+        #endif
     }
 
     // Periodically send status information
@@ -158,6 +180,10 @@ void ComsMCU::update_gui()
     del_t_status += t_helper->tick(status_context);
     if (del_t_status > BLE_times::_status_msg_delay)
     {
+        #if COMSMCU_DEBUG
+        logger::println("ComsMCU::update_gui->Sending status");
+        #endif
+
         // Send status data
         BleMessage batt_msg = BleMessage();
         batt_msg.command = ble_names::send_batt;
@@ -166,21 +192,36 @@ void ComsMCU::update_gui()
         _exo_ble->send_message(batt_msg);
 
         del_t_status = 0;
+        #if COMSMCU_DEBUG
+        logger::println("ComsMCU::update_gui->sent message");
+        #endif
     }
+    #if COMSMCU_DEBUG
+    logger::println("ComsMCU::update_gui->End");
+    #endif
 }
 
 void ComsMCU::handle_errors()
 {
+    #if COMSMCU_DEBUG
+    logger::println("ComsMCU::handle_errors->Start");
+    #endif
     static ErrorCodes error_code = NO_ERROR;
     if (_data->error_code != static_cast<int>(error_code))
     {
         error_code = static_cast<ErrorCodes>(_data->error_code);
         _exo_ble->send_error(_data->error_code, _data->error_joint_id);
     }
+    #if COMSMCU_DEBUG
+    logger::println("ComsMCU::handle_errors->End");
+    #endif
 }
 
 void ComsMCU::_process_complete_gui_command(BleMessage* msg) 
 {
+    #if COMSMCU_DEBUG
+    logger::println("ComsMCU::_process_complete_gui_command->Start");
+    #endif
     switch (msg->command)
     {
     case ble_names::start:
@@ -226,11 +267,17 @@ void ComsMCU::_process_complete_gui_command(BleMessage* msg)
         logger::println("ComsMCU::_process_complete_gui_command->No case for command!", LogLevel::Error);
         break;
     }
+    #if COMSMCU_DEBUG
+    logger::println("ComsMCU::_process_complete_gui_command->End");
+    #endif
 }
 
 
 void ComsMCU::_life_pulse()
 {
+    #if COMSMCU_DEBUG
+    logger::println("ComsMCU::_life_pulse->Start");
+    #endif
     static int count = 0;
     count++;
     if (count > k_pulse_count)
@@ -238,5 +285,8 @@ void ComsMCU::_life_pulse()
         count = 0;
         digitalWrite(25, !digitalRead(25));
     }
+    #if COMSMCU_DEBUG
+    logger::println("ComsMCU::_life_pulse->End");
+    #endif
 }
 #endif

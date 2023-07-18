@@ -8,7 +8,7 @@
 #include "error_codes.h"
 #include "Logger.h"
 
-#define EXOBLE_DEBUG 1
+#define EXOBLE_DEBUG 0
 
 ExoBLE::ExoBLE()
 {
@@ -145,10 +145,11 @@ bool ExoBLE::handle_updates()
 #endif
 
         // Poll for updates and check connection status
+        #if EXOBLE_DEBUG
         logger::println("Poll for updates and check connection status");
+        #endif
         BLE.poll(BLE_times::_poll_timeout);
         int32_t current_status = BLE.connected();
-        logger::println("Poll for updates and check connection status");
 
         if (_connected == current_status)
         {
@@ -235,7 +236,9 @@ void ble_rx::on_rx_recieved(BLEDevice central, BLECharacteristic characteristic)
     static BleParser *parser = new BleParser();
     static BleMessage *msg = new BleMessage();
 
+    #if EXOBLE_DEBUG
     logger::println("on_rx_recieved");
+    #endif
 
     // Must reset message to avoid duplicate data
     (*msg) = *empty_msg;
@@ -265,7 +268,9 @@ void ble_rx::on_rx_recieved(BLEDevice central, BLECharacteristic characteristic)
         ble_queue::push(msg);
     }
 
+    #if EXOBLE_DEBUG
     logger::println("on_rx_recieved->End");
+    #endif
 }
 
 #endif // defined(ARDUINO_ARDUINO_NANO33BLE) | defined(ARDUINO_NANO_RP2040_CONNECT)

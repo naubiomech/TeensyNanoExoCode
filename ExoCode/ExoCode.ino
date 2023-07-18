@@ -52,8 +52,7 @@ void setup()
     
     Serial.begin(115200);
     delay(100);
-    Serial.println();
-    logger::print("\n");
+
     // get the config information from the SD card.
     ini_parser(config_info::config_to_send);
     
@@ -460,6 +459,8 @@ void loop()
 #include "src/WaistBarometer.h"
 #include "src/InclineDetector.h"
 
+#define MAIN_DEBUG 0
+
 // create array to store config.
 namespace config_info
 {
@@ -486,18 +487,24 @@ namespace config_info
 
 void setup()
 {
-    logger::println();
+    Serial.begin(115200);
+    delay(100);
 
+    #if MAIN_DEBUG
+    while (!Serial);
     logger::print("Setup->Getting config");
+    #endif
     // get the sd card config from the teensy, this has a timeout
     UARTHandler* handler = UARTHandler::get_instance();
-    bool timed_out = UART_command_utils::get_config(handler, config_info::config_to_send, (float)UART_times::CONFIG_TIMEOUT);
-
+    const bool timed_out = UART_command_utils::get_config(handler, config_info::config_to_send, (float)UART_times::CONFIG_TIMEOUT);
+    
     ComsLed* led = ComsLed::get_instance();
     if (timed_out)
     {
         // yellow
+        #if MAIN_DEBUG
         logger::print("Setup->Timed Out Getting Config", LogLevel::Warn);
+        #endif
         led->set_color(255, 255, 0);
     }
     else
@@ -507,27 +514,61 @@ void setup()
     }
 
     #if REAL_TIME_I2C
-      real_time_i2c::init();
-    #endif
+    logger::print("Init I2C");  
+    real_time_i2c::init();
     logger::print("Setup->End Setup");
+    #endif
 }
 
 void loop()
 {
+    #if MAIN_DEBUG
+    static bool first_run = true;
+    if (first_run)
+    {
+      logger::println("Start Loop");
+    }
+    #endif
     static ExoData* exo_data = new ExoData(config_info::config_to_send);
+    #if MAIN_DEBUG
+    if (first_run)
+    {
+      logger::println("Construced exo_data");
+    }
+    #endif
     static ComsMCU* mcu = new ComsMCU(exo_data, config_info::config_to_send);
+    #if MAIN_DEBUG
+    if (first_run)
+    {
+      logger::println("Construced mcu");
+    }
+    #endif
+    
     mcu->handle_ble();
     mcu->local_sample();
     mcu->update_UART();
     mcu->update_gui();
     mcu->handle_errors();
+
+    #if MAIN_DEBUG
+    static float then = millis();
+    float now = millis();
+    if ((now - then) > 1000)
+    {
+        then = now;
+        logger::println("...");
+    }
+    first_run = false;
+    #endif
+    
 }
 
 #else // code to use when microcontroller is not recognized.
+#include "Utilities.h"
 void setup()
 {
-  logger::print("Unknown Microcontroller");
-  logger::print("\n");
+  Serial.begin(115200);
+  utils::spin_on_error_with("Unknown Microcontroller");
 }
 
 void loop()

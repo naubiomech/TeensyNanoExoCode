@@ -729,7 +729,7 @@ void KneeJoint::run_joint()
         logger::print(_controller->calc_motor_cmd());
         logger::print("\n");
     #endif
-};  
+};
 
 /*
  * reads data for sensors for the joint, torque and motor.

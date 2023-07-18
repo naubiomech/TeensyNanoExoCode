@@ -2,7 +2,10 @@
 
 #include "Config.h"
 #include "Utilities.h"
+#include "Logger.h"
 #include <Wire.h>
+
+#define RT_I2C_DEBUG 0
 
 #define FIXED_POINT_FACTOR 100
 
@@ -100,12 +103,16 @@ void real_time_i2c::init()
 
 bool real_time_i2c::poll(float* pack_array) 
 {
-    noInterrupts();
+    #if RT_I2C_DEBUG
+    logger::println("real_time_i2c::poll()->Start");
+    #endif
+
     if (!new_bytes)
     {
         return false;
     }
 
+    noInterrupts();
     const uint8_t len = byte_buffer[1];
     uint8_t buff[byte_buffer_len];
     memcpy(buff, byte_buffer, byte_buffer_len);
@@ -118,7 +125,10 @@ bool real_time_i2c::poll(float* pack_array)
         utils::short_fixed_point_bytes_to_float((uint8_t*)(buff+data_offset), &tmp, FIXED_POINT_FACTOR);
         pack_array[i] =  tmp;
     }
-
     interrupts();
+
+    #if RT_I2C_DEBUG
+    logger::println("real_time_i2c::poll()->End");
+    #endif
     return true;
 }
