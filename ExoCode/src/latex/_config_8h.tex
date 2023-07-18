@@ -1,0 +1,190 @@
+\doxysection{Config.\+h File Reference}
+\hypertarget{_config_8h}{}\label{_config_8h}\index{Config.h@{Config.h}}
+
+
+Configuration variables for the codebase.  
+
+
+{\ttfamily \#include \"{}Arduino.\+h\"{}}\newline
+{\ttfamily \#include \"{}Log\+Levels.\+h\"{}}\newline
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacelogging}{logging}}
+\item 
+namespace \mbox{\hyperlink{namespacesync__time}{sync\+\_\+time}}
+\item 
+namespace \mbox{\hyperlink{namespacefsr__config}{fsr\+\_\+config}}
+\item 
+namespace \mbox{\hyperlink{namespaceanalog}{analog}}
+\item 
+namespace \mbox{\hyperlink{namespacetorque__calibration}{torque\+\_\+calibration}}
+\item 
+namespace \mbox{\hyperlink{namespace_b_l_e__times}{BLE\+\_\+times}}
+\item 
+namespace \mbox{\hyperlink{namespaceexo__info}{exo\+\_\+info}}
+\item 
+namespace \mbox{\hyperlink{namespace_u_a_r_t__times}{UART\+\_\+times}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_config_8h_aa14dc39d52ab121ceb570f1a265385e0}{FIRMWARE\+\_\+\+VERSION}}~0\+\_\+1\+\_\+0
+\item 
+\#define \mbox{\hyperlink{_config_8h_a82bdada809263922e5af23ddd7e44c09}{AK\+\_\+\+Board\+\_\+\+V0\+\_\+1}}~1
+\item 
+\#define \mbox{\hyperlink{_config_8h_ad52fdb84a9f1564a8b05a6f8b342dc24}{AK\+\_\+\+Board\+\_\+\+V0\+\_\+3}}~2
+\item 
+\#define \mbox{\hyperlink{_config_8h_a5f58b1936105ee214da61e6f013c5fd8}{AK\+\_\+\+Board\+\_\+\+V0\+\_\+4}}~3
+\item 
+\#define \mbox{\hyperlink{_config_8h_a1ee80da70605eafcf7876bd94a0958e7}{AK\+\_\+\+Board\+\_\+\+V0\+\_\+5\+\_\+1}}~4
+\item 
+\#define \mbox{\hyperlink{_config_8h_a146f7b921fbc7d5d5a93d7da402ad70f}{BOARD\+\_\+\+VERSION}}~\mbox{\hyperlink{_config_8h_a1ee80da70605eafcf7876bd94a0958e7}{AK\+\_\+\+Board\+\_\+\+V0\+\_\+5\+\_\+1}}
+\item 
+\#define \mbox{\hyperlink{_config_8h_ab4a023361971d87d67f5d143d14a71b8}{REAL\+\_\+\+TIME\+\_\+\+I2C}}~1
+\item 
+\#define \mbox{\hyperlink{_config_8h_a1ff4ea5999dbe65bcdc1d02d90eb8525}{LOOP\+\_\+\+FREQ\+\_\+\+HZ}}~500
+\item 
+\#define \mbox{\hyperlink{_config_8h_a5738ad79e73c6c6dc8453fbd9cb57ccf}{LOOP\+\_\+\+TIME\+\_\+\+TOLERANCE}}~0.\+1
+\item 
+\#define \mbox{\hyperlink{_config_8h_a6fe4741d3d95f35dcd6e49eab28c0eb9}{USE\+\_\+\+SPEED\+\_\+\+CHECK}}~0
+\item 
+\#define \mbox{\hyperlink{_config_8h_aeddbb44c257870e9b294ddfe1e1a51aa}{VAL}}(str)~\#str
+\item 
+\#define \mbox{\hyperlink{_config_8h_a936059ff6981db7fe4eefa988f423d57}{TOSTRING}}(str)~\mbox{\hyperlink{_config_8h_aeddbb44c257870e9b294ddfe1e1a51aa}{VAL}}(str)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{_log_levels_8h_a9cf4d2a890c8688e0fe1bc38fa88de94}{Log\+Level}} \mbox{\hyperlink{namespacelogging_ad898846ac4878a064c2b09a55d8879e1}{logging\+::level}} = \mbox{\hyperlink{_log_levels_8h_a9cf4d2a890c8688e0fe1bc38fa88de94aa603905470e2a5b8c13e96b579ef0dba}{Log\+Level\+::\+Debug}}
+\item 
+const int \mbox{\hyperlink{namespacelogging_ab736a60f54f48e134f757fb36048ac96}{logging\+::baud\+\_\+rate}} = 115200
+\item 
+const unsigned int \mbox{\hyperlink{namespacesync__time_a2c92e886962d2146e9542aa06f755a2d}{sync\+\_\+time\+::\+NUM\+\_\+\+START\+\_\+\+STOP\+\_\+\+BLINKS}} = 1
+\item 
+const unsigned int \mbox{\hyperlink{namespacesync__time_a018cc1f0731c471c01160c84eaea7472}{sync\+\_\+time\+::\+SYNC\+\_\+\+HALF\+\_\+\+PERIOD\+\_\+\+US}} = 125000
+\item 
+const unsigned int \mbox{\hyperlink{namespacesync__time_a3c8b19f78d8d7cc8f2c87c4acbb82981}{sync\+\_\+time\+::\+SYNC\+\_\+\+START\+\_\+\+STOP\+\_\+\+HALF\+\_\+\+PERIOD\+\_\+\+US}} = 4 \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{namespacesync__time_a018cc1f0731c471c01160c84eaea7472}{SYNC\+\_\+\+HALF\+\_\+\+PERIOD\+\_\+\+US}}
+\item 
+const float \mbox{\hyperlink{namespacefsr__config_a310a6cbbe113e31cdf36e43e497e5141}{fsr\+\_\+config\+::\+FSR\+\_\+\+UPPER\+\_\+\+THRESHOLD}} = 0.\+25
+\item 
+const float \mbox{\hyperlink{namespacefsr__config_a1e7261df7f72f49af98e957dd5b03507}{fsr\+\_\+config\+::\+FSR\+\_\+\+LOWER\+\_\+\+THRESHOLD}} = 0.\+15
+\item 
+const float \mbox{\hyperlink{namespacefsr__config_aed952b4c8fa3264e85f5c6e1ea757a21}{fsr\+\_\+config\+::\+SCHMITT\+\_\+\+DELTA}} = (\mbox{\hyperlink{namespacefsr__config_a310a6cbbe113e31cdf36e43e497e5141}{FSR\+\_\+\+UPPER\+\_\+\+THRESHOLD}} -\/ \mbox{\hyperlink{namespacefsr__config_a1e7261df7f72f49af98e957dd5b03507}{FSR\+\_\+\+LOWER\+\_\+\+THRESHOLD}})/2
+\item 
+const float \mbox{\hyperlink{namespaceanalog_a79d06ae925c44093af883c31e3114ca2}{analog\+::\+RESOLUTION}} = 12
+\item 
+const float \mbox{\hyperlink{namespaceanalog_a82da6c158d0dd0002da687f392f6836c}{analog\+::\+COUNTS}} = 4096
+\item 
+const float \mbox{\hyperlink{namespacetorque__calibration_a765e3690aadfd871a3db2f425f0da9e2}{torque\+\_\+calibration\+::\+AI\+\_\+\+CNT\+\_\+\+TO\+\_\+V}} = 3.\+3 / 4096
+\item 
+const float \mbox{\hyperlink{namespacetorque__calibration_a6693cd19ee28e8b1db6c4521996f6f05}{torque\+\_\+calibration\+::\+TRQ\+\_\+\+V\+\_\+\+TO\+\_\+\+NM}} = 53.\+70
+\item 
+const float \mbox{\hyperlink{namespace_b_l_e__times_a12d90ec982adfba29655d3bf689c4f5f}{BLE\+\_\+times\+::\+\_\+status\+\_\+msg\+\_\+delay}} = 1000000
+\item 
+const float \mbox{\hyperlink{namespace_b_l_e__times_a53f5205ff55ca4b18ffa294c9ddf9ede}{BLE\+\_\+times\+::\+\_\+real\+\_\+time\+\_\+msg\+\_\+delay}} = 20000
+\item 
+const float \mbox{\hyperlink{namespace_b_l_e__times_a467fc34974955544be0d3b93bdf0edf0}{BLE\+\_\+times\+::\+\_\+update\+\_\+delay}} = 1000
+\item 
+const float \mbox{\hyperlink{namespace_b_l_e__times_a058196d2b0edbafb9cb1174d1f8c5350}{BLE\+\_\+times\+::\+\_\+poll\+\_\+timeout}} = 4
+\item 
+const String \mbox{\hyperlink{namespaceexo__info_a0188ede54de78e91b5c5a5b4c8aa430a}{exo\+\_\+info\+::\+Firmware\+Version}} = String(\mbox{\hyperlink{_config_8h_a936059ff6981db7fe4eefa988f423d57}{TOSTRING}}(\mbox{\hyperlink{_config_8h_aa14dc39d52ab121ceb570f1a265385e0}{FIRMWARE\+\_\+\+VERSION}}))
+\item 
+const String \mbox{\hyperlink{namespaceexo__info_ad05ddd9b42e394df2901fc949ea20414}{exo\+\_\+info\+::\+PCBVersion}} = String(\mbox{\hyperlink{_config_8h_a936059ff6981db7fe4eefa988f423d57}{TOSTRING}}(\mbox{\hyperlink{_config_8h_a146f7b921fbc7d5d5a93d7da402ad70f}{BOARD\+\_\+\+VERSION}}))
+\item 
+const String \mbox{\hyperlink{namespaceexo__info_aaae40255d1f0f73e03423836e895da50}{exo\+\_\+info\+::\+Device\+Name}} = String(\"{}NULL\"{})
+\item 
+const float \mbox{\hyperlink{namespace_u_a_r_t__times_a4aa373d00d67a7b56daa9cad3d768af2}{UART\+\_\+times\+::\+UPDATE\+\_\+\+PERIOD}} = 1000
+\item 
+const float \mbox{\hyperlink{namespace_u_a_r_t__times_a022ba057e396e1f4909fc11be148266d}{UART\+\_\+times\+::\+COMS\+\_\+\+MCU\+\_\+\+TIMEOUT}} = 5000
+\item 
+const float \mbox{\hyperlink{namespace_u_a_r_t__times_ae8cd2e18c4cd9e16308b0e8c3dfe794d}{UART\+\_\+times\+::\+CONT\+\_\+\+MCU\+\_\+\+TIMEOUT}} = 1000
+\item 
+const float \mbox{\hyperlink{namespace_u_a_r_t__times_a341eba5786159662ac0f4bfdddcfb99e}{UART\+\_\+times\+::\+CONFIG\+\_\+\+TIMEOUT}} = 8000
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Configuration variables for the codebase. 
+
+\begin{DoxyAuthor}{Author}
+Chancelor Cuddeback 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2023-\/07-\/18 
+\end{DoxyDate}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_config_8h_a82bdada809263922e5af23ddd7e44c09}\label{_config_8h_a82bdada809263922e5af23ddd7e44c09} 
+\index{Config.h@{Config.h}!AK\_Board\_V0\_1@{AK\_Board\_V0\_1}}
+\index{AK\_Board\_V0\_1@{AK\_Board\_V0\_1}!Config.h@{Config.h}}
+\doxysubsubsection{\texorpdfstring{AK\_Board\_V0\_1}{AK\_Board\_V0\_1}}
+{\footnotesize\ttfamily \#define AK\+\_\+\+Board\+\_\+\+V0\+\_\+1~1}
+
+\Hypertarget{_config_8h_ad52fdb84a9f1564a8b05a6f8b342dc24}\label{_config_8h_ad52fdb84a9f1564a8b05a6f8b342dc24} 
+\index{Config.h@{Config.h}!AK\_Board\_V0\_3@{AK\_Board\_V0\_3}}
+\index{AK\_Board\_V0\_3@{AK\_Board\_V0\_3}!Config.h@{Config.h}}
+\doxysubsubsection{\texorpdfstring{AK\_Board\_V0\_3}{AK\_Board\_V0\_3}}
+{\footnotesize\ttfamily \#define AK\+\_\+\+Board\+\_\+\+V0\+\_\+3~2}
+
+\Hypertarget{_config_8h_a5f58b1936105ee214da61e6f013c5fd8}\label{_config_8h_a5f58b1936105ee214da61e6f013c5fd8} 
+\index{Config.h@{Config.h}!AK\_Board\_V0\_4@{AK\_Board\_V0\_4}}
+\index{AK\_Board\_V0\_4@{AK\_Board\_V0\_4}!Config.h@{Config.h}}
+\doxysubsubsection{\texorpdfstring{AK\_Board\_V0\_4}{AK\_Board\_V0\_4}}
+{\footnotesize\ttfamily \#define AK\+\_\+\+Board\+\_\+\+V0\+\_\+4~3}
+
+\Hypertarget{_config_8h_a1ee80da70605eafcf7876bd94a0958e7}\label{_config_8h_a1ee80da70605eafcf7876bd94a0958e7} 
+\index{Config.h@{Config.h}!AK\_Board\_V0\_5\_1@{AK\_Board\_V0\_5\_1}}
+\index{AK\_Board\_V0\_5\_1@{AK\_Board\_V0\_5\_1}!Config.h@{Config.h}}
+\doxysubsubsection{\texorpdfstring{AK\_Board\_V0\_5\_1}{AK\_Board\_V0\_5\_1}}
+{\footnotesize\ttfamily \#define AK\+\_\+\+Board\+\_\+\+V0\+\_\+5\+\_\+1~4}
+
+\Hypertarget{_config_8h_a146f7b921fbc7d5d5a93d7da402ad70f}\label{_config_8h_a146f7b921fbc7d5d5a93d7da402ad70f} 
+\index{Config.h@{Config.h}!BOARD\_VERSION@{BOARD\_VERSION}}
+\index{BOARD\_VERSION@{BOARD\_VERSION}!Config.h@{Config.h}}
+\doxysubsubsection{\texorpdfstring{BOARD\_VERSION}{BOARD\_VERSION}}
+{\footnotesize\ttfamily \#define BOARD\+\_\+\+VERSION~\mbox{\hyperlink{_config_8h_a1ee80da70605eafcf7876bd94a0958e7}{AK\+\_\+\+Board\+\_\+\+V0\+\_\+5\+\_\+1}}}
+
+\Hypertarget{_config_8h_aa14dc39d52ab121ceb570f1a265385e0}\label{_config_8h_aa14dc39d52ab121ceb570f1a265385e0} 
+\index{Config.h@{Config.h}!FIRMWARE\_VERSION@{FIRMWARE\_VERSION}}
+\index{FIRMWARE\_VERSION@{FIRMWARE\_VERSION}!Config.h@{Config.h}}
+\doxysubsubsection{\texorpdfstring{FIRMWARE\_VERSION}{FIRMWARE\_VERSION}}
+{\footnotesize\ttfamily \#define FIRMWARE\+\_\+\+VERSION~0\+\_\+1\+\_\+0}
+
+\Hypertarget{_config_8h_a1ff4ea5999dbe65bcdc1d02d90eb8525}\label{_config_8h_a1ff4ea5999dbe65bcdc1d02d90eb8525} 
+\index{Config.h@{Config.h}!LOOP\_FREQ\_HZ@{LOOP\_FREQ\_HZ}}
+\index{LOOP\_FREQ\_HZ@{LOOP\_FREQ\_HZ}!Config.h@{Config.h}}
+\doxysubsubsection{\texorpdfstring{LOOP\_FREQ\_HZ}{LOOP\_FREQ\_HZ}}
+{\footnotesize\ttfamily \#define LOOP\+\_\+\+FREQ\+\_\+\+HZ~500}
+
+\Hypertarget{_config_8h_a5738ad79e73c6c6dc8453fbd9cb57ccf}\label{_config_8h_a5738ad79e73c6c6dc8453fbd9cb57ccf} 
+\index{Config.h@{Config.h}!LOOP\_TIME\_TOLERANCE@{LOOP\_TIME\_TOLERANCE}}
+\index{LOOP\_TIME\_TOLERANCE@{LOOP\_TIME\_TOLERANCE}!Config.h@{Config.h}}
+\doxysubsubsection{\texorpdfstring{LOOP\_TIME\_TOLERANCE}{LOOP\_TIME\_TOLERANCE}}
+{\footnotesize\ttfamily \#define LOOP\+\_\+\+TIME\+\_\+\+TOLERANCE~0.\+1}
+
+\Hypertarget{_config_8h_ab4a023361971d87d67f5d143d14a71b8}\label{_config_8h_ab4a023361971d87d67f5d143d14a71b8} 
+\index{Config.h@{Config.h}!REAL\_TIME\_I2C@{REAL\_TIME\_I2C}}
+\index{REAL\_TIME\_I2C@{REAL\_TIME\_I2C}!Config.h@{Config.h}}
+\doxysubsubsection{\texorpdfstring{REAL\_TIME\_I2C}{REAL\_TIME\_I2C}}
+{\footnotesize\ttfamily \#define REAL\+\_\+\+TIME\+\_\+\+I2C~1}
+
+\Hypertarget{_config_8h_a936059ff6981db7fe4eefa988f423d57}\label{_config_8h_a936059ff6981db7fe4eefa988f423d57} 
+\index{Config.h@{Config.h}!TOSTRING@{TOSTRING}}
+\index{TOSTRING@{TOSTRING}!Config.h@{Config.h}}
+\doxysubsubsection{\texorpdfstring{TOSTRING}{TOSTRING}}
+{\footnotesize\ttfamily \#define TOSTRING(\begin{DoxyParamCaption}\item[{}]{str }\end{DoxyParamCaption})~\mbox{\hyperlink{_config_8h_aeddbb44c257870e9b294ddfe1e1a51aa}{VAL}}(str)}
+
+\Hypertarget{_config_8h_a6fe4741d3d95f35dcd6e49eab28c0eb9}\label{_config_8h_a6fe4741d3d95f35dcd6e49eab28c0eb9} 
+\index{Config.h@{Config.h}!USE\_SPEED\_CHECK@{USE\_SPEED\_CHECK}}
+\index{USE\_SPEED\_CHECK@{USE\_SPEED\_CHECK}!Config.h@{Config.h}}
+\doxysubsubsection{\texorpdfstring{USE\_SPEED\_CHECK}{USE\_SPEED\_CHECK}}
+{\footnotesize\ttfamily \#define USE\+\_\+\+SPEED\+\_\+\+CHECK~0}
+
+\Hypertarget{_config_8h_aeddbb44c257870e9b294ddfe1e1a51aa}\label{_config_8h_aeddbb44c257870e9b294ddfe1e1a51aa} 
+\index{Config.h@{Config.h}!VAL@{VAL}}
+\index{VAL@{VAL}!Config.h@{Config.h}}
+\doxysubsubsection{\texorpdfstring{VAL}{VAL}}
+{\footnotesize\ttfamily \#define VAL(\begin{DoxyParamCaption}\item[{}]{str }\end{DoxyParamCaption})~\#str}
+

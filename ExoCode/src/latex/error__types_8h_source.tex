@@ -1,0 +1,174 @@
+\doxysection{error\+\_\+types.\+h}
+\hypertarget{error__types_8h_source}{}\label{error__types_8h_source}\mbox{\hyperlink{error__types_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#ifndef\ ERROR\_TYPES\_H}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ ERROR\_TYPES\_H}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#if\ defined(ARDUINO\_TEENSY36)\ \ ||\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_joint_data_8h}{JointData.h}}"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{error__codes_8h}{error\_codes.h}}"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_utilities_8h}{Utilities.h}}"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_logger_8h}{Logger.h}}"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ create\ abstract\ class\ for\ error\ types}}
+\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }ErrorType}
+\DoxyCodeLine{00018\ \{}
+\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ \ \ \ \ ErrorType()\ \{\};}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ check(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)\ =\ 0;}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ handle(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)\ =\ 0;}
+\DoxyCodeLine{00023\ \};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{class\ }TestError\ :\ \textcolor{keyword}{public}\ ErrorType}
+\DoxyCodeLine{00026\ \{}
+\DoxyCodeLine{00027\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00028\ \ \ \ \ TestError()\ :\ ErrorType()\ \{\};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{bool}\ check(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)}
+\DoxyCodeLine{00031\ \ \ \ \ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{comment}{//return\ millis()\ >\ 45000;}}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00034\ \ \ \ \ \}}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ handle(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)}
+\DoxyCodeLine{00036\ \ \ \ \ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \_data-\/>\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a4b909a13e4ac0eb7c3f05a1de2b0dc60}{enabled}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}Test\ Error"{}},\ \mbox{\hyperlink{_log_levels_8h_a9cf4d2a890c8688e0fe1bc38fa88de94a902b0d55fddef6f8d651fe1035b7d4bd}{LogLevel::Error}});}
+\DoxyCodeLine{00039\ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{keyword}{class\ }PoorStateVarianceError\ :\ \textcolor{keyword}{public}\ ErrorType}
+\DoxyCodeLine{00043\ \{}
+\DoxyCodeLine{00044\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00045\ \ \ \ \ PoorStateVarianceError()\ :\ ErrorType()\ \{\};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{bool}\ check(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)}
+\DoxyCodeLine{00048\ \ \ \ \ \{}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00051\ \ \ \ \ \}}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{void}\ handle(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)}
+\DoxyCodeLine{00053\ \ \ \ \ \{}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \}}
+\DoxyCodeLine{00056\ \};}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{keyword}{class\ }PoorTransmissionEfficiencyError\ :\ \textcolor{keyword}{public}\ ErrorType}
+\DoxyCodeLine{00059\ \{}
+\DoxyCodeLine{00060\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00061\ \ \ \ \ PoorTransmissionEfficiencyError()\ :\ ErrorType()\ \{\};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{bool}\ check(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)}
+\DoxyCodeLine{00064\ \ \ \ \ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{void}\ handle(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)}
+\DoxyCodeLine{00068\ \ \ \ \ \{}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ \}}
+\DoxyCodeLine{00071\ \};}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \textcolor{keyword}{class\ }TorqueOutOfBoundsError\ :\ \textcolor{keyword}{public}\ ErrorType}
+\DoxyCodeLine{00074\ \{}
+\DoxyCodeLine{00075\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00076\ \ \ \ \ TorqueOutOfBoundsError()\ :\ ErrorType()\ \{\};}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{bool}\ check(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)}
+\DoxyCodeLine{00079\ \ \ \ \ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ abs(\_data-\/>\mbox{\hyperlink{class_joint_data_aec2580e88fbe79db393a7bd6f945ce4e}{torque\_reading}})\ >\ \_data-\/>\mbox{\hyperlink{class_joint_data_a625e3bea4caf62edf3fc71d624bfdd51}{torque\_output\_threshold}};}
+\DoxyCodeLine{00081\ \ \ \ \ \}}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{void}\ handle(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)}
+\DoxyCodeLine{00083\ \ \ \ \ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \_data-\/>\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a4b909a13e4ac0eb7c3f05a1de2b0dc60}{enabled}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}Torque\ Out\ of\ Bounds\ Error"{}},\ \mbox{\hyperlink{_log_levels_8h_a9cf4d2a890c8688e0fe1bc38fa88de94a902b0d55fddef6f8d651fe1035b7d4bd}{LogLevel::Error}});}
+\DoxyCodeLine{00086\ \ \ \ \ \}}
+\DoxyCodeLine{00087\ \};}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{class\ }TorqueVarianceError\ :\ \textcolor{keyword}{public}\ ErrorType}
+\DoxyCodeLine{00090\ \{}
+\DoxyCodeLine{00091\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00092\ \ \ \ \ TorqueVarianceError()\ :\ ErrorType()\ \{\};}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordtype}{bool}\ check(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)}
+\DoxyCodeLine{00095\ \ \ \ \ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Append\ new\ torque\ reading\ to\ the\ window}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \_data-\/>\mbox{\hyperlink{class_joint_data_a0e0a11420cb5130deed035b09941c3bf}{torque\_data\_window}}.push(\_data-\/>\mbox{\hyperlink{class_joint_data_aec2580e88fbe79db393a7bd6f945ce4e}{torque\_reading}});}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ window\ is\ larger\ than\ the\ max\ size,\ pop\ the\ oldest\ value}}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_data-\/>\mbox{\hyperlink{class_joint_data_a0e0a11420cb5130deed035b09941c3bf}{torque\_data\_window}}.size()\ >\ \_data-\/>\mbox{\hyperlink{class_joint_data_aae71cb659a52f68b5bb350b055656908}{torque\_data\_window\_max\_size}})}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \_data-\/>\mbox{\hyperlink{class_joint_data_a0e0a11420cb5130deed035b09941c3bf}{torque\_data\_window}}.pop();}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ standard\ deviation\ of\ the\ window}}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ std::pair<float,\ float>\ pop\_vals\ =\ \mbox{\hyperlink{namespaceutils_a0613d9e40ec11d3e17655132b61ad2a0}{utils::online\_std\_dev}}(\_data-\/>\mbox{\hyperlink{class_joint_data_a0e0a11420cb5130deed035b09941c3bf}{torque\_data\_window}});}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Generate\ symmetric\ bounds\ around\ the\ mean}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ std::pair<float,\ float>\ bounds\ =\ std::make\_pair(}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pop\_vals.first\ -\/\ \_data-\/>\mbox{\hyperlink{class_joint_data_ad1d6d80c7c57a15b26a8f41287ac38b7}{torque\_std\_dev\_multiple}}*pop\_vals.second,}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pop\_vals.first\ +\ \_data-\/>\mbox{\hyperlink{class_joint_data_ad1d6d80c7c57a15b26a8f41287ac38b7}{torque\_std\_dev\_multiple}}*pop\_vals.second);}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Increment\ the\ failure\ count\ if\ the\ current\ torque\ reading\ is\ outside\ the\ bounds}}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \_data-\/>\mbox{\hyperlink{class_joint_data_ac22bce06e754de95c7f4d72621c3d70d}{torque\_failure\_count}}\ +=\ (int)\mbox{\hyperlink{namespaceutils_af362fe7671d3080b044a58b906c66c39}{utils::is\_outside\_range}}(\_data-\/>\mbox{\hyperlink{class_joint_data_aec2580e88fbe79db393a7bd6f945ce4e}{torque\_reading}},\ bounds.first,\ bounds.second);}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ failure\ count\ is\ greater\ than\ the\ max,\ return\ true}}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_data-\/>\mbox{\hyperlink{class_joint_data_ac22bce06e754de95c7f4d72621c3d70d}{torque\_failure\_count}}\ >=\ \_data-\/>\mbox{\hyperlink{class_joint_data_ac34f0af837576fa9b2c304cdbbd602d2}{torque\_failure\_count\_max}};}
+\DoxyCodeLine{00113\ \ \ \ \ \}}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{void}\ handle(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)}
+\DoxyCodeLine{00115\ \ \ \ \ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \_data-\/>\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a4b909a13e4ac0eb7c3f05a1de2b0dc60}{enabled}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}Torque\ Variance\ Error"{}},\ \mbox{\hyperlink{_log_levels_8h_a9cf4d2a890c8688e0fe1bc38fa88de94a902b0d55fddef6f8d651fe1035b7d4bd}{LogLevel::Error}});}
+\DoxyCodeLine{00118\ \ \ \ \ \}}
+\DoxyCodeLine{00119\ \};}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \textcolor{keyword}{class\ }ForceVarianceError\ :\ \textcolor{keyword}{public}\ ErrorType}
+\DoxyCodeLine{00122\ \{}
+\DoxyCodeLine{00123\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00124\ \ \ \ \ ForceVarianceError()\ :\ ErrorType()\ \{\};}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keywordtype}{bool}\ check(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)}
+\DoxyCodeLine{00127\ \ \ \ \ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00129\ \ \ \ \ \}}
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keywordtype}{void}\ handle(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)}
+\DoxyCodeLine{00131\ \ \ \ \ \{}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ \}}
+\DoxyCodeLine{00134\ \};}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \textcolor{keyword}{class\ }TrackingError\ :\ \textcolor{keyword}{public}\ ErrorType}
+\DoxyCodeLine{00137\ \{}
+\DoxyCodeLine{00138\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00139\ \ \ \ \ TrackingError()\ :\ ErrorType()\ \{\};}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordtype}{bool}\ check(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)}
+\DoxyCodeLine{00142\ \ \ \ \ \{}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00144\ \ \ \ \ \}}
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keywordtype}{void}\ handle(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)}
+\DoxyCodeLine{00146\ \ \ \ \ \{}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \}}
+\DoxyCodeLine{00149\ \};}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \textcolor{keyword}{class\ }MotorTimeoutError\ :\ \textcolor{keyword}{public}\ ErrorType}
+\DoxyCodeLine{00152\ \{}
+\DoxyCodeLine{00153\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00154\ \ \ \ \ MotorTimeoutError()\ :\ ErrorType()\ \{\};}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordtype}{bool}\ check(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)}
+\DoxyCodeLine{00157\ \ \ \ \ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ timeout\_error\ =\ \_data-\/>\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a685cf20afb60c6eb5468ffd76d58a3af}{timeout\_count}}\ >=\ \_data-\/>\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_abf790f4f23860cd2c8bf062255611699}{timeout\_count\_max}};}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (timeout\_error)\ }
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \_data-\/>\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a685cf20afb60c6eb5468ffd76d58a3af}{timeout\_count}}\ =\ 0;}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ timeout\_error;}
+\DoxyCodeLine{00164\ \ \ \ \ \}}
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keywordtype}{void}\ handle(\mbox{\hyperlink{class_joint_data}{JointData}}*\ \_data)}
+\DoxyCodeLine{00166\ \ \ \ \ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \_data-\/>\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a4b909a13e4ac0eb7c3f05a1de2b0dc60}{enabled}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}Motor\ Timeout\ Error"{}},\ \mbox{\hyperlink{_log_levels_8h_a9cf4d2a890c8688e0fe1bc38fa88de94a902b0d55fddef6f8d651fe1035b7d4bd}{LogLevel::Error}});}
+\DoxyCodeLine{00169\ \ \ \ \ \}}
+\DoxyCodeLine{00170\ \};}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00174\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ERROR\_TYPES\_H}}
+
+\end{DoxyCode}

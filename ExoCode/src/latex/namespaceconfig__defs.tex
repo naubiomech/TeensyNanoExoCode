@@ -1,0 +1,589 @@
+\doxysection{config\+\_\+defs Namespace Reference}
+\hypertarget{namespaceconfig__defs}{}\label{namespaceconfig__defs}\index{config\_defs@{config\_defs}}
+
+
+Namespace that defines numeric coding for different keys values. These are used throughout the code.  
+
+
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespaceconfig__defs_abfdcbca3d6ab767de026688c636139be}{board\+\_\+name}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespaceconfig__defs_abfdcbca3d6ab767de026688c636139bea44c24108a8a891b49f03f55cfcebb7b3}{AK\+\_\+board}} = 1
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0}{board\+\_\+version}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0a5226a92dc7a02342ca2b4ca9818c0a6f}{zero\+\_\+one}} = 1
+, \mbox{\hyperlink{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0a281573accdaf37cf6b1ca22828501227}{zero\+\_\+three}} = 2
+, \mbox{\hyperlink{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0ab60135936a03bc2b7f54dfd4576eb1bc}{zero\+\_\+four}} = 3
+, \mbox{\hyperlink{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0ab6d902b00b590e6493ab745d1ba26ba5}{zero\+\_\+five\+\_\+one}} = 4
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceconfig__defs_a363ea1eb7ba37fcb3ae77d9ef61477c0}{battery}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespaceconfig__defs_a363ea1eb7ba37fcb3ae77d9ef61477c0a8c319f28d81d1527a9428e9a5c2195f5}{smart}} = 1
+, \mbox{\hyperlink{namespaceconfig__defs_a363ea1eb7ba37fcb3ae77d9ef61477c0a665c403aa19fe701b0ea7093ea4d0f45}{dumb}} = 2
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797}{exo\+\_\+name}} \+: uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a96281b8c1766326cc2f99d44f6950c67}{bilateral\+\_\+ankle}} = 1
+, \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797ab41922a6b46722ea662e4552a5d4b304}{bilateral\+\_\+hip}} = 2
+, \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a3710456ad1658cc1309c7692b8734aa4}{bilateral\+\_\+hip\+\_\+ankle}} = 3
+, \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a3bf114dd56933f9ae20ee9dd4d3c7518}{left\+\_\+ankle}} = 4
+, \newline
+\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797af2dc1d3b6601076eddc1ca7c21d95706}{right\+\_\+ankle}} = 5
+, \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a6b8b07c4e8510875f8a4f16b4793d9d5}{left\+\_\+hip}} = 6
+, \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797ae399c9207e140468d805b8172edbdfcc}{right\+\_\+hip}} = 7
+, \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797ac17cf658c012d349878487130b79c237}{left\+\_\+hip\+\_\+ankle}} = 8
+, \newline
+\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a31db331ea0e672f14056c1b72b88a8dd}{right\+\_\+hip\+\_\+ankle}} = 9
+, \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a098f6bcd4621d373cade4e832627b4f6}{test}} = 10
+, \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a5cc826b3e637c8ef62f52d86c2b2cbd1}{right\+\_\+knee}} = 11
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6ca}{exo\+\_\+side}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caacbf855c3d8a8c6135dab45071c3bbb9d}{bilateral}} = 1
+, \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa811882fecd5c7618d7099ebbd39ea254}{left}} = 2
+, \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa7c4f29407893c334a6cb7a87bf045c0d}{right}} = 3
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72d}{Joint\+Type}} \{ \mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da997f6b054d31252dfe32ef38f9dddb2a}{hip}} = 1
+, \mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da22b84b6e35ace0cd87f805ecf020ff36}{knee}} = 2
+, \mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da12a0852b1a5f77f797900387fca77bf4}{ankle}} = 3
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195}{motor}} \+: uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195ab3825df282b81f008b13983fb43ffb57}{not\+\_\+used}} = 1
+, \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195ada0259409ed9eca2da4a98106778cd1c}{AK60}} = 2
+, \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195a2879aa344f6f75b9b9d8c158d4cb38df}{AK80}} = 3
+, \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195abc65f5bfaaea5c911f91590d071f73e4}{AK60\+\_\+v1\+\_\+1}} = 4
+, \newline
+\mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195abd5e041b68bee9a70ece092ff287bbbb}{AK60\+\_\+v1\+\_\+1\+\_\+T}} = 5
+, \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195a483869ac0cd9da2d29ce63b21b03776c}{AK70}} = 6
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755}{gearing}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755adc57401fb061f3848e586dc172618055}{gearing\+\_\+1\+\_\+1}} = 1
+, \mbox{\hyperlink{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755aa089123f290d4c144d4a58e55e449b8b}{gearing\+\_\+2\+\_\+1}} = 2
+, \mbox{\hyperlink{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755acc0d2d5436cefa63a255497b7b8d62b9}{gearing\+\_\+3\+\_\+1}} = 3
+, \mbox{\hyperlink{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755a36720a88098f425962bd1214f3994f74}{gearing\+\_\+4\+\_\+5\+\_\+1}} = 4
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{joint\+\_\+id}} \+: uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a811882fecd5c7618d7099ebbd39ea254}{left}} = 0b01000000
+, \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a7c4f29407893c334a6cb7a87bf045c0d}{right}} = 0b00100000
+, \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a997f6b054d31252dfe32ef38f9dddb2a}{hip}} = 0b00000001
+, \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a22b84b6e35ace0cd87f805ecf020ff36}{knee}} = 0b00000010
+, \newline
+\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a12a0852b1a5f77f797900387fca77bf4}{ankle}} = 0b00000100
+, \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a6b8b07c4e8510875f8a4f16b4793d9d5}{left\+\_\+hip}} = left\texorpdfstring{$\vert$}{|}hip
+, \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a600593aa93d4d9165a0480e63ab8ef92}{left\+\_\+knee}} = left\texorpdfstring{$\vert$}{|}knee
+, \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a3bf114dd56933f9ae20ee9dd4d3c7518}{left\+\_\+ankle}} = left\texorpdfstring{$\vert$}{|}ankle
+, \newline
+\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076ae399c9207e140468d805b8172edbdfcc}{right\+\_\+hip}} = right\texorpdfstring{$\vert$}{|}hip
+, \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a5cc826b3e637c8ef62f52d86c2b2cbd1}{right\+\_\+knee}} = right\texorpdfstring{$\vert$}{|}knee
+, \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076af2dc1d3b6601076eddc1ca7c21d95706}{right\+\_\+ankle}} = right\texorpdfstring{$\vert$}{|}ankle
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491}{hip\+\_\+controllers}} \+: uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a075ae3d2fc31640504f814f60e5ef713}{disabled}} = 1
+, \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a1f74dd9f329b1ec51a26f2d13988e401}{zero\+\_\+torque}} = 2
+, \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aac997b2344542e904e25772c33171106}{heel\+\_\+toe}} = 3
+, \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491af34f31b67085a4f709d3d12dc6b2b24b}{extension\+\_\+angle}} = 4
+, \newline
+\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a9ea6e735ff6b882d7008ff5e619387d2}{franks\+\_\+collins\+\_\+hip}} = 5
+, \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a5e2c55e024f55cd931bd04e54da4f79f}{bang\+\_\+bang}} = 6
+, \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a45f8827656ef42c3c2dd054b93daf0f1}{late\+\_\+stance}} = 7
+, \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491ad43577ad6e16315e98e2abdd86183dde}{gait\+\_\+phase}} = 8
+, \newline
+\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aacf0d09710ee2f2dd6c1124d35d8d842}{user\+\_\+defined}} = 9
+, \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a925212d1624625aed9491413b4b7be05}{sine}} = 10
+, \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a3dd4bbe98cd3ce33bc3dfe91cad73dfd}{stasis}} = 11
+, \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a800823c47b8759400d01312793445b0e}{perturbation}} = 12
+, \newline
+\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aac62cafde9aacabff464ccc7ff517b85}{parabolic}} = 13
+, \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aa16f70bf830d4a75f41fb4c825120d67}{constant\+\_\+torque}} = 14
+, \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491ab0cbddde7837a85bf2863295f34bb397}{ptb\+\_\+general}} = 15
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6}{knee\+\_\+controllers}} \+: uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a075ae3d2fc31640504f814f60e5ef713}{disabled}} = 1
+, \mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a1f74dd9f329b1ec51a26f2d13988e401}{zero\+\_\+torque}} = 2
+, \mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6aacf0d09710ee2f2dd6c1124d35d8d842}{user\+\_\+defined}} = 3
+, \mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a925212d1624625aed9491413b4b7be05}{sine}} = 4
+, \newline
+\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a3dd4bbe98cd3ce33bc3dfe91cad73dfd}{stasis}} = 5
+, \mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a800823c47b8759400d01312793445b0e}{perturbation}} = 6
+, \mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6aa16f70bf830d4a75f41fb4c825120d67}{constant\+\_\+torque}} = 7
+, \mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6abb39f1b18f00b8847a32ad069b6dbf10}{elbow\+\_\+min\+\_\+max}} = 8
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002e}{ankle\+\_\+controllers}} \+: uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea075ae3d2fc31640504f814f60e5ef713}{disabled}} = 1
+, \mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea1f74dd9f329b1ec51a26f2d13988e401}{zero\+\_\+torque}} = 2
+, \mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eae9ba497e4231c77902ca7bb301d0651f}{pjmc}} = 3
+, \mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea9772e3e3c0fc114a950f3b532142d9d3}{zhang\+\_\+collins}} = 4
+, \newline
+\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eaacf0d09710ee2f2dd6c1124d35d8d842}{user\+\_\+defined}} = 5
+, \mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea925212d1624625aed9491413b4b7be05}{sine}} = 6
+, \mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea3dd4bbe98cd3ce33bc3dfe91cad73dfd}{stasis}} = 7
+, \mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea800823c47b8759400d01312793445b0e}{perturbation}} = 8
+, \newline
+\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eaa16f70bf830d4a75f41fb4c825120d67}{constant\+\_\+torque}} = 9
+, \mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eab0cbddde7837a85bf2863295f34bb397}{ptb\+\_\+general}} = 10
+, \mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eac836e7e9ebe90e19e16ec2a96a772ebf}{gasp}} = 11
+, \mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eabb39f1b18f00b8847a32ad069b6dbf10}{elbow\+\_\+min\+\_\+max}} = 12
+, \newline
+\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eab2e0735285d4d48d43ca39b785e396c2}{calibr\+\_\+manager}} = 13
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542}{flip\+\_\+dir}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542aedab649646a4c3ebd9770bdfc29534b5}{neither}} = 1
+, \mbox{\hyperlink{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542a811882fecd5c7618d7099ebbd39ea254}{left}} = 2
+, \mbox{\hyperlink{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542a7c4f29407893c334a6cb7a87bf045c0d}{right}} = 3
+, \mbox{\hyperlink{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542af6cb3e816496528d4187db53bc66567f}{both}} = 4
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Namespace that defines numeric coding for different keys values. These are used throughout the code. 
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002e}\label{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002e} 
+\index{config\_defs@{config\_defs}!ankle\_controllers@{ankle\_controllers}}
+\index{ankle\_controllers@{ankle\_controllers}!config\_defs@{config\_defs}}
+\doxysubsubsection{\texorpdfstring{ankle\_controllers}{ankle\_controllers}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002e}{config\+\_\+defs\+::ankle\+\_\+controllers}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{disabled@{disabled}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!disabled@{disabled}}}\Hypertarget{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea075ae3d2fc31640504f814f60e5ef713}\label{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea075ae3d2fc31640504f814f60e5ef713} 
+disabled&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{zero\_torque@{zero\_torque}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!zero\_torque@{zero\_torque}}}\Hypertarget{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea1f74dd9f329b1ec51a26f2d13988e401}\label{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea1f74dd9f329b1ec51a26f2d13988e401} 
+zero\+\_\+torque&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{pjmc@{pjmc}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!pjmc@{pjmc}}}\Hypertarget{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eae9ba497e4231c77902ca7bb301d0651f}\label{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eae9ba497e4231c77902ca7bb301d0651f} 
+pjmc&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{zhang\_collins@{zhang\_collins}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!zhang\_collins@{zhang\_collins}}}\Hypertarget{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea9772e3e3c0fc114a950f3b532142d9d3}\label{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea9772e3e3c0fc114a950f3b532142d9d3} 
+zhang\+\_\+collins&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{user\_defined@{user\_defined}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!user\_defined@{user\_defined}}}\Hypertarget{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eaacf0d09710ee2f2dd6c1124d35d8d842}\label{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eaacf0d09710ee2f2dd6c1124d35d8d842} 
+user\+\_\+defined&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{sine@{sine}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!sine@{sine}}}\Hypertarget{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea925212d1624625aed9491413b4b7be05}\label{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea925212d1624625aed9491413b4b7be05} 
+sine&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{stasis@{stasis}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!stasis@{stasis}}}\Hypertarget{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea3dd4bbe98cd3ce33bc3dfe91cad73dfd}\label{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea3dd4bbe98cd3ce33bc3dfe91cad73dfd} 
+stasis&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{perturbation@{perturbation}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!perturbation@{perturbation}}}\Hypertarget{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea800823c47b8759400d01312793445b0e}\label{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea800823c47b8759400d01312793445b0e} 
+perturbation&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{constant\_torque@{constant\_torque}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!constant\_torque@{constant\_torque}}}\Hypertarget{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eaa16f70bf830d4a75f41fb4c825120d67}\label{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eaa16f70bf830d4a75f41fb4c825120d67} 
+constant\+\_\+torque&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ptb\_general@{ptb\_general}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!ptb\_general@{ptb\_general}}}\Hypertarget{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eab0cbddde7837a85bf2863295f34bb397}\label{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eab0cbddde7837a85bf2863295f34bb397} 
+ptb\+\_\+general&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{gasp@{gasp}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!gasp@{gasp}}}\Hypertarget{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eac836e7e9ebe90e19e16ec2a96a772ebf}\label{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eac836e7e9ebe90e19e16ec2a96a772ebf} 
+gasp&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{elbow\_min\_max@{elbow\_min\_max}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!elbow\_min\_max@{elbow\_min\_max}}}\Hypertarget{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eabb39f1b18f00b8847a32ad069b6dbf10}\label{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eabb39f1b18f00b8847a32ad069b6dbf10} 
+elbow\+\_\+min\+\_\+max&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{calibr\_manager@{calibr\_manager}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!calibr\_manager@{calibr\_manager}}}\Hypertarget{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eab2e0735285d4d48d43ca39b785e396c2}\label{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eab2e0735285d4d48d43ca39b785e396c2} 
+calibr\+\_\+manager&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespaceconfig__defs_a363ea1eb7ba37fcb3ae77d9ef61477c0}\label{namespaceconfig__defs_a363ea1eb7ba37fcb3ae77d9ef61477c0} 
+\index{config\_defs@{config\_defs}!battery@{battery}}
+\index{battery@{battery}!config\_defs@{config\_defs}}
+\doxysubsubsection{\texorpdfstring{battery}{battery}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceconfig__defs_a363ea1eb7ba37fcb3ae77d9ef61477c0}{config\+\_\+defs\+::battery}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{smart@{smart}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!smart@{smart}}}\Hypertarget{namespaceconfig__defs_a363ea1eb7ba37fcb3ae77d9ef61477c0a8c319f28d81d1527a9428e9a5c2195f5}\label{namespaceconfig__defs_a363ea1eb7ba37fcb3ae77d9ef61477c0a8c319f28d81d1527a9428e9a5c2195f5} 
+smart&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{dumb@{dumb}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!dumb@{dumb}}}\Hypertarget{namespaceconfig__defs_a363ea1eb7ba37fcb3ae77d9ef61477c0a665c403aa19fe701b0ea7093ea4d0f45}\label{namespaceconfig__defs_a363ea1eb7ba37fcb3ae77d9ef61477c0a665c403aa19fe701b0ea7093ea4d0f45} 
+dumb&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespaceconfig__defs_abfdcbca3d6ab767de026688c636139be}\label{namespaceconfig__defs_abfdcbca3d6ab767de026688c636139be} 
+\index{config\_defs@{config\_defs}!board\_name@{board\_name}}
+\index{board\_name@{board\_name}!config\_defs@{config\_defs}}
+\doxysubsubsection{\texorpdfstring{board\_name}{board\_name}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceconfig__defs_abfdcbca3d6ab767de026688c636139be}{config\+\_\+defs\+::board\+\_\+name}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AK\_board@{AK\_board}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!AK\_board@{AK\_board}}}\Hypertarget{namespaceconfig__defs_abfdcbca3d6ab767de026688c636139bea44c24108a8a891b49f03f55cfcebb7b3}\label{namespaceconfig__defs_abfdcbca3d6ab767de026688c636139bea44c24108a8a891b49f03f55cfcebb7b3} 
+AK\+\_\+board&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0}\label{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0} 
+\index{config\_defs@{config\_defs}!board\_version@{board\_version}}
+\index{board\_version@{board\_version}!config\_defs@{config\_defs}}
+\doxysubsubsection{\texorpdfstring{board\_version}{board\_version}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0}{config\+\_\+defs\+::board\+\_\+version}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{zero\_one@{zero\_one}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!zero\_one@{zero\_one}}}\Hypertarget{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0a5226a92dc7a02342ca2b4ca9818c0a6f}\label{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0a5226a92dc7a02342ca2b4ca9818c0a6f} 
+zero\+\_\+one&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{zero\_three@{zero\_three}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!zero\_three@{zero\_three}}}\Hypertarget{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0a281573accdaf37cf6b1ca22828501227}\label{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0a281573accdaf37cf6b1ca22828501227} 
+zero\+\_\+three&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{zero\_four@{zero\_four}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!zero\_four@{zero\_four}}}\Hypertarget{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0ab60135936a03bc2b7f54dfd4576eb1bc}\label{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0ab60135936a03bc2b7f54dfd4576eb1bc} 
+zero\+\_\+four&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{zero\_five\_one@{zero\_five\_one}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!zero\_five\_one@{zero\_five\_one}}}\Hypertarget{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0ab6d902b00b590e6493ab745d1ba26ba5}\label{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0ab6d902b00b590e6493ab745d1ba26ba5} 
+zero\+\_\+five\+\_\+one&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797}\label{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797} 
+\index{config\_defs@{config\_defs}!exo\_name@{exo\_name}}
+\index{exo\_name@{exo\_name}!config\_defs@{config\_defs}}
+\doxysubsubsection{\texorpdfstring{exo\_name}{exo\_name}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797}{config\+\_\+defs\+::exo\+\_\+name}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{bilateral\_ankle@{bilateral\_ankle}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!bilateral\_ankle@{bilateral\_ankle}}}\Hypertarget{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a96281b8c1766326cc2f99d44f6950c67}\label{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a96281b8c1766326cc2f99d44f6950c67} 
+bilateral\+\_\+ankle&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{bilateral\_hip@{bilateral\_hip}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!bilateral\_hip@{bilateral\_hip}}}\Hypertarget{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797ab41922a6b46722ea662e4552a5d4b304}\label{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797ab41922a6b46722ea662e4552a5d4b304} 
+bilateral\+\_\+hip&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{bilateral\_hip\_ankle@{bilateral\_hip\_ankle}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!bilateral\_hip\_ankle@{bilateral\_hip\_ankle}}}\Hypertarget{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a3710456ad1658cc1309c7692b8734aa4}\label{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a3710456ad1658cc1309c7692b8734aa4} 
+bilateral\+\_\+hip\+\_\+ankle&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{left\_ankle@{left\_ankle}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!left\_ankle@{left\_ankle}}}\Hypertarget{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a3bf114dd56933f9ae20ee9dd4d3c7518}\label{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a3bf114dd56933f9ae20ee9dd4d3c7518} 
+left\+\_\+ankle&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{right\_ankle@{right\_ankle}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!right\_ankle@{right\_ankle}}}\Hypertarget{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797af2dc1d3b6601076eddc1ca7c21d95706}\label{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797af2dc1d3b6601076eddc1ca7c21d95706} 
+right\+\_\+ankle&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{left\_hip@{left\_hip}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!left\_hip@{left\_hip}}}\Hypertarget{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a6b8b07c4e8510875f8a4f16b4793d9d5}\label{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a6b8b07c4e8510875f8a4f16b4793d9d5} 
+left\+\_\+hip&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{right\_hip@{right\_hip}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!right\_hip@{right\_hip}}}\Hypertarget{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797ae399c9207e140468d805b8172edbdfcc}\label{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797ae399c9207e140468d805b8172edbdfcc} 
+right\+\_\+hip&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{left\_hip\_ankle@{left\_hip\_ankle}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!left\_hip\_ankle@{left\_hip\_ankle}}}\Hypertarget{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797ac17cf658c012d349878487130b79c237}\label{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797ac17cf658c012d349878487130b79c237} 
+left\+\_\+hip\+\_\+ankle&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{right\_hip\_ankle@{right\_hip\_ankle}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!right\_hip\_ankle@{right\_hip\_ankle}}}\Hypertarget{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a31db331ea0e672f14056c1b72b88a8dd}\label{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a31db331ea0e672f14056c1b72b88a8dd} 
+right\+\_\+hip\+\_\+ankle&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{test@{test}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!test@{test}}}\Hypertarget{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a098f6bcd4621d373cade4e832627b4f6}\label{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a098f6bcd4621d373cade4e832627b4f6} 
+test&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{right\_knee@{right\_knee}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!right\_knee@{right\_knee}}}\Hypertarget{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a5cc826b3e637c8ef62f52d86c2b2cbd1}\label{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a5cc826b3e637c8ef62f52d86c2b2cbd1} 
+right\+\_\+knee&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6ca}\label{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6ca} 
+\index{config\_defs@{config\_defs}!exo\_side@{exo\_side}}
+\index{exo\_side@{exo\_side}!config\_defs@{config\_defs}}
+\doxysubsubsection{\texorpdfstring{exo\_side}{exo\_side}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6ca}{config\+\_\+defs\+::exo\+\_\+side}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{bilateral@{bilateral}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!bilateral@{bilateral}}}\Hypertarget{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caacbf855c3d8a8c6135dab45071c3bbb9d}\label{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caacbf855c3d8a8c6135dab45071c3bbb9d} 
+bilateral&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{left@{left}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!left@{left}}}\Hypertarget{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa811882fecd5c7618d7099ebbd39ea254}\label{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa811882fecd5c7618d7099ebbd39ea254} 
+left&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{right@{right}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!right@{right}}}\Hypertarget{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa7c4f29407893c334a6cb7a87bf045c0d}\label{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa7c4f29407893c334a6cb7a87bf045c0d} 
+right&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542}\label{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542} 
+\index{config\_defs@{config\_defs}!flip\_dir@{flip\_dir}}
+\index{flip\_dir@{flip\_dir}!config\_defs@{config\_defs}}
+\doxysubsubsection{\texorpdfstring{flip\_dir}{flip\_dir}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542}{config\+\_\+defs\+::flip\+\_\+dir}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{neither@{neither}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!neither@{neither}}}\Hypertarget{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542aedab649646a4c3ebd9770bdfc29534b5}\label{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542aedab649646a4c3ebd9770bdfc29534b5} 
+neither&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{left@{left}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!left@{left}}}\Hypertarget{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542a811882fecd5c7618d7099ebbd39ea254}\label{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542a811882fecd5c7618d7099ebbd39ea254} 
+left&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{right@{right}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!right@{right}}}\Hypertarget{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542a7c4f29407893c334a6cb7a87bf045c0d}\label{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542a7c4f29407893c334a6cb7a87bf045c0d} 
+right&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{both@{both}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!both@{both}}}\Hypertarget{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542af6cb3e816496528d4187db53bc66567f}\label{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542af6cb3e816496528d4187db53bc66567f} 
+both&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755}\label{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755} 
+\index{config\_defs@{config\_defs}!gearing@{gearing}}
+\index{gearing@{gearing}!config\_defs@{config\_defs}}
+\doxysubsubsection{\texorpdfstring{gearing}{gearing}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755}{config\+\_\+defs\+::gearing}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{gearing\_1\_1@{gearing\_1\_1}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!gearing\_1\_1@{gearing\_1\_1}}}\Hypertarget{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755adc57401fb061f3848e586dc172618055}\label{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755adc57401fb061f3848e586dc172618055} 
+gearing\+\_\+1\+\_\+1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{gearing\_2\_1@{gearing\_2\_1}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!gearing\_2\_1@{gearing\_2\_1}}}\Hypertarget{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755aa089123f290d4c144d4a58e55e449b8b}\label{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755aa089123f290d4c144d4a58e55e449b8b} 
+gearing\+\_\+2\+\_\+1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{gearing\_3\_1@{gearing\_3\_1}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!gearing\_3\_1@{gearing\_3\_1}}}\Hypertarget{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755acc0d2d5436cefa63a255497b7b8d62b9}\label{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755acc0d2d5436cefa63a255497b7b8d62b9} 
+gearing\+\_\+3\+\_\+1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{gearing\_4\_5\_1@{gearing\_4\_5\_1}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!gearing\_4\_5\_1@{gearing\_4\_5\_1}}}\Hypertarget{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755a36720a88098f425962bd1214f3994f74}\label{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755a36720a88098f425962bd1214f3994f74} 
+gearing\+\_\+4\+\_\+5\+\_\+1&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491}\label{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491} 
+\index{config\_defs@{config\_defs}!hip\_controllers@{hip\_controllers}}
+\index{hip\_controllers@{hip\_controllers}!config\_defs@{config\_defs}}
+\doxysubsubsection{\texorpdfstring{hip\_controllers}{hip\_controllers}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491}{config\+\_\+defs\+::hip\+\_\+controllers}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{disabled@{disabled}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!disabled@{disabled}}}\Hypertarget{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a075ae3d2fc31640504f814f60e5ef713}\label{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a075ae3d2fc31640504f814f60e5ef713} 
+disabled&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{zero\_torque@{zero\_torque}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!zero\_torque@{zero\_torque}}}\Hypertarget{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a1f74dd9f329b1ec51a26f2d13988e401}\label{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a1f74dd9f329b1ec51a26f2d13988e401} 
+zero\+\_\+torque&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{heel\_toe@{heel\_toe}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!heel\_toe@{heel\_toe}}}\Hypertarget{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aac997b2344542e904e25772c33171106}\label{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aac997b2344542e904e25772c33171106} 
+heel\+\_\+toe&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{extension\_angle@{extension\_angle}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!extension\_angle@{extension\_angle}}}\Hypertarget{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491af34f31b67085a4f709d3d12dc6b2b24b}\label{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491af34f31b67085a4f709d3d12dc6b2b24b} 
+extension\+\_\+angle&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{franks\_collins\_hip@{franks\_collins\_hip}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!franks\_collins\_hip@{franks\_collins\_hip}}}\Hypertarget{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a9ea6e735ff6b882d7008ff5e619387d2}\label{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a9ea6e735ff6b882d7008ff5e619387d2} 
+franks\+\_\+collins\+\_\+hip&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{bang\_bang@{bang\_bang}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!bang\_bang@{bang\_bang}}}\Hypertarget{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a5e2c55e024f55cd931bd04e54da4f79f}\label{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a5e2c55e024f55cd931bd04e54da4f79f} 
+bang\+\_\+bang&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{late\_stance@{late\_stance}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!late\_stance@{late\_stance}}}\Hypertarget{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a45f8827656ef42c3c2dd054b93daf0f1}\label{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a45f8827656ef42c3c2dd054b93daf0f1} 
+late\+\_\+stance&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{gait\_phase@{gait\_phase}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!gait\_phase@{gait\_phase}}}\Hypertarget{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491ad43577ad6e16315e98e2abdd86183dde}\label{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491ad43577ad6e16315e98e2abdd86183dde} 
+gait\+\_\+phase&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{user\_defined@{user\_defined}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!user\_defined@{user\_defined}}}\Hypertarget{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aacf0d09710ee2f2dd6c1124d35d8d842}\label{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aacf0d09710ee2f2dd6c1124d35d8d842} 
+user\+\_\+defined&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{sine@{sine}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!sine@{sine}}}\Hypertarget{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a925212d1624625aed9491413b4b7be05}\label{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a925212d1624625aed9491413b4b7be05} 
+sine&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{stasis@{stasis}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!stasis@{stasis}}}\Hypertarget{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a3dd4bbe98cd3ce33bc3dfe91cad73dfd}\label{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a3dd4bbe98cd3ce33bc3dfe91cad73dfd} 
+stasis&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{perturbation@{perturbation}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!perturbation@{perturbation}}}\Hypertarget{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a800823c47b8759400d01312793445b0e}\label{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a800823c47b8759400d01312793445b0e} 
+perturbation&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{parabolic@{parabolic}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!parabolic@{parabolic}}}\Hypertarget{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aac62cafde9aacabff464ccc7ff517b85}\label{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aac62cafde9aacabff464ccc7ff517b85} 
+parabolic&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{constant\_torque@{constant\_torque}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!constant\_torque@{constant\_torque}}}\Hypertarget{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aa16f70bf830d4a75f41fb4c825120d67}\label{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aa16f70bf830d4a75f41fb4c825120d67} 
+constant\+\_\+torque&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ptb\_general@{ptb\_general}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!ptb\_general@{ptb\_general}}}\Hypertarget{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491ab0cbddde7837a85bf2863295f34bb397}\label{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491ab0cbddde7837a85bf2863295f34bb397} 
+ptb\+\_\+general&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}\label{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076} 
+\index{config\_defs@{config\_defs}!joint\_id@{joint\_id}}
+\index{joint\_id@{joint\_id}!config\_defs@{config\_defs}}
+\doxysubsubsection{\texorpdfstring{joint\_id}{joint\_id}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{left@{left}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!left@{left}}}\Hypertarget{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a811882fecd5c7618d7099ebbd39ea254}\label{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a811882fecd5c7618d7099ebbd39ea254} 
+left&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{right@{right}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!right@{right}}}\Hypertarget{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a7c4f29407893c334a6cb7a87bf045c0d}\label{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a7c4f29407893c334a6cb7a87bf045c0d} 
+right&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{hip@{hip}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!hip@{hip}}}\Hypertarget{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a997f6b054d31252dfe32ef38f9dddb2a}\label{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a997f6b054d31252dfe32ef38f9dddb2a} 
+hip&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{knee@{knee}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!knee@{knee}}}\Hypertarget{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a22b84b6e35ace0cd87f805ecf020ff36}\label{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a22b84b6e35ace0cd87f805ecf020ff36} 
+knee&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ankle@{ankle}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!ankle@{ankle}}}\Hypertarget{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a12a0852b1a5f77f797900387fca77bf4}\label{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a12a0852b1a5f77f797900387fca77bf4} 
+ankle&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{left\_hip@{left\_hip}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!left\_hip@{left\_hip}}}\Hypertarget{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a6b8b07c4e8510875f8a4f16b4793d9d5}\label{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a6b8b07c4e8510875f8a4f16b4793d9d5} 
+left\+\_\+hip&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{left\_knee@{left\_knee}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!left\_knee@{left\_knee}}}\Hypertarget{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a600593aa93d4d9165a0480e63ab8ef92}\label{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a600593aa93d4d9165a0480e63ab8ef92} 
+left\+\_\+knee&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{left\_ankle@{left\_ankle}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!left\_ankle@{left\_ankle}}}\Hypertarget{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a3bf114dd56933f9ae20ee9dd4d3c7518}\label{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a3bf114dd56933f9ae20ee9dd4d3c7518} 
+left\+\_\+ankle&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{right\_hip@{right\_hip}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!right\_hip@{right\_hip}}}\Hypertarget{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076ae399c9207e140468d805b8172edbdfcc}\label{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076ae399c9207e140468d805b8172edbdfcc} 
+right\+\_\+hip&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{right\_knee@{right\_knee}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!right\_knee@{right\_knee}}}\Hypertarget{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a5cc826b3e637c8ef62f52d86c2b2cbd1}\label{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a5cc826b3e637c8ef62f52d86c2b2cbd1} 
+right\+\_\+knee&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{right\_ankle@{right\_ankle}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!right\_ankle@{right\_ankle}}}\Hypertarget{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076af2dc1d3b6601076eddc1ca7c21d95706}\label{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076af2dc1d3b6601076eddc1ca7c21d95706} 
+right\+\_\+ankle&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72d}\label{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72d} 
+\index{config\_defs@{config\_defs}!JointType@{JointType}}
+\index{JointType@{JointType}!config\_defs@{config\_defs}}
+\doxysubsubsection{\texorpdfstring{JointType}{JointType}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72d}{config\+\_\+defs\+::\+Joint\+Type}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{hip@{hip}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!hip@{hip}}}\Hypertarget{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da997f6b054d31252dfe32ef38f9dddb2a}\label{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da997f6b054d31252dfe32ef38f9dddb2a} 
+hip&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{knee@{knee}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!knee@{knee}}}\Hypertarget{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da22b84b6e35ace0cd87f805ecf020ff36}\label{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da22b84b6e35ace0cd87f805ecf020ff36} 
+knee&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ankle@{ankle}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!ankle@{ankle}}}\Hypertarget{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da12a0852b1a5f77f797900387fca77bf4}\label{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da12a0852b1a5f77f797900387fca77bf4} 
+ankle&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6}\label{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6} 
+\index{config\_defs@{config\_defs}!knee\_controllers@{knee\_controllers}}
+\index{knee\_controllers@{knee\_controllers}!config\_defs@{config\_defs}}
+\doxysubsubsection{\texorpdfstring{knee\_controllers}{knee\_controllers}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6}{config\+\_\+defs\+::knee\+\_\+controllers}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{disabled@{disabled}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!disabled@{disabled}}}\Hypertarget{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a075ae3d2fc31640504f814f60e5ef713}\label{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a075ae3d2fc31640504f814f60e5ef713} 
+disabled&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{zero\_torque@{zero\_torque}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!zero\_torque@{zero\_torque}}}\Hypertarget{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a1f74dd9f329b1ec51a26f2d13988e401}\label{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a1f74dd9f329b1ec51a26f2d13988e401} 
+zero\+\_\+torque&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{user\_defined@{user\_defined}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!user\_defined@{user\_defined}}}\Hypertarget{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6aacf0d09710ee2f2dd6c1124d35d8d842}\label{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6aacf0d09710ee2f2dd6c1124d35d8d842} 
+user\+\_\+defined&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{sine@{sine}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!sine@{sine}}}\Hypertarget{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a925212d1624625aed9491413b4b7be05}\label{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a925212d1624625aed9491413b4b7be05} 
+sine&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{stasis@{stasis}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!stasis@{stasis}}}\Hypertarget{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a3dd4bbe98cd3ce33bc3dfe91cad73dfd}\label{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a3dd4bbe98cd3ce33bc3dfe91cad73dfd} 
+stasis&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{perturbation@{perturbation}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!perturbation@{perturbation}}}\Hypertarget{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a800823c47b8759400d01312793445b0e}\label{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a800823c47b8759400d01312793445b0e} 
+perturbation&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{constant\_torque@{constant\_torque}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!constant\_torque@{constant\_torque}}}\Hypertarget{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6aa16f70bf830d4a75f41fb4c825120d67}\label{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6aa16f70bf830d4a75f41fb4c825120d67} 
+constant\+\_\+torque&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{elbow\_min\_max@{elbow\_min\_max}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!elbow\_min\_max@{elbow\_min\_max}}}\Hypertarget{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6abb39f1b18f00b8847a32ad069b6dbf10}\label{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6abb39f1b18f00b8847a32ad069b6dbf10} 
+elbow\+\_\+min\+\_\+max&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195}\label{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195} 
+\index{config\_defs@{config\_defs}!motor@{motor}}
+\index{motor@{motor}!config\_defs@{config\_defs}}
+\doxysubsubsection{\texorpdfstring{motor}{motor}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195}{config\+\_\+defs\+::motor}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{not\_used@{not\_used}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!not\_used@{not\_used}}}\Hypertarget{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195ab3825df282b81f008b13983fb43ffb57}\label{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195ab3825df282b81f008b13983fb43ffb57} 
+not\+\_\+used&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AK60@{AK60}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!AK60@{AK60}}}\Hypertarget{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195ada0259409ed9eca2da4a98106778cd1c}\label{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195ada0259409ed9eca2da4a98106778cd1c} 
+AK60&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AK80@{AK80}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!AK80@{AK80}}}\Hypertarget{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195a2879aa344f6f75b9b9d8c158d4cb38df}\label{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195a2879aa344f6f75b9b9d8c158d4cb38df} 
+AK80&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AK60\_v1\_1@{AK60\_v1\_1}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!AK60\_v1\_1@{AK60\_v1\_1}}}\Hypertarget{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195abc65f5bfaaea5c911f91590d071f73e4}\label{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195abc65f5bfaaea5c911f91590d071f73e4} 
+AK60\+\_\+v1\+\_\+1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AK60\_v1\_1\_T@{AK60\_v1\_1\_T}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!AK60\_v1\_1\_T@{AK60\_v1\_1\_T}}}\Hypertarget{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195abd5e041b68bee9a70ece092ff287bbbb}\label{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195abd5e041b68bee9a70ece092ff287bbbb} 
+AK60\+\_\+v1\+\_\+1\+\_\+T&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AK70@{AK70}!config\_defs@{config\_defs}}\index{config\_defs@{config\_defs}!AK70@{AK70}}}\Hypertarget{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195a483869ac0cd9da2d29ce63b21b03776c}\label{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195a483869ac0cd9da2d29ce63b21b03776c} 
+AK70&\\
+\hline
+
+\end{DoxyEnumFields}

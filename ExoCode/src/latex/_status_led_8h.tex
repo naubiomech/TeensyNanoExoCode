@@ -1,0 +1,91 @@
+\doxysection{Status\+Led.\+h File Reference}
+\hypertarget{_status_led_8h}{}\label{_status_led_8h}\index{StatusLed.h@{StatusLed.h}}
+
+
+Class to set an RGB LED to different colors based on the state of the system.  
+
+
+{\ttfamily \#include \"{}Arduino.\+h\"{}}\newline
+{\ttfamily \#include \"{}Board.\+h\"{}}\newline
+{\ttfamily \#include \"{}Status\+Defs.\+h\"{}}\newline
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacestatus__led__defs}{status\+\_\+led\+\_\+defs}}
+\begin{DoxyCompactList}\small\item\em define how each message will be displayed. \end{DoxyCompactList}\item 
+namespace \mbox{\hyperlink{namespacestatus__led__defs_1_1colors}{status\+\_\+led\+\_\+defs\+::colors}}
+\begin{DoxyCompactList}\small\item\em colors each message should display \end{DoxyCompactList}\item 
+namespace \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns}{status\+\_\+led\+\_\+defs\+::patterns}}
+\begin{DoxyCompactList}\small\item\em patterns to use for each message \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a2f709e2d1a7f1dcccabe110c40b0b2b9}{status\+\_\+led\+\_\+defs\+::colors\+::off}} \mbox{[}$\,$\mbox{]} = \{0, 0, 0\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a96b6e3f1008f96971a9e3afa1de18a13}{status\+\_\+led\+\_\+defs\+::colors\+::trial\+\_\+off}} \mbox{[}$\,$\mbox{]} = \{0, 0, 255\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_addfe6119280354e5f0a462695c367acb}{status\+\_\+led\+\_\+defs\+::colors\+::trial\+\_\+on}} \mbox{[}$\,$\mbox{]} = \{0, 255, 0\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a2ec7ea4115161c070f4ffbd49bc70095}{status\+\_\+led\+\_\+defs\+::colors\+::test}} \mbox{[}$\,$\mbox{]} = \{0, 255, 0\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a17dc4de849ec3e1ac7e470a288762376}{status\+\_\+led\+\_\+defs\+::colors\+::torque\+\_\+calibration}} \mbox{[}$\,$\mbox{]} = \{255, 255, 0\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_ab1ed75357dd777344c4854b21509248b}{status\+\_\+led\+\_\+defs\+::colors\+::fsr\+\_\+calibration}} \mbox{[}$\,$\mbox{]} = \{255, 0, 255\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a1d767fbfc7a6636b70a1a3a9183a3ec7}{status\+\_\+led\+\_\+defs\+::colors\+::fsr\+\_\+refinement}} \mbox{[}$\,$\mbox{]} = \{255, 0, 255\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_af489db85e06428482132c94acd6d670b}{status\+\_\+led\+\_\+defs\+::colors\+::motor\+\_\+start\+\_\+up}} \mbox{[}$\,$\mbox{]} = \{255, 68, 0\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a2a1386e5d490ed3a03721603ea9e8db4}{status\+\_\+led\+\_\+defs\+::colors\+::error}} \mbox{[}$\,$\mbox{]} = \{255, 0, 0\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a3962c260bb7fd6a8f60b3b92eda39eab}{status\+\_\+led\+\_\+defs\+::colors\+::warning}} \mbox{[}$\,$\mbox{]} = \{255, 68, 0\}
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_af50699f8d5bb9f8faa4e03b3aef21001}{status\+\_\+led\+\_\+defs\+::patterns\+::solid}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_afb964875f3914b688bb7fbac1d6be596}{status\+\_\+led\+\_\+defs\+::patterns\+::blink}} = 1
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a195ec27886ed4c7db8d1358e48255d6a}{status\+\_\+led\+\_\+defs\+::patterns\+::pulse}} = 2
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a5ed9733acf4e793cbe4db6682bf37c18}{status\+\_\+led\+\_\+defs\+::patterns\+::rainbow}} = 3
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a690cb000461dff25b5ec172cd2afc3c2}{status\+\_\+led\+\_\+defs\+::patterns\+::off}} \mbox{[}$\,$\mbox{]} = \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_af50699f8d5bb9f8faa4e03b3aef21001}{solid}}, 0\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a5c8bc12d9b25c0a05277c6569719054d}{status\+\_\+led\+\_\+defs\+::patterns\+::trial\+\_\+off}} \mbox{[}$\,$\mbox{]} = \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_af50699f8d5bb9f8faa4e03b3aef21001}{solid}},0\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a8a388006a4c64a63fc47e2445e23acd5}{status\+\_\+led\+\_\+defs\+::patterns\+::trial\+\_\+on}} \mbox{[}$\,$\mbox{]} = \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a195ec27886ed4c7db8d1358e48255d6a}{pulse}}, 500\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a6b9c890f8f07e965ea69e75f51b158e5}{status\+\_\+led\+\_\+defs\+::patterns\+::test}} \mbox{[}$\,$\mbox{]} = \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a5ed9733acf4e793cbe4db6682bf37c18}{rainbow}}, 4000\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_ab602c02deefeac6c92567d27ecc791b2}{status\+\_\+led\+\_\+defs\+::patterns\+::torque\+\_\+calibration}} \mbox{[}$\,$\mbox{]} = \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_af50699f8d5bb9f8faa4e03b3aef21001}{solid}}, 0\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_ac747c22e24c290054f60b0ac4e9f77c8}{status\+\_\+led\+\_\+defs\+::patterns\+::fsr\+\_\+calibration}} \mbox{[}$\,$\mbox{]} = \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_af50699f8d5bb9f8faa4e03b3aef21001}{solid}}, 0\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a61cd30c7e1e1105a245c487238f953ff}{status\+\_\+led\+\_\+defs\+::patterns\+::fsr\+\_\+refinement}} \mbox{[}$\,$\mbox{]} = \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a195ec27886ed4c7db8d1358e48255d6a}{pulse}}, 250\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a7f2d3dd9e17555e05972072b492ca9d2}{status\+\_\+led\+\_\+defs\+::patterns\+::motor\+\_\+start\+\_\+up}} \mbox{[}$\,$\mbox{]} = \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a195ec27886ed4c7db8d1358e48255d6a}{pulse}}, 4000\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_ad8a7abfbc26f89bb52a004c3c0354a1c}{status\+\_\+led\+\_\+defs\+::patterns\+::error}} \mbox{[}$\,$\mbox{]} = \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_afb964875f3914b688bb7fbac1d6be596}{blink}}, 250\}
+\item 
+const int \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a664c7ae78b6d2219482e78d9bdf82e3e}{status\+\_\+led\+\_\+defs\+::patterns\+::warning}} \mbox{[}$\,$\mbox{]} = \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_afb964875f3914b688bb7fbac1d6be596}{blink}}, 250\}
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacestatus__led__defs_ada9272fb30ab06e74a3f335bb5102a99}{status\+\_\+led\+\_\+defs\+::on\+\_\+state}} = \mbox{\hyperlink{namespacelogic__micro__pins_ab67bac5a45d7e514c9c84e30e56c9f3f}{logic\+\_\+micro\+\_\+pins\+::status\+\_\+led\+\_\+on\+\_\+state}}
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacestatus__led__defs_a33acabc4bb80c550867973edf27df581}{status\+\_\+led\+\_\+defs\+::off\+\_\+state}} = \mbox{\hyperlink{namespacelogic__micro__pins_afe10b6942719814aebb9d65a4f7134d1}{logic\+\_\+micro\+\_\+pins\+::status\+\_\+led\+\_\+off\+\_\+state}}
+\item 
+const bool \mbox{\hyperlink{namespacestatus__led__defs_a1ea89e90910e5a11a9c32c8901b7c9d3}{status\+\_\+led\+\_\+defs\+::has\+\_\+pwm}} = \mbox{\hyperlink{namespacelogic__micro__pins_af50816ba2d942a8122921f8e3a9485b0}{logic\+\_\+micro\+\_\+pins\+::status\+\_\+has\+\_\+pwm}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class to set an RGB LED to different colors based on the state of the system. 
+
+Constructor\+: Status\+Led(int r\+\_\+pin, int g\+\_\+pin, int b\+\_\+pin) or (int r\+\_\+pin, int g\+\_\+pin, int b\+\_\+pin, int brightness) The pins are the RGB LED pins ideally they are PWM but can also handle simple digital pins. In the header set NO\+\_\+\+PWM to true or false depending on if you have PWM or simple digital pins. Brightness sets the brightness from 255 to 0, this is ignored for simple digital pins
+
+update\+Led(int message) method sets the color of the LED, these messages can be found in the preprocessor part of the header. set\+Brightness(int brightness) method is used to change the brightness after initialization.
+
+\begin{DoxyAuthor}{Author}
+P. Stegall 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+Dec. 2021 
+\end{DoxyDate}

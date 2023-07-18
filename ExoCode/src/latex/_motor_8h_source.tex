@@ -1,0 +1,160 @@
+\doxysection{Motor.\+h}
+\hypertarget{_motor_8h_source}{}\label{_motor_8h_source}\mbox{\hyperlink{_motor_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ Motor\_h}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ Motor\_h}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ Arduino\ compiles\ everything\ in\ the\ src\ folder\ even\ if\ not\ included\ so\ it\ causes\ and\ error\ for\ the\ nano\ if\ this\ is\ not\ included.}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#if\ defined(ARDUINO\_TEENSY36)\ ||\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_exo_data_8h}{ExoData.h}}"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_parse_ini_8h}{ParseIni.h}}"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_board_8h}{Board.h}}"{}}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_utilities_8h}{Utilities.h}}"{}}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{comment}{//\ TODO:\ Create\ base\ motor\ class\ with\ interface\ read\_data(),\ send\_cmd(),\ motor\_on\_off(bool),\ get\_is\_left()}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00042\ \textcolor{keyword}{class\ }\_Motor}
+\DoxyCodeLine{00043\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \_Motor(\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\_defs::joint\_id}}\ \textcolor{keywordtype}{id},\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \textcolor{keywordtype}{int}\ enable\_pin);}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \string~\_Motor()\{\};}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Pure\ virtual\ functions,\ these\ will\ have\ to\ be\ defined\ for\ each\ one.}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ read\_data()\ =\ 0;\ }
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ send\_data(\textcolor{keywordtype}{float}\ torque)\ =\ 0;\ \ }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ transaction(\textcolor{keywordtype}{float}\ torque)\ =\ 0;}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{comment}{//void\ set\_controller(int\ controller);\ //\ Changes\ the\ low\ level\ controller\ for\ an\ individual\ joint}}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ on\_off()\ =\ 0;\ \ }
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ enable()\ =\ 0;\ \ }
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ enable(\textcolor{keywordtype}{bool}\ overide)\ =\ 0;\ \ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ zero()\ =\ 0;\ }
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespaceutils_ac45099964358cacf2a7628c3300c699d}{get\_is\_left}}();\ \ \textcolor{comment}{//\ }}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\_defs::joint\_id}}\ get\_id();}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{float}\ get\_Kt()\ =\ 0;\ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ set\_error()\ =\ 0;\ }
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\_defs::joint\_id}}\ \_id;\ \textcolor{comment}{//motor\ id\ }}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \_is\_left;}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ \_data;}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_motor_data}{MotorData}}*\ \_motor\_data;}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \_enable\_pin;}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \_prev\_motor\_enabled;\ }
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \_prev\_on\_state;}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \_error\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_Kt;\ \textcolor{comment}{//\ Torque\ constant\ of\ the\ motor,\ at\ the\ motor\ output.\ [Nm/A]\ \ \ }}
+\DoxyCodeLine{00120\ \};}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00125\ \textcolor{keyword}{class\ }NullMotor\ :\ \textcolor{keyword}{public}\ \_Motor}
+\DoxyCodeLine{00126\ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00128\ \ \ \ \ NullMotor(\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\_defs::joint\_id}}\ \textcolor{keywordtype}{id},\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \textcolor{keywordtype}{int}\ enable\_pin):\_Motor(id,\ exo\_data,\ enable\_pin)\ \{\};}
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keywordtype}{void}\ read\_data()\ \{\};}
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keywordtype}{void}\ send\_data(\textcolor{keywordtype}{float}\ torque)\ \{\};}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordtype}{void}\ transaction(\textcolor{keywordtype}{float}\ torque)\ \{\};}
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordtype}{void}\ on\_off()\ \{\};}
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keywordtype}{bool}\ enable()\ \{\textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\};}
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordtype}{bool}\ enable(\textcolor{keywordtype}{bool}\ overide)\ \{\textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\};}
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordtype}{void}\ zero()\ \{\};}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordtype}{float}\ get\_Kt()\ \{\textcolor{keywordflow}{return}\ 0.0;\};}
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_error()\ \{\};}
+\DoxyCodeLine{00138\ \};}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00144\ \textcolor{keyword}{class\ }\_CANMotor\ :\ \textcolor{keyword}{public}\ \_Motor}
+\DoxyCodeLine{00145\ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \_CANMotor(\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\_defs::joint\_id}}\ \textcolor{keywordtype}{id},\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \textcolor{keywordtype}{int}\ enable\_pin);}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \string~\_CANMotor()\{\};}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ transaction(\textcolor{keywordtype}{float}\ torque);}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ read\_data();}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ send\_data(\textcolor{keywordtype}{float}\ torque);}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ on\_off();}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ enable();}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ enable(\textcolor{keywordtype}{bool}\ overide);}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ zero();}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ get\_Kt();}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ check\_response();}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ set\_error();}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ set\_Kt(\textcolor{keywordtype}{float}\ Kt);}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \textcolor{comment}{//TODO\ Chance\ :\ change\ the\ return\ to\ uint\ and\ check\ that\ stuff\ still\ works}}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_float\_to\_uint(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ x\_min,\ \textcolor{keywordtype}{float}\ x\_max,\ \textcolor{keywordtype}{int}\ bits);}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_uint\_to\_float(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ x\_int,\ \textcolor{keywordtype}{float}\ x\_min,\ \textcolor{keywordtype}{float}\ x\_max,\ \textcolor{keywordtype}{int}\ bits);}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \_handle\_read\_failure();}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_KP\_MIN;\ }
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_KP\_MAX;\ }
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_KD\_MIN;\ }
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_KD\_MAX;\ }
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_P\_MAX;\ }
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_I\_MAX;\ }
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_V\_MAX;\ }
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \_enable\_response;\ }
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint32\_t\ \_timeout\ =\ 500;\ \ }
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ std::queue<float>\ \_measured\_current;\ }
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \_current\_queue\_size\ =\ 25;\ }
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \_variance\_threshold\ =\ 0.01;\ }
+\DoxyCodeLine{00208\ \};}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00213\ \textcolor{keyword}{class\ }\mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195ada0259409ed9eca2da4a98106778cd1c}{AK60}}\ :\ \textcolor{keyword}{public}\ \_CANMotor}
+\DoxyCodeLine{00214\ \{}
+\DoxyCodeLine{00215\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195ada0259409ed9eca2da4a98106778cd1c}{AK60}}(\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\_defs::joint\_id}}\ \textcolor{keywordtype}{id},\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \textcolor{keywordtype}{int}\ enable\_pin);\ \textcolor{comment}{//\ constructor:\ type\ is\ the\ motor\ type}}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \string~AK60()\{\};}
+\DoxyCodeLine{00218\ \};}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00223\ \textcolor{keyword}{class\ }\mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195abc65f5bfaaea5c911f91590d071f73e4}{AK60\_v1\_1}}\ :\ \textcolor{keyword}{public}\ \_CANMotor}
+\DoxyCodeLine{00224\ \{}
+\DoxyCodeLine{00225\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195abc65f5bfaaea5c911f91590d071f73e4}{AK60\_v1\_1}}(\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\_defs::joint\_id}}\ \textcolor{keywordtype}{id},\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \textcolor{keywordtype}{int}\ enable\_pin);\ \textcolor{comment}{//\ constructor:\ type\ is\ the\ motor\ type}}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \string~AK60\_v1\_1()\{\};}
+\DoxyCodeLine{00228\ \};}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00233\ \textcolor{keyword}{class\ }\mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195abd5e041b68bee9a70ece092ff287bbbb}{AK60\_v1\_1\_T}}\ :\ \textcolor{keyword}{public}\ \_CANMotor}
+\DoxyCodeLine{00234\ \{}
+\DoxyCodeLine{00235\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00236\ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195abd5e041b68bee9a70ece092ff287bbbb}{AK60\_v1\_1\_T}}(\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\_defs::joint\_id}}\ \textcolor{keywordtype}{id},\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \textcolor{keywordtype}{int}\ enable\_pin);\ \textcolor{comment}{//\ constructor:\ type\ is\ the\ motor\ type}}
+\DoxyCodeLine{00237\ \ \ \ \ \string~AK60\_v1\_1\_T()\ \{\};}
+\DoxyCodeLine{00238\ \};}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00243\ \textcolor{keyword}{class\ }\mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195a2879aa344f6f75b9b9d8c158d4cb38df}{AK80}}\ :\ \textcolor{keyword}{public}\ \_CANMotor}
+\DoxyCodeLine{00244\ \{}
+\DoxyCodeLine{00245\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195a2879aa344f6f75b9b9d8c158d4cb38df}{AK80}}(\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\_defs::joint\_id}}\ \textcolor{keywordtype}{id},\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \textcolor{keywordtype}{int}\ enable\_pin);\ \textcolor{comment}{//\ constructor:\ type\ is\ the\ motor\ type}}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \string~AK80()\{\};\ \ \ }
+\DoxyCodeLine{00248\ \};}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \textcolor{keyword}{class\ }\mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195a483869ac0cd9da2d29ce63b21b03776c}{AK70}}\ :\ \textcolor{keyword}{public}\ \_CANMotor}
+\DoxyCodeLine{00251\ \{}
+\DoxyCodeLine{00252\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195a483869ac0cd9da2d29ce63b21b03776c}{AK70}}(\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\_defs::joint\_id}}\ \textcolor{keywordtype}{id},\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \textcolor{keywordtype}{int}\ enable\_pin);\ \textcolor{comment}{//\ constructor:\ type\ is\ the\ motor\ type}}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \string~AK70()\{\};}
+\DoxyCodeLine{00255\ \};}
+\DoxyCodeLine{00256\ }
+\DoxyCodeLine{00257\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00258\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

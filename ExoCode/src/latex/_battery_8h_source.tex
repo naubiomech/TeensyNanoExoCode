@@ -1,0 +1,44 @@
+\doxysection{Battery.\+h}
+\hypertarget{_battery_8h_source}{}\label{_battery_8h_source}\mbox{\hyperlink{_battery_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#ifndef\ RCBATTERY\_H}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ RCBATTERY\_H}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_i2_c_handler_8h}{I2CHandler.h}}"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#if\ defined(ARDUINO\_ARDUINO\_NANO33BLE)\ |\ defined(ARDUINO\_NANO\_RP2040\_CONNECT)}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{class\ }\_Battery\ }
+\DoxyCodeLine{00022\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Initialize\ any\ variables\ or\ peripherals\ */}}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacereal__time__i2c_a9b3528c32358ba78a17363ba7d4284f8}{init}}()\ =\ 0;}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Collect\ and\ return\ the\ parameter\ of\ interest\ */}}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{float}\ get\_parameter()\ =\ 0;}
+\DoxyCodeLine{00028\ \};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{class\ }SmartBattery:\ \textcolor{keyword}{public}\ \_Battery}
+\DoxyCodeLine{00035\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacereal__time__i2c_a9b3528c32358ba78a17363ba7d4284f8}{init}}();}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ get\_parameter();}
+\DoxyCodeLine{00039\ \ \ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ uint8\_t\ data[\mbox{\hyperlink{namespacei2c__cmds_1_1smart_1_1get__battery__voltage_a3a5a5bae168ae4d6c4cd61cc5ad25575}{i2c\_cmds::smart::get\_battery\_voltage::len}}];}
+\DoxyCodeLine{00042\ \};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00048\ \textcolor{keyword}{class\ }RCBattery:\ \textcolor{keyword}{public}\ \_Battery}
+\DoxyCodeLine{00049\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacereal__time__i2c_a9b3528c32358ba78a17363ba7d4284f8}{init}}();}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ get\_parameter();}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ uint8\_t\ data[\mbox{\hyperlink{namespacei2c__cmds_1_1rc_1_1get__battery__voltage_ab5425d7c3d474da11f9cff1549c79246}{i2c\_cmds::rc::get\_battery\_voltage::len}}];}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ BusLSB\ =\ 4;\ }
+\DoxyCodeLine{00057\ \};}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

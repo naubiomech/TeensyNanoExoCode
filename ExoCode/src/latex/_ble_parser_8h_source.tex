@@ -1,0 +1,41 @@
+\doxysection{Ble\+Parser.\+h}
+\hypertarget{_ble_parser_8h_source}{}\label{_ble_parser_8h_source}\mbox{\hyperlink{_ble_parser_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#ifndef\ BLEPARSER\_H}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ BLEPARSER\_H}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ble__commands_8h}{ble\_commands.h}}"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_ble_message_8h}{BleMessage.h}}"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_gatt_db_8h}{GattDb.h}}"{}}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_ble_parser}{BleParser}}}
+\DoxyCodeLine{00019\ \{}
+\DoxyCodeLine{00020\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{class_ble_parser_a94140a12613eb143daccddde23a634a2}{BleParser}}();}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{class_ble_message}{BleMessage}}\ *\mbox{\hyperlink{class_ble_parser_a88c38aa6cb02a834a7b3006b367a8de5}{handle\_raw\_data}}(\textcolor{keywordtype}{char}\ *buffer,\ \textcolor{keywordtype}{int}\ length);}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_ble_parser_a21bf7aa1963d30349846fa39d38a9383}{package\_raw\_data}}(\textcolor{keywordtype}{byte}\ *buffer,\ \mbox{\hyperlink{class_ble_message}{BleMessage}}\ \&msg);}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ \_start\_char\ =\ \textcolor{charliteral}{'S'};}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ \_start\_data\ =\ \textcolor{charliteral}{'c'};}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ \_delimiter\ =\ \textcolor{charliteral}{'n'};}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \_maxChars\ =\ 12;}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{comment}{//\ Empty\ message}}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_ble_message}{BleMessage}}\ \_empty\_message\ =\ \mbox{\hyperlink{class_ble_message}{BleMessage}}();}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{comment}{//\ The\ current\ working\ message,\ used\ by\ handle\_raw\_data}}
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{class_ble_message}{BleMessage}}\ \_working\_message\ =\ \mbox{\hyperlink{class_ble_message}{BleMessage}}();}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_waiting\_for\_data\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{int}\ \_bytes\_collected\ =\ 0;}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{byte}\ \_buffer[64]\ =\ \{0\};}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ \_handle\_command(\textcolor{keywordtype}{char}\ command);}
+\DoxyCodeLine{00065\ \};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{comment}{//\ \#endif}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

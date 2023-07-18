@@ -1,0 +1,94 @@
+\doxysection{Utilities.\+h File Reference}
+\hypertarget{_utilities_8h}{}\label{_utilities_8h}\index{Utilities.h@{Utilities.h}}
+
+
+~\newline
+  
+
+
+{\ttfamily \#include \"{}Parse\+Ini.\+h\"{}}\newline
+{\ttfamily \#include \"{}Arduino.\+h\"{}}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+{\ttfamily \#include $<$queue$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classutils_1_1_speed_check}{utils\+::\+Speed\+Check}}
+\begin{DoxyCompactList}\small\item\em Class used to check the loop speed without serial prints, by toggling a pin after initialized, toggle will need to be called each loop. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespaceutils}{utils}}
+\begin{DoxyCompactList}\small\item\em contains general utility functions for the exo \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{namespaceutils_ac45099964358cacf2a7628c3300c699d}{utils\+::get\+\_\+is\+\_\+left}} (\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}} id)
+\begin{DoxyCompactList}\small\item\em Takes in the joint id and returns if the left indicator bit is set as a bool. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceutils_a807b0fc90f9c749643f9bd06e7ce2e26}{utils\+::get\+\_\+is\+\_\+left}} (uint8\+\_\+t id)
+\begin{DoxyCompactList}\small\item\em Takes in the joint id and returns if the left indicator bit is set as a bool. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{namespaceutils_aa55778f7db8215731d334c8babb1aaf5}{utils\+::get\+\_\+joint\+\_\+type}} (\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}} id)
+\begin{DoxyCompactList}\small\item\em Takes in the joint id and returns the id with the left/right bits masked out. Returning uint8\+\_\+t rather than joint\+\_\+id type since we have to typecast to do logical stuff anyways. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{namespaceutils_ae4420cc52e1886d8e600273c0fe577f6}{utils\+::get\+\_\+joint\+\_\+type}} (uint8\+\_\+t id)
+\begin{DoxyCompactList}\small\item\em Takes in the joint id and returns the id with the left/right bits masked out. Returning uint8\+\_\+t rather than joint\+\_\+id type since we have to typecast to do logical stuff anyways. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceutils_ad0aa3b6a3f8c6b4beb4ac3b19d644c10}{utils\+::schmitt\+\_\+trigger}} (float value, bool is\+\_\+high, float lower\+\_\+threshold, float upper\+\_\+threshold)
+\begin{DoxyCompactList}\small\item\em Returns the new state of the system based on the value and past state. Takes in the current value, if the state is currently high, and the lower and upper threshold Floats are used so that ints will be promoted but it will still work with floats. May cause issues with very large ints. Templates could be used in the future but seemed to have issues if all types were not present in the template, e.\+g. is\+\_\+high is always a bool. A schmitt trigger is a way of tracking if a noisy signal is high or low When it is low it must go above the upper threshold before it is high When it is high it must go below the lower threshold before it is low. This way if the signal crosses one threshold multiple times it won\textquotesingle{}t register as changing multiple times. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{namespaceutils_a6323a0e1b1bea3fc70fbda077efb1475}{utils\+::rate\+\_\+limit}} (int setpoint, int last\+\_\+value, int \texorpdfstring{$\ast$}{*}last\+\_\+time, int rate\+\_\+per\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Limits the rate at which a value can change. ~\newline
+ This is useful when you would like a variable to gradually come on. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{namespaceutils_a626ce03bb77c282406857c9d80838007}{utils\+::update\+\_\+bit}} (uint8\+\_\+t original, bool val, uint8\+\_\+t loc)
+\begin{DoxyCompactList}\small\item\em sets/clears the specified bit in a unit8\+\_\+t. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{namespaceutils_aeb61a9190ab9a27c5b59305a70b7ae65}{utils\+::update\+\_\+bit}} (uint16\+\_\+t original, bool val, uint8\+\_\+t loc)
+\begin{DoxyCompactList}\small\item\em sets/clears the specified bit in a unit16\+\_\+t. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceutils_a11fd086c9652b1287b6cbf9c6e12c54b}{utils\+::get\+\_\+bit}} (uint8\+\_\+t original, uint8\+\_\+t loc)
+\begin{DoxyCompactList}\small\item\em Returns the bit in a specific location in a uint8\+\_\+t. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceutils_a701a62b97b071eef0df46591a4703b86}{utils\+::get\+\_\+bit}} (uint16\+\_\+t original, uint8\+\_\+t loc)
+\begin{DoxyCompactList}\small\item\em Returns the bit in a specific location in a uint16. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{namespaceutils_a93ef823108dc95f6ff5e732b61002eaa}{utils\+::degrees\+\_\+to\+\_\+radians}} (float)
+\begin{DoxyCompactList}\small\item\em converts from degrees to radians \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{namespaceutils_a0bc9902175a83a7299385cf9deaf48ff}{utils\+::radians\+\_\+to\+\_\+degrees}} (float)
+\begin{DoxyCompactList}\small\item\em converts from radians to degrees \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{namespaceutils_aba66776ed296852181b0a1c371f3e0cf}{utils\+::remove\+\_\+all\+\_\+chars}} (String str, char rmv)
+\begin{DoxyCompactList}\small\item\em Searches str for \textquotesingle{}rmv characters and deletes them all, returns new string todo\+: Chance update comments. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{namespaceutils_a710e34137dce08af5264701cd26ce671}{utils\+::remove\+\_\+all\+\_\+chars}} (char \texorpdfstring{$\ast$}{*}arr, int len, char rmv)
+\item 
+int \mbox{\hyperlink{namespaceutils_aa7436ae25cb24b70aa9cb6c24a75e5a0}{utils\+::get\+\_\+char\+\_\+length}} (int of\+Int)
+\begin{DoxyCompactList}\small\item\em given and integer, return the number of characters in it todo\+: Chance update comments \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\int \mbox{\hyperlink{namespaceutils_a2d8908e882fc6b3ba22e6b2cc9b79d9c}{utils\+::elements\+\_\+are\+\_\+equal}} (T arr1, T arr2, int length)
+\begin{DoxyCompactList}\small\item\em Checks if all elements of the array are equal. Arrays must be the same length and type todo\+: Chance update comments. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{namespaceutils_aca9ed0c3f170a66d963071975405aa71}{utils\+::set\+\_\+elements\+\_\+equal}} (T arr1, T arr2, int length)
+\begin{DoxyCompactList}\small\item\em Sets arr2 elements equal to arr1 elements. Arrays must be the same length and type todo\+: Chance update comments. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceutils_aaccbd7cf1148da7ed6c9ffa99000aa1a}{utils\+::is\+\_\+little\+\_\+endian}} ()
+\begin{DoxyCompactList}\small\item\em Returns 1 if system uses little endian floating points. This confirms that the floating points match if not the byte order needs to be flipped. Not tested with big endian or 64 bit systems. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespaceutils_ae506b587b15eea4c765e622ba9b23c5a}{utils\+::float\+\_\+to\+\_\+uint8}} (float num\+\_\+to\+\_\+convert, uint8\+\_\+t \texorpdfstring{$\ast$}{*}converted\+\_\+bytes)
+\begin{DoxyCompactList}\small\item\em Takes in a float and a byte array reference Puts the bytes of the float into the array in little endian Not tested with big endian or 64 bit systems. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespaceutils_ac266187e7c33bab738ee595062da2088}{utils\+::uint8\+\_\+to\+\_\+float}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}bytes\+\_\+to\+\_\+convert, float \texorpdfstring{$\ast$}{*}converted\+\_\+float)
+\begin{DoxyCompactList}\small\item\em Takes in a byte array address in little endian form containing a broken up float Returns a reconstituted float from the bytes in the form (endianess) the system uses. Not tested with big endian or 64 bit systems. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespaceutils_aab57a56061fc3e9756fb852e2a9f5ca7}{utils\+::float\+\_\+to\+\_\+short\+\_\+fixed\+\_\+point\+\_\+bytes}} (float num\+\_\+to\+\_\+convert, uint8\+\_\+t \texorpdfstring{$\ast$}{*}converted\+\_\+bytes, uint8\+\_\+t factor)
+\begin{DoxyCompactList}\small\item\em converts float into individual bytes of a fixed point short. ~\newline
+ \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespaceutils_af80f75cc84116926faf99abaf0abce7b}{utils\+::short\+\_\+fixed\+\_\+point\+\_\+bytes\+\_\+to\+\_\+float}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}bytes\+\_\+to\+\_\+convert, float \texorpdfstring{$\ast$}{*}converted\+\_\+val, uint8\+\_\+t factor)
+\begin{DoxyCompactList}\small\item\em converts a set of bytes in a fixed point short int into a float \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{namespaceutils_abf29b08cdde8e83e33543eb80cd0960d}{utils\+::ewma}} (float new\+\_\+value, float filter\+\_\+value, float alpha)
+\begin{DoxyCompactList}\small\item\em Exponential Weighted Moving Average. Used to smooth out noisy data. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespaceutils_ab4a4ec118f6bac1ee36f29a27013c528}{utils\+::spin\+\_\+on\+\_\+error\+\_\+with}} (String message)
+\begin{DoxyCompactList}\small\item\em Never returns from this function, used for critical errors. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceutils_a41e4bd58ef05f006f93682bda9b98c42}{utils\+::is\+\_\+close\+\_\+to}} (float val1, float val2, float tolerance)
+\begin{DoxyCompactList}\small\item\em Checks if two floats are close to each other within a tolerance. \end{DoxyCompactList}\item 
+std\+::pair$<$ float, float $>$ \mbox{\hyperlink{namespaceutils_a0613d9e40ec11d3e17655132b61ad2a0}{utils\+::online\+\_\+std\+\_\+dev}} (std\+::queue$<$ float $>$ set)
+\begin{DoxyCompactList}\small\item\em Given a set of data and maximum size. Returns the new mean and standard deviation. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceutils_af362fe7671d3080b044a58b906c66c39}{utils\+::is\+\_\+outside\+\_\+range}} (float val, float min, float max)
+\begin{DoxyCompactList}\small\item\em Checks if a value is outside of a range. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+~\newline
+ 
+
+\begin{DoxyAuthor}{Author}
+P. Stegall \& C. Cuddeback
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+Jan. 2022 
+\end{DoxyDate}

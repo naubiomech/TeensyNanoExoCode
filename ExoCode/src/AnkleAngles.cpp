@@ -30,6 +30,7 @@ float AnkleAngles::get(bool return_normalized)
         return 0;
     }
     
+    // Convert ADC counts to ratio
     const int adc_counts = _left ? analogRead(_left_pin):analogRead(_right_pin);
     const float ratio = adc_counts / 4095.0f;
     if (!return_normalized) {
@@ -53,10 +54,6 @@ float AnkleAngles::_update_population_statistics(const float new_value)
     } else if (new_value < _min_average) {
         _min_average = new_value;
     }
-
-    // Serial.print("Mean:" + String(_mean) + "\t");
-    // Serial.print("Max:" + String(_max_average) + "\t");
-    // Serial.print("Min:" + String(_min_average) + "\t");
 
     const float range = _max_average - _min_average;
 

@@ -1,3 +1,11 @@
+/**
+ * @file Board.h
+ * @author Chancelor Cuddeback
+ * @brief Defines the pins and peripherals for the board being used.
+ * @date 2023-07-18
+ * 
+ */
+
 #ifndef BOARD_SETTINGS_HEADER
     #define BOARD_SETTINGS_HEADER
     // include config so we know what board is being used.

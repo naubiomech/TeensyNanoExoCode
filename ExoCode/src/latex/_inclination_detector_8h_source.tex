@@ -1,0 +1,68 @@
+\doxysection{Inclination\+Detector.\+h}
+\hypertarget{_inclination_detector_8h_source}{}\label{_inclination_detector_8h_source}\mbox{\hyperlink{_inclination_detector_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ INCLINATION\_DETECTOR\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ INCLINATION\_DETECTOR\_H}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <Arduino.h>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <queue>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{_inclination_detector_8h_a1aad764ba35fa21ff29a70473d9f96f0}{Inclination}}\ :\ uint8\_t}
+\DoxyCodeLine{00008\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ \mbox{\hyperlink{_inclination_detector_8h_a1aad764ba35fa21ff29a70473d9f96f0a0d3627289b893d3eea08e52589ed06ae}{Decline}}\ =\ 0,}
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{_inclination_detector_8h_a1aad764ba35fa21ff29a70473d9f96f0aa0db49ba470c1c9ae2128c3470339153}{Level}}\ =\ 1,}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{_inclination_detector_8h_a1aad764ba35fa21ff29a70473d9f96f0a66c6df287e85a481eb0704e67ceae94b}{Incline}}\ =\ 2,}
+\DoxyCodeLine{00012\ \};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_inclination_detector}{InclinationDetector}}}
+\DoxyCodeLine{00019\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{class_inclination_detector_a236be3c724d1e8084ec5297422f411d1}{InclinationDetector}}();}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inclination_detector_a3bfd5b5f6724397872e9c849298430e2}{set\_decline\_angle}}(\textcolor{keywordtype}{float}\ threshold);}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inclination_detector_a4a6d2242e4f8426e3ccf88a19648f7d1}{set\_incline\_angle}}(\textcolor{keywordtype}{float}\ threshold);}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{_inclination_detector_8h_a1aad764ba35fa21ff29a70473d9f96f0}{Inclination}}\ \mbox{\hyperlink{class_inclination_detector_a7390286bab1ba5a2864cea7e87a04426}{check}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ is\_stance,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ fsr\_calibrating,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ norm\_angle);}
+\DoxyCodeLine{00044\ \ \ \ \ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{comment}{/*\ Exposed\ through\ getters/setters\ */}}
+\DoxyCodeLine{00047\ \ \ \ \ std::pair<float,\ float>\ \_decline\_stance\_phase\_percent;}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{float}\ \_incline\_angle\_theshold;}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{float}\ \_decline\_angle\_threshold;}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{comment}{/*\ Internal\ */}}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_previous\_fsr\_calibrating;}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{int}\ \_calibration\_step\_count;}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \_steps\_until\_calibrated\ =\ 4;}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_previous\_should\_calibrate;}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_returned\_this\_stance;}
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{_inclination_detector_8h_a1aad764ba35fa21ff29a70473d9f96f0}{Inclination}}\ \_prev\_estimate;}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_prev\_stance;}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{float}\ \_prev\_stance\_time;}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{float}\ \_current\_stance\_start;}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{comment}{/*\ Feature\ Data\ for\ Threshold\ Determination\ */}}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{float}\ \_incline\_features\_sum;}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{float}\ \_decline\_features\_sum;}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{float}\ \_calibrated\_stance\_entry\_angle;}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{float}\ \_calibrated\_stance\_exit\_angle;}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keyword}{enum\ class}\ Edge:\ \textcolor{keywordtype}{int}}
+\DoxyCodeLine{00069\ \ \ \ \ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ None\ =\ 0,}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ Rising\ =\ 1,}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ Falling\ =\ 2,\ }
+\DoxyCodeLine{00073\ \ \ \ \ \};}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00081\ \ \ \ \ Edge\ \_check\_for\_edge(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ is\_stance);}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{float}\ \_update\_stance\_phase(\textcolor{keyword}{const}\ Edge\ edge,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ is\_stance);}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordtype}{void}\ \_calculate\_gait\_features();}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{void}\ \_update\_gait\_features(\textcolor{keyword}{const}\ Edge\ edge,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ norm\_angle);}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_incline\_check(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ norm\_angle);}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_decline\_check(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ norm\_angle);}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_should\_calibrate(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ fsr\_calibrating,\ \textcolor{keyword}{const}\ InclinationDetector::Edge\ edge);}
+\DoxyCodeLine{00129\ \};}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

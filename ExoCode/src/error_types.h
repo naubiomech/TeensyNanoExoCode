@@ -93,17 +93,22 @@ public:
 
     bool check(JointData* _data)
     {
+        // Append new torque reading to the window
         _data->torque_data_window.push(_data->torque_reading);
+        // If the window is larger than the max size, pop the oldest value
         if (_data->torque_data_window.size() > _data->torque_data_window_max_size)
         {
             _data->torque_data_window.pop();
+            // Calculate the standard deviation of the window
             std::pair<float, float> pop_vals = utils::online_std_dev(_data->torque_data_window);
+            // Generate symmetric bounds around the mean
             std::pair<float, float> bounds = std::make_pair(
                 pop_vals.first - _data->torque_std_dev_multiple*pop_vals.second,
                 pop_vals.first + _data->torque_std_dev_multiple*pop_vals.second);
+            // Increment the failure count if the current torque reading is outside the bounds
             _data->torque_failure_count += (int)utils::is_outside_range(_data->torque_reading, bounds.first, bounds.second);
         }
-
+        // If the failure count is greater than the max, return true
         return _data->torque_failure_count >= _data->torque_failure_count_max;
     }
     void handle(JointData* _data)

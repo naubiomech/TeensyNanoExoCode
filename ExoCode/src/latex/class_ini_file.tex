@@ -1,0 +1,372 @@
+\doxysection{Ini\+File Class Reference}
+\hypertarget{class_ini_file}{}\label{class_ini_file}\index{IniFile@{IniFile}}
+
+
+{\ttfamily \#include $<$Ini\+File.\+h$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671a}{error\+\_\+t}} \{ \newline
+\mbox{\hyperlink{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aa8bdd65564e3e49d44db8a2886a7690c6}{error\+No\+Error}} = 0
+, \mbox{\hyperlink{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aa5d80f33ea7d2c0dff9c70a58ce6971ba}{error\+File\+Not\+Found}}
+, \mbox{\hyperlink{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aa992ce453d1384abe92b2ebe249290e7b}{error\+File\+Not\+Open}}
+, \mbox{\hyperlink{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aabcbd5168806206d38f07d24f5d31dec7}{error\+Buffer\+Too\+Small}}
+, \newline
+\mbox{\hyperlink{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aace5fe30bd2ccc7388dee1dcb719210e8}{error\+Seek\+Error}}
+, \mbox{\hyperlink{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aa01d2d991748aec055436ed323727af18}{error\+Section\+Not\+Found}}
+, \mbox{\hyperlink{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aae424483011212a64cfa9a29bb453bbf7}{error\+Key\+Not\+Found}}
+, \mbox{\hyperlink{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aacf53593f16f5e03e5c6af671fa47b346}{error\+End\+Of\+File}}
+, \newline
+\mbox{\hyperlink{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aa7bf8a930d09675b25ed2e76d5c16025a}{error\+Unknown\+Error}}
+ \}
+\item 
+typedef uint8\+\_\+t \mbox{\hyperlink{class_ini_file_af412b92722364b8921f2a59a9494eae2}{mode\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_ini_file_a3358916ac24ff9642b14603b132560fb}{Ini\+File}} (const char \texorpdfstring{$\ast$}{*}filename, \mbox{\hyperlink{class_ini_file_af412b92722364b8921f2a59a9494eae2}{mode\+\_\+t}} mode=FILE\+\_\+\+READ, bool case\+Sensitive=false)
+\item 
+\mbox{\hyperlink{class_ini_file_a75556d9b23d1ab1926fba8f3735d2047}{\texorpdfstring{$\sim$}{\string~}\+Ini\+File}} ()
+\item 
+bool \mbox{\hyperlink{class_ini_file_a24b6f4be8cc0453c0769b4b052bf703d}{open}} (void)
+\item 
+void \mbox{\hyperlink{class_ini_file_ae6b21933242d83befe5925052aec5894}{close}} (void)
+\item 
+bool \mbox{\hyperlink{class_ini_file_a79ae930da8bf5a146b0feeeb6b722599}{is\+Open}} (void) const
+\item 
+\mbox{\hyperlink{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671a}{error\+\_\+t}} \mbox{\hyperlink{class_ini_file_aebb1d9a267dc99b5aefe428c69eb1403}{get\+Error}} (void) const
+\item 
+void \mbox{\hyperlink{class_ini_file_a11d11c9a531a9e88003a2c6fe1b5332a}{clear\+Error}} (void) const
+\item 
+\mbox{\hyperlink{class_ini_file_af412b92722364b8921f2a59a9494eae2}{mode\+\_\+t}} \mbox{\hyperlink{class_ini_file_ab8fd8073a5ab3aa8f3146e474a47611d}{get\+Mode}} (void) const
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_ini_file_ad2100adb4a0feec5523cdd8dc78425dd}{get\+Filename}} (void) const
+\item 
+bool \mbox{\hyperlink{class_ini_file_a5420482796dcdb2cbd1bd8c46887bd50}{validate}} (char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len) const
+\item 
+bool \mbox{\hyperlink{class_ini_file_ac236a5f5582c55478023aab87292e200}{get\+Value}} (const char \texorpdfstring{$\ast$}{*}section, const char \texorpdfstring{$\ast$}{*}key, char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len, \mbox{\hyperlink{class_ini_file_state}{Ini\+File\+State}} \&state) const
+\item 
+bool \mbox{\hyperlink{class_ini_file_aa6b71a04943f5e25445685d79a4e4814}{get\+Value}} (const char \texorpdfstring{$\ast$}{*}section, const char \texorpdfstring{$\ast$}{*}key, char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len) const
+\item 
+bool \mbox{\hyperlink{class_ini_file_a3bc52c3714a907b2bd5ceaa9ad8eeff4}{get\+Value}} (const char \texorpdfstring{$\ast$}{*}section, const char \texorpdfstring{$\ast$}{*}key, char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len, char \texorpdfstring{$\ast$}{*}value, size\+\_\+t vlen) const
+\item 
+bool \mbox{\hyperlink{class_ini_file_a0e1c86ab1a8b03dd2c9b59c30c39797d}{get\+Value}} (const char \texorpdfstring{$\ast$}{*}section, const char \texorpdfstring{$\ast$}{*}key, char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len, bool \&b) const
+\item 
+bool \mbox{\hyperlink{class_ini_file_a2fe6a37b5d68086ea193e28b5304b4a5}{get\+Value}} (const char \texorpdfstring{$\ast$}{*}section, const char \texorpdfstring{$\ast$}{*}key, char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len, int \&val) const
+\item 
+bool \mbox{\hyperlink{class_ini_file_a5276a6ecdf77be7d421bf99c0c3af307}{get\+Value}} (const char \texorpdfstring{$\ast$}{*}section, const char \texorpdfstring{$\ast$}{*}key, char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len, double \&val) const
+\item 
+bool \mbox{\hyperlink{class_ini_file_a409db1a5608dfc724127ac62c1c95893}{get\+Value}} (const char \texorpdfstring{$\ast$}{*}section, const char \texorpdfstring{$\ast$}{*}key, char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len, uint8\+\_\+t \&val) const
+\item 
+bool \mbox{\hyperlink{class_ini_file_a9be54e9a4eda404e5cd271c7c379b19d}{get\+Value}} (const char \texorpdfstring{$\ast$}{*}section, const char \texorpdfstring{$\ast$}{*}key, char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len, uint16\+\_\+t \&val) const
+\item 
+bool \mbox{\hyperlink{class_ini_file_ab2679c731f83f7b57924fbe786e58cd5}{get\+Value}} (const char \texorpdfstring{$\ast$}{*}section, const char \texorpdfstring{$\ast$}{*}key, char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len, long \&val) const
+\item 
+bool \mbox{\hyperlink{class_ini_file_a7dbd160fb1d2caf58a77489433c83776}{get\+Value}} (const char \texorpdfstring{$\ast$}{*}section, const char \texorpdfstring{$\ast$}{*}key, char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len, unsigned long \&val) const
+\item 
+bool \mbox{\hyperlink{class_ini_file_a06ae636898e4cb93ed9d0685b8c0fab2}{get\+Value}} (const char \texorpdfstring{$\ast$}{*}section, const char \texorpdfstring{$\ast$}{*}key, char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len, float \&val) const
+\item 
+bool \mbox{\hyperlink{class_ini_file_a38abdf056daa667715886bceba235c4a}{get\+IPAddress}} (const char \texorpdfstring{$\ast$}{*}section, const char \texorpdfstring{$\ast$}{*}key, char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len, uint8\+\_\+t \texorpdfstring{$\ast$}{*}ip) const
+\item 
+bool \mbox{\hyperlink{class_ini_file_a271b3d74f3bd3a0f7274a36154d02900}{get\+MACAddress}} (const char \texorpdfstring{$\ast$}{*}section, const char \texorpdfstring{$\ast$}{*}key, char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len, uint8\+\_\+t mac\mbox{[}6\mbox{]}) const
+\item 
+bool \mbox{\hyperlink{class_ini_file_ae1921a365c4daffb9e5a3acbb306a480}{browse\+Sections}} (char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len, \mbox{\hyperlink{class_ini_file_state}{Ini\+File\+State}} \&state) const
+\item 
+bool \mbox{\hyperlink{class_ini_file_aaa8d52142252b37074ded3dae4d9a5c8}{get\+Case\+Sensitive}} (void) const
+\item 
+void \mbox{\hyperlink{class_ini_file_a53aee41917ee9f0bd823c81f5f250f5a}{set\+Case\+Sensitive}} (bool cs)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671a}{error\+\_\+t}} \mbox{\hyperlink{class_ini_file_a2d2874e132192179169a9de44207a21f}{read\+Line}} (File \&file, char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len, uint32\+\_\+t \&pos)
+\item 
+static bool \mbox{\hyperlink{class_ini_file_aaa3a74cbc865a3582a3e41c8809c72c1}{is\+Comment\+Char}} (char c)
+\item 
+static char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_ini_file_add78997eb6343f1b0f43f57d3f8fca45}{skip\+White\+Space}} (char \texorpdfstring{$\ast$}{*}str)
+\item 
+static void \mbox{\hyperlink{class_ini_file_acbabab9434de6d60648c1a4b55e32f8e}{remove\+Trailing\+White\+Space}} (char \texorpdfstring{$\ast$}{*}str)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const uint8\+\_\+t \mbox{\hyperlink{class_ini_file_aec9c5c6c0ca9895043a89eaee4eff408}{max\+Filename\+Len}} = \mbox{\hyperlink{_ini_file_8h_aa71c7bf4b7bef2f5ca135c4bcf2ac4e3}{INI\+\_\+\+FILE\+\_\+\+MAX\+\_\+\+FILENAME\+\_\+\+LEN}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_ini_file_aad3b972ecbcda0f78420a53ec5024ace}{find\+Section}} (const char \texorpdfstring{$\ast$}{*}section, char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len, \mbox{\hyperlink{class_ini_file_state}{Ini\+File\+State}} \&state) const
+\item 
+bool \mbox{\hyperlink{class_ini_file_a64a532179db6b398c4930a7e1c2ac6d4}{find\+Key}} (const char \texorpdfstring{$\ast$}{*}section, const char \texorpdfstring{$\ast$}{*}key, char \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t len, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}keyptr, \mbox{\hyperlink{class_ini_file_state}{Ini\+File\+State}} \&state) const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{class_ini_file_af412b92722364b8921f2a59a9494eae2}\label{class_ini_file_af412b92722364b8921f2a59a9494eae2} 
+\index{IniFile@{IniFile}!mode\_t@{mode\_t}}
+\index{mode\_t@{mode\_t}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{mode\_t}{mode\_t}}
+{\footnotesize\ttfamily typedef uint8\+\_\+t \mbox{\hyperlink{class_ini_file_af412b92722364b8921f2a59a9494eae2}{Ini\+File\+::mode\+\_\+t}}}
+
+
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671a}\label{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671a} 
+\index{IniFile@{IniFile}!error\_t@{error\_t}}
+\index{error\_t@{error\_t}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{error\_t}{error\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671a}{Ini\+File\+::error\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{errorNoError@{errorNoError}!IniFile@{IniFile}}\index{IniFile@{IniFile}!errorNoError@{errorNoError}}}\Hypertarget{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aa8bdd65564e3e49d44db8a2886a7690c6}\label{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aa8bdd65564e3e49d44db8a2886a7690c6} 
+error\+No\+Error&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{errorFileNotFound@{errorFileNotFound}!IniFile@{IniFile}}\index{IniFile@{IniFile}!errorFileNotFound@{errorFileNotFound}}}\Hypertarget{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aa5d80f33ea7d2c0dff9c70a58ce6971ba}\label{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aa5d80f33ea7d2c0dff9c70a58ce6971ba} 
+error\+File\+Not\+Found&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{errorFileNotOpen@{errorFileNotOpen}!IniFile@{IniFile}}\index{IniFile@{IniFile}!errorFileNotOpen@{errorFileNotOpen}}}\Hypertarget{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aa992ce453d1384abe92b2ebe249290e7b}\label{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aa992ce453d1384abe92b2ebe249290e7b} 
+error\+File\+Not\+Open&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{errorBufferTooSmall@{errorBufferTooSmall}!IniFile@{IniFile}}\index{IniFile@{IniFile}!errorBufferTooSmall@{errorBufferTooSmall}}}\Hypertarget{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aabcbd5168806206d38f07d24f5d31dec7}\label{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aabcbd5168806206d38f07d24f5d31dec7} 
+error\+Buffer\+Too\+Small&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{errorSeekError@{errorSeekError}!IniFile@{IniFile}}\index{IniFile@{IniFile}!errorSeekError@{errorSeekError}}}\Hypertarget{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aace5fe30bd2ccc7388dee1dcb719210e8}\label{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aace5fe30bd2ccc7388dee1dcb719210e8} 
+error\+Seek\+Error&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{errorSectionNotFound@{errorSectionNotFound}!IniFile@{IniFile}}\index{IniFile@{IniFile}!errorSectionNotFound@{errorSectionNotFound}}}\Hypertarget{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aa01d2d991748aec055436ed323727af18}\label{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aa01d2d991748aec055436ed323727af18} 
+error\+Section\+Not\+Found&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{errorKeyNotFound@{errorKeyNotFound}!IniFile@{IniFile}}\index{IniFile@{IniFile}!errorKeyNotFound@{errorKeyNotFound}}}\Hypertarget{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aae424483011212a64cfa9a29bb453bbf7}\label{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aae424483011212a64cfa9a29bb453bbf7} 
+error\+Key\+Not\+Found&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{errorEndOfFile@{errorEndOfFile}!IniFile@{IniFile}}\index{IniFile@{IniFile}!errorEndOfFile@{errorEndOfFile}}}\Hypertarget{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aacf53593f16f5e03e5c6af671fa47b346}\label{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aacf53593f16f5e03e5c6af671fa47b346} 
+error\+End\+Of\+File&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{errorUnknownError@{errorUnknownError}!IniFile@{IniFile}}\index{IniFile@{IniFile}!errorUnknownError@{errorUnknownError}}}\Hypertarget{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aa7bf8a930d09675b25ed2e76d5c16025a}\label{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671aa7bf8a930d09675b25ed2e76d5c16025a} 
+error\+Unknown\+Error&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_ini_file_a3358916ac24ff9642b14603b132560fb}\label{class_ini_file_a3358916ac24ff9642b14603b132560fb} 
+\index{IniFile@{IniFile}!IniFile@{IniFile}}
+\index{IniFile@{IniFile}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{IniFile()}{IniFile()}}
+{\footnotesize\ttfamily Ini\+File\+::\+Ini\+File (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{filename,  }\item[{\mbox{\hyperlink{class_ini_file_af412b92722364b8921f2a59a9494eae2}{mode\+\_\+t}}}]{mode = {\ttfamily FILE\+\_\+READ},  }\item[{bool}]{case\+Sensitive = {\ttfamily false} }\end{DoxyParamCaption})}
+
+\Hypertarget{class_ini_file_a75556d9b23d1ab1926fba8f3735d2047}\label{class_ini_file_a75556d9b23d1ab1926fba8f3735d2047} 
+\index{IniFile@{IniFile}!````~IniFile@{\texorpdfstring{$\sim$}{\string~}IniFile}}
+\index{````~IniFile@{\texorpdfstring{$\sim$}{\string~}IniFile}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}IniFile()}{\string~IniFile()}}
+{\footnotesize\ttfamily Ini\+File\+::\texorpdfstring{$\sim$}{\string~}\+Ini\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_ini_file_ae1921a365c4daffb9e5a3acbb306a480}\label{class_ini_file_ae1921a365c4daffb9e5a3acbb306a480} 
+\index{IniFile@{IniFile}!browseSections@{browseSections}}
+\index{browseSections@{browseSections}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{browseSections()}{browseSections()}}
+{\footnotesize\ttfamily bool Ini\+File\+::browse\+Sections (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len,  }\item[{\mbox{\hyperlink{class_ini_file_state}{Ini\+File\+State}} \&}]{state }\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_ini_file_a11d11c9a531a9e88003a2c6fe1b5332a}\label{class_ini_file_a11d11c9a531a9e88003a2c6fe1b5332a} 
+\index{IniFile@{IniFile}!clearError@{clearError}}
+\index{clearError@{clearError}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{clearError()}{clearError()}}
+{\footnotesize\ttfamily void Ini\+File\+::clear\+Error (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_ini_file_ae6b21933242d83befe5925052aec5894}\label{class_ini_file_ae6b21933242d83befe5925052aec5894} 
+\index{IniFile@{IniFile}!close@{close}}
+\index{close@{close}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{close()}{close()}}
+{\footnotesize\ttfamily void Ini\+File\+::close (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_ini_file_a64a532179db6b398c4930a7e1c2ac6d4}\label{class_ini_file_a64a532179db6b398c4930a7e1c2ac6d4} 
+\index{IniFile@{IniFile}!findKey@{findKey}}
+\index{findKey@{findKey}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{findKey()}{findKey()}}
+{\footnotesize\ttfamily bool Ini\+File\+::find\+Key (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{section,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{key,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len,  }\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{keyptr,  }\item[{\mbox{\hyperlink{class_ini_file_state}{Ini\+File\+State}} \&}]{state }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+
+\Hypertarget{class_ini_file_aad3b972ecbcda0f78420a53ec5024ace}\label{class_ini_file_aad3b972ecbcda0f78420a53ec5024ace} 
+\index{IniFile@{IniFile}!findSection@{findSection}}
+\index{findSection@{findSection}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{findSection()}{findSection()}}
+{\footnotesize\ttfamily bool Ini\+File\+::find\+Section (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{section,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len,  }\item[{\mbox{\hyperlink{class_ini_file_state}{Ini\+File\+State}} \&}]{state }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+
+\Hypertarget{class_ini_file_aaa8d52142252b37074ded3dae4d9a5c8}\label{class_ini_file_aaa8d52142252b37074ded3dae4d9a5c8} 
+\index{IniFile@{IniFile}!getCaseSensitive@{getCaseSensitive}}
+\index{getCaseSensitive@{getCaseSensitive}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{getCaseSensitive()}{getCaseSensitive()}}
+{\footnotesize\ttfamily bool Ini\+File\+::get\+Case\+Sensitive (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_ini_file_aebb1d9a267dc99b5aefe428c69eb1403}\label{class_ini_file_aebb1d9a267dc99b5aefe428c69eb1403} 
+\index{IniFile@{IniFile}!getError@{getError}}
+\index{getError@{getError}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{getError()}{getError()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671a}{Ini\+File\+::error\+\_\+t}} Ini\+File\+::get\+Error (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_ini_file_ad2100adb4a0feec5523cdd8dc78425dd}\label{class_ini_file_ad2100adb4a0feec5523cdd8dc78425dd} 
+\index{IniFile@{IniFile}!getFilename@{getFilename}}
+\index{getFilename@{getFilename}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{getFilename()}{getFilename()}}
+{\footnotesize\ttfamily const char \texorpdfstring{$\ast$}{*} Ini\+File\+::get\+Filename (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_ini_file_a38abdf056daa667715886bceba235c4a}\label{class_ini_file_a38abdf056daa667715886bceba235c4a} 
+\index{IniFile@{IniFile}!getIPAddress@{getIPAddress}}
+\index{getIPAddress@{getIPAddress}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{getIPAddress()}{getIPAddress()}}
+{\footnotesize\ttfamily bool Ini\+File\+::get\+IPAddress (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{section,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{key,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{ip }\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_ini_file_a271b3d74f3bd3a0f7274a36154d02900}\label{class_ini_file_a271b3d74f3bd3a0f7274a36154d02900} 
+\index{IniFile@{IniFile}!getMACAddress@{getMACAddress}}
+\index{getMACAddress@{getMACAddress}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{getMACAddress()}{getMACAddress()}}
+{\footnotesize\ttfamily bool Ini\+File\+::get\+MACAddress (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{section,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{key,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len,  }\item[{uint8\+\_\+t}]{mac\mbox{[}6\mbox{]} }\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_ini_file_ab8fd8073a5ab3aa8f3146e474a47611d}\label{class_ini_file_ab8fd8073a5ab3aa8f3146e474a47611d} 
+\index{IniFile@{IniFile}!getMode@{getMode}}
+\index{getMode@{getMode}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{getMode()}{getMode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_ini_file_af412b92722364b8921f2a59a9494eae2}{Ini\+File\+::mode\+\_\+t}} Ini\+File\+::get\+Mode (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_ini_file_aa6b71a04943f5e25445685d79a4e4814}\label{class_ini_file_aa6b71a04943f5e25445685d79a4e4814} 
+\index{IniFile@{IniFile}!getValue@{getValue}}
+\index{getValue@{getValue}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}\hspace{0.1cm}{\footnotesize\ttfamily [1/11]}}
+{\footnotesize\ttfamily bool Ini\+File\+::get\+Value (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{section,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{key,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len }\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_ini_file_a0e1c86ab1a8b03dd2c9b59c30c39797d}\label{class_ini_file_a0e1c86ab1a8b03dd2c9b59c30c39797d} 
+\index{IniFile@{IniFile}!getValue@{getValue}}
+\index{getValue@{getValue}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}\hspace{0.1cm}{\footnotesize\ttfamily [2/11]}}
+{\footnotesize\ttfamily bool Ini\+File\+::get\+Value (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{section,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{key,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len,  }\item[{bool \&}]{b }\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_ini_file_a3bc52c3714a907b2bd5ceaa9ad8eeff4}\label{class_ini_file_a3bc52c3714a907b2bd5ceaa9ad8eeff4} 
+\index{IniFile@{IniFile}!getValue@{getValue}}
+\index{getValue@{getValue}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}\hspace{0.1cm}{\footnotesize\ttfamily [3/11]}}
+{\footnotesize\ttfamily bool Ini\+File\+::get\+Value (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{section,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{key,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len,  }\item[{char \texorpdfstring{$\ast$}{*}}]{value,  }\item[{size\+\_\+t}]{vlen }\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_ini_file_a5276a6ecdf77be7d421bf99c0c3af307}\label{class_ini_file_a5276a6ecdf77be7d421bf99c0c3af307} 
+\index{IniFile@{IniFile}!getValue@{getValue}}
+\index{getValue@{getValue}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}\hspace{0.1cm}{\footnotesize\ttfamily [4/11]}}
+{\footnotesize\ttfamily bool Ini\+File\+::get\+Value (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{section,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{key,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len,  }\item[{double \&}]{val }\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_ini_file_a06ae636898e4cb93ed9d0685b8c0fab2}\label{class_ini_file_a06ae636898e4cb93ed9d0685b8c0fab2} 
+\index{IniFile@{IniFile}!getValue@{getValue}}
+\index{getValue@{getValue}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}\hspace{0.1cm}{\footnotesize\ttfamily [5/11]}}
+{\footnotesize\ttfamily bool Ini\+File\+::get\+Value (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{section,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{key,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len,  }\item[{float \&}]{val }\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_ini_file_ac236a5f5582c55478023aab87292e200}\label{class_ini_file_ac236a5f5582c55478023aab87292e200} 
+\index{IniFile@{IniFile}!getValue@{getValue}}
+\index{getValue@{getValue}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}\hspace{0.1cm}{\footnotesize\ttfamily [6/11]}}
+{\footnotesize\ttfamily bool Ini\+File\+::get\+Value (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{section,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{key,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len,  }\item[{\mbox{\hyperlink{class_ini_file_state}{Ini\+File\+State}} \&}]{state }\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_ini_file_a2fe6a37b5d68086ea193e28b5304b4a5}\label{class_ini_file_a2fe6a37b5d68086ea193e28b5304b4a5} 
+\index{IniFile@{IniFile}!getValue@{getValue}}
+\index{getValue@{getValue}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}\hspace{0.1cm}{\footnotesize\ttfamily [7/11]}}
+{\footnotesize\ttfamily bool Ini\+File\+::get\+Value (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{section,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{key,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len,  }\item[{int \&}]{val }\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_ini_file_ab2679c731f83f7b57924fbe786e58cd5}\label{class_ini_file_ab2679c731f83f7b57924fbe786e58cd5} 
+\index{IniFile@{IniFile}!getValue@{getValue}}
+\index{getValue@{getValue}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}\hspace{0.1cm}{\footnotesize\ttfamily [8/11]}}
+{\footnotesize\ttfamily bool Ini\+File\+::get\+Value (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{section,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{key,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len,  }\item[{long \&}]{val }\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_ini_file_a9be54e9a4eda404e5cd271c7c379b19d}\label{class_ini_file_a9be54e9a4eda404e5cd271c7c379b19d} 
+\index{IniFile@{IniFile}!getValue@{getValue}}
+\index{getValue@{getValue}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}\hspace{0.1cm}{\footnotesize\ttfamily [9/11]}}
+{\footnotesize\ttfamily bool Ini\+File\+::get\+Value (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{section,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{key,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len,  }\item[{uint16\+\_\+t \&}]{val }\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_ini_file_a409db1a5608dfc724127ac62c1c95893}\label{class_ini_file_a409db1a5608dfc724127ac62c1c95893} 
+\index{IniFile@{IniFile}!getValue@{getValue}}
+\index{getValue@{getValue}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}\hspace{0.1cm}{\footnotesize\ttfamily [10/11]}}
+{\footnotesize\ttfamily bool Ini\+File\+::get\+Value (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{section,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{key,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len,  }\item[{uint8\+\_\+t \&}]{val }\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_ini_file_a7dbd160fb1d2caf58a77489433c83776}\label{class_ini_file_a7dbd160fb1d2caf58a77489433c83776} 
+\index{IniFile@{IniFile}!getValue@{getValue}}
+\index{getValue@{getValue}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}\hspace{0.1cm}{\footnotesize\ttfamily [11/11]}}
+{\footnotesize\ttfamily bool Ini\+File\+::get\+Value (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{section,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{key,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len,  }\item[{unsigned long \&}]{val }\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_ini_file_aaa3a74cbc865a3582a3e41c8809c72c1}\label{class_ini_file_aaa3a74cbc865a3582a3e41c8809c72c1} 
+\index{IniFile@{IniFile}!isCommentChar@{isCommentChar}}
+\index{isCommentChar@{isCommentChar}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{isCommentChar()}{isCommentChar()}}
+{\footnotesize\ttfamily bool Ini\+File\+::is\+Comment\+Char (\begin{DoxyParamCaption}\item[{char}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_ini_file_a79ae930da8bf5a146b0feeeb6b722599}\label{class_ini_file_a79ae930da8bf5a146b0feeeb6b722599} 
+\index{IniFile@{IniFile}!isOpen@{isOpen}}
+\index{isOpen@{isOpen}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{isOpen()}{isOpen()}}
+{\footnotesize\ttfamily bool Ini\+File\+::is\+Open (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_ini_file_a24b6f4be8cc0453c0769b4b052bf703d}\label{class_ini_file_a24b6f4be8cc0453c0769b4b052bf703d} 
+\index{IniFile@{IniFile}!open@{open}}
+\index{open@{open}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{open()}{open()}}
+{\footnotesize\ttfamily bool Ini\+File\+::open (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_ini_file_a2d2874e132192179169a9de44207a21f}\label{class_ini_file_a2d2874e132192179169a9de44207a21f} 
+\index{IniFile@{IniFile}!readLine@{readLine}}
+\index{readLine@{readLine}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{readLine()}{readLine()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_ini_file_aa0d9f0f5f30467e88ddbfac88325671a}{Ini\+File\+::error\+\_\+t}} Ini\+File\+::read\+Line (\begin{DoxyParamCaption}\item[{File \&}]{file,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len,  }\item[{uint32\+\_\+t \&}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_ini_file_acbabab9434de6d60648c1a4b55e32f8e}\label{class_ini_file_acbabab9434de6d60648c1a4b55e32f8e} 
+\index{IniFile@{IniFile}!removeTrailingWhiteSpace@{removeTrailingWhiteSpace}}
+\index{removeTrailingWhiteSpace@{removeTrailingWhiteSpace}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{removeTrailingWhiteSpace()}{removeTrailingWhiteSpace()}}
+{\footnotesize\ttfamily void Ini\+File\+::remove\+Trailing\+White\+Space (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_ini_file_a53aee41917ee9f0bd823c81f5f250f5a}\label{class_ini_file_a53aee41917ee9f0bd823c81f5f250f5a} 
+\index{IniFile@{IniFile}!setCaseSensitive@{setCaseSensitive}}
+\index{setCaseSensitive@{setCaseSensitive}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{setCaseSensitive()}{setCaseSensitive()}}
+{\footnotesize\ttfamily void Ini\+File\+::set\+Case\+Sensitive (\begin{DoxyParamCaption}\item[{bool}]{cs }\end{DoxyParamCaption})}
+
+\Hypertarget{class_ini_file_add78997eb6343f1b0f43f57d3f8fca45}\label{class_ini_file_add78997eb6343f1b0f43f57d3f8fca45} 
+\index{IniFile@{IniFile}!skipWhiteSpace@{skipWhiteSpace}}
+\index{skipWhiteSpace@{skipWhiteSpace}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{skipWhiteSpace()}{skipWhiteSpace()}}
+{\footnotesize\ttfamily char \texorpdfstring{$\ast$}{*} Ini\+File\+::skip\+White\+Space (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_ini_file_a5420482796dcdb2cbd1bd8c46887bd50}\label{class_ini_file_a5420482796dcdb2cbd1bd8c46887bd50} 
+\index{IniFile@{IniFile}!validate@{validate}}
+\index{validate@{validate}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{validate()}{validate()}}
+{\footnotesize\ttfamily bool Ini\+File\+::validate (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{len }\end{DoxyParamCaption}) const}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_ini_file_aec9c5c6c0ca9895043a89eaee4eff408}\label{class_ini_file_aec9c5c6c0ca9895043a89eaee4eff408} 
+\index{IniFile@{IniFile}!maxFilenameLen@{maxFilenameLen}}
+\index{maxFilenameLen@{maxFilenameLen}!IniFile@{IniFile}}
+\doxysubsubsection{\texorpdfstring{maxFilenameLen}{maxFilenameLen}}
+{\footnotesize\ttfamily const uint8\+\_\+t Ini\+File\+::max\+Filename\+Len = \mbox{\hyperlink{_ini_file_8h_aa71c7bf4b7bef2f5ca135c4bcf2ac4e3}{INI\+\_\+\+FILE\+\_\+\+MAX\+\_\+\+FILENAME\+\_\+\+LEN}}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_ini_file_8h}{Ini\+File.\+h}}\item 
+\mbox{\hyperlink{_ini_file_8cpp}{Ini\+File.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,410 @@
+\doxysection{Board.\+h}
+\hypertarget{_board_8h_source}{}\label{_board_8h_source}\mbox{\hyperlink{_board_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ BOARD\_SETTINGS\_HEADER}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\ \ \ \ \#define\ BOARD\_SETTINGS\_HEADER}}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{comment}{//\ include\ config\ so\ we\ know\ what\ board\ is\ being\ used.}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\ \ \ \ \#include\ "{}\mbox{\hyperlink{_config_8h}{Config.h}}"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\ \ \ \ \#if\ BOARD\_VERSION\ ==\ AK\_Board\_V0\_1}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacelogic__micro__pins}{logic\_micro\_pins}}\ \ \textcolor{comment}{//teensy}}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_TEENSY36)}}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Serial\ Pins,\ NC}}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ rx1\_pin\ =\ 0;}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ tx1\_pin\ =\ 1;}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ CAN\ Pins}}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ can\_rx\_pin\ =\ 4;}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ can\_tx\_pin\ =\ 3;}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ FSR\ Pins}}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ fsr\_sense\_left\_heel\_pin\ =\ A14;}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ fsr\_sense\_left\_toe\_pin\ =\ A15;}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ fsr\_sense\_right\_heel\_pin=\ A7;}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ fsr\_sense\_right\_toe\_pin\ =\ A6;}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Torque\ Sensor\ Pins}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ num\_available\_joints\ =\ 2;}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ torque\_sensor\_left[]\ =\ \{A17,\ A16\};}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//const\ unsigned\ int\ torque\_sensor\_left1\ =\ A16;}}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ torque\_sensor\_right[]\ =\ \{A9,\ A8\};}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//const\ unsigned\ int\ torque\_sensor\_right1\ =\ A8;}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Sync\ LED\ Pins}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sync\_led\_pin\ =\ 29;}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sync\_default\_pin\ =\ 25;}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacelogic__micro__pins_a237a048b96a2eb1587034732cb2a4015}{sync\_led\_on\_state}}\ =\ LOW;\textcolor{comment}{//HIGH;}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacelogic__micro__pins_a40e540ed20bcd70f36d417aaabd088dc}{sync\_led\_off\_state}}\ =\ HIGH;\textcolor{comment}{//LOW;}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Arduino\ compiles\ everything\ in\ the\ src\ folder\ even\ if\ not\ included\ so\ it\ causes\ and\ error\ for\ the\ nano\ if\ this\ is\ not\ included.}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_TEENSY36)}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Status\ LED\ Pins}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ status\_led\_r\_pin=\ 28;}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ status\_led\_g\_pin\ =\ 27;}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ status\_led\_b\_pin\ =\ 26;}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ you\ have\ connected\ to\ pins\ with\ PWM\ set\ to\ true.}}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacelogic__micro__pins_af50816ba2d942a8122921f8e3a9485b0}{status\_has\_pwm}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ high\ to\ be\ on\ use\ 255\ for\ the\ on\ state\ and\ 0\ for\ the\ off,\ for\ low\ as\ on\ flip\ it.}}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacelogic__micro__pins_ab67bac5a45d7e514c9c84e30e56c9f3f}{status\_led\_on\_state}}\ =\ 0;\textcolor{comment}{//255;}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacelogic__micro__pins_afe10b6942719814aebb9d65a4f7134d1}{status\_led\_off\_state}}\ =\ 4095;\textcolor{comment}{//0;}}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Arduino\ compiles\ everything\ in\ the\ src\ folder\ even\ if\ not\ included\ so\ it\ causes\ and\ error\ for\ the\ nano\ if\ this\ is\ not\ included.}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_TEENSY36)}}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SPI\ Follower\ Pins}}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ miso\_pin\ =\ 12;}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ mosi\_pin=\ 11;}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sck\_pin\ =\ 13;}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ cs\_pin\ =\ 10;}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ spi\_mode\ =\ 16;}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Pin\ to\ Stop\ the\ Motors}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ motor\_stop\_pin\ =\ 6;}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Pin\ to\ use\ when\ we\ need\ a\ value\ but\ don't\ actually\ want\ to\ use\ it.}}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ not\_connected\_pin\ =\ 42;\ \ \textcolor{comment}{//\ selected\ 42\ as\ it\ is\ a\ pad\ on\ the\ back\ so\ I\ figure\ it\ won't\ hurt\ anything\ if\ something\ goes\ wrong.}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ enable\_left\_pin[]\ =\ \{not\_connected\_pin,\ not\_connected\_pin\};}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ enable\_right\_pin[]\ =\ \{not\_connected\_pin,\ not\_connected\_pin\};}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacelogic__micro__pins_ae72d932e2d1f6f6d5da9ea421a2d294e}{motor\_enable\_on\_state}}\ =\ HIGH;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacelogic__micro__pins_ae41c7cd96f0a46902c8c343d1ff150cf}{motor\_enable\_off\_state}}\ =\ LOW;}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_ARDUINO\_NANO33BLE)\ |\ defined(ARDUINO\_NANO\_RP2040\_CONNECT)}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{namespace\ }coms\_micro\_pins\ \ \textcolor{comment}{//nano}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ blue\ =\ 24;}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ green\ =\ 23;}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ red\ =\ 22;}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ led\_active\_low\ =\ 1;}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif\ \ \ \ }}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\ \ \ \ \#elif\ BOARD\_VERSION\ ==\ AK\_Board\_V0\_3\ }}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacelogic__micro__pins}{logic\_micro\_pins}}\ \ \textcolor{comment}{//teensy}}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Serial\ Pins,\ NC}}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ rx1\_pin\ =\ 0;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ tx1\_pin\ =\ 1;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ CAN\ Pins}}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ can\_rx\_pin\ =\ 23;}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ can\_tx\_pin\ =\ 22;}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ FSR\ Pins}}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ fsr\_sense\_left\_heel\_pin\ =\ A14;}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ fsr\_sense\_left\_toe\_pin\ =\ A15;}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ fsr\_sense\_right\_heel\_pin=\ A5;}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ fsr\_sense\_right\_toe\_pin\ =\ A4;}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Torque\ Sensor\ Pins}}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ num\_available\_joints\ =\ 2;}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ torque\_sensor\_left[]\ =\ \{A12,\ A13\};}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//const\ unsigned\ int\ torque\_sensor\_left1\ =\ A16;}}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ torque\_sensor\_right[]\ =\ \{A7,\ A6\};}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//const\ unsigned\ int\ torque\_sensor\_right1\ =\ A8;}}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Sync\ LED\ Pins}}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sync\_led\_pin\ =\ 15;}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sync\_default\_pin\ =\ 5;}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Arduino\ compiles\ all\ files\ not\ just\ the\ ones\ that\ are\ used\ so\ this\ is\ not\ under\ teensy\ to\ prevent\ errors}}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacelogic__micro__pins_a237a048b96a2eb1587034732cb2a4015}{sync\_led\_on\_state}}\ =\ LOW;\textcolor{comment}{//HIGH;}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacelogic__micro__pins_a40e540ed20bcd70f36d417aaabd088dc}{sync\_led\_off\_state}}\ =\ HIGH;\textcolor{comment}{//LOW;}}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Status\ LED\ Pins}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ status\_led\_r\_pin\ =\ 14;}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ status\_led\_g\_pin\ =\ 25;}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ status\_led\_b\_pin\ =\ 24;}
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ you\ have\ connected\ to\ pins\ with\ PWM\ set\ to\ true.}}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacelogic__micro__pins_af50816ba2d942a8122921f8e3a9485b0}{status\_has\_pwm}}\ =\ \textcolor{keyword}{true};\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ high\ to\ be\ on\ use\ 255\ for\ the\ on\ state\ and\ 0\ for\ the\ off,\ for\ low\ as\ on\ flip\ it.}}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacelogic__micro__pins_ab67bac5a45d7e514c9c84e30e56c9f3f}{status\_led\_on\_state}}\ =\ 0;\textcolor{comment}{//255;}}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacelogic__micro__pins_afe10b6942719814aebb9d65a4f7134d1}{status\_led\_off\_state}}\ =\ 4095;\textcolor{comment}{//0;\ \ }}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_TEENSY41)\ \ \ \ }}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SPI\ Follower\ Pins}}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ miso\_pin\ =\ 12;}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ mosi\_pin=\ 11;}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sck\_pin\ =\ 13;}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ cs\_pin\ =\ 10;}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ irq\_pin\ =\ 34;}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ rst\_pin\ =\ 4;}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ spi\_mode\ =\ 8;\ \textcolor{comment}{//\ This\ is\ 8\ or\ 16\ bit,\ not\ the\ actual\ SPI\ mode,\ I\ know\ it\ is\ confusing\ but\ that\ is\ how\ they\ chose\ to\ make\ the\ library.}}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Pin\ to\ Stop\ the\ Motors}}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ motor\_stop\_pin\ =\ 9;}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Pin\ to\ use\ when\ we\ need\ a\ value\ but\ don't\ actually\ want\ to\ use\ it.}}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ not\_connected\_pin\ =\ 51;\ \ \textcolor{comment}{//\ selected\ 51\ as\ it\ is\ a\ pad\ on\ the\ back\ so\ I\ figure\ it\ won't\ hurt\ anything\ if\ something\ goes\ wrong.}}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Motor\ enable\ Pins}}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ enable\_left\_pin[]\ =\ \{28,\ 29\};}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ enable\_right\_pin[]\ =\ \{8,\ 7\};}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ speed\_check\_pin\ =\ 33;}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ left\_ankle\_angle\_pin\ =\ A16;}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ right\_ankle\_angle\_pin\ =\ A17;}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ I2C\ }}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SDA\ 18}}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SCL\ 19}}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//SPI}}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ }}
+\DoxyCodeLine{00174\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacelogic__micro__pins_ae72d932e2d1f6f6d5da9ea421a2d294e}{motor\_enable\_on\_state}}\ =\ HIGH;}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacelogic__micro__pins_ae41c7cd96f0a46902c8c343d1ff150cf}{motor\_enable\_off\_state}}\ =\ LOW;}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00180\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_ARDUINO\_NANO33BLE)\ |\ defined(ARDUINO\_NANO\_RP2040\_CONNECT)}}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keyword}{namespace\ }coms\_micro\_pins\ \ \textcolor{comment}{//nano}}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ blue\ =\ 24;}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ green\ =\ 23;}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ red\ =\ 22;}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ led\_active\_low\ =\ 1;}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SPI\ Conroller\ Pins}}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ miso\_pin\ =\ 11;}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ mosi\_pin=\ 12;}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sck\_pin\ =\ 13;}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ cs\_pin\ =\ 10;}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ spi\_mode\ =\ 16;}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00197\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00198\ \textcolor{preprocessor}{\ \ \ \ \#elif\ BOARD\_VERSION\ ==\ AK\_Board\_V0\_4\ }}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00200\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacelogic__micro__pins}{logic\_micro\_pins}}\ \ \textcolor{comment}{//teensy}}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00203\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Serial\ Pins,\ NC}}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ rx1\_pin\ =\ 0;}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ tx1\_pin\ =\ 1;}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ CAN\ Pins}}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ can\_rx\_pin\ =\ 23;}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ can\_tx\_pin\ =\ 22;}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ FSR\ Pins}}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ fsr\_sense\_left\_heel\_pin\ =\ A14;}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ fsr\_sense\_left\_toe\_pin\ =\ A15;}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ fsr\_sense\_right\_heel\_pin=\ A3;}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ fsr\_sense\_right\_toe\_pin\ =\ A2;}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Torque\ Sensor\ Pins}}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ num\_available\_joints\ =\ 2;}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ torque\_sensor\_left[]\ =\ \{A17,\ A16\};}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//const\ unsigned\ int\ torque\_sensor\_left1\ =\ A16;}}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ torque\_sensor\_right[]\ =\ \{A7,\ A6\};}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//const\ unsigned\ int\ torque\_sensor\_right1\ =\ A8;}}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Sync\ LED\ Pins}}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sync\_led\_pin\ =\ 15;}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sync\_default\_pin\ =\ 5;}
+\DoxyCodeLine{00229\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Arduino\ compiles\ all\ files\ not\ just\ the\ ones\ that\ are\ used\ so\ this\ is\ not\ under\ teensy\ to\ prevent\ errors}}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacelogic__micro__pins_a237a048b96a2eb1587034732cb2a4015}{sync\_led\_on\_state}}\ =\ LOW;\textcolor{comment}{//HIGH;}}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacelogic__micro__pins_a40e540ed20bcd70f36d417aaabd088dc}{sync\_led\_off\_state}}\ =\ HIGH;\textcolor{comment}{//LOW;}}
+\DoxyCodeLine{00233\ }
+\DoxyCodeLine{00234\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Status\ LED\ Pins}}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ status\_led\_r\_pin=\ 14;}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ status\_led\_g\_pin\ =\ 25;}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ status\_led\_b\_pin\ =\ 24;}
+\DoxyCodeLine{00239\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ you\ have\ connected\ to\ pins\ with\ PWM\ set\ to\ true.}}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacelogic__micro__pins_af50816ba2d942a8122921f8e3a9485b0}{status\_has\_pwm}}\ =\ \textcolor{keyword}{true};\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ high\ to\ be\ on\ use\ 255\ for\ the\ on\ state\ and\ 0\ for\ the\ off,\ for\ low\ as\ on\ flip\ it.}}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacelogic__micro__pins_ab67bac5a45d7e514c9c84e30e56c9f3f}{status\_led\_on\_state}}\ =\ 0;\textcolor{comment}{//255;}}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacelogic__micro__pins_afe10b6942719814aebb9d65a4f7134d1}{status\_led\_off\_state}}\ =\ 4095;\textcolor{comment}{//0;\ \ }}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00247\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_TEENSY41)\ \ \ \ }}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SPI\ Follower\ Pins}}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ miso\_pin\ =\ 12;}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ mosi\_pin=\ 11;}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sck\_pin\ =\ 13;}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ cs\_pin\ =\ 10;}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ irq\_pin\ =\ 34;}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ rst\_pin\ =\ 4;}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ spi\_mode\ =\ 8;\ \textcolor{comment}{//\ This\ is\ 8\ or\ 16\ bit,\ not\ the\ actual\ SPI\ mode,\ I\ know\ it\ is\ confusing\ but\ that\ is\ how\ they\ chose\ to\ make\ the\ library.}}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Pin\ to\ Stop\ the\ Motors}}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ motor\_stop\_pin\ =\ 9;}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Pin\ to\ use\ when\ we\ need\ a\ value\ but\ don't\ actually\ want\ to\ use\ it.}}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ not\_connected\_pin\ =\ 51;\ \ \textcolor{comment}{//\ selected\ 51\ as\ it\ is\ a\ pad\ on\ the\ back\ so\ I\ figure\ it\ won't\ hurt\ anything\ if\ something\ goes\ wrong.}}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Motor\ enable\ Pins}}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ enable\_left\_pin[]\ =\ \{28,\ 29\};}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ enable\_right\_pin[]\ =\ \{8,\ 7\};}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ speed\_check\_pin\ =\ 33;}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ left\_ankle\_angle\_pin;}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ right\_ankle\_angle\_pin;}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ I2C\ }}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SDA\ 18}}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SCL\ 19}}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//SPI}}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ }}
+\DoxyCodeLine{00280\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacelogic__micro__pins_ae72d932e2d1f6f6d5da9ea421a2d294e}{motor\_enable\_on\_state}}\ =\ HIGH;}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacelogic__micro__pins_ae41c7cd96f0a46902c8c343d1ff150cf}{motor\_enable\_off\_state}}\ =\ LOW;}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00286\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_ARDUINO\_NANO33BLE)\ |\ defined(ARDUINO\_NANO\_RP2040\_CONNECT)}}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \textcolor{keyword}{namespace\ }coms\_micro\_pins\ \ \textcolor{comment}{//nano}}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ blue\ =\ 24;}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ green\ =\ 23;}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ red\ =\ 22;}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ led\_active\_low\ =\ 1;}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SPI\ Conroller\ Pins}}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ miso\_pin\ =\ 11;}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ mosi\_pin=\ 12;}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sck\_pin\ =\ 13;}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ cs\_pin\ =\ 10;}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ spi\_mode\ =\ 16;}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00303\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00304\ \textcolor{preprocessor}{\ \ \ \ \#elif\ BOARD\_VERSION\ ==\ AK\_Board\_V0\_5\_1\ }}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00306\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacelogic__micro__pins}{logic\_micro\_pins}}\ \ \textcolor{comment}{//teensy}}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00309\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Serial\ Pins,\ NC}}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ rx1\_pin\ =\ 0;}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ tx1\_pin\ =\ 1;}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ CAN\ Pins}}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ can\_rx\_pin\ =\ 23;}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ can\_tx\_pin\ =\ 22;}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ FSR\ Pins}}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ fsr\_sense\_left\_heel\_pin\ =\ A14;}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ fsr\_sense\_left\_toe\_pin\ =\ A15;}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ fsr\_sense\_right\_heel\_pin=\ A3;}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ fsr\_sense\_right\_toe\_pin\ =\ A2;}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Torque\ Sensor\ Pins}}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ num\_available\_joints\ =\ 2;}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ torque\_sensor\_left[]\ =\ \{A16,\ A17\};}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//const\ unsigned\ int\ torque\_sensor\_left1\ =\ A16;}}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ torque\_sensor\_right[]\ =\ \{A6,\ A7\};}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//const\ unsigned\ int\ torque\_sensor\_right1\ =\ A8;}}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Sync\ LED\ Pins}}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sync\_led\_pin\ =\ 15;}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sync\_default\_pin\ =\ 5;}
+\DoxyCodeLine{00335\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Arduino\ compiles\ all\ files\ not\ just\ the\ ones\ that\ are\ used\ so\ this\ is\ not\ under\ teensy\ to\ prevent\ errors}}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacelogic__micro__pins_a237a048b96a2eb1587034732cb2a4015}{sync\_led\_on\_state}}\ =\ LOW;\textcolor{comment}{//HIGH;}}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacelogic__micro__pins_a40e540ed20bcd70f36d417aaabd088dc}{sync\_led\_off\_state}}\ =\ HIGH;\textcolor{comment}{//LOW;}}
+\DoxyCodeLine{00339\ }
+\DoxyCodeLine{00340\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Status\ LED\ Pins}}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ status\_led\_r\_pin=\ 14;}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ status\_led\_g\_pin\ =\ 25;}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ status\_led\_b\_pin\ =\ 24;}
+\DoxyCodeLine{00345\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ you\ have\ connected\ to\ pins\ with\ PWM\ set\ to\ true.}}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacelogic__micro__pins_af50816ba2d942a8122921f8e3a9485b0}{status\_has\_pwm}}\ =\ \textcolor{keyword}{true};\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ high\ to\ be\ on\ use\ 255\ for\ the\ on\ state\ and\ 0\ for\ the\ off,\ for\ low\ as\ on\ flip\ it.}}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacelogic__micro__pins_ab67bac5a45d7e514c9c84e30e56c9f3f}{status\_led\_on\_state}}\ =\ 0;\textcolor{comment}{//255;}}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacelogic__micro__pins_afe10b6942719814aebb9d65a4f7134d1}{status\_led\_off\_state}}\ =\ 4095;\textcolor{comment}{//0;\ \ }}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00353\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_TEENSY41)\ \ \ \ }}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SPI\ Follower\ Pins}}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ miso\_pin\ ;}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ mosi\_pin=\ 11;}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sck\_pin\ ;}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ cs\_pin\ =\ 10;}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ irq\_pin\ =\ 34;}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ rst\_pin\ =\ 4;}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ spi\_mode\ =\ 8;\ \textcolor{comment}{//\ This\ is\ 8\ or\ 16\ bit,\ not\ the\ actual\ SPI\ mode,\ I\ know\ it\ is\ confusing\ but\ that\ is\ how\ they\ chose\ to\ make\ the\ library.}}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Pin\ to\ Stop\ the\ Motors}}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ motor\_stop\_pin\ =\ 9;}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Pin\ to\ use\ when\ we\ need\ a\ value\ but\ don't\ actually\ want\ to\ use\ it.}}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ not\_connected\_pin\ =\ 51;\ \ \textcolor{comment}{//\ selected\ 51\ as\ it\ is\ a\ pad\ on\ the\ back\ so\ I\ figure\ it\ won't\ hurt\ anything\ if\ something\ goes\ wrong.}}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Motor\ enable\ Pins}}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ enable\_left\_pin[]\ =\ \{28,\ 29\};}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ enable\_right\_pin[]\ =\ \{8,\ 7\};}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ speed\_check\_pin\ =\ 33;}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ left\_ankle\_angle\_pin\ =\ A13;}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ right\_ankle\_angle\_pin\ =\ A12;}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ I2C\ }}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SDA\ 18}}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SCL\ 19}}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//SPI}}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ }}
+\DoxyCodeLine{00386\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacelogic__micro__pins_ae72d932e2d1f6f6d5da9ea421a2d294e}{motor\_enable\_on\_state}}\ =\ HIGH;}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacelogic__micro__pins_ae41c7cd96f0a46902c8c343d1ff150cf}{motor\_enable\_off\_state}}\ =\ LOW;}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00392\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_ARDUINO\_NANO33BLE)\ |\ defined(ARDUINO\_NANO\_RP2040\_CONNECT)}}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \textcolor{keyword}{namespace\ }coms\_micro\_pins\ \ \textcolor{comment}{//nano}}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ blue\ =\ 24;}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ green\ =\ 23;}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ red\ =\ 22;}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ led\_active\_low\ =\ 1;}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SPI\ Conroller\ Pins}}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ miso\_pin\ =\ 11;}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ mosi\_pin=\ 12;}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sck\_pin\ =\ 13;}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ cs\_pin\ =\ 10;}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ spi\_mode\ =\ 16;}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00409\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00410\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00411\ \textcolor{preprocessor}{\#endif\ \ \ \ }}
+\DoxyCodeLine{00412\ }
+
+\end{DoxyCode}

@@ -1,0 +1,72 @@
+\doxysection{uart\+\_\+commands.\+h File Reference}
+\hypertarget{uart__commands_8h}{}\label{uart__commands_8h}\index{uart\_commands.h@{uart\_commands.h}}
+{\ttfamily \#include \"{}Arduino.\+h\"{}}\newline
+{\ttfamily \#include \"{}UARTHandler.\+h\"{}}\newline
+{\ttfamily \#include \"{}UART\+\_\+msg\+\_\+t.\+h\"{}}\newline
+{\ttfamily \#include \"{}Parse\+Ini.\+h\"{}}\newline
+{\ttfamily \#include \"{}Exo\+Data.\+h\"{}}\newline
+{\ttfamily \#include \"{}Joint\+Data.\+h\"{}}\newline
+{\ttfamily \#include \"{}Params\+From\+SD.\+h\"{}}\newline
+{\ttfamily \#include \"{}Logger.\+h\"{}}\newline
+{\ttfamily \#include \"{}Real\+Time\+I2\+C.\+h\"{}}\newline
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_u_a_r_t__command__names}{UART\+\_\+command\+\_\+names}}
+\begin{DoxyCompactList}\small\item\em Type to associate a command with an ammount of data. \end{DoxyCompactList}\item 
+namespace \mbox{\hyperlink{namespace_u_a_r_t__command__enums}{UART\+\_\+command\+\_\+enums}}
+\begin{DoxyCompactList}\small\item\em Holds all of the enums for the UART commands. The enums are used to properly index the data. \end{DoxyCompactList}\item 
+namespace \mbox{\hyperlink{namespace_u_a_r_t__command__handlers}{UART\+\_\+command\+\_\+handlers}}
+\begin{DoxyCompactList}\small\item\em Holds the handlers for all of the commands. The handler function types should be the same. The \textquotesingle{}get\textquotesingle{} handlers will respond with the appropriate command, the \textquotesingle{}update\textquotesingle{} handlers will unpack the msg and pack exo\+\_\+data. \end{DoxyCompactList}\item 
+namespace \mbox{\hyperlink{namespace_u_a_r_t__command__utils}{UART\+\_\+command\+\_\+utils}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41d}{UART\+\_\+command\+\_\+enums\+::controller\+\_\+params}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41da62ac410c5615afc2501c45fd3f7b4a90}{UART\+\_\+command\+\_\+enums\+::\+CONTROLLER\+\_\+\+ID}} = 0
+, \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41da312e801910234aa0639100688ae6e76a}{UART\+\_\+command\+\_\+enums\+::\+PARAM\+\_\+\+LENGTH}} = 1
+, \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41da290cf6c291a04186cd68b6f34995ea4c}{UART\+\_\+command\+\_\+enums\+::\+PARAM\+\_\+\+START}} = 2
+, \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41daaddeac40406177897b3fccba88558f1c}{UART\+\_\+command\+\_\+enums\+::\+LENGTH}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ae5199a1f98ae03b80a4d2648b61fc5a0}{UART\+\_\+command\+\_\+enums\+::status}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ae5199a1f98ae03b80a4d2648b61fc5a0a5f241c8c8f985b3c51e05d39cf030f4c}{UART\+\_\+command\+\_\+enums\+::\+STATUS}} = 0
+, \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ae5199a1f98ae03b80a4d2648b61fc5a0aaddeac40406177897b3fccba88558f1c}{UART\+\_\+command\+\_\+enums\+::\+LENGTH}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a53025a84ecdebcfd6d3434f09644e80e}{UART\+\_\+command\+\_\+enums\+::cal\+\_\+trq\+\_\+sensor}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a53025a84ecdebcfd6d3434f09644e80eaafd2b706789bfed8338c7db14b8b05d6}{UART\+\_\+command\+\_\+enums\+::\+CAL\+\_\+\+TRQ\+\_\+\+SENSOR}} = 0
+, \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a53025a84ecdebcfd6d3434f09644e80eaaddeac40406177897b3fccba88558f1c}{UART\+\_\+command\+\_\+enums\+::\+LENGTH}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespace_u_a_r_t__command__enums_adc63aa050e663fcc73ccfcda476e5b9d}{UART\+\_\+command\+\_\+enums\+::cal\+\_\+fsr}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_adc63aa050e663fcc73ccfcda476e5b9da875fb2e53ea18b98e77e2e5a4bdf4b22}{UART\+\_\+command\+\_\+enums\+::\+CAL\+\_\+\+FSR}} = 0
+, \mbox{\hyperlink{namespace_u_a_r_t__command__enums_adc63aa050e663fcc73ccfcda476e5b9daaddeac40406177897b3fccba88558f1c}{UART\+\_\+command\+\_\+enums\+::\+LENGTH}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespace_u_a_r_t__command__enums_aedfb2e5933c6e14fa69467c097b3d299}{UART\+\_\+command\+\_\+enums\+::refine\+\_\+fsr}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_aedfb2e5933c6e14fa69467c097b3d299ad44cab276671e30314508655e2165180}{UART\+\_\+command\+\_\+enums\+::\+REFINE\+\_\+\+FSR}} = 0
+, \mbox{\hyperlink{namespace_u_a_r_t__command__enums_aedfb2e5933c6e14fa69467c097b3d299aaddeac40406177897b3fccba88558f1c}{UART\+\_\+command\+\_\+enums\+::\+LENGTH}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a83af4886b74e4e42662cec781f07962d}{UART\+\_\+command\+\_\+enums\+::motor\+\_\+enable\+\_\+disable}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a83af4886b74e4e42662cec781f07962da0711902b40986f40236a2e5a4b4c3acd}{UART\+\_\+command\+\_\+enums\+::\+ENABLE\+\_\+\+DISABLE}} = 0
+, \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a83af4886b74e4e42662cec781f07962daaddeac40406177897b3fccba88558f1c}{UART\+\_\+command\+\_\+enums\+::\+LENGTH}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a62192f6ae78d45769e275673a07359db}{UART\+\_\+command\+\_\+enums\+::motor\+\_\+zero}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a62192f6ae78d45769e275673a07359dba529e9e0beb5f85d1f132917c1a09860c}{UART\+\_\+command\+\_\+enums\+::\+ZERO}} = 0
+, \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a62192f6ae78d45769e275673a07359dbaaddeac40406177897b3fccba88558f1c}{UART\+\_\+command\+\_\+enums\+::\+LENGTH}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespace_u_a_r_t__command__enums_aca54094cddd746dd096b86ce0614d747}{UART\+\_\+command\+\_\+enums\+::controller\+\_\+param}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_aca54094cddd746dd096b86ce0614d747a62ac410c5615afc2501c45fd3f7b4a90}{UART\+\_\+command\+\_\+enums\+::\+CONTROLLER\+\_\+\+ID}} = 0
+, \mbox{\hyperlink{namespace_u_a_r_t__command__enums_aca54094cddd746dd096b86ce0614d747a8cf3de1bb2c7bc645e0ab16d448711d0}{UART\+\_\+command\+\_\+enums\+::\+PARAM\+\_\+\+INDEX}} = 1
+, \mbox{\hyperlink{namespace_u_a_r_t__command__enums_aca54094cddd746dd096b86ce0614d747a9bb914d2eaedd80abc450b5a48f4bf67}{UART\+\_\+command\+\_\+enums\+::\+PARAM\+\_\+\+VALUE}} = 2
+, \mbox{\hyperlink{namespace_u_a_r_t__command__enums_aca54094cddd746dd096b86ce0614d747aaddeac40406177897b3fccba88558f1c}{UART\+\_\+command\+\_\+enums\+::\+LENGTH}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ace98ef4f4d4c888d6ad05a105f24ad2f}{UART\+\_\+command\+\_\+enums\+::real\+\_\+time\+\_\+data}} \+: uint8\+\_\+t 
+\item 
+enum class \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a2038c5888efa3579d0ac3bf4f2c8451e}{UART\+\_\+command\+\_\+enums\+::get\+\_\+error\+\_\+code}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a2038c5888efa3579d0ac3bf4f2c8451ea6ad8a2c102c0b3940f4bd1d36ffd61a8}{UART\+\_\+command\+\_\+enums\+::\+ERROR\+\_\+\+CODE}} = 0
+, \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a2038c5888efa3579d0ac3bf4f2c8451eaaddeac40406177897b3fccba88558f1c}{UART\+\_\+command\+\_\+enums\+::\+LENGTH}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a3ad2d18cfaba6fc3b36d240fa35d4c5f}{UART\+\_\+command\+\_\+enums\+::\+FSR\+\_\+thresholds}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a3ad2d18cfaba6fc3b36d240fa35d4c5fa64de411d6dbab559bc61a9a35ca11a97}{UART\+\_\+command\+\_\+enums\+::\+LEFT\+\_\+\+THRESHOLD}} = 0
+, \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a3ad2d18cfaba6fc3b36d240fa35d4c5fafdc61a6f7802a1626a684b3cafe18c0b}{UART\+\_\+command\+\_\+enums\+::\+RIGHT\+\_\+\+THRESHOLD}} = 1
+, \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a3ad2d18cfaba6fc3b36d240fa35d4c5faaddeac40406177897b3fccba88558f1c}{UART\+\_\+command\+\_\+enums\+::\+LENGTH}}
+ \}
+\end{DoxyCompactItemize}

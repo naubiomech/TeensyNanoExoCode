@@ -14,16 +14,31 @@
 #include "ParseIni.h"
 #include "UART_msg_t.h"
 
+/**
+ * @brief Singleton class to report errors to the other microcontroller.
+ * 
+ */
 class ErrorReporter
 {
     ErrorReporter() {};
     ~ErrorReporter() {};
 public:
+    /**
+     * @brief Get the instance object
+     * 
+     * @return ErrorReporter* 
+     */
     static ErrorReporter* get_instance()
     {
         static ErrorReporter* instance = new ErrorReporter();
         return instance;
     }
+    /**
+     * @brief Report an error to the other microcontroller.
+     * 
+     * @param error_code 
+     * @param joint_id 
+     */
     void report(ErrorCodes error_code, config_defs::joint_id joint_id)
     {
         UART_msg_t msg;

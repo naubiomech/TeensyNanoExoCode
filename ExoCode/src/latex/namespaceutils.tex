@@ -1,0 +1,571 @@
+\doxysection{utils Namespace Reference}
+\hypertarget{namespaceutils}{}\label{namespaceutils}\index{utils@{utils}}
+
+
+contains general utility functions for the exo  
+
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+union \mbox{\hyperlink{unionutils_1_1_float_byte_union}{Float\+Byte\+Union}}
+\item 
+union \mbox{\hyperlink{unionutils_1_1_short_int_byte_union}{Short\+Int\+Byte\+Union}}
+\item 
+class \mbox{\hyperlink{classutils_1_1_speed_check}{Speed\+Check}}
+\begin{DoxyCompactList}\small\item\em Class used to check the loop speed without serial prints, by toggling a pin after initialized, toggle will need to be called each loop. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{namespaceutils_ac45099964358cacf2a7628c3300c699d}{get\+\_\+is\+\_\+left}} (\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}} id)
+\begin{DoxyCompactList}\small\item\em Takes in the joint id and returns if the left indicator bit is set as a bool. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceutils_a807b0fc90f9c749643f9bd06e7ce2e26}{get\+\_\+is\+\_\+left}} (uint8\+\_\+t id)
+\begin{DoxyCompactList}\small\item\em Takes in the joint id and returns if the left indicator bit is set as a bool. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{namespaceutils_aa55778f7db8215731d334c8babb1aaf5}{get\+\_\+joint\+\_\+type}} (\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}} id)
+\begin{DoxyCompactList}\small\item\em Takes in the joint id and returns the id with the left/right bits masked out. Returning uint8\+\_\+t rather than joint\+\_\+id type since we have to typecast to do logical stuff anyways. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{namespaceutils_ae4420cc52e1886d8e600273c0fe577f6}{get\+\_\+joint\+\_\+type}} (uint8\+\_\+t id)
+\begin{DoxyCompactList}\small\item\em Takes in the joint id and returns the id with the left/right bits masked out. Returning uint8\+\_\+t rather than joint\+\_\+id type since we have to typecast to do logical stuff anyways. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceutils_ad0aa3b6a3f8c6b4beb4ac3b19d644c10}{schmitt\+\_\+trigger}} (float value, bool is\+\_\+high, float lower\+\_\+threshold, float upper\+\_\+threshold)
+\begin{DoxyCompactList}\small\item\em Returns the new state of the system based on the value and past state. Takes in the current value, if the state is currently high, and the lower and upper threshold Floats are used so that ints will be promoted but it will still work with floats. May cause issues with very large ints. Templates could be used in the future but seemed to have issues if all types were not present in the template, e.\+g. is\+\_\+high is always a bool. A schmitt trigger is a way of tracking if a noisy signal is high or low When it is low it must go above the upper threshold before it is high When it is high it must go below the lower threshold before it is low. This way if the signal crosses one threshold multiple times it won\textquotesingle{}t register as changing multiple times. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{namespaceutils_a6323a0e1b1bea3fc70fbda077efb1475}{rate\+\_\+limit}} (int setpoint, int last\+\_\+value, int \texorpdfstring{$\ast$}{*}last\+\_\+time, int rate\+\_\+per\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Limits the rate at which a value can change. ~\newline
+ This is useful when you would like a variable to gradually come on. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{namespaceutils_a626ce03bb77c282406857c9d80838007}{update\+\_\+bit}} (uint8\+\_\+t original, bool val, uint8\+\_\+t loc)
+\begin{DoxyCompactList}\small\item\em sets/clears the specified bit in a unit8\+\_\+t. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{namespaceutils_aeb61a9190ab9a27c5b59305a70b7ae65}{update\+\_\+bit}} (uint16\+\_\+t original, bool val, uint8\+\_\+t loc)
+\begin{DoxyCompactList}\small\item\em sets/clears the specified bit in a unit16\+\_\+t. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceutils_a11fd086c9652b1287b6cbf9c6e12c54b}{get\+\_\+bit}} (uint8\+\_\+t original, uint8\+\_\+t loc)
+\begin{DoxyCompactList}\small\item\em Returns the bit in a specific location in a uint8\+\_\+t. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceutils_a701a62b97b071eef0df46591a4703b86}{get\+\_\+bit}} (uint16\+\_\+t original, uint8\+\_\+t loc)
+\begin{DoxyCompactList}\small\item\em Returns the bit in a specific location in a uint16. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{namespaceutils_a93ef823108dc95f6ff5e732b61002eaa}{degrees\+\_\+to\+\_\+radians}} (float)
+\begin{DoxyCompactList}\small\item\em converts from degrees to radians \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{namespaceutils_a0bc9902175a83a7299385cf9deaf48ff}{radians\+\_\+to\+\_\+degrees}} (float)
+\begin{DoxyCompactList}\small\item\em converts from radians to degrees \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{namespaceutils_aba66776ed296852181b0a1c371f3e0cf}{remove\+\_\+all\+\_\+chars}} (String str, char rmv)
+\begin{DoxyCompactList}\small\item\em Searches str for \textquotesingle{}rmv characters and deletes them all, returns new string todo\+: Chance update comments. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{namespaceutils_aab1f31bd1a52fe89fba2107152360b76}{remove\+\_\+all\+\_\+chars}} (char \texorpdfstring{$\ast$}{*}arr, char rmv)
+\item 
+int \mbox{\hyperlink{namespaceutils_aa7436ae25cb24b70aa9cb6c24a75e5a0}{get\+\_\+char\+\_\+length}} (int of\+Int)
+\begin{DoxyCompactList}\small\item\em given and integer, return the number of characters in it todo\+: Chance update comments \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceutils_aaccbd7cf1148da7ed6c9ffa99000aa1a}{is\+\_\+little\+\_\+endian}} ()
+\begin{DoxyCompactList}\small\item\em Returns 1 if system uses little endian floating points. This confirms that the floating points match if not the byte order needs to be flipped. Not tested with big endian or 64 bit systems. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespaceutils_ae506b587b15eea4c765e622ba9b23c5a}{float\+\_\+to\+\_\+uint8}} (float num\+\_\+to\+\_\+convert, uint8\+\_\+t \texorpdfstring{$\ast$}{*}converted\+\_\+bytes)
+\begin{DoxyCompactList}\small\item\em Takes in a float and a byte array reference Puts the bytes of the float into the array in little endian Not tested with big endian or 64 bit systems. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespaceutils_ac266187e7c33bab738ee595062da2088}{uint8\+\_\+to\+\_\+float}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}bytes\+\_\+to\+\_\+convert, float \texorpdfstring{$\ast$}{*}converted\+\_\+float)
+\begin{DoxyCompactList}\small\item\em Takes in a byte array address in little endian form containing a broken up float Returns a reconstituted float from the bytes in the form (endianess) the system uses. Not tested with big endian or 64 bit systems. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespaceutils_aab57a56061fc3e9756fb852e2a9f5ca7}{float\+\_\+to\+\_\+short\+\_\+fixed\+\_\+point\+\_\+bytes}} (float num\+\_\+to\+\_\+convert, uint8\+\_\+t \texorpdfstring{$\ast$}{*}converted\+\_\+bytes, uint8\+\_\+t factor)
+\begin{DoxyCompactList}\small\item\em converts float into individual bytes of a fixed point short. ~\newline
+ \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespaceutils_af80f75cc84116926faf99abaf0abce7b}{short\+\_\+fixed\+\_\+point\+\_\+bytes\+\_\+to\+\_\+float}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}bytes\+\_\+to\+\_\+convert, float \texorpdfstring{$\ast$}{*}converted\+\_\+val, uint8\+\_\+t factor)
+\begin{DoxyCompactList}\small\item\em converts a set of bytes in a fixed point short int into a float \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{namespaceutils_abf29b08cdde8e83e33543eb80cd0960d}{ewma}} (float new\+\_\+value, float filter\+\_\+value, float alpha)
+\begin{DoxyCompactList}\small\item\em Exponential Weighted Moving Average. Used to smooth out noisy data. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{namespaceutils_a8d245e124572d40cc1500e2aa97f3b49}{ff\+\_\+to\+\_\+fe}} (uint8\+\_\+t val)
+\item 
+void \mbox{\hyperlink{namespaceutils_ab4a4ec118f6bac1ee36f29a27013c528}{spin\+\_\+on\+\_\+error\+\_\+with}} (String message)
+\begin{DoxyCompactList}\small\item\em Never returns from this function, used for critical errors. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceutils_a41e4bd58ef05f006f93682bda9b98c42}{is\+\_\+close\+\_\+to}} (float val1, float val2, float tolerance)
+\begin{DoxyCompactList}\small\item\em Checks if two floats are close to each other within a tolerance. \end{DoxyCompactList}\item 
+std\+::pair$<$ float, float $>$ \mbox{\hyperlink{namespaceutils_a0613d9e40ec11d3e17655132b61ad2a0}{online\+\_\+std\+\_\+dev}} (std\+::queue$<$ float $>$ set)
+\begin{DoxyCompactList}\small\item\em Given a set of data and maximum size. Returns the new mean and standard deviation. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceutils_af362fe7671d3080b044a58b906c66c39}{is\+\_\+outside\+\_\+range}} (float val, float min, float max)
+\begin{DoxyCompactList}\small\item\em Checks if a value is outside of a range. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{namespaceutils_a710e34137dce08af5264701cd26ce671}{remove\+\_\+all\+\_\+chars}} (char \texorpdfstring{$\ast$}{*}arr, int len, char rmv)
+\item 
+{\footnotesize template$<$typename T $>$ }\\int \mbox{\hyperlink{namespaceutils_a2d8908e882fc6b3ba22e6b2cc9b79d9c}{elements\+\_\+are\+\_\+equal}} (T arr1, T arr2, int length)
+\begin{DoxyCompactList}\small\item\em Checks if all elements of the array are equal. Arrays must be the same length and type todo\+: Chance update comments. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{namespaceutils_aca9ed0c3f170a66d963071975405aa71}{set\+\_\+elements\+\_\+equal}} (T arr1, T arr2, int length)
+\begin{DoxyCompactList}\small\item\em Sets arr2 elements equal to arr1 elements. Arrays must be the same length and type todo\+: Chance update comments. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+contains general utility functions for the exo 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceutils_a93ef823108dc95f6ff5e732b61002eaa}\label{namespaceutils_a93ef823108dc95f6ff5e732b61002eaa} 
+\index{utils@{utils}!degrees\_to\_radians@{degrees\_to\_radians}}
+\index{degrees\_to\_radians@{degrees\_to\_radians}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{degrees\_to\_radians()}{degrees\_to\_radians()}}
+{\footnotesize\ttfamily float utils\+::degrees\+\_\+to\+\_\+radians (\begin{DoxyParamCaption}\item[{float}]{ }\end{DoxyParamCaption})}
+
+
+
+converts from degrees to radians 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & degree value\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the value converted to radians 
+\end{DoxyReturn}
+\Hypertarget{namespaceutils_a2d8908e882fc6b3ba22e6b2cc9b79d9c}\label{namespaceutils_a2d8908e882fc6b3ba22e6b2cc9b79d9c} 
+\index{utils@{utils}!elements\_are\_equal@{elements\_are\_equal}}
+\index{elements\_are\_equal@{elements\_are\_equal}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{elements\_are\_equal()}{elements\_are\_equal()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int utils\+::elements\+\_\+are\+\_\+equal (\begin{DoxyParamCaption}\item[{T}]{arr1,  }\item[{T}]{arr2,  }\item[{int}]{length }\end{DoxyParamCaption})}
+
+
+
+Checks if all elements of the array are equal. Arrays must be the same length and type todo\+: Chance update comments. 
+
+\Hypertarget{namespaceutils_abf29b08cdde8e83e33543eb80cd0960d}\label{namespaceutils_abf29b08cdde8e83e33543eb80cd0960d} 
+\index{utils@{utils}!ewma@{ewma}}
+\index{ewma@{ewma}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{ewma()}{ewma()}}
+{\footnotesize\ttfamily float utils\+::ewma (\begin{DoxyParamCaption}\item[{float}]{new\+\_\+value,  }\item[{float}]{filter\+\_\+value,  }\item[{float}]{alpha }\end{DoxyParamCaption})}
+
+
+
+Exponential Weighted Moving Average. Used to smooth out noisy data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+\_\+value} & New value to add to the filter \\
+\hline
+{\em filter\+\_\+value} & Previous value of the filter \\
+\hline
+{\em alpha} & Tuning parameter, 0.\+0 \texorpdfstring{$<$}{<} alpha \texorpdfstring{$<$}{<} 1.\+0 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+float 
+\end{DoxyReturn}
+\Hypertarget{namespaceutils_a8d245e124572d40cc1500e2aa97f3b49}\label{namespaceutils_a8d245e124572d40cc1500e2aa97f3b49} 
+\index{utils@{utils}!ff\_to\_fe@{ff\_to\_fe}}
+\index{ff\_to\_fe@{ff\_to\_fe}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{ff\_to\_fe()}{ff\_to\_fe()}}
+{\footnotesize\ttfamily uint8\+\_\+t utils\+::ff\+\_\+to\+\_\+fe (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{val }\end{DoxyParamCaption})}
+
+\Hypertarget{namespaceutils_aab57a56061fc3e9756fb852e2a9f5ca7}\label{namespaceutils_aab57a56061fc3e9756fb852e2a9f5ca7} 
+\index{utils@{utils}!float\_to\_short\_fixed\_point\_bytes@{float\_to\_short\_fixed\_point\_bytes}}
+\index{float\_to\_short\_fixed\_point\_bytes@{float\_to\_short\_fixed\_point\_bytes}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{float\_to\_short\_fixed\_point\_bytes()}{float\_to\_short\_fixed\_point\_bytes()}}
+{\footnotesize\ttfamily void utils\+::float\+\_\+to\+\_\+short\+\_\+fixed\+\_\+point\+\_\+bytes (\begin{DoxyParamCaption}\item[{float}]{num\+\_\+to\+\_\+convert,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{converted\+\_\+bytes,  }\item[{uint8\+\_\+t}]{factor }\end{DoxyParamCaption})}
+
+
+
+converts float into individual bytes of a fixed point short. ~\newline
+ 
+
+
+\begin{DoxyParams}{Parameters}
+{\em float} & to convert \\
+\hline
+{\em array} & of sizeof(short int) to store the individual bytes \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespaceutils_ae506b587b15eea4c765e622ba9b23c5a}\label{namespaceutils_ae506b587b15eea4c765e622ba9b23c5a} 
+\index{utils@{utils}!float\_to\_uint8@{float\_to\_uint8}}
+\index{float\_to\_uint8@{float\_to\_uint8}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{float\_to\_uint8()}{float\_to\_uint8()}}
+{\footnotesize\ttfamily void utils\+::float\+\_\+to\+\_\+uint8 (\begin{DoxyParamCaption}\item[{float}]{num\+\_\+to\+\_\+convert,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{converted\+\_\+bytes }\end{DoxyParamCaption})}
+
+
+
+Takes in a float and a byte array reference Puts the bytes of the float into the array in little endian Not tested with big endian or 64 bit systems. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em float} & to convert \\
+\hline
+{\em array} & of sizeof(float) to store the individual bytes \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespaceutils_a701a62b97b071eef0df46591a4703b86}\label{namespaceutils_a701a62b97b071eef0df46591a4703b86} 
+\index{utils@{utils}!get\_bit@{get\_bit}}
+\index{get\_bit@{get\_bit}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{get\_bit()}{get\_bit()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool utils\+::get\+\_\+bit (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{original,  }\item[{uint8\+\_\+t}]{loc }\end{DoxyParamCaption})}
+
+
+
+Returns the bit in a specific location in a uint16. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em the} & uint16\+\_\+t to read \\
+\hline
+{\em the} & location of the bit to read\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the value at the bit location 
+\end{DoxyReturn}
+\Hypertarget{namespaceutils_a11fd086c9652b1287b6cbf9c6e12c54b}\label{namespaceutils_a11fd086c9652b1287b6cbf9c6e12c54b} 
+\index{utils@{utils}!get\_bit@{get\_bit}}
+\index{get\_bit@{get\_bit}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{get\_bit()}{get\_bit()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool utils\+::get\+\_\+bit (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{original,  }\item[{uint8\+\_\+t}]{loc }\end{DoxyParamCaption})}
+
+
+
+Returns the bit in a specific location in a uint8\+\_\+t. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em the} & uint8\+\_\+t to read \\
+\hline
+{\em the} & location of the bit to read\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the value at the bit location 
+\end{DoxyReturn}
+\Hypertarget{namespaceutils_aa7436ae25cb24b70aa9cb6c24a75e5a0}\label{namespaceutils_aa7436ae25cb24b70aa9cb6c24a75e5a0} 
+\index{utils@{utils}!get\_char\_length@{get\_char\_length}}
+\index{get\_char\_length@{get\_char\_length}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{get\_char\_length()}{get\_char\_length()}}
+{\footnotesize\ttfamily int utils\+::get\+\_\+char\+\_\+length (\begin{DoxyParamCaption}\item[{int}]{of\+Int }\end{DoxyParamCaption})}
+
+
+
+given and integer, return the number of characters in it todo\+: Chance update comments 
+
+\Hypertarget{namespaceutils_ac45099964358cacf2a7628c3300c699d}\label{namespaceutils_ac45099964358cacf2a7628c3300c699d} 
+\index{utils@{utils}!get\_is\_left@{get\_is\_left}}
+\index{get\_is\_left@{get\_is\_left}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{get\_is\_left()}{get\_is\_left()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool utils\+::get\+\_\+is\+\_\+left (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}}}]{id }\end{DoxyParamCaption})}
+
+
+
+Takes in the joint id and returns if the left indicator bit is set as a bool. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em joint} & id\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if the id is for the left side 
+\end{DoxyReturn}
+\Hypertarget{namespaceutils_a807b0fc90f9c749643f9bd06e7ce2e26}\label{namespaceutils_a807b0fc90f9c749643f9bd06e7ce2e26} 
+\index{utils@{utils}!get\_is\_left@{get\_is\_left}}
+\index{get\_is\_left@{get\_is\_left}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{get\_is\_left()}{get\_is\_left()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool utils\+::get\+\_\+is\+\_\+left (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{id }\end{DoxyParamCaption})}
+
+
+
+Takes in the joint id and returns if the left indicator bit is set as a bool. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em joint} & id\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if the id is for the left side 
+\end{DoxyReturn}
+\Hypertarget{namespaceutils_aa55778f7db8215731d334c8babb1aaf5}\label{namespaceutils_aa55778f7db8215731d334c8babb1aaf5} 
+\index{utils@{utils}!get\_joint\_type@{get\_joint\_type}}
+\index{get\_joint\_type@{get\_joint\_type}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{get\_joint\_type()}{get\_joint\_type()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily uint8\+\_\+t utils\+::get\+\_\+joint\+\_\+type (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}}}]{id }\end{DoxyParamCaption})}
+
+
+
+Takes in the joint id and returns the id with the left/right bits masked out. Returning uint8\+\_\+t rather than joint\+\_\+id type since we have to typecast to do logical stuff anyways. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em joint} & id\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+joint id with the side bits masked out 
+\end{DoxyReturn}
+\Hypertarget{namespaceutils_ae4420cc52e1886d8e600273c0fe577f6}\label{namespaceutils_ae4420cc52e1886d8e600273c0fe577f6} 
+\index{utils@{utils}!get\_joint\_type@{get\_joint\_type}}
+\index{get\_joint\_type@{get\_joint\_type}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{get\_joint\_type()}{get\_joint\_type()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily uint8\+\_\+t utils\+::get\+\_\+joint\+\_\+type (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{id }\end{DoxyParamCaption})}
+
+
+
+Takes in the joint id and returns the id with the left/right bits masked out. Returning uint8\+\_\+t rather than joint\+\_\+id type since we have to typecast to do logical stuff anyways. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em joint} & id\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+joint id with the side bits masked out 
+\end{DoxyReturn}
+\Hypertarget{namespaceutils_a41e4bd58ef05f006f93682bda9b98c42}\label{namespaceutils_a41e4bd58ef05f006f93682bda9b98c42} 
+\index{utils@{utils}!is\_close\_to@{is\_close\_to}}
+\index{is\_close\_to@{is\_close\_to}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{is\_close\_to()}{is\_close\_to()}}
+{\footnotesize\ttfamily bool utils\+::is\+\_\+close\+\_\+to (\begin{DoxyParamCaption}\item[{float}]{val1,  }\item[{float}]{val2,  }\item[{float}]{tolerance }\end{DoxyParamCaption})}
+
+
+
+Checks if two floats are close to each other within a tolerance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val1} & \\
+\hline
+{\em val2} & \\
+\hline
+{\em tolerance} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true 
+
+false 
+\end{DoxyReturn}
+\Hypertarget{namespaceutils_aaccbd7cf1148da7ed6c9ffa99000aa1a}\label{namespaceutils_aaccbd7cf1148da7ed6c9ffa99000aa1a} 
+\index{utils@{utils}!is\_little\_endian@{is\_little\_endian}}
+\index{is\_little\_endian@{is\_little\_endian}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{is\_little\_endian()}{is\_little\_endian()}}
+{\footnotesize\ttfamily bool utils\+::is\+\_\+little\+\_\+endian (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns 1 if system uses little endian floating points. This confirms that the floating points match if not the byte order needs to be flipped. Not tested with big endian or 64 bit systems. 
+
+\begin{DoxyReturn}{Returns}
+1 if system is little endian 
+\end{DoxyReturn}
+\Hypertarget{namespaceutils_af362fe7671d3080b044a58b906c66c39}\label{namespaceutils_af362fe7671d3080b044a58b906c66c39} 
+\index{utils@{utils}!is\_outside\_range@{is\_outside\_range}}
+\index{is\_outside\_range@{is\_outside\_range}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{is\_outside\_range()}{is\_outside\_range()}}
+{\footnotesize\ttfamily bool utils\+::is\+\_\+outside\+\_\+range (\begin{DoxyParamCaption}\item[{float}]{val,  }\item[{float}]{min,  }\item[{float}]{max }\end{DoxyParamCaption})}
+
+
+
+Checks if a value is outside of a range. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & \\
+\hline
+{\em min} & \\
+\hline
+{\em max} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true 
+
+false 
+\end{DoxyReturn}
+\Hypertarget{namespaceutils_a0613d9e40ec11d3e17655132b61ad2a0}\label{namespaceutils_a0613d9e40ec11d3e17655132b61ad2a0} 
+\index{utils@{utils}!online\_std\_dev@{online\_std\_dev}}
+\index{online\_std\_dev@{online\_std\_dev}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{online\_std\_dev()}{online\_std\_dev()}}
+{\footnotesize\ttfamily std\+::pair$<$ float, float $>$ utils\+::online\+\_\+std\+\_\+dev (\begin{DoxyParamCaption}\item[{std\+::queue$<$ float $>$}]{set }\end{DoxyParamCaption})}
+
+
+
+Given a set of data and maximum size. Returns the new mean and standard deviation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em set} & Queue of data to calculate the mean and standard deviation of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::pair$<$float, float$>$ Mean and standard deviation, respectively 
+\end{DoxyReturn}
+\Hypertarget{namespaceutils_a0bc9902175a83a7299385cf9deaf48ff}\label{namespaceutils_a0bc9902175a83a7299385cf9deaf48ff} 
+\index{utils@{utils}!radians\_to\_degrees@{radians\_to\_degrees}}
+\index{radians\_to\_degrees@{radians\_to\_degrees}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{radians\_to\_degrees()}{radians\_to\_degrees()}}
+{\footnotesize\ttfamily float utils\+::radians\+\_\+to\+\_\+degrees (\begin{DoxyParamCaption}\item[{float}]{ }\end{DoxyParamCaption})}
+
+
+
+converts from radians to degrees 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & radian value\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the value converted to degrees 
+\end{DoxyReturn}
+\Hypertarget{namespaceutils_a6323a0e1b1bea3fc70fbda077efb1475}\label{namespaceutils_a6323a0e1b1bea3fc70fbda077efb1475} 
+\index{utils@{utils}!rate\_limit@{rate\_limit}}
+\index{rate\_limit@{rate\_limit}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{rate\_limit()}{rate\_limit()}}
+{\footnotesize\ttfamily int utils\+::rate\+\_\+limit (\begin{DoxyParamCaption}\item[{int}]{setpoint,  }\item[{int}]{last\+\_\+value,  }\item[{int \texorpdfstring{$\ast$}{*}}]{last\+\_\+time,  }\item[{int}]{rate\+\_\+per\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Limits the rate at which a value can change. ~\newline
+ This is useful when you would like a variable to gradually come on. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em current} & value the system is moving towards \\
+\hline
+{\em the} & previous value the system was at \\
+\hline
+{\em pointer} & to the last time the output value was set \\
+\hline
+{\em rate} & the value can change per ms\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the next value to the system can be at based on the rate limit. 
+\end{DoxyReturn}
+\Hypertarget{namespaceutils_aab1f31bd1a52fe89fba2107152360b76}\label{namespaceutils_aab1f31bd1a52fe89fba2107152360b76} 
+\index{utils@{utils}!remove\_all\_chars@{remove\_all\_chars}}
+\index{remove\_all\_chars@{remove\_all\_chars}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{remove\_all\_chars()}{remove\_all\_chars()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily String utils\+::remove\+\_\+all\+\_\+chars (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{arr,  }\item[{char}]{rmv }\end{DoxyParamCaption})}
+
+\Hypertarget{namespaceutils_a710e34137dce08af5264701cd26ce671}\label{namespaceutils_a710e34137dce08af5264701cd26ce671} 
+\index{utils@{utils}!remove\_all\_chars@{remove\_all\_chars}}
+\index{remove\_all\_chars@{remove\_all\_chars}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{remove\_all\_chars()}{remove\_all\_chars()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily String utils\+::remove\+\_\+all\+\_\+chars (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{arr,  }\item[{int}]{len,  }\item[{char}]{rmv }\end{DoxyParamCaption})}
+
+\Hypertarget{namespaceutils_aba66776ed296852181b0a1c371f3e0cf}\label{namespaceutils_aba66776ed296852181b0a1c371f3e0cf} 
+\index{utils@{utils}!remove\_all\_chars@{remove\_all\_chars}}
+\index{remove\_all\_chars@{remove\_all\_chars}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{remove\_all\_chars()}{remove\_all\_chars()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily String utils\+::remove\+\_\+all\+\_\+chars (\begin{DoxyParamCaption}\item[{String}]{str,  }\item[{char}]{rmv }\end{DoxyParamCaption})}
+
+
+
+Searches str for \textquotesingle{}rmv characters and deletes them all, returns new string todo\+: Chance update comments. 
+
+\Hypertarget{namespaceutils_ad0aa3b6a3f8c6b4beb4ac3b19d644c10}\label{namespaceutils_ad0aa3b6a3f8c6b4beb4ac3b19d644c10} 
+\index{utils@{utils}!schmitt\_trigger@{schmitt\_trigger}}
+\index{schmitt\_trigger@{schmitt\_trigger}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{schmitt\_trigger()}{schmitt\_trigger()}}
+{\footnotesize\ttfamily bool utils\+::schmitt\+\_\+trigger (\begin{DoxyParamCaption}\item[{float}]{value,  }\item[{bool}]{is\+\_\+high,  }\item[{float}]{lower\+\_\+threshold,  }\item[{float}]{upper\+\_\+threshold }\end{DoxyParamCaption})}
+
+
+
+Returns the new state of the system based on the value and past state. Takes in the current value, if the state is currently high, and the lower and upper threshold Floats are used so that ints will be promoted but it will still work with floats. May cause issues with very large ints. Templates could be used in the future but seemed to have issues if all types were not present in the template, e.\+g. is\+\_\+high is always a bool. A schmitt trigger is a way of tracking if a noisy signal is high or low When it is low it must go above the upper threshold before it is high When it is high it must go below the lower threshold before it is low. This way if the signal crosses one threshold multiple times it won\textquotesingle{}t register as changing multiple times. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & current signal reading \\
+\hline
+{\em The} & current state of the trigger \\
+\hline
+{\em The} & lower threshold a high signal must pass to go low \\
+\hline
+{\em The} & upper threshold a low signal must pass to go high\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the state of the trigger. 
+\end{DoxyReturn}
+\Hypertarget{namespaceutils_aca9ed0c3f170a66d963071975405aa71}\label{namespaceutils_aca9ed0c3f170a66d963071975405aa71} 
+\index{utils@{utils}!set\_elements\_equal@{set\_elements\_equal}}
+\index{set\_elements\_equal@{set\_elements\_equal}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{set\_elements\_equal()}{set\_elements\_equal()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void utils\+::set\+\_\+elements\+\_\+equal (\begin{DoxyParamCaption}\item[{T}]{arr1,  }\item[{T}]{arr2,  }\item[{int}]{length }\end{DoxyParamCaption})}
+
+
+
+Sets arr2 elements equal to arr1 elements. Arrays must be the same length and type todo\+: Chance update comments. 
+
+\Hypertarget{namespaceutils_af80f75cc84116926faf99abaf0abce7b}\label{namespaceutils_af80f75cc84116926faf99abaf0abce7b} 
+\index{utils@{utils}!short\_fixed\_point\_bytes\_to\_float@{short\_fixed\_point\_bytes\_to\_float}}
+\index{short\_fixed\_point\_bytes\_to\_float@{short\_fixed\_point\_bytes\_to\_float}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{short\_fixed\_point\_bytes\_to\_float()}{short\_fixed\_point\_bytes\_to\_float()}}
+{\footnotesize\ttfamily void utils\+::short\+\_\+fixed\+\_\+point\+\_\+bytes\+\_\+to\+\_\+float (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{bytes\+\_\+to\+\_\+convert,  }\item[{float \texorpdfstring{$\ast$}{*}}]{converted\+\_\+val,  }\item[{uint8\+\_\+t}]{factor }\end{DoxyParamCaption})}
+
+
+
+converts a set of bytes in a fixed point short int into a float 
+
+
+\begin{DoxyParams}{Parameters}
+{\em array} & of size sizeof(short int) containing the bytes to convert \\
+\hline
+{\em pointer} & to place the converted value into \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespaceutils_ab4a4ec118f6bac1ee36f29a27013c528}\label{namespaceutils_ab4a4ec118f6bac1ee36f29a27013c528} 
+\index{utils@{utils}!spin\_on\_error\_with@{spin\_on\_error\_with}}
+\index{spin\_on\_error\_with@{spin\_on\_error\_with}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{spin\_on\_error\_with()}{spin\_on\_error\_with()}}
+{\footnotesize\ttfamily void utils\+::spin\+\_\+on\+\_\+error\+\_\+with (\begin{DoxyParamCaption}\item[{String}]{message }\end{DoxyParamCaption})}
+
+
+
+Never returns from this function, used for critical errors. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespaceutils_ac266187e7c33bab738ee595062da2088}\label{namespaceutils_ac266187e7c33bab738ee595062da2088} 
+\index{utils@{utils}!uint8\_to\_float@{uint8\_to\_float}}
+\index{uint8\_to\_float@{uint8\_to\_float}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{uint8\_to\_float()}{uint8\_to\_float()}}
+{\footnotesize\ttfamily void utils\+::uint8\+\_\+to\+\_\+float (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{bytes\+\_\+to\+\_\+convert,  }\item[{float \texorpdfstring{$\ast$}{*}}]{converted\+\_\+float }\end{DoxyParamCaption})}
+
+
+
+Takes in a byte array address in little endian form containing a broken up float Returns a reconstituted float from the bytes in the form (endianess) the system uses. Not tested with big endian or 64 bit systems. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em array} & of size sizeof(float) containing the bytes to convert \\
+\hline
+{\em pointer} & to place the converted value into \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespaceutils_aeb61a9190ab9a27c5b59305a70b7ae65}\label{namespaceutils_aeb61a9190ab9a27c5b59305a70b7ae65} 
+\index{utils@{utils}!update\_bit@{update\_bit}}
+\index{update\_bit@{update\_bit}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{update\_bit()}{update\_bit()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily uint16\+\_\+t utils\+::update\+\_\+bit (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{original,  }\item[{bool}]{val,  }\item[{uint8\+\_\+t}]{loc }\end{DoxyParamCaption})}
+
+
+
+sets/clears the specified bit in a unit16\+\_\+t. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & original uint16\+\_\+t \\
+\hline
+{\em The} & bit value you would like to use \\
+\hline
+{\em The} & location you are placing that bit.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The uint16\+\_\+t with the bit updated 
+\end{DoxyReturn}
+\Hypertarget{namespaceutils_a626ce03bb77c282406857c9d80838007}\label{namespaceutils_a626ce03bb77c282406857c9d80838007} 
+\index{utils@{utils}!update\_bit@{update\_bit}}
+\index{update\_bit@{update\_bit}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{update\_bit()}{update\_bit()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily uint8\+\_\+t utils\+::update\+\_\+bit (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{original,  }\item[{bool}]{val,  }\item[{uint8\+\_\+t}]{loc }\end{DoxyParamCaption})}
+
+
+
+sets/clears the specified bit in a unit8\+\_\+t. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em The} & original uint8\+\_\+t \\
+\hline
+{\em The} & bit value you would like to use \\
+\hline
+{\em The} & location you are placing that bit.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The uint8\+\_\+t with the bit updated 
+\end{DoxyReturn}

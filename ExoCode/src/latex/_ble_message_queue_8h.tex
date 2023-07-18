@@ -1,0 +1,37 @@
+\doxysection{Ble\+Message\+Queue.\+h File Reference}
+\hypertarget{_ble_message_queue_8h}{}\label{_ble_message_queue_8h}\index{BleMessageQueue.h@{BleMessageQueue.h}}
+
+
+Defines a FIFO queue for the BLEMessage type. The maximum size is specified in the cpp.  
+
+
+{\ttfamily \#include \"{}Ble\+Message.\+h\"{}}\newline
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespaceble__queue}{ble\+\_\+queue}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_ble_message}{Ble\+Message}} \mbox{\hyperlink{namespaceble__queue_a7105c203a5be2ad286c206122a10e3bf}{ble\+\_\+queue\+::pop}} ()
+\begin{DoxyCompactList}\small\item\em Pop a message off of the FIFO queue. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespaceble__queue_aa4cc2af7a32a99eceb604ab345cd242b}{ble\+\_\+queue\+::push}} (\mbox{\hyperlink{class_ble_message}{Ble\+Message}} \texorpdfstring{$\ast$}{*}msg)
+\begin{DoxyCompactList}\small\item\em Put a message on the FIFO queue. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{namespaceble__queue_a28adeb2b7dc60dcfef5f470f3d272b86}{ble\+\_\+queue\+::size}} ()
+\begin{DoxyCompactList}\small\item\em Check the size of the FIFO queue. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{namespaceble__queue_a2694cc474fd62f6ffda7971895e3decc}{ble\+\_\+queue\+::check\+\_\+for}} (\mbox{\hyperlink{class_ble_message}{Ble\+Message}} msg)
+\begin{DoxyCompactList}\small\item\em Search the queue for a matching message. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespaceble__queue_aa357f9bf06a66066e980dfaf8ef84db5}{ble\+\_\+queue\+::clear}} ()
+\begin{DoxyCompactList}\small\item\em Forcibly empty the queue. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines a FIFO queue for the BLEMessage type. The maximum size is specified in the cpp. 
+
+\begin{DoxyAuthor}{Author}
+Chance Cuddeback 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2022-\/08-\/29 
+\end{DoxyDate}

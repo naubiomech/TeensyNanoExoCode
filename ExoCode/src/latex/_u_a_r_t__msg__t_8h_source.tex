@@ -1,0 +1,38 @@
+\doxysection{UART\+\_\+msg\+\_\+t.\+h}
+\hypertarget{_u_a_r_t__msg__t_8h_source}{}\label{_u_a_r_t__msg__t_8h_source}\mbox{\hyperlink{_u_a_r_t__msg__t_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ UARTMSG\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ UARTMSG\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ UART\_MSG\_T\_MAX\_DATA\_LEN\ 64}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_logger_8h}{Logger.h}}"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00009\ \{}
+\DoxyCodeLine{00010\ \ \ uint8\_t\ \mbox{\hyperlink{struct_u_a_r_t__msg__t_aecc92ac5c4f9d6ef64ef6f96306a04ca}{command}};}
+\DoxyCodeLine{00011\ \ \ uint8\_t\ \mbox{\hyperlink{struct_u_a_r_t__msg__t_a89a2fdf8dc093d96cc876d1bda646316}{joint\_id}};}
+\DoxyCodeLine{00012\ \ \ \textcolor{keywordtype}{float}\ data[\mbox{\hyperlink{_u_a_r_t__msg__t_8h_a62748c43cbeb4ef48cf966c21e13be0a}{UART\_MSG\_T\_MAX\_DATA\_LEN}}];}
+\DoxyCodeLine{00013\ \ \ uint8\_t\ \mbox{\hyperlink{struct_u_a_r_t__msg__t_a5bdfff9ae701926533c966aea4c1847e}{len}};}
+\DoxyCodeLine{00014\ \}\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}};}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_r_t__msg__t__utils}{UART\_msg\_t\_utils}}}
+\DoxyCodeLine{00017\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ print\_msg(\mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00019\ \ \ \ \ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}UART\_command\_utils::print\_msg-\/>Msg:\ "{}});}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ logger::print(msg.command);\ logger::print(\textcolor{stringliteral}{"{}\(\backslash\)t"{}});}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ logger::print(msg.joint\_id);\ logger::print(\textcolor{stringliteral}{"{}\(\backslash\)t"{}});}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ logger::print(msg.len);\ logger::println();}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i=0;\ i<msg.len;\ i++)}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ logger::print(msg.data[i]);\ logger::print(\textcolor{stringliteral}{"{},\ "{}});}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ logger::println();}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ \};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

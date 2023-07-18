@@ -1,0 +1,27 @@
+\doxysection{error\+\_\+map.\+h}
+\hypertarget{error__map_8h_source}{}\label{error__map_8h_source}\mbox{\hyperlink{error__map_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ ERROR\_MAPS\_H}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ ERROR\_MAPS\_H}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#if\ defined(ARDUINO\_TEENSY36)\ \ ||\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{error__codes_8h}{error\_codes.h}}"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{error__types_8h}{error\_types.h}}"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{const}\ std::map<ErrorCodes,\ ErrorType*>\ error\_map\ =\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \{\mbox{\hyperlink{error__codes_8h_af0a8653c4876ac7c5b5d4b03962fc73aa987d3b8722b19dbaf748739ed5d50ed7}{TEST\_ERROR}},\ \textcolor{keyword}{new}\ TestError()\},}
+\DoxyCodeLine{00018\ \ \ \ \ \{\mbox{\hyperlink{error__codes_8h_af0a8653c4876ac7c5b5d4b03962fc73aaddf9504a560b7dac6594734d2b4b3bc1}{POOR\_STATE\_VARIANCE\_ERROR}},\ \textcolor{keyword}{new}\ PoorStateVarianceError()\},}
+\DoxyCodeLine{00019\ \ \ \ \ \{\mbox{\hyperlink{error__codes_8h_af0a8653c4876ac7c5b5d4b03962fc73aa227b016baaf0479637f6f7f017539245}{POOR\_TRANSMISSION\_EFFICIENCY\_ERROR}},\ \textcolor{keyword}{new}\ PoorTransmissionEfficiencyError()\},}
+\DoxyCodeLine{00020\ \ \ \ \ \{\mbox{\hyperlink{error__codes_8h_af0a8653c4876ac7c5b5d4b03962fc73aa881fc5bd8838f965e0986e84cb86ee67}{TORQUE\_OUT\_OF\_BOUNDS\_ERROR}},\ \textcolor{keyword}{new}\ TorqueOutOfBoundsError()\},}
+\DoxyCodeLine{00021\ \ \ \ \ \{\mbox{\hyperlink{error__codes_8h_af0a8653c4876ac7c5b5d4b03962fc73aaae273fc9c3058c6cc4f4637ee1cf5054}{TORQUE\_VARIANCE\_ERROR}},\ \textcolor{keyword}{new}\ TorqueVarianceError()\},}
+\DoxyCodeLine{00022\ \ \ \ \ \{\mbox{\hyperlink{error__codes_8h_af0a8653c4876ac7c5b5d4b03962fc73aa8963167cb0f8ce21fcaff956b37e1763}{FORCE\_VARIANCE\_ERROR}},\ \textcolor{keyword}{new}\ ForceVarianceError()\},}
+\DoxyCodeLine{00023\ \ \ \ \ \{\mbox{\hyperlink{error__codes_8h_af0a8653c4876ac7c5b5d4b03962fc73aa9683e7b217eeb697943cd90b7e348ca5}{TRACKING\_ERROR}},\ \textcolor{keyword}{new}\ TrackingError()\},}
+\DoxyCodeLine{00024\ \ \ \ \ \{\mbox{\hyperlink{error__codes_8h_af0a8653c4876ac7c5b5d4b03962fc73aa7afd92b13c2dff85963759510e77e3bc}{MOTOR\_TIMEOUT\_ERROR}},\ \textcolor{keyword}{new}\ MotorTimeoutError()\}}
+\DoxyCodeLine{00025\ \};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ERROR\_MAPS\_H}}
+
+\end{DoxyCode}

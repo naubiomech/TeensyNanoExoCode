@@ -1,3 +1,11 @@
+/**
+ * @file InclinationDetector.cpp
+ * @author Chancelor Cuddeback
+ * @brief 
+ * @date 2023-07-18
+ * 
+ */
+
 #include "InclinationDetector.h"
 #include <Arduino.h> // millis()
 #include "Logger.h"

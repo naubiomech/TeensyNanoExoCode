@@ -1,0 +1,64 @@
+\doxysection{Error\+Reporter Class Reference}
+\hypertarget{class_error_reporter}{}\label{class_error_reporter}\index{ErrorReporter@{ErrorReporter}}
+
+
+Singleton class to report errors to the other microcontroller.  
+
+
+
+
+{\ttfamily \#include $<$Error\+Reporter.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_error_reporter_afb99b59e084e097eb1d41ea18df0d6ea}{report}} (\mbox{\hyperlink{error__codes_8h_af0a8653c4876ac7c5b5d4b03962fc73a}{Error\+Codes}} error\+\_\+code, \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}} joint\+\_\+id)
+\begin{DoxyCompactList}\small\item\em Report an error to the other microcontroller. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_error_reporter}{Error\+Reporter}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_error_reporter_a3fcaed41b77a544f68e3287a8c3bde51}{get\+\_\+instance}} ()
+\begin{DoxyCompactList}\small\item\em Get the instance object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Singleton class to report errors to the other microcontroller. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_error_reporter_a3fcaed41b77a544f68e3287a8c3bde51}\label{class_error_reporter_a3fcaed41b77a544f68e3287a8c3bde51} 
+\index{ErrorReporter@{ErrorReporter}!get\_instance@{get\_instance}}
+\index{get\_instance@{get\_instance}!ErrorReporter@{ErrorReporter}}
+\doxysubsubsection{\texorpdfstring{get\_instance()}{get\_instance()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_error_reporter}{Error\+Reporter}} \texorpdfstring{$\ast$}{*} Error\+Reporter\+::get\+\_\+instance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Get the instance object. 
+
+\begin{DoxyReturn}{Returns}
+Error\+Reporter\texorpdfstring{$\ast$}{*} 
+\end{DoxyReturn}
+\Hypertarget{class_error_reporter_afb99b59e084e097eb1d41ea18df0d6ea}\label{class_error_reporter_afb99b59e084e097eb1d41ea18df0d6ea} 
+\index{ErrorReporter@{ErrorReporter}!report@{report}}
+\index{report@{report}!ErrorReporter@{ErrorReporter}}
+\doxysubsubsection{\texorpdfstring{report()}{report()}}
+{\footnotesize\ttfamily void Error\+Reporter\+::report (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{error__codes_8h_af0a8653c4876ac7c5b5d4b03962fc73a}{Error\+Codes}}}]{error\+\_\+code,  }\item[{\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}}}]{joint\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Report an error to the other microcontroller. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em error\+\_\+code} & \\
+\hline
+{\em joint\+\_\+id} & \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_error_reporter_8h}{Error\+Reporter.\+h}}\end{DoxyCompactItemize}

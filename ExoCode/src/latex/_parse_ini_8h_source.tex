@@ -1,0 +1,413 @@
+\doxysection{Parse\+Ini.\+h}
+\hypertarget{_parse_ini_8h_source}{}\label{_parse_ini_8h_source}\mbox{\hyperlink{_parse_ini_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ ParseIni\_h}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ ParseIni\_h}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ used\ for\ uint8\_t}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceini__config}{ini\_config}}}
+\DoxyCodeLine{00021\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespaceini__config_aa95ba5150692cfd3da83f29ba9164a6a}{buffer\_length}}\ =\ 500;\ \ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespaceini__config_aa25bbdebc37ceb7fbc6fa9c61f2c0c7b}{key\_length}}\ =\ 25;\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespaceini__config_a60f9158fc881549dfcc1fdddfe1aa3ad}{section\_length}}\ =\ 10;\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespaceini__config_a94be16c85b00371eb4b36558a936c333}{number\_of\_keys}}\ =\ 17;\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{comment}{//const\ char\ *config\_filename\ =\ "{}/config.ini"{};\ \ //\ this\ line\ creates\ an\ "{}Error\ compiling\ for\ board\ Teensy\ 3.6."{}\ so\ I\ am\ just\ hard\ coding\ it.}}
+\DoxyCodeLine{00027\ \}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{comment}{//\ Includes\ for\ reading\ the\ ini\ file\ from\ the\ SD\ card.}}
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ 1\ is\ the\ lowest\ value\ to\ confirm\ that\ data\ is\ present\ for\ sending\ over\ SPI}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ TODO:\ Add\ Bluetooth\ name.}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceconfig__defs}{config\_defs}}}
+\DoxyCodeLine{00038\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceconfig__defs_abfdcbca3d6ab767de026688c636139be}{board\_name}}\ :\ uint8\_t}
+\DoxyCodeLine{00040\ \ \ \ \ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_abfdcbca3d6ab767de026688c636139bea44c24108a8a891b49f03f55cfcebb7b3}{AK\_board}}\ =\ 1,}
+\DoxyCodeLine{00042\ \ \ \ \ \};}
+\DoxyCodeLine{00043\ \ \ \ \ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0}{board\_version}}\ :\ uint8\_t}
+\DoxyCodeLine{00045\ \ \ \ \ \{\ }
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0a5226a92dc7a02342ca2b4ca9818c0a6f}{zero\_one}}\ =\ 1,}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0a281573accdaf37cf6b1ca22828501227}{zero\_three}}\ =\ 2,}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0ab60135936a03bc2b7f54dfd4576eb1bc}{zero\_four}}\ =\ 3,}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0ab6d902b00b590e6493ab745d1ba26ba5}{zero\_five\_one}}\ =\ 4,}
+\DoxyCodeLine{00050\ \ \ \ \ \};}
+\DoxyCodeLine{00051\ \ \ \ \ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceconfig__defs_a363ea1eb7ba37fcb3ae77d9ef61477c0}{battery}}\ :\ uint8\_t}
+\DoxyCodeLine{00053\ \ \ \ \ \{\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a363ea1eb7ba37fcb3ae77d9ef61477c0a8c319f28d81d1527a9428e9a5c2195f5}{smart}}\ =\ 1,}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a363ea1eb7ba37fcb3ae77d9ef61477c0a665c403aa19fe701b0ea7093ea4d0f45}{dumb}}\ =\ 2,}
+\DoxyCodeLine{00056\ \ \ \ \ \};}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797}{exo\_name}}\ :\ uint8\_t}
+\DoxyCodeLine{00059\ \ \ \ \ \{\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a96281b8c1766326cc2f99d44f6950c67}{bilateral\_ankle}}\ =\ 1,\ }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797ab41922a6b46722ea662e4552a5d4b304}{bilateral\_hip}}\ =\ 2,\ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a3710456ad1658cc1309c7692b8734aa4}{bilateral\_hip\_ankle}}\ =\ 3,}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a3bf114dd56933f9ae20ee9dd4d3c7518}{left\_ankle}}\ =\ 4,}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797af2dc1d3b6601076eddc1ca7c21d95706}{right\_ankle}}\ =\ 5,}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a6b8b07c4e8510875f8a4f16b4793d9d5}{left\_hip}}\ =\ 6,}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797ae399c9207e140468d805b8172edbdfcc}{right\_hip}}\ =\ 7,}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797ac17cf658c012d349878487130b79c237}{left\_hip\_ankle}}\ =\ 8,}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a31db331ea0e672f14056c1b72b88a8dd}{right\_hip\_ankle}}\ =\ 9,}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a098f6bcd4621d373cade4e832627b4f6}{test}}\ =\ 10,}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a5cc826b3e637c8ef62f52d86c2b2cbd1}{right\_knee}}\ =\ 11,}
+\DoxyCodeLine{00071\ \ \ \ \ \};}
+\DoxyCodeLine{00072\ \ \ \ \ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6ca}{exo\_side}}\ :\ uint8\_t}
+\DoxyCodeLine{00074\ \ \ \ \ \{\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caacbf855c3d8a8c6135dab45071c3bbb9d}{bilateral}}\ =\ 1,\ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa811882fecd5c7618d7099ebbd39ea254}{left}}\ =\ 2,\ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa7c4f29407893c334a6cb7a87bf045c0d}{right}}\ =\ 3,}
+\DoxyCodeLine{00078\ \ \ \ \ \};}
+\DoxyCodeLine{00079\ \ \ \ \ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72d}{JointType}}}
+\DoxyCodeLine{00081\ \ \ \ \ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da997f6b054d31252dfe32ef38f9dddb2a}{hip}}\ =\ 1,}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da22b84b6e35ace0cd87f805ecf020ff36}{knee}}\ =\ 2,}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da12a0852b1a5f77f797900387fca77bf4}{ankle}}\ =\ 3,}
+\DoxyCodeLine{00085\ \ \ \ \ \};}
+\DoxyCodeLine{00086\ \ \ \ \ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195}{motor}}\ :\ uint8\_t}
+\DoxyCodeLine{00088\ \ \ \ \ \{\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195ab3825df282b81f008b13983fb43ffb57}{not\_used}}\ =\ 1,\ }
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195ada0259409ed9eca2da4a98106778cd1c}{AK60}}\ =\ 2,\ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195a2879aa344f6f75b9b9d8c158d4cb38df}{AK80}}\ =\ 3,}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195abc65f5bfaaea5c911f91590d071f73e4}{AK60\_v1\_1}}\ =\ 4,}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195abd5e041b68bee9a70ece092ff287bbbb}{AK60\_v1\_1\_T}}\ =\ 5,}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195a483869ac0cd9da2d29ce63b21b03776c}{AK70}}\ =\ 6,}
+\DoxyCodeLine{00095\ \ \ \ \ \};}
+\DoxyCodeLine{00096\ \ \ \ \ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755}{gearing}}\ :\ uint8\_t}
+\DoxyCodeLine{00098\ \ \ \ \ \{\ }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755adc57401fb061f3848e586dc172618055}{gearing\_1\_1}}\ =\ 1,}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755aa089123f290d4c144d4a58e55e449b8b}{gearing\_2\_1}}\ =\ 2,}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755acc0d2d5436cefa63a255497b7b8d62b9}{gearing\_3\_1}}\ =\ 3,}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755a36720a88098f425962bd1214f3994f74}{gearing\_4\_5\_1}}\ =\ 4,}
+\DoxyCodeLine{00103\ \ \ \ \ \};}
+\DoxyCodeLine{00104\ \ \ \ \ }
+\DoxyCodeLine{00105\ \ \ \ \ }
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{joint\_id}}\ :\ uint8\_t}
+\DoxyCodeLine{00107\ \ \ \ \ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ byte\ format\ :\ [0,\ is\_left,\ !is\_left,\ unused\_joint,\ unused\_joint,\ is\_ankle,\ is\_knee,\ is\_hip]}}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa811882fecd5c7618d7099ebbd39ea254}{left}}\ =\ 0b01000000,}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa7c4f29407893c334a6cb7a87bf045c0d}{right}}\ =\ 0b00100000,}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da997f6b054d31252dfe32ef38f9dddb2a}{hip}}\ =\ 0b00000001,}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da22b84b6e35ace0cd87f805ecf020ff36}{knee}}\ =\ 0b00000010,}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da12a0852b1a5f77f797900387fca77bf4}{ankle}}\ =\ 0b00000100,}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a6b8b07c4e8510875f8a4f16b4793d9d5}{left\_hip}}\ =\ \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa811882fecd5c7618d7099ebbd39ea254}{left}}|\mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da997f6b054d31252dfe32ef38f9dddb2a}{hip}},}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a600593aa93d4d9165a0480e63ab8ef92}{left\_knee}}\ =\ \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa811882fecd5c7618d7099ebbd39ea254}{left}}|\mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da22b84b6e35ace0cd87f805ecf020ff36}{knee}},}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a3bf114dd56933f9ae20ee9dd4d3c7518}{left\_ankle}}\ =\ \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa811882fecd5c7618d7099ebbd39ea254}{left}}|\mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da12a0852b1a5f77f797900387fca77bf4}{ankle}},}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797ae399c9207e140468d805b8172edbdfcc}{right\_hip}}\ =\ \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa7c4f29407893c334a6cb7a87bf045c0d}{right}}|\mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da997f6b054d31252dfe32ef38f9dddb2a}{hip}},}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a5cc826b3e637c8ef62f52d86c2b2cbd1}{right\_knee}}\ =\ \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa7c4f29407893c334a6cb7a87bf045c0d}{right}}|\mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da22b84b6e35ace0cd87f805ecf020ff36}{knee}},}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797af2dc1d3b6601076eddc1ca7c21d95706}{right\_ankle}}\ =\ \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa7c4f29407893c334a6cb7a87bf045c0d}{right}}|\mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da12a0852b1a5f77f797900387fca77bf4}{ankle}},}
+\DoxyCodeLine{00123\ \ \ \ \ \};}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491}{hip\_controllers}}\ :\ uint8\_t}
+\DoxyCodeLine{00126\ \ \ \ \ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a075ae3d2fc31640504f814f60e5ef713}{disabled}}\ =\ 1,}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a1f74dd9f329b1ec51a26f2d13988e401}{zero\_torque}}\ =\ 2,}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aac997b2344542e904e25772c33171106}{heel\_toe}}\ =\ 3,}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491af34f31b67085a4f709d3d12dc6b2b24b}{extension\_angle}}\ =\ 4,}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a9ea6e735ff6b882d7008ff5e619387d2}{franks\_collins\_hip}}\ =\ 5,}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a5e2c55e024f55cd931bd04e54da4f79f}{bang\_bang}}\ =\ 6,}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a45f8827656ef42c3c2dd054b93daf0f1}{late\_stance}}\ =\ 7,}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491ad43577ad6e16315e98e2abdd86183dde}{gait\_phase}}\ =\ 8,}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aacf0d09710ee2f2dd6c1124d35d8d842}{user\_defined}}\ =\ 9,}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a925212d1624625aed9491413b4b7be05}{sine}}\ =\ 10,}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a3dd4bbe98cd3ce33bc3dfe91cad73dfd}{stasis}}\ =\ 11,}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a800823c47b8759400d01312793445b0e}{perturbation}}\ =\ 12,}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aac62cafde9aacabff464ccc7ff517b85}{parabolic}}\ =\ 13,}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aa16f70bf830d4a75f41fb4c825120d67}{constant\_torque}}\ =\ 14,}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491ab0cbddde7837a85bf2863295f34bb397}{ptb\_general}}\ =\ 15,}
+\DoxyCodeLine{00142\ \ \ \ \ \};}
+\DoxyCodeLine{00143\ \ \ \ \ }
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6}{knee\_controllers}}\ :\ uint8\_t}
+\DoxyCodeLine{00145\ \ \ \ \ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a075ae3d2fc31640504f814f60e5ef713}{disabled}}\ =\ 1,}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a1f74dd9f329b1ec51a26f2d13988e401}{zero\_torque}}\ =\ 2,}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aacf0d09710ee2f2dd6c1124d35d8d842}{user\_defined}}\ =\ 3,}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a925212d1624625aed9491413b4b7be05}{sine}}\ =\ 4,}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a3dd4bbe98cd3ce33bc3dfe91cad73dfd}{stasis}}\ =\ 5,}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a800823c47b8759400d01312793445b0e}{perturbation}}\ =\ 6,}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aa16f70bf830d4a75f41fb4c825120d67}{constant\_torque}}\ =\ 7,}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6abb39f1b18f00b8847a32ad069b6dbf10}{elbow\_min\_max}}\ =\ 8,}
+\DoxyCodeLine{00154\ \ \ \ \ \};}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002e}{ankle\_controllers}}\ :\ uint8\_t}
+\DoxyCodeLine{00157\ \ \ \ \ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a075ae3d2fc31640504f814f60e5ef713}{disabled}}\ =\ 1,\ }
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a1f74dd9f329b1ec51a26f2d13988e401}{zero\_torque}}\ =\ 2,\ }
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eae9ba497e4231c77902ca7bb301d0651f}{pjmc}}\ =\ 3,}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea9772e3e3c0fc114a950f3b532142d9d3}{zhang\_collins}}\ =\ 4,}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aacf0d09710ee2f2dd6c1124d35d8d842}{user\_defined}}\ =\ 5,}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a925212d1624625aed9491413b4b7be05}{sine}}\ =\ 6,}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a3dd4bbe98cd3ce33bc3dfe91cad73dfd}{stasis}}\ =\ 7,}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a800823c47b8759400d01312793445b0e}{perturbation}}\ =\ 8,}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aa16f70bf830d4a75f41fb4c825120d67}{constant\_torque}}\ =\ 9,}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491ab0cbddde7837a85bf2863295f34bb397}{ptb\_general}}\ =\ 10,}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eac836e7e9ebe90e19e16ec2a96a772ebf}{gasp}}\ =\ 11,}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6abb39f1b18f00b8847a32ad069b6dbf10}{elbow\_min\_max}}\ =\ 12,}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eab2e0735285d4d48d43ca39b785e396c2}{calibr\_manager}}\ =\ 13,}
+\DoxyCodeLine{00171\ \ \ \ \ \};}
+\DoxyCodeLine{00172\ \ \ \ \ }
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542}{flip\_dir}}\ :\ uint8\_t}
+\DoxyCodeLine{00174\ \ \ \ \ \{}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542aedab649646a4c3ebd9770bdfc29534b5}{neither}}\ =\ 1,\ }
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa811882fecd5c7618d7099ebbd39ea254}{left}}\ =\ 2,\ }
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa7c4f29407893c334a6cb7a87bf045c0d}{right}}\ =\ 3,}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542af6cb3e816496528d4187db53bc66567f}{both}}\ =\ 4,}
+\DoxyCodeLine{00179\ \ \ \ \ \};}
+\DoxyCodeLine{00180\ \ \ \ \ }
+\DoxyCodeLine{00181\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ board\_name\_idx\ =\ 0;}
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ board\_version\_idx\ =\ 1;}
+\DoxyCodeLine{00183\ \ \ \ \ }
+\DoxyCodeLine{00184\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ battery\_idx\ =\ 2;}
+\DoxyCodeLine{00185\ \ \ \ \ }
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ exo\_name\_idx\ =\ 3;}
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ exo\_side\_idx\ =\ 4;}
+\DoxyCodeLine{00188\ \ \ \ \ }
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ hip\_idx\ =\ 5;}
+\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ knee\_idx\ =\ 6;}
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ ankle\_idx\ =\ 7;}
+\DoxyCodeLine{00192\ \ \ \ \ }
+\DoxyCodeLine{00193\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ hip\_gear\_idx\ =\ 8;}
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ knee\_gear\_idx\ =\ 9;}
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ ankle\_gear\_idx\ =\ 10;}
+\DoxyCodeLine{00196\ \ \ \ \ }
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ exo\_hip\_default\_controller\_idx\ =\ 11;}
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ exo\_knee\_default\_controller\_idx\ =\ 12;}
+\DoxyCodeLine{00199\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ exo\_ankle\_default\_controller\_idx\ =\ 13;}
+\DoxyCodeLine{00200\ \ \ \ \ }
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ hip\_flip\_dir\_idx\ =\ 14;}
+\DoxyCodeLine{00202\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ knee\_flip\_dir\_idx\ =\ 15;}
+\DoxyCodeLine{00203\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ ankle\_flip\_dir\_idx\ =\ 16;}
+\DoxyCodeLine{00204\ \ \ \ \ }
+\DoxyCodeLine{00205\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ hip\_flip\_motor\_dir\_idx\ =\ 17;}
+\DoxyCodeLine{00206\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ knee\_flip\_motor\_dir\_idx\ =\ 18;}
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ ankle\_flip\_motor\_dir\_idx\ =\ 19;}
+\DoxyCodeLine{00208\ \ \ \ \ }
+\DoxyCodeLine{00209\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ hip\_flip\_torque\_dir\_idx\ =\ 20;}
+\DoxyCodeLine{00210\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ knee\_flip\_torque\_dir\_idx\ =\ 21;}
+\DoxyCodeLine{00211\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ ankle\_flip\_torque\_dir\_idx\ =\ 22;}
+\DoxyCodeLine{00212\ \ \ \ \ }
+\DoxyCodeLine{00213\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ hip\_flip\_angle\_dir\_idx\ =\ 23;}
+\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ knee\_flip\_angle\_dir\_idx\ =\ 24;}
+\DoxyCodeLine{00215\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ ankle\_flip\_angle\_dir\_idx\ =\ 25;}
+\DoxyCodeLine{00216\ \}}
+\DoxyCodeLine{00217\ }
+\DoxyCodeLine{00218\ \textcolor{preprocessor}{\#if\ defined(ARDUINO\_TEENSY36)\ \ ||\ defined(ARDUINO\_TEENSY41)\ }}
+\DoxyCodeLine{00219\ \textcolor{preprocessor}{\ \ \ \ \#include\ <SD.h>}}
+\DoxyCodeLine{00220\ \textcolor{preprocessor}{\ \ \ \ \#include\ <SPI.h>}}
+\DoxyCodeLine{00221\ \textcolor{preprocessor}{\ \ \ \ \#include\ "{}\mbox{\hyperlink{_ini_file_8h}{IniFile.h}}"{}}}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \ \ \ \ }
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \ \ \ \ \textcolor{comment}{//\ Need\ to\ install\ ArduinoSTL\ in\ the\ library\ manager\ to\ use\ map}}
+\DoxyCodeLine{00226\ \textcolor{preprocessor}{\ \ \ \ \#include\ <map>}}
+\DoxyCodeLine{00227\ \textcolor{preprocessor}{\ \ \ \ \#include\ <string>}}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \ \ \ \ \textcolor{comment}{//\ The\ select\ pin\ used\ for\ the\ SD\ card}}
+\DoxyCodeLine{00232\ \textcolor{preprocessor}{\ \ \ \ \#ifndef\ SD\_SELECT}}
+\DoxyCodeLine{00233\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ SD\_SELECT\ BUILTIN\_SDCARD}}
+\DoxyCodeLine{00234\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ \ \ \ \ }
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00245\ \ \ \ \ \textcolor{keywordtype}{void}\ ini\_parser(uint8\_t*\ config\_to\_send);\ \textcolor{comment}{//\ uses\ default\ filename}}
+\DoxyCodeLine{00246\ \ \ \ \ }
+\DoxyCodeLine{00253\ \ \ \ \ \textcolor{keywordtype}{void}\ ini\_parser(\textcolor{keywordtype}{char}*\ filename,\ uint8\_t*\ config\_to\_send);\ \textcolor{comment}{//uses\ sent\ filename}}
+\DoxyCodeLine{00254\ \ \ \ \ \textcolor{comment}{//\ TODO:\ create\ non-\/verbose\ version\ of\ get\ section\ keys.}}
+\DoxyCodeLine{00255\ \ \ \ \ }
+\DoxyCodeLine{00264\ \ \ \ \ \textcolor{keywordtype}{void}\ get\_section\_key(\mbox{\hyperlink{class_ini_file}{IniFile}}\ ini,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ section,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ key,\ \textcolor{keywordtype}{char}*\ buffer,\ \textcolor{keywordtype}{size\_t}\ buffer\_len);\ \ }
+\DoxyCodeLine{00265\ \ \ \ \ }
+\DoxyCodeLine{00266\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00267\ \textcolor{comment}{\ \ \ \ \ *\ ini\_print\_error\_message(uint8\_t\ e,\ bool\ eol\ =\ true)}}
+\DoxyCodeLine{00268\ \textcolor{comment}{\ \ \ \ \ *\ }}
+\DoxyCodeLine{00269\ \textcolor{comment}{\ \ \ \ \ *\ Prints\ the\ error\ messages\ of\ IniFile\ object.}}
+\DoxyCodeLine{00270\ \textcolor{comment}{\ \ \ \ \ *\ e\ is\ the\ error\ message,\ and\ eol\ true\ means\ a\ println\ will\ be\ used\ at\ the\ end.}}
+\DoxyCodeLine{00271\ \textcolor{comment}{\ \ \ \ \ *\ }}
+\DoxyCodeLine{00272\ \textcolor{comment}{\ \ \ \ \ *\ Requires\ that\ Serial\ is\ defined.}}
+\DoxyCodeLine{00273\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00282\ \ \ \ \ \textcolor{keywordtype}{void}\ ini\_print\_error\_message(uint8\_t\ e,\ \textcolor{keywordtype}{bool}\ eol\ =\ \textcolor{keyword}{true});\ }
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{keyword}{namespace\ }config\_map}
+\DoxyCodeLine{00291\ \ \ \ \ \{\ \ }
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00294\ }
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ define\ our\ own\ type\ so\ we\ don't\ have\ to\ type\ so\ much}}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \textcolor{keyword}{typedef}\ std::map<std::string,\ uint8\_t>\ IniKeyCode;}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ IniKeyCode\ \mbox{\hyperlink{namespaceconfig__defs_abfdcbca3d6ab767de026688c636139be}{board\_name}}\ =\ \{\{\textcolor{stringliteral}{"{}AK\_Board"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_abfdcbca3d6ab767de026688c636139bea44c24108a8a891b49f03f55cfcebb7b3}{config\_defs::board\_name::AK\_board}}\},\};}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ IniKeyCode\ \mbox{\hyperlink{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0}{board\_version}}\ =\ }
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \{\ }
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}0.1"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0a5226a92dc7a02342ca2b4ca9818c0a6f}{config\_defs::board\_version::zero\_one}}\},}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}0.3"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0a281573accdaf37cf6b1ca22828501227}{config\_defs::board\_version::zero\_three}}\},}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}0.5.1"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0ab6d902b00b590e6493ab745d1ba26ba5}{config\_defs::board\_version::zero\_five\_one}}\},}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ IniKeyCode\ \mbox{\hyperlink{namespaceconfig__defs_a363ea1eb7ba37fcb3ae77d9ef61477c0}{battery}}\ =\ }
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \{\ }
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}smart"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a363ea1eb7ba37fcb3ae77d9ef61477c0a8c319f28d81d1527a9428e9a5c2195f5}{config\_defs::battery::smart}}\},}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}dumb"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a363ea1eb7ba37fcb3ae77d9ef61477c0a665c403aa19fe701b0ea7093ea4d0f45}{config\_defs::battery::dumb}}\},\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ IniKeyCode\ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797}{exo\_name}}\ }
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \{\ }
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}bilateralAnkle"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a96281b8c1766326cc2f99d44f6950c67}{config\_defs::exo\_name::bilateral\_ankle}}\},\ }
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}bilateralHip"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797ab41922a6b46722ea662e4552a5d4b304}{config\_defs::exo\_name::bilateral\_hip}}\},\ }
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}bilateralHipAnkle"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a3710456ad1658cc1309c7692b8734aa4}{config\_defs::exo\_name::bilateral\_hip\_ankle}}\},}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}leftAnkle"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a3bf114dd56933f9ae20ee9dd4d3c7518}{config\_defs::exo\_name::left\_ankle}}\},}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}rightAnkle"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797af2dc1d3b6601076eddc1ca7c21d95706}{config\_defs::exo\_name::right\_ankle}}\},}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}leftHip"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a6b8b07c4e8510875f8a4f16b4793d9d5}{config\_defs::exo\_name::left\_hip}}\},}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}rightHip"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797ae399c9207e140468d805b8172edbdfcc}{config\_defs::exo\_name::right\_hip}}\},}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}leftHipAnkle"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797ac17cf658c012d349878487130b79c237}{config\_defs::exo\_name::left\_hip\_ankle}}\},}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}rightHipAnkle"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a31db331ea0e672f14056c1b72b88a8dd}{config\_defs::exo\_name::right\_hip\_ankle}}\},}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}test"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a098f6bcd4621d373cade4e832627b4f6}{config\_defs::exo\_name::test}}\},}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}rightKnee"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a5cc826b3e637c8ef62f52d86c2b2cbd1}{config\_defs::exo\_name::right\_knee}}\},}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ IniKeyCode\ \mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6ca}{exo\_side}}\ }
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \{\ }
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}bilateral"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caacbf855c3d8a8c6135dab45071c3bbb9d}{config\_defs::exo\_side::bilateral}}\},\ }
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}left"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa811882fecd5c7618d7099ebbd39ea254}{config\_defs::exo\_side::left}}\},\ }
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}right"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_ab1c2e166bf731b002f4c860d8a62a6caa7c4f29407893c334a6cb7a87bf045c0d}{config\_defs::exo\_side::right}}\},}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ IniKeyCode\ \mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195}{motor}}\ }
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \{\ }
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}0"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195ab3825df282b81f008b13983fb43ffb57}{config\_defs::motor::not\_used}}\},\ }
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}AK60"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195ada0259409ed9eca2da4a98106778cd1c}{config\_defs::motor::AK60}}\},\ }
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}AK80"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195a2879aa344f6f75b9b9d8c158d4cb38df}{config\_defs::motor::AK80}}\},}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}AK60v1.1"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195abc65f5bfaaea5c911f91590d071f73e4}{config\_defs::motor::AK60\_v1\_1}}\},}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}AK60v1.1T"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195abd5e041b68bee9a70ece092ff287bbbb}{config\_defs::motor::AK60\_v1\_1\_T}}\},}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}AK70"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a64d8ee71e1fb3878941605aa90a66195a483869ac0cd9da2d29ce63b21b03776c}{config\_defs::motor::AK70}}\},}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ IniKeyCode\ \mbox{\hyperlink{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755}{gearing}}\ }
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \{\ }
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}1"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755adc57401fb061f3848e586dc172618055}{config\_defs::gearing::gearing\_1\_1}}\},\ }
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}2"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755aa089123f290d4c144d4a58e55e449b8b}{config\_defs::gearing::gearing\_2\_1}}\},\ }
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}3"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755acc0d2d5436cefa63a255497b7b8d62b9}{config\_defs::gearing::gearing\_3\_1}}\},\ }
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}4.5"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_ade6f32d1e8e74b469d31c1c660d7a755a36720a88098f425962bd1214f3994f74}{config\_defs::gearing::gearing\_4\_5\_1}}\},}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ IniKeyCode\ \mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491}{hip\_controllers}}\ }
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \{\ }
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}0"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a075ae3d2fc31640504f814f60e5ef713}{config\_defs::hip\_controllers::disabled}}\},\ }
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}zeroTorque"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a1f74dd9f329b1ec51a26f2d13988e401}{config\_defs::hip\_controllers::zero\_torque}}\},\ }
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}heelToe"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aac997b2344542e904e25772c33171106}{config\_defs::hip\_controllers::heel\_toe}}\},}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}extensionAngle"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491af34f31b67085a4f709d3d12dc6b2b24b}{config\_defs::hip\_controllers::extension\_angle}}\},}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}franksCollinsHip"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a9ea6e735ff6b882d7008ff5e619387d2}{config\_defs::hip\_controllers::franks\_collins\_hip}}\},}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}bangBang"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a5e2c55e024f55cd931bd04e54da4f79f}{config\_defs::hip\_controllers::bang\_bang}}\},}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}lateStance"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a45f8827656ef42c3c2dd054b93daf0f1}{config\_defs::hip\_controllers::late\_stance}}\},}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}gaitPhase"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491ad43577ad6e16315e98e2abdd86183dde}{config\_defs::hip\_controllers::gait\_phase}}\},}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}userDefined"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aacf0d09710ee2f2dd6c1124d35d8d842}{config\_defs::hip\_controllers::user\_defined}}\},}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}sine"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a925212d1624625aed9491413b4b7be05}{config\_defs::hip\_controllers::sine}}\},}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}stasis"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a3dd4bbe98cd3ce33bc3dfe91cad73dfd}{config\_defs::hip\_controllers::stasis}}\},}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}perturbation"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a800823c47b8759400d01312793445b0e}{config\_defs::hip\_controllers::perturbation}}\},}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}parabolic"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aac62cafde9aacabff464ccc7ff517b85}{config\_defs::hip\_controllers::parabolic}}\},}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}constantTorque"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aa16f70bf830d4a75f41fb4c825120d67}{config\_defs::hip\_controllers::constant\_torque}}\},}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}ptbGeneral"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491ab0cbddde7837a85bf2863295f34bb397}{config\_defs::hip\_controllers::ptb\_general}}\},}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ IniKeyCode\ \mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6}{knee\_controllers}}\ }
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \{\ }
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}0"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a075ae3d2fc31640504f814f60e5ef713}{config\_defs::knee\_controllers::disabled}}\},\ }
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}zeroTorque"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a1f74dd9f329b1ec51a26f2d13988e401}{config\_defs::knee\_controllers::zero\_torque}}\},\ }
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}userDefined"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6aacf0d09710ee2f2dd6c1124d35d8d842}{config\_defs::knee\_controllers::user\_defined}}\},}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}sine"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a925212d1624625aed9491413b4b7be05}{config\_defs::knee\_controllers::sine}}\},}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}stasis"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a3dd4bbe98cd3ce33bc3dfe91cad73dfd}{config\_defs::knee\_controllers::stasis}}\},}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}perturbation"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a800823c47b8759400d01312793445b0e}{config\_defs::knee\_controllers::perturbation}}\},}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}constantTorque"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6aa16f70bf830d4a75f41fb4c825120d67}{config\_defs::knee\_controllers::constant\_torque}}\},}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}elbowMinMax"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6abb39f1b18f00b8847a32ad069b6dbf10}{config\_defs::knee\_controllers::elbow\_min\_max}}\},}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ IniKeyCode\ \mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002e}{ankle\_controllers}}\ }
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \{\ }
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}0"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea075ae3d2fc31640504f814f60e5ef713}{config\_defs::ankle\_controllers::disabled}}\},\ }
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}zeroTorque"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea1f74dd9f329b1ec51a26f2d13988e401}{config\_defs::ankle\_controllers::zero\_torque}}\},\ }
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}PJMC"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eae9ba497e4231c77902ca7bb301d0651f}{config\_defs::ankle\_controllers::pjmc}}\},}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}zhangCollins"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea9772e3e3c0fc114a950f3b532142d9d3}{config\_defs::ankle\_controllers::zhang\_collins}}\},}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}userDefined"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eaacf0d09710ee2f2dd6c1124d35d8d842}{config\_defs::ankle\_controllers::user\_defined}}\},}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}sine"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea925212d1624625aed9491413b4b7be05}{config\_defs::ankle\_controllers::sine}}\},}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}stasis"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea3dd4bbe98cd3ce33bc3dfe91cad73dfd}{config\_defs::ankle\_controllers::stasis}}\},}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}perturbation"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea800823c47b8759400d01312793445b0e}{config\_defs::ankle\_controllers::perturbation}}\},}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}constantTorque"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eaa16f70bf830d4a75f41fb4c825120d67}{config\_defs::ankle\_controllers::constant\_torque}}\},}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}ptbGeneral"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eab0cbddde7837a85bf2863295f34bb397}{config\_defs::ankle\_controllers::ptb\_general}}\},}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}GAsP"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eac836e7e9ebe90e19e16ec2a96a772ebf}{config\_defs::ankle\_controllers::gasp}}\},}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}elbowMinMax"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eabb39f1b18f00b8847a32ad069b6dbf10}{config\_defs::ankle\_controllers::elbow\_min\_max}}\},}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}calibrManager"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eab2e0735285d4d48d43ca39b785e396c2}{config\_defs::ankle\_controllers::calibr\_manager}}\},}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \};\ \ }
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ IniKeyCode\ \mbox{\hyperlink{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542}{flip\_dir}}\ }
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \{\ }
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}0"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542aedab649646a4c3ebd9770bdfc29534b5}{config\_defs::flip\_dir::neither}}\},\ }
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}left"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542a811882fecd5c7618d7099ebbd39ea254}{config\_defs::flip\_dir::left}}\},\ }
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}right"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542a7c4f29407893c334a6cb7a87bf045c0d}{config\_defs::flip\_dir::right}}\},}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}both"{}},\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a41b4816a6d367a50f5188a4505f89542af6cb3e816496528d4187db53bc66567f}{config\_defs::flip\_dir::both}}\},}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \};\ }
+\DoxyCodeLine{00409\ \ \ \ \ \};}
+\DoxyCodeLine{00410\ }
+\DoxyCodeLine{00411\ }
+\DoxyCodeLine{00412\ }
+\DoxyCodeLine{00413\ }
+\DoxyCodeLine{00417\ \ \ \ \ \textcolor{keyword}{struct\ }ConfigData\{}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{namespaceconfig__defs_abfdcbca3d6ab767de026688c636139be}{board\_name}};}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{namespaceconfig__defs_a83652635bbb2eeb40285262913edc9a0}{board\_version}};}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{namespaceconfig__defs_a363ea1eb7ba37fcb3ae77d9ef61477c0}{battery}};}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797}{exo\_name}};}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ std::string\ exo\_sides;}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ std::string\ exo\_hip;}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ std::string\ exo\_knee;}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ std::string\ exo\_ankle;}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ std::string\ hip\_gearing;}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ std::string\ knee\_gearing;}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ std::string\ ankle\_gearing;}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ std::string\ exo\_hip\_default\_controller;}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ std::string\ exo\_knee\_default\_controller;}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ std::string\ exo\_ankle\_default\_controller;}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ std::string\ hip\_flip\_dir;}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ std::string\ knee\_flip\_dir;}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ std::string\ ankle\_flip\_dir;}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ std::string\ hip\_flip\_motor\_dir;}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ std::string\ knee\_flip\_motor\_dir;}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ std::string\ ankle\_flip\_motor\_dir;}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ std::string\ hip\_flip\_torque\_dir;}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ std::string\ knee\_flip\_torque\_dir;}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ std::string\ ankle\_flip\_torque\_dir;}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ std::string\ hip\_flip\_angle\_dir;}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ std::string\ knee\_flip\_angle\_dir;}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ std::string\ ankle\_flip\_angle\_dir;}
+\DoxyCodeLine{00454\ \ \ \ \ \};}
+\DoxyCodeLine{00455\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00456\ }
+\DoxyCodeLine{00457\ }
+\DoxyCodeLine{00458\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -15,7 +15,7 @@ BleParser::BleParser()
 
 BleMessage *BleParser::handle_raw_data(char *buffer, int length)
 {
-#if BLE_PARSER_DEBUG
+    #if BLE_PARSER_DEBUG
     logger::println("BleParser::handle_raw_data");
     logger::print("length: ");
     logger::println(length);
@@ -26,33 +26,37 @@ BleMessage *BleParser::handle_raw_data(char *buffer, int length)
         logger::print(" ");
     }
     logger::println("");
-#endif
+    #endif
 
     static BleMessage *return_msg = new BleMessage();
+    // If we are not waiting for data, then we are expecting a new command
     if (!_waiting_for_data)
     {
         _handle_command(*buffer);
+        // If the message is complete, then we can return it
         if (_working_message.is_complete)
         {
-#if BLE_PARSER_DEBUG
+            #if BLE_PARSER_DEBUG
             logger::println("BleParser::handle_raw_data->message is complete");
-#endif
+            #endif
             return_msg->copy(&_working_message);
             _working_message.clear();
             _waiting_for_data = false;
         }
         else
         {
-#if BLE_PARSER_DEBUG
+            #if BLE_PARSER_DEBUG
             logger::println("BleParser::handle_raw_data->message is not complete");
-#endif
+            #endif
             //_waiting_for_data = true;
         }
     }
     else
     {
+        // Add the data packet to the working message
         memcpy(&_buffer[_bytes_collected], buffer, length);
         _bytes_collected += length;
+        // If we have collected all the data that we were expecting, then we can return the message
         if (_bytes_collected == _working_message.expecting * 8)
         {
             return_msg->copy(&_working_message);
@@ -67,6 +71,7 @@ BleMessage *BleParser::handle_raw_data(char *buffer, int length)
             _waiting_for_data = false;
             _bytes_collected = 0;
         }
+        // If we have collected more data than we were expecting, then we reset
         else if (_bytes_collected >= _working_message.expecting * 8)
         {
             _working_message.clear();
@@ -75,10 +80,10 @@ BleMessage *BleParser::handle_raw_data(char *buffer, int length)
         }
     }
 
-#if BLE_PARSER_DEBUG
+    #if BLE_PARSER_DEBUG
     logger::print("return_msg: ");
     BleMessage::print(*return_msg);
-#endif
+    #endif
 
     return return_msg;
 }

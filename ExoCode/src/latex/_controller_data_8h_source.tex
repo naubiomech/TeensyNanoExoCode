@@ -1,0 +1,381 @@
+\doxysection{Controller\+Data.\+h}
+\hypertarget{_controller_data_8h_source}{}\label{_controller_data_8h_source}\mbox{\hyperlink{_controller_data_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ Controllerdata\_h}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ ControllerData\_h}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_board_8h}{Board.h}}"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_parse_ini_8h}{ParseIni.h}}"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ forward\ declaration}}
+\DoxyCodeLine{00022\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_exo_data}{ExoData}};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecontroller__defs}{controller\_defs}}\ }
+\DoxyCodeLine{00026\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{namespace\ }zero\_torque}
+\DoxyCodeLine{00028\ \ \ \ \ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1zero__torque_ab3bb883631695f61461c899bd7c003e5}{use\_pid\_idx}}\ =\ 0;}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1zero__torque_a940ffca7a074d933d53941e0f6be103b}{p\_gain\_idx}}\ =\ 1;}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1zero__torque_ade51ff6c3c206f0c0ac6db4423251020}{i\_gain\_idx}}\ =\ 2;}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1zero__torque_aec3a676d5becff7b61dca12e7a0f8c65}{d\_gain\_idx}}\ =\ 3;}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1zero__torque_ae2c1302751a465d49198ba9cc0ea0477}{num\_parameter}}\ =\ 4;}
+\DoxyCodeLine{00034\ \ \ \ \ \}}
+\DoxyCodeLine{00035\ \ \ \ \ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{namespace\ }stasis}
+\DoxyCodeLine{00037\ \ \ \ \ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1stasis_ae2cab1c944eea799f0d7f5c0bdd45b9e}{num\_parameter}}\ =\ 0;}
+\DoxyCodeLine{00039\ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \ \ \ \ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{namespace\ }proportional\_joint\_moment}
+\DoxyCodeLine{00042\ \ \ \ \ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_a144410a668ecddb0a993f20d3edb8e85}{stance\_max\_idx}}\ =\ 0;\ \ \textcolor{comment}{//\ parameter\ for\ peak\ exo\ torque\ during\ stance}}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_a083e87412a006978bde75c761dbcb55e}{swing\_max\_idx}}\ =\ 1;\ \ \textcolor{comment}{//\ parameter\ for\ peak\ exo\ torque\ during\ swing}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_a7442e01e2b595e9f64b6f4965f69be32}{is\_assitance\_idx}}\ =\ 2;}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_a15203c74ff925dc214e27335b944f066}{use\_pid\_idx}}\ =\ 3;}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_a9246c1baba879812049b95717018fcc5}{p\_gain\_idx}}\ =\ 4;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_a290fa403c4fd2e78eb93a6e995741244}{i\_gain\_idx}}\ =\ 5;}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_ade002f563fcb65cf734eb3bb0873a9d5}{d\_gain\_idx}}\ =\ 6;}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_a07981bbca1a20008313b0ba265697b9e}{torque\_alpha\_idx}}\ =\ 7;}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_a31952ff5fb99c7680e2d0b69e7036cec}{num\_parameter}}\ =\ 8;}
+\DoxyCodeLine{00052\ \ \ \ \ \}}
+\DoxyCodeLine{00053\ \ \ \ \ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{namespace\ }heel\_toe}
+\DoxyCodeLine{00055\ \ \ \ \ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1heel__toe_a9ea4316d77a90919146e559a007a1274}{flexion\_torque\_setpoint\_idx}}\ =\ 0;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1heel__toe_a26060524f4ec44efa3a62d686ba80ada}{extension\_torque\_setpoint\_idx}}\ =\ 1;}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1heel__toe_ac0d0a6403a6e6d1f2966c269069e088a}{use\_pid\_idx}}\ =\ 2;}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1heel__toe_a99b6c223078b5bcd6b68f4cc9f923884}{p\_gain\_idx}}\ =\ 3;}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1heel__toe_a21f1d98e764c1b8ee5646aaf9e990433}{i\_gain\_idx}}\ =\ 4;}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1heel__toe_a9a9a93e8ab7e7114098d6d7f080ec598}{d\_gain\_idx}}\ =\ 5;}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1heel__toe_acd193cb6b55a7d84a9c0610ef305f86d}{num\_parameter}}\ =\ 6;}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00064\ \ \ \ \ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{namespace\ }extension\_angle}
+\DoxyCodeLine{00066\ \ \ \ \ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ parameters\ for\ maximum\ exo\ extension\ and\ flexion\ torque.}}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_a2701db3e2ff7ca6f5cc4e8f3bdf00e4e}{flexion\_setpoint\_idx}}\ =\ 0;}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_ade48875a461b29ffafaed23826d15cec}{extension\_setpoint\_idx}}\ =\ 1;}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Parameter\ for\ fraction\ of\ peak\ flexion\ angle\ where\ mode\ will\ switch\ to\ extension\ angle.}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_ae411c3722e51a14dd6b1e5ecf73fcfe6}{target\_flexion\_percent\_max\_idx}}\ =\ 2;}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Parameter\ for\ flag\ to\ reset\ the\ the\ peak\ range\ of\ motion\ angles.}}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_a22c8a43dd6f620c0a215417bae9323e6}{clear\_angle\_idx}}\ =\ 3;}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ angle\ where\ the\ system\ will\ switch\ from\ extension\ assistance\ to\ flexion\ assistance}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_a1612bcfe7575c728f74edefb37de4033}{angle\_threshold\_idx}}\ =\ 4;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Velocity\ where\ the\ system\ will\ switch\ from\ flexion\ assistance\ to\ extension\ assistance,\ if\ velocity\ inverts\ before\ the\ target\_flexion\_percent\_max}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ !!\ Value\ should\ be\ NEGATIVE\ !!}}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_ae5d2abc672005d528b284fdbacff9006}{velocity\_threshold\_idx}}\ =\ 5;\ }
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_a7c96736008968d3e18a2969a852af351}{use\_pid\_idx}}\ =\ 6;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_a356af0eac56d9a7a61d59d7bfb9534fb}{p\_gain\_idx}}\ =\ 7;}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_a02a84fac617300e53d49e26d6c8bdd6c}{i\_gain\_idx}}\ =\ 8;}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_a1be21acb77c6fd5c7d5b343d5c2733fd}{d\_gain\_idx}}\ =\ 9;}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_a7178bac8496220c49725635235c0c981}{num\_parameter}}\ =\ 10;}
+\DoxyCodeLine{00084\ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \ \ }
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keyword}{namespace\ }bang\_bang}
+\DoxyCodeLine{00087\ \ \ \ \ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ parameters\ for\ maximum\ exo\ extension\ and\ flexion\ torque.}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_ab497830fea6638c3fe59a11b5a7db1ae}{flexion\_setpoint\_idx}}\ =\ 0;}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a796ab7f57e040caa28d2cb5b9735a68a}{extension\_setpoint\_idx}}\ =\ 1;}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Parameter\ for\ fraction\ of\ peak\ flexion\ angle\ where\ mode\ will\ switch\ to\ extension\ angle.}}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a1fec60d70b6c2d44825e1d1913f82946}{is\_assitance\_idx}}\ =\ 2;}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Parameter\ for\ fraction\ of\ peak\ flexion\ angle\ where\ mode\ will\ switch\ to\ extension\ angle.}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a83eb7fdfe1dc7b23f65d035f88f400e8}{target\_flexion\_percent\_max\_idx}}\ =\ 3;}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Parameter\ for\ flag\ to\ reset\ the\ the\ peak\ range\ of\ motion\ angles.}}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a4a5c9fd92a9a1ef3ce0a22b6ce97c861}{clear\_angle\_idx}}\ =\ 4;}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ angle\ where\ the\ system\ will\ switch\ from\ extension\ assistance\ to\ flexion\ assistance}}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_ab34e4334ef836d5086d28ec41dab5d22}{angle\_threshold\_idx}}\ =\ 5;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Velocity\ where\ the\ system\ will\ switch\ from\ flexion\ assistance\ to\ extension\ assistance,\ if\ velocity\ inverts\ before\ the\ target\_flexion\_percent\_max}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ !!\ Value\ should\ be\ NEGATIVE\ !!}}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a97905d72ded84f7e3e940fabe86e231f}{velocity\_threshold\_idx}}\ =\ 6;\ }
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a0b865b3faf27190847a489b45ed2a86a}{use\_pid\_idx}}\ =\ 7;}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a52fe3bb2fd31b3c32bc271ec6372d848}{p\_gain\_idx}}\ =\ 8;}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_ac29b04561fac0669c1fee91991131a4a}{i\_gain\_idx}}\ =\ 9;}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a39bbdf0f843f1e3cdd15875ad8588f48}{d\_gain\_idx}}\ =\ 10;}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a1ec50f75f6c02fa9fff1d3df783027a8}{num\_parameter}}\ =\ 11;}
+\DoxyCodeLine{00107\ \ \ \ \ \}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{namespace\ }late\_stance}
+\DoxyCodeLine{00110\ \ \ \ \ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ parameters\ for\ late\ stance\ torque.}}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_afde66c78610fb24001ad414e79a4f947}{resistance\_setpoint\_idx}}\ =\ 0;}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Parameter\ for\ fraction\ of\ peak\ flexion\ angle\ where\ mode\ will\ switch\ to\ extension\ angle.}}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_aa55571881c390fbb014c76e016f4070b}{angle\_on\_off}}\ =\ 1;}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Parameter\ for\ flag\ to\ reset\ the\ the\ peak\ range\ of\ motion\ angles.}}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_a41a08df5502f8f48d53fb4c07776c28b}{clear\_angle\_idx}}\ =\ 2;}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Velocity\ where\ the\ system\ will\ switch\ from\ on\ to\ off,}}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ !!\ Value\ should\ be\ NEGATIVE\ !!}}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_a15870c1f40a6bdfee6259f7c8791e073}{velocity\_threshold\_idx}}\ =\ 3;}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_aee9afa1c5ad331b7d7130d5ef639a3f9}{use\_pid\_idx}}\ =\ 4;}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_a8ee0ab8072f387d97baed10bf90d0251}{p\_gain\_idx}}\ =\ 5;}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_a0e9f4c30b697fc401ffadbe3c4e2f284}{i\_gain\_idx}}\ =\ 6;}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_a499f7f01f22d4d164a6649087ea198ba}{d\_gain\_idx}}\ =\ 7;}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_acebb0f90deb484fc7c3ee6a1cb599274}{num\_parameter}}\ =\ 8;}
+\DoxyCodeLine{00125\ \ \ \ \ \}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keyword}{namespace\ }gait\_phase}
+\DoxyCodeLine{00128\ \ \ \ \ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ parameters\ for\ gait\ phase\ torque.}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_af3f87809a2d7e668a2910629b6ba4a74}{flexion\_setpoint\_idx}}\ =\ 0;}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_a26decefcd84876dc6eb22c6b38238a88}{extension\_setpoint\_idx}}\ =\ 1;}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Parameter\ for\ fraction\ of\ peak\ flexion\ angle\ where\ mode\ will\ switch\ to\ extension\ angle.}}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_a11dd933fbae3f82415d0cbc0903680c3}{flexion\_start\_percentage\_idx}}\ =\ 2;}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_ad78325ddf1e35a12f6a9f09240456d8f}{flexion\_end\_percentage\_idx}}\ =\ 3;}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_afc2d76cf0d7366b27aa9da78b8233e1a}{extension\_start\_percentage\_idx}}\ =\ 4;}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_ae5ab1951f75d16e9d2ba3b790e95e87e}{extension\_end\_percentage\_idx}}\ =\ 5;}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Parameter\ to\ set\ slope\ of\ line\ between\ each\ point\ (for\ "{}smoothing"{}\ purposes)\ }}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_a6ee4475b835ff754214f64096b2f7ed1}{slope\_idx}}\ =\ 6;}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Flag\ for\ PID\ contorl\ and\ associated\ gains}}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_aab7bb3bb2cf47ca2057512d752691bfd}{use\_pid\_idx}}\ =\ 7;}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_aed32fd77e9b002e7543b8327c6b17f7c}{p\_gain\_idx}}\ =\ 8;}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_a6de5a0f06f2b136846e7458e7d38d8a3}{i\_gain\_idx}}\ =\ 9;}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_aec7f3ba84c54885eb6d6d626fc343151}{d\_gain\_idx}}\ =\ 10;}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_a28bac2adb828f993d40aad59d6857217}{num\_parameter}}\ =\ 11;}
+\DoxyCodeLine{00145\ \ \ \ \ \}}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keyword}{namespace\ }parabolic}
+\DoxyCodeLine{00148\ \ \ \ \ \{}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ parameters\ for\ gait\ phase\ torque.}}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1parabolic_a42bab8f1f4939bac733b6f31b7500352}{flexion\_setpoint\_idx}}\ =\ 0;}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1parabolic_a14e5ef90b73589944379bce6debd257a}{extension\_setpoint\_idx}}\ =\ 1;}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1parabolic_a66a6cd9cc80a6163e4323198f993b7c3}{flexion\_start\_percentage\_idx}}\ =\ 2;}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1parabolic_a13eb0a63f95c66b0b351bd8005ac8fa8}{flexion\_end\_percentage\_idx}}\ =\ 3;}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1parabolic_a9121f42c97188793fd04641c612ede47}{extension\_start\_percentage\_idx}}\ =\ 4;}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1parabolic_a73ddf31c72d16d1e6a20744f9ebc629d}{extension\_end\_percentage\_idx}}\ =\ 5;}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1parabolic_a79185e859c71b364b6cfcb5b0aa29729}{num\_parameter}}\ =\ 6;}
+\DoxyCodeLine{00157\ \ \ \ \ \}}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keyword}{namespace\ }zhang\_collins}
+\DoxyCodeLine{00160\ \ \ \ \ \{}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_aabf55ca308a02afa205f7e0faaf2337e}{torque\_idx}}\ =\ 0;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Magnitude\ of\ Peak\ Torque\ in\ Nm}}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_a4257f56ff4628429f1718ae8807d9a05}{peak\_time\_idx}}\ =\ 1;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Time\ when\ peak\ torque\ occurs\ (\%\ of\ gait\ cycle)}}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_ad748f50fcd628a618fc596d62779aadb}{rise\_time\_idx}}\ =\ 2;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Time\ from\ zero\ torque\ until\ peak\ torque\ (Expressed\ as\ a\ \%\ of\ gait\ cycle)}}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_aeccaee021e6b126ba857635345231c55}{fall\_time\_idx}}\ =\ 3;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Time\ from\ peak\ torque\ until\ zero\ torque\ (Expressed\ as\ a\ \%\ of\ gait\ cycle)}}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_a11765cbf53ba606c9d51ff97110366e5}{direction\_idx}}\ =\ 4;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Flag\ to\ flip\ torque\ from\ PF\ to\ DF}}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_a709294867412d9cb3cc7b5896f6122c2}{use\_pid\_idx}}\ =\ 5;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Flag\ to\ use\ PID\ control}}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_ad66d3ba99f3e0176b280af0b791e6b62}{p\_gain\_idx}}\ =\ 6;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Value\ of\ P\ Gain\ for\ PID\ control}}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_abdcf7e858f2f230584cf53af09d260db}{i\_gain\_idx}}\ =\ 7;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Value\ of\ I\ Gain\ for\ PID\ control}}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_a0b3faa97944843f16e28dcd9a7e23ae0}{d\_gain\_idx}}\ =\ 8;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Value\ of\ D\ Gain\ for\ PID\ control\ }}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_a78f7c38178247a2b13baa3520b00851b}{num\_parameter}}\ =\ 9;}
+\DoxyCodeLine{00172\ \ \ \ \ \}}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keyword}{namespace\ }franks\_collins\_hip}
+\DoxyCodeLine{00175\ \ \ \ \ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_ada4a2f68b82f21a63751239a16e5cb26}{mass\_idx}}\ =\ 0;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Mass\ of\ the\ User\ in\ kg}}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_ad3d85a40f462ac0a51a6c05eab36adfb}{trough\_normalized\_torque\_Nm\_kg\_idx}}\ =\ 1;\ \ \ \textcolor{comment}{//Extension\ Torque\ in\ Nm/kg}}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_aba590875cbdd8ef552680b13c849e8e0}{peak\_normalized\_torque\_Nm\_kg\_idx}}\ =\ 2;\ \ \ \ \ \textcolor{comment}{//Flexion\ Torque\ in\ Nm/kg}}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_adbe29284657760471b47a389b7d639dd}{start\_percent\_gait\_idx}}\ =\ 3;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Percent\ of\ Gait\ Cycle\ where\ the\ curve\ starts\ (does\ not\ start\ at\ 0\ so\ that\ there\ is\ no\ discontinuity)}}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_a9d612b2023b799b25976cec91e334e62}{trough\_onset\_percent\_gait\_idx}}\ =\ 4;\ \ \ \ \ \ \ \ \textcolor{comment}{//Percent\ of\ Gait\ Cycle\ where\ curve\ for\ extension\ torque\ starts}}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_ae67e6ae008b571073aeef32b9de1f3cc}{trough\_percent\_gait\_idx}}\ =\ 5;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Percent\ of\ Gait\ Cycle\ where\ peak\ extension\ torque\ occurs}}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_a32580fb8cade04d82ae6003c64f3f5e2}{mid\_time\_idx}}\ =\ 6;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Time\ from\ when\ curve\ starts\ until\ midpoint\ of\ zero\ torque\ period\ between\ extension\ and\ flexion\ torques}}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_a23453867814c4ab181f0060bf7004ff1}{mid\_duration\_idx}}\ =\ 7;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Time\ of\ zero\ torque\ period\ between\ extension\ and\ flexion\ torques}}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_aa159abd196826193c86c294666fa457d}{peak\_percent\_gait\_idx}}\ =\ 8;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Percent\ of\ Gait\ Cycle\ where\ peak\ flexion\ torque\ occurs}}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_ad811b0f525284bed7037bb5e8fc6fbed}{peak\_offset\_percent\_gait\_idx}}\ =\ 9;\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Percent\ of\ Gait\ Cycle\ where\ torque\ stops\ being\ applied}}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_a05a2879c0c5995090760230566fb2731}{use\_pid\_idx}}\ =\ 10;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Flag\ to\ determine\ whether\ or\ not\ PID\ used}}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_a4c4629f6ae1bf29dce0ed0dc19cbddad}{p\_gain\_idx}}\ =\ 11;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Value\ of\ P\ Gain\ for\ PID\ control}}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_aeeb53953e467f0f78a1dda41cdad7a47}{i\_gain\_idx}}\ =\ 12;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Value\ of\ I\ Gain\ for\ PID\ control}}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_a7ae9421b5a17142e9bd3ba9c22dea5fc}{d\_gain\_idx}}\ =\ 13;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Value\ of\ D\ Gain\ for\ PID\ control\ }}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_a4a7d3335f0bdd7fc6524a58983801e3f}{num\_parameter}}\ =\ 14;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00191\ \ \ \ \ \}}
+\DoxyCodeLine{00192\ \ \ \ \ }
+\DoxyCodeLine{00193\ \ \ \ \ \textcolor{comment}{//\ namespace\ user\_defined}}
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ const\ uint8\_t\ num\_sample\_points\ =\ 50;\ \ //\ not\ an\ index}}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ const\ uint8\_t\ mass\_idx\ =\ 0;\ }}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ const\ uint8\_t\ use\_pid\_idx\ =\ 1;}}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ const\ uint8\_t\ p\_gain\_idx\ =\ 2;}}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ const\ uint8\_t\ i\_gain\_idx\ =\ 3;}}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ const\ uint8\_t\ d\_gain\_idx\ =\ 4;}}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ const\ uint8\_t\ curve\_start\_idx\ =\ 5;}}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ const\ uint8\_t\ curve\_stop\_idx\ =\ curve\_start\_idx+num\_sample\_points;}}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ const\ uint8\_t\ num\_parameter\ =\ curve\_stop\_idx+1;}}
+\DoxyCodeLine{00205\ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00206\ \ \ \ \ }
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keyword}{namespace\ }sine}
+\DoxyCodeLine{00208\ \ \ \ \ \{}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1sine_adc407d2fcb3fd87c5e8e137d7f587cce}{amplitude\_idx}}\ =\ 0;\ \ \ \ \textcolor{comment}{//\ amplitude\ in\ Nm}}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1sine_ae156a3a30103ffb50f035fcad71c2887}{period\_idx}}\ =\ 1;\ \ \ \ \ \ \ \textcolor{comment}{//\ period\ in\ ms}}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1sine_a82b9c489bac260f773bd501317ef9feb}{phase\_shift\_idx}}\ =\ 2;\ \ \textcolor{comment}{//\ phase\ shift\ in\ rad}}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1sine_a0ff6386dc58746c102b56e57b0e13526}{use\_pid\_idx}}\ =\ 3;}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1sine_a46cf1df1843d9afc78a275e013b893c8}{p\_gain\_idx}}\ =\ 4;}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1sine_a9d6651bfeb7ddb8f582398adbdaa4c81}{i\_gain\_idx}}\ =\ 5;}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1sine_a7ea68e369898ef453936094d3478bd27}{d\_gain\_idx}}\ =\ 6;}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1sine_a00b5f0edda44ab94b1e8b523adc7653c}{num\_parameter}}\ =\ 7;}
+\DoxyCodeLine{00217\ \ \ \ \ \}}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00219\ \ \ \ \ \textcolor{keyword}{namespace\ }perturbation}
+\DoxyCodeLine{00220\ \ \ \ \ \{}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1perturbation_ac40e3de44fb57f60f3a80508b7f0b3de}{amplitude\_idx}}\ =\ 0;\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ amplitude\ in\ Nm}}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1perturbation_ae85663702b0e2ae58360f3606ca84f46}{threshold\_start\_idx}}\ =\ 1;\ \ \ \ \ \ \textcolor{comment}{//\ percent\ gait\ start}}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1perturbation_a428c21f8b769f893bc5067429246d616}{threshold\_end\_idx}}\ =\ 2;\ \ \ \ \ \ \ \ \textcolor{comment}{//\ percent\ gait\ end}}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1perturbation_acd57f26de69f63f77d7f2a776423ed0c}{direction\_idx}}\ =\ 3;\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ direction\ (0\ =\ plantarflexion,\ 1\ =\ dorsiflexion)}}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1perturbation_a347561eb7ebcc12c0b66adfededcb7b1}{num\_parameter}}\ =\ 4;}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ ;}
+\DoxyCodeLine{00227\ \ \ \ \ \}}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00229\ \ \ \ \ \textcolor{keyword}{namespace\ }constant\_torque}
+\DoxyCodeLine{00230\ \ \ \ \ \{}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1constant__torque_a2cebbebfc3fc51c5f0439d15fa2278df}{amplitude\_idx}}\ =\ 0;}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1constant__torque_ad2e51e62b826b259bb41aabbae166156}{direction\_idx}}\ =\ 0;}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \textcolor{comment}{//const\ uint8\_t\ upper\_idx\ =\ 0;\ \ \ \ //\ amplitude\ in\ Nm}}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \textcolor{comment}{//const\ uint8\_t\ lower\_idx\ =\ 1;}}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \textcolor{comment}{//const\ uint8\_t\ iterations\_idx\ =\ 2;}}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1constant__torque_a6200d65d29e2c3f8dc1ea04742d1ee55}{num\_parameter}}\ =\ 3;}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ ;}
+\DoxyCodeLine{00238\ \ \ \ \ \}}
+\DoxyCodeLine{00239\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00240\ \textcolor{comment}{\ \ \ \ \ *\ Add\ phase\ delayed\ controller\ for\ hip}}
+\DoxyCodeLine{00241\ \textcolor{comment}{\ \ \ \ \ *\ peak\ and\ trough\ magnitude\ defined.}}
+\DoxyCodeLine{00242\ \textcolor{comment}{\ \ \ \ \ *\ Delay\ based\ on\ percent\ gait.}}
+\DoxyCodeLine{00243\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{00244\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00245\ \ \ \ \ }
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \ \ \ \ \textcolor{keyword}{namespace\ }elbow\_min\_max}
+\DoxyCodeLine{00248\ \ \ \ \ \{}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1elbow__min__max_acc695eb7bbfc8a0ebfc187ca633e016f}{amplitude\_idx}}\ =\ 0;\ \ \ \ \textcolor{comment}{//\ amplitude\ in\ Nm}}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1elbow__min__max_a564eea9f99ed1eca9abbf8682ce08924}{fsr\_threshold\_idx}}\ =\ 1;\ \ }
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1elbow__min__max_a6df7eaf26fd42302c7f13f56ec8013f8}{fsr\_threshold1\_idx}}\ =\ 2;}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1elbow__min__max_a08e56c6633c08e012fedaa111050cd94}{num\_parameter}}\ =\ 3;}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00255\ \ \ \ \ \}}
+\DoxyCodeLine{00256\ }
+\DoxyCodeLine{00257\ }
+\DoxyCodeLine{00258\ \ \ \ \ \textcolor{keyword}{namespace\ }ptb\_general\ }
+\DoxyCodeLine{00259\ \ \ \ \ \{}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_a518386ad6d48b8fa48cecd841cef71aa}{ptb\_mode\_idx}}\ =\ 0;}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_ad523b642c3118c1eb47c3603d4e8581b}{ptb\_settings\_1\_idx}}\ =\ 1;}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_ad30064bf0f3d2497596a4298742c3a72}{ptb\_settings\_2\_idx}}\ =\ 2;}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_a267f4242b5b707b84105b3f0f636e0e7}{ptb\_settings\_3\_idx}}\ =\ 3;}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_acba9166f82d078f801b0ebc66a3bc9fb}{ptb\_settings\_4\_idx}}\ =\ 4;}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_a48c6a31bc1f63511ffb7db942c7f948a}{use\_pid\_idx}}\ =\ 5;}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_a94d9b97c0395ff763ba5d4ff4dd54b1e}{p\_gain\_idx}}\ =\ 6;}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_ad53d6984b28df088660466dd1fe6784b}{i\_gain\_idx}}\ =\ 7;}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_a7b197ab9c3158b1e33ec986fedce0012}{d\_gain\_idx}}\ =\ 8;}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_a8d3bec9aae5d9eb2db6d2171424ce87a}{ptb\_settings\_9\_idx}}\ =\ 9;}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_aeea84e0ac08d418ae06262cfb0ea46f0}{num\_parameter}}\ =\ 10;}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00272\ \ \ \ \ \}}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ \ \ \ \ \textcolor{keyword}{namespace\ }propulsive\_assistive\ }
+\DoxyCodeLine{00275\ \ \ \ \ \{}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_a16b6fd4c01bb1755b90ce977f130d471}{plantar\_scaling}}\ =\ 0;}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_ac677bd733b5cdddaa35e396fb2942dfc}{dorsi\_scaling}}\ =\ 1;}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_a682a6347d0db6c25a283a73f08c0bbc9}{timing\_threshold}}\ =\ 2;}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_aa9a3f53b70a0ab1d99ddfceb2bc67803}{spring\_stiffness}}\ =\ 3;}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_ac2c7b3466d345b87bfd1b1419f150086}{neutral\_angle}}\ =\ 4;}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_a931e22d71d540cb6a87dc91f5794b857}{damping}}\ =\ 5;}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_ae8acfd58943696c260b9574fd87608c1}{propulsive\_gain}}\ =\ 6;}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_ae8b4c9b85a0af0076d60c5954aa977ca}{kp}}\ =\ 7;}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_a85b07071ebf9852021287de3156a7e24}{kd}}\ =\ 8;}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_a19041cd4cd22415d2e90f59c734bde00}{num\_parameter}}\ =\ 9;}
+\DoxyCodeLine{00286\ \ \ \ \ \}}
+\DoxyCodeLine{00287\ \ \ \ \ }
+\DoxyCodeLine{00288\ \ \ \ \ \textcolor{keyword}{namespace\ }calibr\_manager}
+\DoxyCodeLine{00289\ \ \ \ \ \{}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1calibr__manager_a3027385b8f5de1cb5f063879011a92bf}{calibr\_cmd}}\ =\ 0;}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_1_1calibr__manager_a78c18c2d6f6111098f7f353cd69d1a91}{num\_parameter}}\ =\ 1;}
+\DoxyCodeLine{00292\ \ \ \ \ \}}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00294\ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacecontroller__defs_aee311835f95c470c5549c1d25498d96f}{max\_parameters}}\ =\ \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_a4a7d3335f0bdd7fc6524a58983801e3f}{franks\_collins\_hip::num\_parameter}};\textcolor{comment}{//user\_defined::num\_parameter;\ \ //\ this\ should\ be\ the\ largest\ of\ all\ the\ num\_parameters}}
+\DoxyCodeLine{00295\ \}}
+\DoxyCodeLine{00296\ }
+\DoxyCodeLine{00301\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_controller_data}{ControllerData}}\ \{}
+\DoxyCodeLine{00302\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_controller_data}{ControllerData}}(\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\_defs::joint\_id}}\ \textcolor{keywordtype}{id},\ uint8\_t*\ config\_to\_send);}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_controller_data_aa5379adfd775e094bc3408f250a2d8a0}{reconfigure}}(uint8\_t*\ config\_to\_send);}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{class_controller_data_a96be800b0e886ccb254f56cae30d1989}{get\_parameter\_length}}();}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{class_controller_data_a1133871874467ea57c7dbd49292a190e}{controller}};\ }
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72d}{config\_defs::JointType}}\ \mbox{\hyperlink{class_controller_data_a8418df0f63e05fff2106d1fc21889d46}{joint}};\ }
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ These\ were\ made\ floats\ to\ dummy\ proof\ the\ math\ for\ people\ but\ will\ double\ the\ data\ needed\ to\ be\ sent\ over\ SPI,\ we\ double\ the\ speed\ of\ the\ SPI\ if\ we\ move\ to\ fixed\ point.}}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a078ac176b7dc2de497d80ad6d2b17d8e}{setpoint}};\ \ }
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a801807b602e60437c2baf597d7347fce}{ff\_setpoint}};\ }
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_ab54a3884cc99b67100ce4d1114e76b93}{parameters}}[\mbox{\hyperlink{namespacecontroller__defs_aee311835f95c470c5549c1d25498d96f}{controller\_defs::max\_parameters}}];\ \ }
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{class_controller_data_a110d86939aa92159bc9cc803ebf4e4a6}{parameter\_set}};\ }
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_ab8c14a39ecef1caf87d0dfe3caeb0c50}{filtered\_torque\_reading}};\ }
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_adfe0ba3ca168d3996208b8cab9f5f11b}{filtered\_cmd}};\ }
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_ae23013819e152dd61e1af9f261eed86f}{filtered\_setpoint}}\ =\ 0;\ }
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Variables\ for\ Auto\ Kf\ in\ the\ PID\ Controller}}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a3695a3ae970d352ff907eff05f9d6214}{kf}}\ =\ 1;\ }
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a93b97d03acfa2530ffbdc03ea8273bac}{prev\_max\_measured}}\ =\ 0;\ }
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_ab9d7cb1d304ffd6406e93d523ba70f49}{prev\_max\_setpoint}}\ =\ 0;\ }
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a40f878dfc58214448287756e0c932049}{max\_measured}}\ =\ 0;\ }
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a903a4d463e5375e9e93f1915b8d7aead}{max\_setpoint}}\ =\ 0;\ }
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Variables\ for\ GAsP\ Controller}}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a4b24736db974f9c5d7d72337d7e72c86}{reference\_angle}}\ =\ 0;\ }
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_ab805bf4284c32205255d36bf8efc20b9}{reference\_angle\_offset}}\ =\ 0;\ }
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_controller_data_a0c7eaf3a6a5ad6972d36562d24972453}{reference\_angle\_updated}}\ =\ \textcolor{keyword}{false};\ }
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_aa226f709906865002e163a0eb027aa34}{filtered\_squelched\_supportive\_term}}\ =\ 0;\ }
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a467a144248072467ccade09379e5d214}{neutral\_angle}}\ =\ 0.0f;\ }
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_controller_data_aa3a3085726c9ffdaaf47f40554defdb7}{prev\_calibrate\_trq\_sensor}}\ =\ \textcolor{keyword}{false};\ }
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_ac774a864c0d536eb6c127995cc60c677}{cal\_neutral\_angle\_alpha}}\ =\ 0.01f;\ }
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a0a6892b6398f9142c7db5221a63699e1}{level\_entrance\_angle}}\ =\ 0.0f;\ }
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a4ad52155058ce856bfffc10821de81d5}{prev\_calibrate\_level\_entrance}}\ =\ \textcolor{keyword}{false};\ }
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a88b45cdecaea083df3029fc7a7659f8d}{cal\_level\_entrance\_angle\_alpha}}\ =\ 0.01f;\ }
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Variables\ for\ the\ ElbowMinMax\ Controller}}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a8246b1b2ebf44d1d949125d04c0e1374}{fsr\_toe\_min\_elbow}}\ =\ 0;}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a824bbfb3e803d12107d29ae62f96f8d8}{fsr\_toe\_max\_elbow}}\ =\ 0;}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_ab2c3f0cdd6aef70b6a2deefbed327248}{fsr\_heel\_min\_elbow}}\ =\ 0;}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a16268e7aff43c0f85e8593d639cad546}{fsr\_heel\_max\_elbow}}\ =\ 0;}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a828c91016625a66e857b0cb57c262f4f}{fsr\_toe\_sum\_elbow}}\ =\ 0;}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a36e7e004dd9d9a8082e401825d3946dd}{fsr\_heel\_sum\_elbow}}\ =\ 0;}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_controller_data_a1d5efea0663cb09e48e67be948181c0c}{i\_elbow}}\ =\ 0;}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_controller_data_a0b26b175261da033b74bfd5edd710193}{fsr\_toe\_array\_elbow}}\ [50]\ =\ \{0\};}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_controller_data_a85551a1847eca7a1455a20bc059b4c93}{fsr\_heel\_array\_elbow}}\ [50]\ =\ \{0\};}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_controller_data_aa3050d7b85ba24ad7d60d2fa1a4e8708}{is\_first\_run\_elbow}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_ab9abd53114278fa1832a115a5638350f}{output\_limit\_elbow}}\ =\ 5;}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_ae1849fe580724bfb6e8a8144f9294c9c}{fsr\_min\_max\_elbow}}\ =\ 0;}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_controller_data_a2c5cc1aea47ac96a714fcb83929421e4}{is\_first\_fsr\_reading\_elbow}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a03e92765b89c3177070b361cdb53d3cc}{fsr\_toe\_previous\_elbow}}\ =\ 0;}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a350d71b3b38615b13e23932c73b03ca1}{fsr\_heel\_previous\_elbow}}\ =\ 0;}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_afcadb0c9be5846c42b61e7e8401a6601}{elbow\_cmd}}\ =\ 0;}
+\DoxyCodeLine{00368\ }
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Variables\ for\ the\ Generalizable\ Perturbation\ Controller\ (ptbGeneral)}}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_controller_data_aa2b9c9720ce82d9064ed27945d87d676}{isPerturbing}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_controller_data_a1b7fdb86cb22e444ccc3bc8593bfd725}{ptbDetermined}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a16c89696f94bb098ab3041ae958554f9}{time\_current\_ptb}}\ =\ 0;}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a441ce0f57dd89c0de323b3d1b48f2b22}{time\_previous\_ptb}}\ =\ 0;}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \textcolor{comment}{//uint8\_t\ ptbHead\ =\ 0;}}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \textcolor{comment}{//uint8\_t\ ptbTail\ =\ 0;}}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \textcolor{comment}{//uint8\_t\ iPercentGait=\ 0;}}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_controller_data_ac207c03a33023316957b19f0b0bb789b}{ptbApplied}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_controller_data_a5a0c4258808a1c87925cf45454f5f0c0}{ptbRandomIsFirstRun}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \textcolor{comment}{//bool\ ptbWait4ANewStep\ =\ true;}}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \textcolor{comment}{//uint8\_t\ ptbFrequency\ =\ 0;}}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ uint16\_t\ \mbox{\hyperlink{class_controller_data_a325571abc1bf9a5c9f4504b926b06ade}{ptb\_iStep}}\ =\ 0;}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \textcolor{comment}{//uint16\_t\ ptb\_totalSteps\ =\ 0;}}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_controller_data_ab821e4bd0cea60446a8bec4bd9de3be7}{ptb\_newIsSwing}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_controller_data_aea9ed1ce6efcaefb2de032de9e980189}{ptb\_oldIsSwing}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \textcolor{comment}{//uint16\_t\ fsrThreshold\ =\ 0.3;}}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{class_controller_data_ac696b3068e4d00425242146bac490d53}{ptb\_frequency}}\ =\ 0;}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ uint16\_t\ \mbox{\hyperlink{class_controller_data_ad9186eceab764d4a0825be4fdbaea1bc}{ptb\_iiStep}}\ =\ 0;}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ uint16\_t\ \mbox{\hyperlink{class_controller_data_a75fa59e4d9b89e728cf0f1563d63b20d}{ptb\_setpoint}}\ =\ 0;}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_controller_data_aa2d4b199f66787b500198625ac8fe924}{ptb\_fsrGotHigh}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Variables\ for\ the\ Calibration\ Manger\ "{}Controller"{}}}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_controller_data_a623a99930fddeb94070d6f8d3b1b9855}{calibrComplete}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ uint16\_t\ \mbox{\hyperlink{class_controller_data_a3021acf90593343a3816aa588a47f33a}{iCalibr}}\ =\ 0;}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_controller_data_aba7959e6cb5f97539b71de8f398b0247}{PIDMLTPLR}}\ =\ 0;}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_controller_data_abe59df339030bbf63d970de31d02066d}{calibrStart}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_ac8e8272288a1915af8f2c6f4ac7755ed}{calibrSum}}\ =\ 0;}
+\DoxyCodeLine{00397\ }
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Variables\ for\ the\ Zhang-\/Collins\ Controller}}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_controller_data_a976c8dd7fbdeb7401f351d8fc9e0cad4}{previous\_cmd}}\ =\ 0;}
+\DoxyCodeLine{00401\ \};\ \ \ \ \ \ }
+\DoxyCodeLine{00402\ }
+\DoxyCodeLine{00403\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

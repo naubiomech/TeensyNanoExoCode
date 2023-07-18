@@ -1,0 +1,39 @@
+\doxysection{Torque\+Sensor.\+h}
+\hypertarget{_torque_sensor_8h_source}{}\label{_torque_sensor_8h_source}\mbox{\hyperlink{_torque_sensor_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#ifndef\ TorqueSensor\_h}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ TorqueSensor\_h}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ Arduino\ compiles\ everything\ in\ the\ src\ folder\ even\ if\ not\ included\ so\ it\ causes\ and\ error\ for\ the\ nano\ if\ this\ is\ not\ included.}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#if\ defined(ARDUINO\_TEENSY36)\ \ ||\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_board_8h}{Board.h}}"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{class\ }TorqueSensor}
+\DoxyCodeLine{00025\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ TorqueSensor(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ pin);}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ calibrate(\textcolor{keywordtype}{bool}\ do\_calibration);\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ read();}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{//MOVE\ BACK\ TO\ PRIVATE\ WHEN\ USING\ APP}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \_raw\_reading;\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \_pin;\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \_is\_used;\ }
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_calibration;\ \ \ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{comment}{//int\ \_raw\_reading;\ /**<\ Raw\ pin\ reading\ */}}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_calibrated\_reading;\ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint16\_t\ \_cal\_time\ =\ 1000;\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ uint16\_t\ \_start\_time;\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \_last\_do\_calibrate;\ \ \textcolor{comment}{//need\ to\ remember\ to\ reset\ this\ when\ cal\ finishes\ }}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_zero\_sum;\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ uint32\_t\ \_num\_calibration\_samples;\ }
+\DoxyCodeLine{00062\ \};}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

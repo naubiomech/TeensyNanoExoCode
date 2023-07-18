@@ -1,3 +1,10 @@
+/**
+ * @file Config.h
+ * @author Chancelor Cuddeback
+ * @brief Configuration variables for the codebase.
+ * @date 2023-07-18
+ * 
+ */
 
 #ifndef Config_h
 #define Config_h 

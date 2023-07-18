@@ -1,0 +1,177 @@
+\doxysection{Status\+Defs.\+h File Reference}
+\hypertarget{_status_defs_8h}{}\label{_status_defs_8h}\index{StatusDefs.h@{StatusDefs.h}}
+
+
+Stores the different status messages for the system.  
+
+
+{\ttfamily \#include \"{}Arduino.\+h\"{}}\newline
+{\ttfamily \#include \"{}Board.\+h\"{}}\newline
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacestatus__defs}{status\+\_\+defs}}
+\begin{DoxyCompactList}\small\item\em stores the status messages \end{DoxyCompactList}\item 
+namespace \mbox{\hyperlink{namespacestatus__defs_1_1messages}{status\+\_\+defs\+::messages}}
+\begin{DoxyCompactList}\small\item\em stores the status messages \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{_status_defs_8h_aadc1672bb342282c8d358a6a3b0b8fd2}{print\+\_\+status\+\_\+message}} (uint16\+\_\+t message)
+\begin{DoxyCompactList}\small\item\em prints the status message \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a0f868e342655c4220f6d276de38e226c}{status\+\_\+defs\+::messages\+::off}} = 0
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_adeaed9f533058d077fdc1bc8e0731271}{status\+\_\+defs\+::messages\+::trial\+\_\+off}} = 1
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a05ead43d10f0f28d7a4730a26c718435}{status\+\_\+defs\+::messages\+::trial\+\_\+on}} = 2
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a43d0f946b32880b3c81995842145a6b9}{status\+\_\+defs\+::messages\+::test}} = 3
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a353bd55654b45e65ddd6b5be4a5f5ee8}{status\+\_\+defs\+::messages\+::torque\+\_\+calibration}} = 4
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a0c30b5bfc6e07c0fdab78c4d2a312e61}{status\+\_\+defs\+::messages\+::fsr\+\_\+calibration}} = 5
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_aaec6aa80e8ca5c39a33d2ec0d7d2f7d4}{status\+\_\+defs\+::messages\+::fsr\+\_\+refinement}} =6
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a85ed6e0c4233acbffa946d8be58ee821}{status\+\_\+defs\+::messages\+::motor\+\_\+start\+\_\+up}} =7
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{status\+\_\+defs\+::messages\+::error\+\_\+bit}} = 4
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{status\+\_\+defs\+::messages\+::error}} = 1$<$$<$(\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}}-\/1)
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a6115d99b1eedecde4df88e5eae587624}{status\+\_\+defs\+::messages\+::error\+\_\+left\+\_\+heel\+\_\+fsr}} = 1$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a16985f740de8e1d7840d1bd1416f58e7}{status\+\_\+defs\+::messages\+::error\+\_\+left\+\_\+toe}} = 2$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_ad8d5e65be3d1a25efd7f6529ce77b539}{status\+\_\+defs\+::messages\+::error\+\_\+right\+\_\+heel\+\_\+fsr}} = 3$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_ab45b458b13c1ca5ec04fa0561db39ab6}{status\+\_\+defs\+::messages\+::error\+\_\+right\+\_\+toe\+\_\+fsr}} = 4$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a49d3f5a0ad81354b6fbfbb5f17ace2d5}{status\+\_\+defs\+::messages\+::error\+\_\+left\+\_\+hip\+\_\+torque\+\_\+sensor}} = 5$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a6403038554f6d6e94715bc02ba939cc3}{status\+\_\+defs\+::messages\+::error\+\_\+left\+\_\+knee\+\_\+torque\+\_\+sensor}} = 6$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a57759100d42aad707770a884668bbc00}{status\+\_\+defs\+::messages\+::error\+\_\+left\+\_\+ankle\+\_\+torque\+\_\+sensor}} = 7$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a95a8059fb20b5025b34ea01f294d8122}{status\+\_\+defs\+::messages\+::error\+\_\+right\+\_\+hip\+\_\+torque\+\_\+sensor}} = 8$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_af68cf1e9218d94ebdcaa65c3531ee4f6}{status\+\_\+defs\+::messages\+::error\+\_\+right\+\_\+knee\+\_\+torque\+\_\+sensor}} = 9$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a7b7de0c0fb1e39b3428c3958dc0ae1dd}{status\+\_\+defs\+::messages\+::error\+\_\+right\+\_\+ankle\+\_\+torque\+\_\+sensor}} = 10$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_adf240efbe59474ea7623b59571f981f2}{status\+\_\+defs\+::messages\+::error\+\_\+left\+\_\+hip\+\_\+motor}} = 11$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_ad120f21eaf4f81d91a50403bae201ce4}{status\+\_\+defs\+::messages\+::error\+\_\+left\+\_\+knee\+\_\+motor}} = 12$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a3f56bc4f5a826130c12fa6ff7ab33c4d}{status\+\_\+defs\+::messages\+::error\+\_\+left\+\_\+ankle\+\_\+motor}} = 13$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_afb049dd4521120f6d2de36038d62450f}{status\+\_\+defs\+::messages\+::error\+\_\+right\+\_\+hip\+\_\+motor}} = 14$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a2193ddeb39d157e22d10dbd86ea29537}{status\+\_\+defs\+::messages\+::error\+\_\+right\+\_\+knee\+\_\+motor}} = 15$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a597dd217c016b7f4d38a737a6a92561d}{status\+\_\+defs\+::messages\+::error\+\_\+right\+\_\+ankle\+\_\+motor}} = 16$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_ab568bc52b62a8495f11e248c85977fb3}{status\+\_\+defs\+::messages\+::error\+\_\+left\+\_\+hip\+\_\+controller}} = 17$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_abe576caf9f323c97c0de5f1dee3f6b9d}{status\+\_\+defs\+::messages\+::error\+\_\+left\+\_\+knee\+\_\+controller}} = 18$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a4e75090047f16e193c67d011e6ccbf78}{status\+\_\+defs\+::messages\+::error\+\_\+left\+\_\+ankle\+\_\+controller}} = 19$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_afa0a8dde2774b2b3007ed5464ba0a36f}{status\+\_\+defs\+::messages\+::error\+\_\+right\+\_\+hip\+\_\+controller}} = 20$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_af50196058c3aecf5e62c6165684d2e21}{status\+\_\+defs\+::messages\+::error\+\_\+right\+\_\+knee\+\_\+controller}} = 21$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a4a270272bc5d1f7c4102d582446a8cca}{status\+\_\+defs\+::messages\+::error\+\_\+right\+\_\+ankle\+\_\+controller}} = 22$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a36caa342a6655d919c9a297744113ad4}{status\+\_\+defs\+::messages\+::error\+\_\+to\+\_\+be\+\_\+used\+\_\+1}} = 23$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_ace26abc454d0fcbce58916953882f9fd}{status\+\_\+defs\+::messages\+::error\+\_\+to\+\_\+be\+\_\+used\+\_\+2}} = 24$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_aa7990e46633a951c5303f9316344be9b}{status\+\_\+defs\+::messages\+::error\+\_\+to\+\_\+be\+\_\+used\+\_\+3}} = 25$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_ad79688d70815e07bd47a84887fa63032}{status\+\_\+defs\+::messages\+::error\+\_\+to\+\_\+be\+\_\+used\+\_\+4}} = 26$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_ae822dae2a65d99f9c7c3f042b66b21da}{status\+\_\+defs\+::messages\+::error\+\_\+to\+\_\+be\+\_\+used\+\_\+5}} = 27$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a08b222c05ac80cb78f876b46fd2fda0b}{status\+\_\+defs\+::messages\+::error\+\_\+to\+\_\+be\+\_\+used\+\_\+6}} = 28$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a0f411a2aba5dea2f193a7afbd2dde6cc}{status\+\_\+defs\+::messages\+::error\+\_\+to\+\_\+be\+\_\+used\+\_\+7}} = 29$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a8ab3bbd908160c4705ebac9b64a34135}{status\+\_\+defs\+::messages\+::error\+\_\+to\+\_\+be\+\_\+used\+\_\+8}} = 30$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a82c00c91961821742a280a730a72a74a}{status\+\_\+defs\+::messages\+::error\+\_\+to\+\_\+be\+\_\+used\+\_\+9}} = 31$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_af106977d048ed19111ddcf23bab458ae}{status\+\_\+defs\+::messages\+::error\+\_\+to\+\_\+be\+\_\+used\+\_\+10}} = 32$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_aaf038572f5792cb598233d02b1c3d12c}{status\+\_\+defs\+::messages\+::error\+\_\+to\+\_\+be\+\_\+used\+\_\+11}} = 33$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_ab3f9da655dec4637ff142facb6d6473e}{status\+\_\+defs\+::messages\+::error\+\_\+to\+\_\+be\+\_\+used\+\_\+12}} = 34$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a4b16fcbffe07529ee64d7b1edba07f95}{status\+\_\+defs\+::messages\+::error\+\_\+to\+\_\+be\+\_\+used\+\_\+13}} = 35$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{error}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a011eb610e8e20f1d303d14eb5ead234d}{status\+\_\+defs\+::messages\+::warning\+\_\+bit}} = \mbox{\hyperlink{namespacestatus__defs_1_1messages_af4b5584d142e9cb87d6b58088a2abf13}{error\+\_\+bit}} + 6 + 1
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a9932519bc2e0fb7284bbd4ae06e41f94}{status\+\_\+defs\+::messages\+::warning}} = 1$<$$<$(\mbox{\hyperlink{namespacestatus__defs_1_1messages_a011eb610e8e20f1d303d14eb5ead234d}{warning\+\_\+bit}}-\/1)
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a9f7d78b3d59ce076d081d5e7ef6667ba}{status\+\_\+defs\+::messages\+::warning\+\_\+exo\+\_\+run\+\_\+time}} = 1$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_a011eb610e8e20f1d303d14eb5ead234d}{warning\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a9932519bc2e0fb7284bbd4ae06e41f94}{warning}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a859ad715096de627ea427307e1e0601d}{status\+\_\+defs\+::messages\+::warning\+\_\+to\+\_\+be\+\_\+used\+\_\+1}} = 2$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_a011eb610e8e20f1d303d14eb5ead234d}{warning\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a9932519bc2e0fb7284bbd4ae06e41f94}{warning}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a0b290e54c5a58fda14714db22ba9cfde}{status\+\_\+defs\+::messages\+::warning\+\_\+to\+\_\+be\+\_\+used\+\_\+2}} = 3$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_a011eb610e8e20f1d303d14eb5ead234d}{warning\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a9932519bc2e0fb7284bbd4ae06e41f94}{warning}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_afe1792715290991181c344d74f47312b}{status\+\_\+defs\+::messages\+::warning\+\_\+to\+\_\+be\+\_\+used\+\_\+3}} = 4$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_a011eb610e8e20f1d303d14eb5ead234d}{warning\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a9932519bc2e0fb7284bbd4ae06e41f94}{warning}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_aff866db32313f97c2e9c243489d83e65}{status\+\_\+defs\+::messages\+::warning\+\_\+to\+\_\+be\+\_\+used\+\_\+4}} = 5$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_a011eb610e8e20f1d303d14eb5ead234d}{warning\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a9932519bc2e0fb7284bbd4ae06e41f94}{warning}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_aba2407d25827a17a55a27ac24d2b4032}{status\+\_\+defs\+::messages\+::warning\+\_\+to\+\_\+be\+\_\+used\+\_\+5}} = 6$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_a011eb610e8e20f1d303d14eb5ead234d}{warning\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a9932519bc2e0fb7284bbd4ae06e41f94}{warning}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a567c4437c6ea96bef5259c7c3075842c}{status\+\_\+defs\+::messages\+::warning\+\_\+to\+\_\+be\+\_\+used\+\_\+6}} = 7$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_a011eb610e8e20f1d303d14eb5ead234d}{warning\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a9932519bc2e0fb7284bbd4ae06e41f94}{warning}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_acc5d34240a039db9409d579cb71f93aa}{status\+\_\+defs\+::messages\+::warning\+\_\+to\+\_\+be\+\_\+used\+\_\+7}} = 8$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_a011eb610e8e20f1d303d14eb5ead234d}{warning\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a9932519bc2e0fb7284bbd4ae06e41f94}{warning}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_aeb03234c85d1f1575893a83c14878462}{status\+\_\+defs\+::messages\+::warning\+\_\+to\+\_\+be\+\_\+used\+\_\+8}} = 9$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_a011eb610e8e20f1d303d14eb5ead234d}{warning\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a9932519bc2e0fb7284bbd4ae06e41f94}{warning}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a09f1a21ae904f561f3a138211a1e86f1}{status\+\_\+defs\+::messages\+::warning\+\_\+to\+\_\+be\+\_\+used\+\_\+9}} = 10$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_a011eb610e8e20f1d303d14eb5ead234d}{warning\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a9932519bc2e0fb7284bbd4ae06e41f94}{warning}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a2e5ffa9c28819fd2bfc2a0907bc86c39}{status\+\_\+defs\+::messages\+::warning\+\_\+to\+\_\+be\+\_\+used\+\_\+10}} = 11$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_a011eb610e8e20f1d303d14eb5ead234d}{warning\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a9932519bc2e0fb7284bbd4ae06e41f94}{warning}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_ab6b211f315c1ea93a65491a54a93c9d2}{status\+\_\+defs\+::messages\+::warning\+\_\+to\+\_\+be\+\_\+used\+\_\+11}} = 12$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_a011eb610e8e20f1d303d14eb5ead234d}{warning\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a9932519bc2e0fb7284bbd4ae06e41f94}{warning}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5dc0b888adc52e229d4c3cf48ab041b8}{status\+\_\+defs\+::messages\+::warning\+\_\+to\+\_\+be\+\_\+used\+\_\+12}} = 13$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_a011eb610e8e20f1d303d14eb5ead234d}{warning\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a9932519bc2e0fb7284bbd4ae06e41f94}{warning}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_af0f4caa1128676c7e038b79d56635ff6}{status\+\_\+defs\+::messages\+::warning\+\_\+to\+\_\+be\+\_\+used\+\_\+13}} = 14$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_a011eb610e8e20f1d303d14eb5ead234d}{warning\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a9932519bc2e0fb7284bbd4ae06e41f94}{warning}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{namespacestatus__defs_1_1messages_a3ad9fa3b3ab5b8f836a5100a80e7e51e}{status\+\_\+defs\+::messages\+::warning\+\_\+to\+\_\+be\+\_\+used\+\_\+14}} = 15$<$$<$\mbox{\hyperlink{namespacestatus__defs_1_1messages_a011eb610e8e20f1d303d14eb5ead234d}{warning\+\_\+bit}} \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{namespacestatus__defs_1_1messages_a9932519bc2e0fb7284bbd4ae06e41f94}{warning}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Stores the different status messages for the system. 
+
+\begin{DoxyAuthor}{Author}
+P. Stegall 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+Dec. 2021 
+\end{DoxyDate}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{_status_defs_8h_aadc1672bb342282c8d358a6a3b0b8fd2}\label{_status_defs_8h_aadc1672bb342282c8d358a6a3b0b8fd2} 
+\index{StatusDefs.h@{StatusDefs.h}!print\_status\_message@{print\_status\_message}}
+\index{print\_status\_message@{print\_status\_message}!StatusDefs.h@{StatusDefs.h}}
+\doxysubsubsection{\texorpdfstring{print\_status\_message()}{print\_status\_message()}}
+{\footnotesize\ttfamily void print\+\_\+status\+\_\+message (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{message }\end{DoxyParamCaption})}
+
+
+
+prints the status message 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & id \\
+\hline
+\end{DoxyParams}

@@ -1,6 +1,13 @@
+/**
+ * @file GattDb.h
+ * @author Chancelor Cuddeback
+ * @brief Defines the GATT database for the BLE interface
+ * @date 2023-07-18
+ * 
+ */
+
 #ifndef GATT_DB_H
 #define GATT_DB_H
-
 
 #if defined(ARDUINO_ARDUINO_NANO33BLE) | defined(ARDUINO_NANO_RP2040_CONNECT)
 #include "Arduino.h"

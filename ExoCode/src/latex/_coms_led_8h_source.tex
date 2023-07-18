@@ -1,0 +1,45 @@
+\doxysection{Coms\+Led.\+h}
+\hypertarget{_coms_led_8h_source}{}\label{_coms_led_8h_source}\mbox{\hyperlink{_coms_led_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ ComsLed\_h}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ ComsLed\_h}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#if\ defined(ARDUINO\_ARDUINO\_NANO33BLE)\ |\ defined(ARDUINO\_NANO\_RP2040\_CONNECT)}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }ComsLed\ }
+\DoxyCodeLine{00016\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{static}\ ComsLed*\ get\_instance();}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_color(uint8\_t\ r,\ uint8\_t\ g,\ uint8\_t\ b);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ get\_color(uint8\_t*\ r,\ uint8\_t*\ g,\ uint8\_t*\ b);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ life\_pulse();}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00053\ \ \ \ \ ComsLed();}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00061\ \ \ \ \ uint8\_t\ \_handle\_active\_low(uint8\_t\ value);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00068\ \ \ \ \ uint8\_t\ r;}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00074\ \ \ \ \ uint8\_t\ g;}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00080\ \ \ \ \ uint8\_t\ b;}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{int}\ life\_pulse\_counter\ =\ 0;}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ life\_pulse\_frequency\ =\ 100;}
+\DoxyCodeLine{00093\ \};}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
