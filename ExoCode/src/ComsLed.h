@@ -38,6 +38,13 @@ class ComsLed
      */
     void get_color(uint8_t* r, uint8_t* g, uint8_t* b);
 
+    /**
+     * @brief Pulse the LED at a specific frequency
+     * 
+     */
+    void life_pulse();
+
+
     private:
     /**
      * @brief Class constructor
@@ -71,6 +78,18 @@ class ComsLed
      * 
      */
     uint8_t b;
+
+    /**
+     * @brief The number of times the life pulse has been called
+     * 
+     */
+    int life_pulse_counter = 0;
+
+    /**
+     * @brief The frequency of the life pulse
+     * 
+     */
+    const int life_pulse_frequency = 100;
 };
 
 #endif

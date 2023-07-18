@@ -516,21 +516,11 @@ void loop()
 {
     static ExoData* exo_data = new ExoData(config_info::config_to_send);
     static ComsMCU* mcu = new ComsMCU(exo_data, config_info::config_to_send);
-    static WaistBarometer* waist_barometer = new WaistBarometer();
-    static InclineDetector* incline_detector = new InclineDetector();
     mcu->handle_ble();
     mcu->local_sample();
     mcu->update_UART();
     mcu->update_gui();
     mcu->handle_errors();
-
-    static float then = millis();
-    float now = millis();
-    if ((now - then) > INCLINE_DELTA_MS)
-    {
-        then = now;
-        incline_state_t state = incline_detector->run(waist_barometer->getPressure());
-    }
 }
 
 #else // code to use when microcontroller is not recognized.
