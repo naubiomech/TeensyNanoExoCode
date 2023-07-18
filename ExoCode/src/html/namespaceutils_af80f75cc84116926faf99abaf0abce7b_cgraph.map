@@ -1,5 +1,0 @@
-<map id="utils::short_fixed_point_bytes_to_float" name="utils::short_fixed_point_bytes_to_float">
-<area shape="rect" id="Node000001" title="converts a set of bytes in a fixed point short int into a float" alt="" coords="5,5,150,48"/>
-<area shape="rect" id="Node000002" href="$namespaceutils.html#aaccbd7cf1148da7ed6c9ffa99000aa1a" title="Returns 1 if system uses little endian floating points. This confirms that the floating points match ..." alt="" coords="198,13,337,40"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,24,183,24,183,29,150,29"/>
-</map>

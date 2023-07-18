@@ -8,7 +8,7 @@
 #include "error_codes.h"
 #include "Logger.h"
 
-#define EXOBLE_DEBUG 0
+#define EXOBLE_DEBUG 1
 
 ExoBLE::ExoBLE()
 {

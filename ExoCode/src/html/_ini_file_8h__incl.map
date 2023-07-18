@@ -1,9 +1,0 @@
-<map id="IniFile.h" name="IniFile.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="86,5,152,32"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,80,70,107"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,35,64,72,61,68,103,31"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="94,80,144,107"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="122,33,122,65,116,65,116,33"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="169,80,261,107"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="137,30,189,69,185,73,134,35"/>
-</map>

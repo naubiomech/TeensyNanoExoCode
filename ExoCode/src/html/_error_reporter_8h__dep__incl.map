@@ -1,7 +1,0 @@
-<map id="ErrorReporter.h" name="ErrorReporter.h">
-<area shape="rect" id="Node000001" title="Singleton class to report errors to the other microcontroller." alt="" coords="37,5,146,32"/>
-<area shape="rect" id="Node000002" href="$_joint_8cpp.html" title=" " alt="" coords="5,80,79,107"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,46,53,81,48,78,72,43"/>
-<area shape="rect" id="Node000003" href="$_motor_8cpp.html" title=" " alt="" coords="102,80,182,107"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="111,43,135,78,131,81,106,46"/>
-</map>

@@ -31,5 +31,10 @@ namespace logger
     {
         println("");
     }
+
+    static void flush()
+    {
+        Serial.flush();
+    }
 }
 #endif

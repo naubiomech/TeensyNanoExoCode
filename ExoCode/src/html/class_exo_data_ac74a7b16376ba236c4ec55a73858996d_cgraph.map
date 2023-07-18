@@ -1,5 +1,0 @@
-<map id="ExoData::start_pretrial_cal" name="ExoData::start_pretrial_cal">
-<area shape="rect" id="Node000001" title="Start the pretrial calibration process." alt="" coords="5,5,181,32"/>
-<area shape="rect" id="Node000002" href="$class_exo_data.html#a2aa97c53cd67d549d14b349cf1b46f0e" title="performs a function for each joint" alt="" coords="229,5,388,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,16,213,16,213,21,181,21"/>
-</map>

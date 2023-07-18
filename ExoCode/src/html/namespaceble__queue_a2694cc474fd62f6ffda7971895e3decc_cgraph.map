@@ -1,5 +1,0 @@
-<map id="ble_queue::check_for" name="ble_queue::check_for">
-<area shape="rect" id="Node000001" title="Search the queue for a matching message." alt="" coords="5,5,150,32"/>
-<area shape="rect" id="Node000002" href="$class_ble_message.html#abcc861e69591678c55c2b07e1d90b0c3" title="Check if two messages are matching." alt="" coords="198,5,352,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,16,183,16,183,21,150,21"/>
-</map>

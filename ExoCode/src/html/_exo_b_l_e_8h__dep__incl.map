@@ -1,7 +1,0 @@
-<map id="ExoBLE.h" name="ExoBLE.h">
-<area shape="rect" id="Node000001" title="Class to handle all bluetooth work. This include initialization, advertising, connection,..." alt="" coords="20,5,100,32"/>
-<area shape="rect" id="Node000002" href="$_coms_m_c_u_8h.html" title="The top of the composite structure for the communication microcontroller. This class manages the blue..." alt="" coords="12,80,108,107"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="63,47,63,80,57,80,57,47"/>
-<area shape="rect" id="Node000003" href="$_coms_m_c_u_8cpp.html" title=" " alt="" coords="5,155,115,181"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="63,122,63,154,57,154,57,122"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="IniFile::browseSections" name="IniFile::browseSections">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,64,161,91"/>
-<area shape="rect" id="Node000002" href="$class_ini_file.html#a2d2874e132192179169a9de44207a21f" title=" " alt="" coords="242,5,355,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,61,232,34,233,39,135,66"/>
-<area shape="rect" id="Node000003" href="$class_ini_file.html#acbabab9434de6d60648c1a4b55e32f8e" title=" " alt="" coords="209,56,388,99"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,75,194,75,194,80,161,80"/>
-<area shape="rect" id="Node000004" href="$class_ini_file.html#add78997eb6343f1b0f43f57d3f8fca45" title=" " alt="" coords="219,123,378,149"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="135,89,233,116,232,121,134,94"/>
-</map>

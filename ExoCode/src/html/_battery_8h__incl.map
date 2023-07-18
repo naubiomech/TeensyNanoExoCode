@@ -1,7 +1,0 @@
-<map id="Battery.h" name="Battery.h">
-<area shape="rect" id="Node000001" title="Defines the battery interface and implements the child battery classes." alt="" coords="16,5,90,32"/>
-<area shape="rect" id="Node000002" href="$_i2_c_handler_8h.html" title="This file defines the I2CHandler which is using the singleton pattern. To use you must first get a re..." alt="" coords="5,80,101,107"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="56,33,56,65,50,65,50,33"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="15,155,91,181"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="56,107,56,140,50,140,50,107"/>
-</map>

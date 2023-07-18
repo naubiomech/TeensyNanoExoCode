@@ -1,5 +1,0 @@
-<map id="ExoData::set_default_parameters" name="ExoData::set_default_parameters">
-<area shape="rect" id="Node000001" title="Set the default controller parameters for the current controller. These are the first row in the cont..." alt="" coords="5,5,148,48"/>
-<area shape="rect" id="Node000002" href="$class_exo_data.html#a2aa97c53cd67d549d14b349cf1b46f0e" title="performs a function for each joint" alt="" coords="196,13,355,40"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,24,181,24,181,29,148,29"/>
-</map>

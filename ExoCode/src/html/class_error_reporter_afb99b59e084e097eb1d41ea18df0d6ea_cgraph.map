@@ -1,5 +1,0 @@
-<map id="ErrorReporter::report" name="ErrorReporter::report">
-<area shape="rect" id="Node000001" title="Report an error to the other microcontroller." alt="" coords="5,5,145,32"/>
-<area shape="rect" id="Node000002" href="$class_u_a_r_t_handler.html#a6f121152ad62b363414a94e0e099206d" title="Get the instance object." alt="" coords="193,5,374,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,16,178,16,178,21,145,21"/>
-</map>

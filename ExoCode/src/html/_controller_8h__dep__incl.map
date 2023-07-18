@@ -1,5 +1,0 @@
-<map id="Controller.h" name="Controller.h">
-<area shape="rect" id="Node000001" title="Declares for the different controllers the exo can use. Controllers should inherit from _Controller c..." alt="" coords="12,5,100,32"/>
-<area shape="rect" id="Node000002" href="$_controller_8cpp.html" title=" " alt="" coords="5,80,107,107"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="59,47,59,80,53,80,53,47"/>
-</map>

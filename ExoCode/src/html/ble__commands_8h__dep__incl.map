@@ -1,8 +1,0 @@
-<map id="ble_commands.h" name="ble_commands.h">
-<area shape="rect" id="Node000001" title="This file declares the BLE commands, and the functions that should be called when they are received." alt="" coords="5,5,126,32"/>
-<area shape="rect" id="Node000002" href="$_ble_parser_8cpp.html" title=" " alt="" coords="14,155,117,181"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,47,52,80,54,121,63,154,58,155,49,121,47,80,54,45"/>
-<area shape="rect" id="Node000003" href="$_ble_parser_8h.html" title="This class is used to serialize and deserialize the BLE data. The application uses Nordic&#39;s UART serv..." alt="" coords="62,80,152,107"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="82,44,102,78,97,81,78,46"/>
-<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="95,121,75,156,70,153,90,118"/>
-</map>

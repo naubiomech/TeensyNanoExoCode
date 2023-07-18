@@ -1,9 +1,0 @@
-<map id="LegData::reconfigure" name="LegData::reconfigure">
-<area shape="rect" id="Node000001" title="reconfigures the the leg data if the configuration changes after constructor called." alt="" coords="5,31,146,57"/>
-<area shape="rect" id="Node000002" href="$class_joint_data.html#a966c7b2eeb8fb0a9f0c09ee27ef30b21" title="reconfigures the the joint data if the configuration changes after constructor called." alt="" coords="194,31,340,57"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,41,179,41,179,47,146,47"/>
-<area shape="rect" id="Node000003" href="$class_controller_data.html#aa5379adfd775e094bc3408f250a2d8a0" title="reconfigures the the controller data if the configuration changes after constructor called." alt="" coords="388,5,562,32"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="340,32,373,28,373,34,340,38"/>
-<area shape="rect" id="Node000004" href="$class_motor_data.html#a6c785789ec1689cc0108a6928cb44172" title="reconfigures the the motor data if the configuration changes after constructor called." alt="" coords="399,56,551,83"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="340,50,384,56,384,61,340,56"/>
-</map>

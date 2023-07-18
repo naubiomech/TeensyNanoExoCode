@@ -1,5 +1,0 @@
-<map id="SyncLed.h" name="SyncLed.h">
-<area shape="rect" id="Node000001" title="Class to blink and LED in a specific pattern to syncronize the data from the microcontroler with opti..." alt="" coords="12,5,96,32"/>
-<area shape="rect" id="Node000002" href="$_sync_led_8cpp.html" title=" " alt="" coords="5,80,103,107"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="57,47,57,80,51,80,51,47"/>
-</map>

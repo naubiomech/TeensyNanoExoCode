@@ -388,11 +388,11 @@ namespace UART_command_handlers
             break;
         }
 
-#if REAL_TIME_I2C
+        #if REAL_TIME_I2C
         real_time_i2c::msg(rx_msg.data, rx_msg.len);
-#else
+        #else
         handler->UART_msg(rx_msg);
-#endif
+        #endif
         // logger::println("UART_command_handlers::get_real_time_data->sent real time data");   Uncomment if you want to test to see what data is being sent
         // UART_msg_t_utils::print_msg(rx_msg);
     }

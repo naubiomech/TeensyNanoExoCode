@@ -5,7 +5,7 @@
 #include "Logger.h"
 #include <Wire.h>
 
-#define RT_I2C_DEBUG 0
+#define RT_I2C_DEBUG 1
 
 #define FIXED_POINT_FACTOR 100
 
@@ -60,13 +60,7 @@ void real_time_i2c::msg(float* data, int len)
     const uint8_t packed_len = _packed_len(len);
     uint8_t bytes[packed_len];
     _pack((uint8_t)RT_I2C_REG, len, data, bytes);
-    // print packed bytes
-    // for (int i=0; i<packed_len; i++)
-    // {
-    //     Serial.print(bytes[i]);
-    //     Serial.print(" ");
-    // }
-    // Serial.println();
+
     #if defined(ARDUINO_TEENSY36) || defined(ARDUINO_TEENSY41)
     MY_WIRE.beginTransmission(RT_I2C_ADDR);
     MY_WIRE.send(bytes, packed_len);
@@ -99,7 +93,7 @@ void real_time_i2c::init()
     MY_WIRE.begin(RT_I2C_ADDR);
     MY_WIRE.onReceive(on_receive);
     #endif
-}   
+}
 
 bool real_time_i2c::poll(float* pack_array) 
 {
@@ -109,14 +103,24 @@ bool real_time_i2c::poll(float* pack_array)
 
     if (!new_bytes)
     {
+        #if RT_I2C_DEBUG
+        logger::println("real_time_i2c::poll()->End (no new bytes)");
+        #endif
         return false;
     }
 
-    noInterrupts();
+    noInterrupts(); 
     const uint8_t len = byte_buffer[1];
     uint8_t buff[byte_buffer_len];
     memcpy(buff, byte_buffer, byte_buffer_len);
     new_bytes = false;
+    interrupts();
+
+    #if RT_I2C_DEBUG
+    logger::print("real_time_i2c::poll()->Done copying bytes, len: ");
+    logger::print(len);
+    logger::println();
+    #endif
 
     for (int i=0; i<len; i++)
     {
@@ -124,8 +128,22 @@ bool real_time_i2c::poll(float* pack_array)
         float tmp = 0;
         utils::short_fixed_point_bytes_to_float((uint8_t*)(buff+data_offset), &tmp, FIXED_POINT_FACTOR);
         pack_array[i] =  tmp;
+        #if RT_I2C_DEBUG
+        logger::print("real_time_i2c::poll()->i: ");
+        logger::print(i);
+        logger::print(" data_offset: ");
+        logger::print(data_offset);
+        logger::print(" buff[data_offset]: ");
+        logger::print(buff[data_offset]);
+        logger::print(" buff[data_offset+1]: ");
+        logger::print(buff[data_offset+1]);
+        logger::print(" tmp: ");
+        logger::print(tmp);
+        logger::println();
+        logger::flush();
+        #endif
     }
-    interrupts();
+    
 
     #if RT_I2C_DEBUG
     logger::println("real_time_i2c::poll()->End");
