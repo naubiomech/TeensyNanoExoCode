@@ -1,0 +1,88 @@
+\doxysection{Config.\+h}
+\hypertarget{_config_8h_source}{}\label{_config_8h_source}\index{ExoCode/src/Config.h@{ExoCode/src/Config.h}}
+\mbox{\hyperlink{_config_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#ifndef\ Config\_h}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ Config\_h\ }}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_log_levels_8h}{LogLevels.h}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\ \ \ \ \#define\ FIRMWARE\_VERSION\ 0\_1\_0}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\ \ \ \ \#define\ AK\_Board\_V0\_1\ 1}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\ \ \ \ \#define\ AK\_Board\_V0\_3\ 2}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\ \ \ \ \#define\ AK\_Board\_V0\_4\ 3}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\ \ \ \ \#define\ AK\_Board\_V0\_5\_1\ 4}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{comment}{//\ TODO\ :\ Incorporate\ into\ parse\ INI}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\ \ \ \ \#define\ BOARD\_VERSION\ AK\_Board\_V0\_3\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\ \ \ \ \#define\ REAL\_TIME\_I2C\ 1}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\ \ \ \ \#define\ LOOP\_FREQ\_HZ\ 500}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\ \ \ \ \#define\ LOOP\_TIME\_TOLERANCE\ 0.1\ }}
+\DoxyCodeLine{00019\ \ \ \ \ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\ \ \ \ \#define\ USE\_SPEED\_CHECK\ 0}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{comment}{//\ MACRO\ magic\ to\ convert\ a\ define\ to\ a\ string}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\ \ \ \ \#define\ VAL(str)\ \#str}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\ \ \ \ \#define\ TOSTRING(str)\ VAL(str)}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacelogging}{logging}}}
+\DoxyCodeLine{00027\ \ \ \ \ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{_log_levels_8h_a9cf4d2a890c8688e0fe1bc38fa88de94}{LogLevel}}\ \mbox{\hyperlink{namespacelogging_ad898846ac4878a064c2b09a55d8879e1}{level}}\ =\ \mbox{\hyperlink{_log_levels_8h_a9cf4d2a890c8688e0fe1bc38fa88de94ab8e7b465df7c5979dc731d06e84ce2cf}{LogLevel::Release}};}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacelogging_ab736a60f54f48e134f757fb36048ac96}{baud\_rate}}\ =\ 115200;}
+\DoxyCodeLine{00030\ \ \ \ \ \}}
+\DoxyCodeLine{00031\ \ \ \ \ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacesync__time}{sync\_time}}}
+\DoxyCodeLine{00033\ \ \ \ \ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacesync__time_a2c92e886962d2146e9542aa06f755a2d}{NUM\_START\_STOP\_BLINKS}}\ =\ 1;\ \ \textcolor{comment}{//\ the\ number\ of\ times\ to\ have\ the\ LED\ on\ during\ the\ start\ stop\ sequence}}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacesync__time_a018cc1f0731c471c01160c84eaea7472}{SYNC\_HALF\_PERIOD\_US}}\ =\ 125000;\ \ \textcolor{comment}{//\ half\ blink\ period\ in\ micro\ seconds}}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacesync__time_a3c8b19f78d8d7cc8f2c87c4acbb82981}{SYNC\_START\_STOP\_HALF\_PERIOD\_US}}\ =\ 4\ *\ \mbox{\hyperlink{namespacesync__time_a018cc1f0731c471c01160c84eaea7472}{SYNC\_HALF\_PERIOD\_US}};\ \textcolor{comment}{//\ Half\ blink\ period\ for\ the\ begining\ and\ end\ of\ the\ sequence.\ \ This\ is\ usually\ longer\ so\ it\ is\ easy\ to\ identify.}}
+\DoxyCodeLine{00037\ \ \ \ \ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacefsr__config}{fsr\_config}}}
+\DoxyCodeLine{00040\ \ \ \ \ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespacefsr__config_a310a6cbbe113e31cdf36e43e497e5141}{FSR\_UPPER\_THRESHOLD}}\ =\ 0.25;}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespacefsr__config_a1e7261df7f72f49af98e957dd5b03507}{FSR\_LOWER\_THRESHOLD}}\ =\ 0.15;}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespacefsr__config_aed952b4c8fa3264e85f5c6e1ea757a21}{SCHMITT\_DELTA}}\ =\ (\mbox{\hyperlink{namespacefsr__config_a310a6cbbe113e31cdf36e43e497e5141}{FSR\_UPPER\_THRESHOLD}}\ -\/\ \mbox{\hyperlink{namespacefsr__config_a1e7261df7f72f49af98e957dd5b03507}{FSR\_LOWER\_THRESHOLD}})/2;}
+\DoxyCodeLine{00044\ \ \ \ \ \}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceanalog}{analog}}}
+\DoxyCodeLine{00047\ \ \ \ \ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespaceanalog_a79d06ae925c44093af883c31e3114ca2}{RESOLUTION}}\ =\ 12;\ \textcolor{comment}{//\ The\ resolution\ of\ the\ analog\ to\ digital\ converter}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespaceanalog_a82da6c158d0dd0002da687f392f6836c}{COUNTS}}\ =\ 4096;\ \textcolor{comment}{//\ The\ number\ of\ counts\ the\ ADC\ can\ have}}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+\DoxyCodeLine{00051\ \ \ \ \ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacetorque__calibration}{torque\_calibration}}}
+\DoxyCodeLine{00053\ \ \ \ \ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespacetorque__calibration_a765e3690aadfd871a3db2f425f0da9e2}{AI\_CNT\_TO\_V}}\ =\ 3.3\ /\ 4096;\ \textcolor{comment}{//\ conversion\ from\ count\ to\ voltage}}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespacetorque__calibration_a6693cd19ee28e8b1db6c4521996f6f05}{TRQ\_V\_TO\_NM}}\ =\ 53.70;\ \textcolor{comment}{//\ conversion\ from\ voltage\ to\ Nm\ (Negative\ do\ to\ mismatch\ in\ torque\ sensor\ and\ motor\ torque\ directions)}}
+\DoxyCodeLine{00056\ \ \ \ \ \}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_b_l_e__times}{BLE\_times}}}
+\DoxyCodeLine{00059\ \ \ \ \ \{}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespace_b_l_e__times_a12d90ec982adfba29655d3bf689c4f5f}{\_status\_msg\_delay}}\ =\ 1000000;\ \textcolor{comment}{//microseconds}}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespace_b_l_e__times_a53f5205ff55ca4b18ffa294c9ddf9ede}{\_real\_time\_msg\_delay}}\ =\ 20000;\ \textcolor{comment}{//microseconds}}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespace_b_l_e__times_a467fc34974955544be0d3b93bdf0edf0}{\_update\_delay}}\ =\ 1000;\ \textcolor{comment}{//microseconds}}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespace_b_l_e__times_a058196d2b0edbafb9cb1174d1f8c5350}{\_poll\_timeout}}\ =\ 4;\ \textcolor{comment}{//milliseconds}}
+\DoxyCodeLine{00064\ \ \ \ \ \}}
+\DoxyCodeLine{00065\ \ \ \ \ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{comment}{//\ Update\ this\ namespace\ for\ future\ exo\ updates\ to\ display\ correct\ information\ on\ app}}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceexo__info}{exo\_info}}}
+\DoxyCodeLine{00068\ \ \ \ \ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ String\ \mbox{\hyperlink{namespaceexo__info_a0188ede54de78e91b5c5a5b4c8aa430a}{FirmwareVersion}}\ =\ String(\mbox{\hyperlink{_config_8h_a936059ff6981db7fe4eefa988f423d57}{TOSTRING}}(\mbox{\hyperlink{_config_8h_aa14dc39d52ab121ceb570f1a265385e0}{FIRMWARE\_VERSION}}));\ \textcolor{comment}{//\ string\ to\ add\ to\ firmware\ char}}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ String\ \mbox{\hyperlink{namespaceexo__info_ad05ddd9b42e394df2901fc949ea20414}{PCBVersion}}\ =\ String(\mbox{\hyperlink{_config_8h_a936059ff6981db7fe4eefa988f423d57}{TOSTRING}}(\mbox{\hyperlink{_config_8h_a146f7b921fbc7d5d5a93d7da402ad70f}{BOARD\_VERSION}}));\ \textcolor{comment}{//\ string\ to\ add\ to\ pcb\ char}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ String\ \mbox{\hyperlink{namespaceexo__info_aaae40255d1f0f73e03423836e895da50}{DeviceName}}\ =\ String(\textcolor{stringliteral}{"{}NULL"{}});\ \textcolor{comment}{//\ string\ to\ add\ to\ device\ char,\ if\ you\ would\ like\ the\ system\ to\ set\ it\ use\ "{}NULL"{}}}
+\DoxyCodeLine{00072\ \ \ \ \ \}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_r_t__times}{UART\_times}}}
+\DoxyCodeLine{00075\ \ \ \ \ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespace_u_a_r_t__times_a4aa373d00d67a7b56daa9cad3d768af2}{UPDATE\_PERIOD}}\ =\ 1000;\ \textcolor{comment}{//microseconds,\ time\ between\ updating\ data\ over\ uart}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespace_u_a_r_t__times_a022ba057e396e1f4909fc11be148266d}{COMS\_MCU\_TIMEOUT}}\ =\ 5000;\ \textcolor{comment}{//microseconds}}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespace_u_a_r_t__times_ae8cd2e18c4cd9e16308b0e8c3dfe794d}{CONT\_MCU\_TIMEOUT}}\ =\ 1000;}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespace_u_a_r_t__times_a341eba5786159662ac0f4bfdddcfb99e}{CONFIG\_TIMEOUT}}\ =\ 8000;\ \textcolor{comment}{//\ milliseconds}}
+\DoxyCodeLine{00080\ \ \ \ \ \}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

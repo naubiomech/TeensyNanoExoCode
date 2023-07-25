@@ -1,0 +1,216 @@
+\doxysection{Joint\+Data Class Reference}
+\hypertarget{class_joint_data}{}\label{class_joint_data}\index{JointData@{JointData}}
+
+
+class to store information related to joint.  
+
+
+
+
+{\ttfamily \#include $<$Joint\+Data.\+h$>$}
+
+
+
+Collaboration diagram for Joint\+Data\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{class_joint_data__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_joint_data_ad8e8d2d9be12a6e8d527619304ec7599}{Joint\+Data}} (\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}} \mbox{\hyperlink{class_joint_data_ac8947070e832b4ab37b21e365c8396fe}{id}}, uint8\+\_\+t \texorpdfstring{$\ast$}{*}config\+\_\+to\+\_\+send)
+\item 
+void \mbox{\hyperlink{class_joint_data_a966c7b2eeb8fb0a9f0c09ee27ef30b21}{reconfigure}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}config\+\_\+to\+\_\+send)
+\begin{DoxyCompactList}\small\item\em reconfigures the the joint data if the configuration changes after constructor called. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}} \mbox{\hyperlink{class_joint_data_ac8947070e832b4ab37b21e365c8396fe}{id}}
+\item 
+\mbox{\hyperlink{class_motor_data}{Motor\+Data}} \mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}
+\item 
+\mbox{\hyperlink{class_controller_data}{Controller\+Data}} \mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}
+\item 
+float \mbox{\hyperlink{class_joint_data_aec2580e88fbe79db393a7bd6f945ce4e}{torque\+\_\+reading}}
+\item 
+bool \mbox{\hyperlink{class_joint_data_a1e501d7d94358f3f5ea1ed16a5430104}{is\+\_\+left}}
+\item 
+bool \mbox{\hyperlink{class_joint_data_ad99709a8ab18ff876b7e283939c8d801}{flip\+\_\+direction}}
+\item 
+bool \mbox{\hyperlink{class_joint_data_ac92eaeab50564303d8c8ca0febd44c12}{is\+\_\+used}}
+\item 
+bool \mbox{\hyperlink{class_joint_data_a0bbbbcca43245b06a0547fb10ad82e51}{calibrate\+\_\+torque\+\_\+sensor}}
+\item 
+bool \mbox{\hyperlink{class_joint_data_a41d75138032402255a952f221d8c849a}{calibrate\+\_\+angle\+\_\+sensor}}
+\item 
+float \mbox{\hyperlink{class_joint_data_a0563b57da044af56c140ce91b3bc7971}{position}}
+\item 
+float \mbox{\hyperlink{class_joint_data_af1fbbc2a4c6d77240847a7f778b6baa3}{velocity}}
+\item 
+float \mbox{\hyperlink{class_joint_data_aaee486eb0ddfdfd5d13e7f19a1114586}{joint\+\_\+position}}
+\item 
+float \mbox{\hyperlink{class_joint_data_abbd67ac219ed42648005031bfc794de6}{joint\+\_\+global\+\_\+angle}}
+\item 
+float \mbox{\hyperlink{class_joint_data_a0c4636e1a0d5271bd1c2778d46889cdd}{prev\+\_\+joint\+\_\+position}}
+\item 
+float \mbox{\hyperlink{class_joint_data_a1c35091d470e4bb27d1aabf6cacdc383}{joint\+\_\+velocity}}
+\item 
+const float \mbox{\hyperlink{class_joint_data_af0821a3736964b10909bd17b7c286993}{joint\+\_\+position\+\_\+alpha}} = 0.\+1f
+\item 
+const float \mbox{\hyperlink{class_joint_data_aa0c3fa50cc0f109a654e36d5bf68f199}{joint\+\_\+velocity\+\_\+alpha}} = 0.\+1f
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+class to store information related to joint. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_joint_data_ad8e8d2d9be12a6e8d527619304ec7599}\label{class_joint_data_ad8e8d2d9be12a6e8d527619304ec7599} 
+\index{JointData@{JointData}!JointData@{JointData}}
+\index{JointData@{JointData}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{JointData()}{JointData()}}
+{\footnotesize\ttfamily Joint\+Data\+::\+Joint\+Data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}}}]{id,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{config\+\_\+to\+\_\+send }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_joint_data_a966c7b2eeb8fb0a9f0c09ee27ef30b21}\label{class_joint_data_a966c7b2eeb8fb0a9f0c09ee27ef30b21} 
+\index{JointData@{JointData}!reconfigure@{reconfigure}}
+\index{reconfigure@{reconfigure}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{reconfigure()}{reconfigure()}}
+{\footnotesize\ttfamily void Joint\+Data\+::reconfigure (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{config\+\_\+to\+\_\+send }\end{DoxyParamCaption})}
+
+
+
+reconfigures the the joint data if the configuration changes after constructor called. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em configuration} & array \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_joint_data_a966c7b2eeb8fb0a9f0c09ee27ef30b21_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_joint_data_a41d75138032402255a952f221d8c849a}\label{class_joint_data_a41d75138032402255a952f221d8c849a} 
+\index{JointData@{JointData}!calibrate\_angle\_sensor@{calibrate\_angle\_sensor}}
+\index{calibrate\_angle\_sensor@{calibrate\_angle\_sensor}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{calibrate\_angle\_sensor}{calibrate\_angle\_sensor}}
+{\footnotesize\ttfamily bool Joint\+Data\+::calibrate\+\_\+angle\+\_\+sensor}
+
+flag for if we should calibrate the angle sensor. \Hypertarget{class_joint_data_a0bbbbcca43245b06a0547fb10ad82e51}\label{class_joint_data_a0bbbbcca43245b06a0547fb10ad82e51} 
+\index{JointData@{JointData}!calibrate\_torque\_sensor@{calibrate\_torque\_sensor}}
+\index{calibrate\_torque\_sensor@{calibrate\_torque\_sensor}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{calibrate\_torque\_sensor}{calibrate\_torque\_sensor}}
+{\footnotesize\ttfamily bool Joint\+Data\+::calibrate\+\_\+torque\+\_\+sensor}
+
+flag for if we should calibrate the torque sensor. \Hypertarget{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}\label{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9} 
+\index{JointData@{JointData}!controller@{controller}}
+\index{controller@{controller}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{controller}{controller}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_controller_data}{Controller\+Data}} Joint\+Data\+::controller}
+
+data for the controller attached to the joint \Hypertarget{class_joint_data_ad99709a8ab18ff876b7e283939c8d801}\label{class_joint_data_ad99709a8ab18ff876b7e283939c8d801} 
+\index{JointData@{JointData}!flip\_direction@{flip\_direction}}
+\index{flip\_direction@{flip\_direction}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{flip\_direction}{flip\_direction}}
+{\footnotesize\ttfamily bool Joint\+Data\+::flip\+\_\+direction}
+
+if true invert the current to the motor and the position/velocity readings \Hypertarget{class_joint_data_ac8947070e832b4ab37b21e365c8396fe}\label{class_joint_data_ac8947070e832b4ab37b21e365c8396fe} 
+\index{JointData@{JointData}!id@{id}}
+\index{id@{id}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}} Joint\+Data\+::id}
+
+id of the joint \Hypertarget{class_joint_data_a1e501d7d94358f3f5ea1ed16a5430104}\label{class_joint_data_a1e501d7d94358f3f5ea1ed16a5430104} 
+\index{JointData@{JointData}!is\_left@{is\_left}}
+\index{is\_left@{is\_left}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{is\_left}{is\_left}}
+{\footnotesize\ttfamily bool Joint\+Data\+::is\+\_\+left}
+
+if the leg is left \Hypertarget{class_joint_data_ac92eaeab50564303d8c8ca0febd44c12}\label{class_joint_data_ac92eaeab50564303d8c8ca0febd44c12} 
+\index{JointData@{JointData}!is\_used@{is\_used}}
+\index{is\_used@{is\_used}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{is\_used}{is\_used}}
+{\footnotesize\ttfamily bool Joint\+Data\+::is\+\_\+used}
+
+stores if the joint is used, joint is skipped if it is not used \Hypertarget{class_joint_data_abbd67ac219ed42648005031bfc794de6}\label{class_joint_data_abbd67ac219ed42648005031bfc794de6} 
+\index{JointData@{JointData}!joint\_global\_angle@{joint\_global\_angle}}
+\index{joint\_global\_angle@{joint\_global\_angle}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{joint\_global\_angle}{joint\_global\_angle}}
+{\footnotesize\ttfamily float Joint\+Data\+::joint\+\_\+global\+\_\+angle}
+
+The angle of the joint relative to the ground \Hypertarget{class_joint_data_aaee486eb0ddfdfd5d13e7f19a1114586}\label{class_joint_data_aaee486eb0ddfdfd5d13e7f19a1114586} 
+\index{JointData@{JointData}!joint\_position@{joint\_position}}
+\index{joint\_position@{joint\_position}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{joint\_position}{joint\_position}}
+{\footnotesize\ttfamily float Joint\+Data\+::joint\+\_\+position}
+
+The position of the joint, after any transmission \Hypertarget{class_joint_data_af0821a3736964b10909bd17b7c286993}\label{class_joint_data_af0821a3736964b10909bd17b7c286993} 
+\index{JointData@{JointData}!joint\_position\_alpha@{joint\_position\_alpha}}
+\index{joint\_position\_alpha@{joint\_position\_alpha}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{joint\_position\_alpha}{joint\_position\_alpha}}
+{\footnotesize\ttfamily const float Joint\+Data\+::joint\+\_\+position\+\_\+alpha = 0.\+1f}
+
+\Hypertarget{class_joint_data_a1c35091d470e4bb27d1aabf6cacdc383}\label{class_joint_data_a1c35091d470e4bb27d1aabf6cacdc383} 
+\index{JointData@{JointData}!joint\_velocity@{joint\_velocity}}
+\index{joint\_velocity@{joint\_velocity}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{joint\_velocity}{joint\_velocity}}
+{\footnotesize\ttfamily float Joint\+Data\+::joint\+\_\+velocity}
+
+\Hypertarget{class_joint_data_aa0c3fa50cc0f109a654e36d5bf68f199}\label{class_joint_data_aa0c3fa50cc0f109a654e36d5bf68f199} 
+\index{JointData@{JointData}!joint\_velocity\_alpha@{joint\_velocity\_alpha}}
+\index{joint\_velocity\_alpha@{joint\_velocity\_alpha}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{joint\_velocity\_alpha}{joint\_velocity\_alpha}}
+{\footnotesize\ttfamily const float Joint\+Data\+::joint\+\_\+velocity\+\_\+alpha = 0.\+1f}
+
+\Hypertarget{class_joint_data_afaead532774a6d60394f3667838d61d1}\label{class_joint_data_afaead532774a6d60394f3667838d61d1} 
+\index{JointData@{JointData}!motor@{motor}}
+\index{motor@{motor}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{motor}{motor}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_motor_data}{Motor\+Data}} Joint\+Data\+::motor}
+
+data for the motor attached to the joint \Hypertarget{class_joint_data_a0563b57da044af56c140ce91b3bc7971}\label{class_joint_data_a0563b57da044af56c140ce91b3bc7971} 
+\index{JointData@{JointData}!position@{position}}
+\index{position@{position}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{position}{position}}
+{\footnotesize\ttfamily float Joint\+Data\+::position}
+
+The position of the joint, this should be motor position with compensated for gearing. \Hypertarget{class_joint_data_a0c4636e1a0d5271bd1c2778d46889cdd}\label{class_joint_data_a0c4636e1a0d5271bd1c2778d46889cdd} 
+\index{JointData@{JointData}!prev\_joint\_position@{prev\_joint\_position}}
+\index{prev\_joint\_position@{prev\_joint\_position}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{prev\_joint\_position}{prev\_joint\_position}}
+{\footnotesize\ttfamily float Joint\+Data\+::prev\+\_\+joint\+\_\+position}
+
+The position of the joint, after any transmission \Hypertarget{class_joint_data_aec2580e88fbe79db393a7bd6f945ce4e}\label{class_joint_data_aec2580e88fbe79db393a7bd6f945ce4e} 
+\index{JointData@{JointData}!torque\_reading@{torque\_reading}}
+\index{torque\_reading@{torque\_reading}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{torque\_reading}{torque\_reading}}
+{\footnotesize\ttfamily float Joint\+Data\+::torque\+\_\+reading}
+
+calibrated reading from the torque sensor \Hypertarget{class_joint_data_af1fbbc2a4c6d77240847a7f778b6baa3}\label{class_joint_data_af1fbbc2a4c6d77240847a7f778b6baa3} 
+\index{JointData@{JointData}!velocity@{velocity}}
+\index{velocity@{velocity}!JointData@{JointData}}
+\doxysubsubsection{\texorpdfstring{velocity}{velocity}}
+{\footnotesize\ttfamily float Joint\+Data\+::velocity}
+
+The velocity of the joint, this should be motor velocity with compensated for gearing. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Exo\+Code/src/\mbox{\hyperlink{_joint_data_8h}{Joint\+Data.\+h}}\item 
+Exo\+Code/src/\mbox{\hyperlink{_joint_data_8cpp}{Joint\+Data.\+cpp}}\end{DoxyCompactItemize}

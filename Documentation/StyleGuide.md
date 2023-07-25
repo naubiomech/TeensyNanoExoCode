@@ -34,7 +34,7 @@ and https://www.python.org/dev/peps/pep-0008/
 - There should not be any public member variables,  members should be accessed with get and set functions.
 
 ### Types
-- Type variable names should us CapWord Convention
+- Type variable names should use CapWord Convention
 
 ### Variables
 - Never use the characters 'l' (lowercase letter el), 'O' (uppercase letter oh), or 'I' (uppercase letter eye) as single character variable names.

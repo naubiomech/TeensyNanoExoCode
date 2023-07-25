@@ -1,0 +1,17 @@
+<map id="ExoCode/src/StatusLed.h" name="ExoCode/src/StatusLed.h">
+<area shape="rect" id="Node000001" title="Class to set an RGB LED to different colors based on the state of the system." alt="" coords="5,5,176,32"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="23,304,99,331"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,33,80,86,69,155,64,227,64,289,58,289,59,227,64,154,74,85,85,32"/>
+<area shape="rect" id="Node000003" href="$_board_8h.html" title=" " alt="" coords="79,155,145,181"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="95,32,111,140,105,140,90,33"/>
+<area shape="rect" id="Node000006" href="$_status_defs_8h.html" title="Stores the different status messages for the system." alt="" coords="128,80,224,107"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="107,31,152,68,149,72,104,35"/>
+<area shape="poly" id="edge6_Node000003_Node000002" title=" " alt="" coords="109,183,89,230,71,290,66,289,84,228,104,181"/>
+<area shape="rect" id="Node000004" href="$_config_8h.html" title=" " alt="" coords="99,229,167,256"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="118,181,128,214,123,216,113,183"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="123,258,86,295,82,291,119,255"/>
+<area shape="rect" id="Node000005" href="$_log_levels_8h.html" title=" " alt="" coords="123,304,213,331"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="142,255,158,290,153,292,137,258"/>
+<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="183,106,191,135,197,174,196,217,191,238,182,258,171,269,153,280,110,300,108,296,151,275,168,264,178,254,186,236,191,216,192,175,186,136,178,108"/>
+<area shape="poly" id="edge9_Node000006_Node000003" title=" " alt="" coords="167,109,134,145,130,142,163,105"/>
+</map>

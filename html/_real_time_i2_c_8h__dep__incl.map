@@ -1,0 +1,18 @@
+<map id="ExoCode/src/RealTimeI2C.h" name="ExoCode/src/RealTimeI2C.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="124,5,309,32"/>
+<area shape="rect" id="Node000002" href="$_real_time_i2_c_8cpp.html" title=" " alt="" coords="5,80,204,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,42,126,82,123,77,184,38"/>
+<area shape="rect" id="Node000003" href="$uart__commands_8h.html" title=" " alt="" coords="228,80,432,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="250,38,311,77,309,82,247,43"/>
+<area shape="rect" id="Node000004" href="$_coms_m_c_u_8cpp.html" title=" " alt="" coords="44,155,232,181"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="284,115,172,157,171,152,282,110"/>
+<area shape="rect" id="Node000005" href="$_exo_8cpp.html" title=" " alt="" coords="256,155,404,181"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="333,122,333,154,327,154,327,122"/>
+<area shape="rect" id="Node000006" href="$ble__commands_8h.html" title="This file declares the BLE commands, and the functions that should be called when they are received." alt="" coords="428,155,627,181"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="379,110,493,152,492,157,377,115"/>
+<area shape="rect" id="Node000007" href="$_ble_parser_8cpp.html" title=" " alt="" coords="435,304,617,331"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="511,195,494,230,493,250,498,269,517,302,513,305,493,271,487,250,489,229,506,192"/>
+<area shape="rect" id="Node000008" href="$_ble_parser_8h.html" title="This class is used to serialize and deserialize the BLE data. The application uses Nordic&#39;s UART serv..." alt="" coords="503,229,671,256"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="549,191,579,227,575,231,545,195"/>
+<area shape="poly" id="edge8_Node000008_Node000007" title=" " alt="" coords="569,269,538,305,534,302,565,266"/>
+</map>

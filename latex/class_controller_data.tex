@@ -1,0 +1,549 @@
+\doxysection{Controller\+Data Class Reference}
+\hypertarget{class_controller_data}{}\label{class_controller_data}\index{ControllerData@{ControllerData}}
+
+
+class to store information related to controllers.  
+
+
+
+
+{\ttfamily \#include $<$Controller\+Data.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_controller_data_a46bc8720de62492b4eca9281535f40f1}{Controller\+Data}} (\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}} id, uint8\+\_\+t \texorpdfstring{$\ast$}{*}config\+\_\+to\+\_\+send)
+\item 
+void \mbox{\hyperlink{class_controller_data_aa5379adfd775e094bc3408f250a2d8a0}{reconfigure}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}config\+\_\+to\+\_\+send)
+\begin{DoxyCompactList}\small\item\em reconfigures the the controller data if the configuration changes after constructor called. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{class_controller_data_a96be800b0e886ccb254f56cae30d1989}{get\+\_\+parameter\+\_\+length}} ()
+\begin{DoxyCompactList}\small\item\em Get the parameter length for the current controller. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{class_controller_data_a1133871874467ea57c7dbd49292a190e}{controller}}
+\item 
+\mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72d}{config\+\_\+defs\+::\+Joint\+Type}} \mbox{\hyperlink{class_controller_data_a8418df0f63e05fff2106d1fc21889d46}{joint}}
+\item 
+float \mbox{\hyperlink{class_controller_data_a078ac176b7dc2de497d80ad6d2b17d8e}{setpoint}}
+\item 
+float \mbox{\hyperlink{class_controller_data_a801807b602e60437c2baf597d7347fce}{ff\+\_\+setpoint}}
+\item 
+float \mbox{\hyperlink{class_controller_data_ab54a3884cc99b67100ce4d1114e76b93}{parameters}} \mbox{[}\mbox{\hyperlink{namespacecontroller__defs_aee311835f95c470c5549c1d25498d96f}{controller\+\_\+defs\+::max\+\_\+parameters}}\mbox{]}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{class_controller_data_a110d86939aa92159bc9cc803ebf4e4a6}{parameter\+\_\+set}}
+\item 
+float \mbox{\hyperlink{class_controller_data_ab8c14a39ecef1caf87d0dfe3caeb0c50}{filtered\+\_\+torque\+\_\+reading}}
+\item 
+float \mbox{\hyperlink{class_controller_data_adfe0ba3ca168d3996208b8cab9f5f11b}{filtered\+\_\+cmd}}
+\item 
+float \mbox{\hyperlink{class_controller_data_ae23013819e152dd61e1af9f261eed86f}{filtered\+\_\+setpoint}} = 0
+\item 
+float \mbox{\hyperlink{class_controller_data_a3695a3ae970d352ff907eff05f9d6214}{kf}} = 1
+\item 
+float \mbox{\hyperlink{class_controller_data_a93b97d03acfa2530ffbdc03ea8273bac}{prev\+\_\+max\+\_\+measured}} = 0
+\item 
+float \mbox{\hyperlink{class_controller_data_ab9d7cb1d304ffd6406e93d523ba70f49}{prev\+\_\+max\+\_\+setpoint}} = 0
+\item 
+float \mbox{\hyperlink{class_controller_data_a40f878dfc58214448287756e0c932049}{max\+\_\+measured}} = 0
+\item 
+float \mbox{\hyperlink{class_controller_data_a903a4d463e5375e9e93f1915b8d7aead}{max\+\_\+setpoint}} = 0
+\item 
+float \mbox{\hyperlink{class_controller_data_a4b24736db974f9c5d7d72337d7e72c86}{reference\+\_\+angle}} = 0
+\item 
+float \mbox{\hyperlink{class_controller_data_ab805bf4284c32205255d36bf8efc20b9}{reference\+\_\+angle\+\_\+offset}} = 0
+\item 
+bool \mbox{\hyperlink{class_controller_data_a0c7eaf3a6a5ad6972d36562d24972453}{reference\+\_\+angle\+\_\+updated}} = false
+\item 
+float \mbox{\hyperlink{class_controller_data_aa226f709906865002e163a0eb027aa34}{filtered\+\_\+squelched\+\_\+supportive\+\_\+term}} = 0
+\item 
+float \mbox{\hyperlink{class_controller_data_a467a144248072467ccade09379e5d214}{neutral\+\_\+angle}} = 0.\+0f
+\item 
+bool \mbox{\hyperlink{class_controller_data_aa3a3085726c9ffdaaf47f40554defdb7}{prev\+\_\+calibrate\+\_\+trq\+\_\+sensor}} = false
+\item 
+const float \mbox{\hyperlink{class_controller_data_ac774a864c0d536eb6c127995cc60c677}{cal\+\_\+neutral\+\_\+angle\+\_\+alpha}} = 0.\+01f
+\item 
+float \mbox{\hyperlink{class_controller_data_a0a6892b6398f9142c7db5221a63699e1}{level\+\_\+entrance\+\_\+angle}} = 0.\+0f
+\item 
+float \mbox{\hyperlink{class_controller_data_a4ad52155058ce856bfffc10821de81d5}{prev\+\_\+calibrate\+\_\+level\+\_\+entrance}} = false
+\item 
+const float \mbox{\hyperlink{class_controller_data_a88b45cdecaea083df3029fc7a7659f8d}{cal\+\_\+level\+\_\+entrance\+\_\+angle\+\_\+alpha}} = 0.\+01f
+\item 
+float \mbox{\hyperlink{class_controller_data_a8246b1b2ebf44d1d949125d04c0e1374}{fsr\+\_\+toe\+\_\+min\+\_\+elbow}} = 0
+\item 
+float \mbox{\hyperlink{class_controller_data_a824bbfb3e803d12107d29ae62f96f8d8}{fsr\+\_\+toe\+\_\+max\+\_\+elbow}} = 0
+\item 
+float \mbox{\hyperlink{class_controller_data_ab2c3f0cdd6aef70b6a2deefbed327248}{fsr\+\_\+heel\+\_\+min\+\_\+elbow}} = 0
+\item 
+float \mbox{\hyperlink{class_controller_data_a16268e7aff43c0f85e8593d639cad546}{fsr\+\_\+heel\+\_\+max\+\_\+elbow}} = 0
+\item 
+float \mbox{\hyperlink{class_controller_data_a828c91016625a66e857b0cb57c262f4f}{fsr\+\_\+toe\+\_\+sum\+\_\+elbow}} = 0
+\item 
+float \mbox{\hyperlink{class_controller_data_a36e7e004dd9d9a8082e401825d3946dd}{fsr\+\_\+heel\+\_\+sum\+\_\+elbow}} = 0
+\item 
+int \mbox{\hyperlink{class_controller_data_a1d5efea0663cb09e48e67be948181c0c}{i\+\_\+elbow}} = 0
+\item 
+int \mbox{\hyperlink{class_controller_data_a0b26b175261da033b74bfd5edd710193}{fsr\+\_\+toe\+\_\+array\+\_\+elbow}} \mbox{[}50\mbox{]} = \{0\}
+\item 
+int \mbox{\hyperlink{class_controller_data_a85551a1847eca7a1455a20bc059b4c93}{fsr\+\_\+heel\+\_\+array\+\_\+elbow}} \mbox{[}50\mbox{]} = \{0\}
+\item 
+bool \mbox{\hyperlink{class_controller_data_aa3050d7b85ba24ad7d60d2fa1a4e8708}{is\+\_\+first\+\_\+run\+\_\+elbow}} = true
+\item 
+float \mbox{\hyperlink{class_controller_data_ab9abd53114278fa1832a115a5638350f}{output\+\_\+limit\+\_\+elbow}} = 5
+\item 
+float \mbox{\hyperlink{class_controller_data_ae1849fe580724bfb6e8a8144f9294c9c}{fsr\+\_\+min\+\_\+max\+\_\+elbow}} = 0
+\item 
+bool \mbox{\hyperlink{class_controller_data_a2c5cc1aea47ac96a714fcb83929421e4}{is\+\_\+first\+\_\+fsr\+\_\+reading\+\_\+elbow}} = true
+\item 
+float \mbox{\hyperlink{class_controller_data_a03e92765b89c3177070b361cdb53d3cc}{fsr\+\_\+toe\+\_\+previous\+\_\+elbow}} = 0
+\item 
+float \mbox{\hyperlink{class_controller_data_a350d71b3b38615b13e23932c73b03ca1}{fsr\+\_\+heel\+\_\+previous\+\_\+elbow}} = 0
+\item 
+float \mbox{\hyperlink{class_controller_data_afcadb0c9be5846c42b61e7e8401a6601}{elbow\+\_\+cmd}} = 0
+\item 
+bool \mbox{\hyperlink{class_controller_data_aa2b9c9720ce82d9064ed27945d87d676}{is\+Perturbing}} = false
+\item 
+bool \mbox{\hyperlink{class_controller_data_a1b7fdb86cb22e444ccc3bc8593bfd725}{ptb\+Determined}} = false
+\item 
+float \mbox{\hyperlink{class_controller_data_a16c89696f94bb098ab3041ae958554f9}{time\+\_\+current\+\_\+ptb}} = 0
+\item 
+float \mbox{\hyperlink{class_controller_data_a441ce0f57dd89c0de323b3d1b48f2b22}{time\+\_\+previous\+\_\+ptb}} = 0
+\item 
+bool \mbox{\hyperlink{class_controller_data_ac207c03a33023316957b19f0b0bb789b}{ptb\+Applied}} = false
+\item 
+bool \mbox{\hyperlink{class_controller_data_a5a0c4258808a1c87925cf45454f5f0c0}{ptb\+Random\+Is\+First\+Run}} = true
+\item 
+uint16\+\_\+t \mbox{\hyperlink{class_controller_data_a325571abc1bf9a5c9f4504b926b06ade}{ptb\+\_\+i\+Step}} = 0
+\item 
+bool \mbox{\hyperlink{class_controller_data_ab821e4bd0cea60446a8bec4bd9de3be7}{ptb\+\_\+new\+Is\+Swing}} = true
+\item 
+bool \mbox{\hyperlink{class_controller_data_aea9ed1ce6efcaefb2de032de9e980189}{ptb\+\_\+old\+Is\+Swing}} = true
+\item 
+uint8\+\_\+t \mbox{\hyperlink{class_controller_data_ac696b3068e4d00425242146bac490d53}{ptb\+\_\+frequency}} = 0
+\item 
+uint16\+\_\+t \mbox{\hyperlink{class_controller_data_ad9186eceab764d4a0825be4fdbaea1bc}{ptb\+\_\+ii\+Step}} = 0
+\item 
+uint16\+\_\+t \mbox{\hyperlink{class_controller_data_a75fa59e4d9b89e728cf0f1563d63b20d}{ptb\+\_\+setpoint}} = 0
+\item 
+bool \mbox{\hyperlink{class_controller_data_aa2d4b199f66787b500198625ac8fe924}{ptb\+\_\+fsr\+Got\+High}} = false
+\item 
+bool \mbox{\hyperlink{class_controller_data_a623a99930fddeb94070d6f8d3b1b9855}{calibr\+Complete}} = false
+\item 
+uint16\+\_\+t \mbox{\hyperlink{class_controller_data_a3021acf90593343a3816aa588a47f33a}{i\+Calibr}} = 0
+\item 
+int \mbox{\hyperlink{class_controller_data_aba7959e6cb5f97539b71de8f398b0247}{PIDMLTPLR}} = 0
+\item 
+bool \mbox{\hyperlink{class_controller_data_abe59df339030bbf63d970de31d02066d}{calibr\+Start}} = false
+\item 
+float \mbox{\hyperlink{class_controller_data_ac8e8272288a1915af8f2c6f4ac7755ed}{calibr\+Sum}} = 0
+\item 
+float \mbox{\hyperlink{class_controller_data_a976c8dd7fbdeb7401f351d8fc9e0cad4}{previous\+\_\+cmd}} = 0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+class to store information related to controllers. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_controller_data_a46bc8720de62492b4eca9281535f40f1}\label{class_controller_data_a46bc8720de62492b4eca9281535f40f1} 
+\index{ControllerData@{ControllerData}!ControllerData@{ControllerData}}
+\index{ControllerData@{ControllerData}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{ControllerData()}{ControllerData()}}
+{\footnotesize\ttfamily Controller\+Data\+::\+Controller\+Data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}}}]{id,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{config\+\_\+to\+\_\+send }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_controller_data_a96be800b0e886ccb254f56cae30d1989}\label{class_controller_data_a96be800b0e886ccb254f56cae30d1989} 
+\index{ControllerData@{ControllerData}!get\_parameter\_length@{get\_parameter\_length}}
+\index{get\_parameter\_length@{get\_parameter\_length}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{get\_parameter\_length()}{get\_parameter\_length()}}
+{\footnotesize\ttfamily uint8\+\_\+t Controller\+Data\+::get\+\_\+parameter\+\_\+length (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the parameter length for the current controller. 
+
+\begin{DoxyReturn}{Returns}
+uint8\+\_\+t parameter length 
+\end{DoxyReturn}
+\Hypertarget{class_controller_data_aa5379adfd775e094bc3408f250a2d8a0}\label{class_controller_data_aa5379adfd775e094bc3408f250a2d8a0} 
+\index{ControllerData@{ControllerData}!reconfigure@{reconfigure}}
+\index{reconfigure@{reconfigure}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{reconfigure()}{reconfigure()}}
+{\footnotesize\ttfamily void Controller\+Data\+::reconfigure (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{config\+\_\+to\+\_\+send }\end{DoxyParamCaption})}
+
+
+
+reconfigures the the controller data if the configuration changes after constructor called. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em configuration} & array \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_controller_data_a88b45cdecaea083df3029fc7a7659f8d}\label{class_controller_data_a88b45cdecaea083df3029fc7a7659f8d} 
+\index{ControllerData@{ControllerData}!cal\_level\_entrance\_angle\_alpha@{cal\_level\_entrance\_angle\_alpha}}
+\index{cal\_level\_entrance\_angle\_alpha@{cal\_level\_entrance\_angle\_alpha}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{cal\_level\_entrance\_angle\_alpha}{cal\_level\_entrance\_angle\_alpha}}
+{\footnotesize\ttfamily const float Controller\+Data\+::cal\+\_\+level\+\_\+entrance\+\_\+angle\+\_\+alpha = 0.\+01f}
+
+alpha for the low pass on the level entrance calibration \Hypertarget{class_controller_data_ac774a864c0d536eb6c127995cc60c677}\label{class_controller_data_ac774a864c0d536eb6c127995cc60c677} 
+\index{ControllerData@{ControllerData}!cal\_neutral\_angle\_alpha@{cal\_neutral\_angle\_alpha}}
+\index{cal\_neutral\_angle\_alpha@{cal\_neutral\_angle\_alpha}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{cal\_neutral\_angle\_alpha}{cal\_neutral\_angle\_alpha}}
+{\footnotesize\ttfamily const float Controller\+Data\+::cal\+\_\+neutral\+\_\+angle\+\_\+alpha = 0.\+01f}
+
+alpha for the low pass on the neutral angle calibration \Hypertarget{class_controller_data_a623a99930fddeb94070d6f8d3b1b9855}\label{class_controller_data_a623a99930fddeb94070d6f8d3b1b9855} 
+\index{ControllerData@{ControllerData}!calibrComplete@{calibrComplete}}
+\index{calibrComplete@{calibrComplete}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{calibrComplete}{calibrComplete}}
+{\footnotesize\ttfamily bool Controller\+Data\+::calibr\+Complete = false}
+
+\Hypertarget{class_controller_data_abe59df339030bbf63d970de31d02066d}\label{class_controller_data_abe59df339030bbf63d970de31d02066d} 
+\index{ControllerData@{ControllerData}!calibrStart@{calibrStart}}
+\index{calibrStart@{calibrStart}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{calibrStart}{calibrStart}}
+{\footnotesize\ttfamily bool Controller\+Data\+::calibr\+Start = false}
+
+\Hypertarget{class_controller_data_ac8e8272288a1915af8f2c6f4ac7755ed}\label{class_controller_data_ac8e8272288a1915af8f2c6f4ac7755ed} 
+\index{ControllerData@{ControllerData}!calibrSum@{calibrSum}}
+\index{calibrSum@{calibrSum}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{calibrSum}{calibrSum}}
+{\footnotesize\ttfamily float Controller\+Data\+::calibr\+Sum = 0}
+
+\Hypertarget{class_controller_data_a1133871874467ea57c7dbd49292a190e}\label{class_controller_data_a1133871874467ea57c7dbd49292a190e} 
+\index{ControllerData@{ControllerData}!controller@{controller}}
+\index{controller@{controller}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{controller}{controller}}
+{\footnotesize\ttfamily uint8\+\_\+t Controller\+Data\+::controller}
+
+id of the current controller \Hypertarget{class_controller_data_afcadb0c9be5846c42b61e7e8401a6601}\label{class_controller_data_afcadb0c9be5846c42b61e7e8401a6601} 
+\index{ControllerData@{ControllerData}!elbow\_cmd@{elbow\_cmd}}
+\index{elbow\_cmd@{elbow\_cmd}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{elbow\_cmd}{elbow\_cmd}}
+{\footnotesize\ttfamily float Controller\+Data\+::elbow\+\_\+cmd = 0}
+
+\Hypertarget{class_controller_data_a801807b602e60437c2baf597d7347fce}\label{class_controller_data_a801807b602e60437c2baf597d7347fce} 
+\index{ControllerData@{ControllerData}!ff\_setpoint@{ff\_setpoint}}
+\index{ff\_setpoint@{ff\_setpoint}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{ff\_setpoint}{ff\_setpoint}}
+{\footnotesize\ttfamily float Controller\+Data\+::ff\+\_\+setpoint}
+
+feed forwared setpoint, only updated in closed loop controllers \Hypertarget{class_controller_data_adfe0ba3ca168d3996208b8cab9f5f11b}\label{class_controller_data_adfe0ba3ca168d3996208b8cab9f5f11b} 
+\index{ControllerData@{ControllerData}!filtered\_cmd@{filtered\_cmd}}
+\index{filtered\_cmd@{filtered\_cmd}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{filtered\_cmd}{filtered\_cmd}}
+{\footnotesize\ttfamily float Controller\+Data\+::filtered\+\_\+cmd}
+
+filtered command, used for filtering motor commands \Hypertarget{class_controller_data_ae23013819e152dd61e1af9f261eed86f}\label{class_controller_data_ae23013819e152dd61e1af9f261eed86f} 
+\index{ControllerData@{ControllerData}!filtered\_setpoint@{filtered\_setpoint}}
+\index{filtered\_setpoint@{filtered\_setpoint}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{filtered\_setpoint}{filtered\_setpoint}}
+{\footnotesize\ttfamily float Controller\+Data\+::filtered\+\_\+setpoint = 0}
+
+filtered setpoint for the controller \Hypertarget{class_controller_data_aa226f709906865002e163a0eb027aa34}\label{class_controller_data_aa226f709906865002e163a0eb027aa34} 
+\index{ControllerData@{ControllerData}!filtered\_squelched\_supportive\_term@{filtered\_squelched\_supportive\_term}}
+\index{filtered\_squelched\_supportive\_term@{filtered\_squelched\_supportive\_term}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{filtered\_squelched\_supportive\_term}{filtered\_squelched\_supportive\_term}}
+{\footnotesize\ttfamily float Controller\+Data\+::filtered\+\_\+squelched\+\_\+supportive\+\_\+term = 0}
+
+low pass on final spring output \Hypertarget{class_controller_data_ab8c14a39ecef1caf87d0dfe3caeb0c50}\label{class_controller_data_ab8c14a39ecef1caf87d0dfe3caeb0c50} 
+\index{ControllerData@{ControllerData}!filtered\_torque\_reading@{filtered\_torque\_reading}}
+\index{filtered\_torque\_reading@{filtered\_torque\_reading}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{filtered\_torque\_reading}{filtered\_torque\_reading}}
+{\footnotesize\ttfamily float Controller\+Data\+::filtered\+\_\+torque\+\_\+reading}
+
+filtered torque reading, used for filtering torque signal \Hypertarget{class_controller_data_a85551a1847eca7a1455a20bc059b4c93}\label{class_controller_data_a85551a1847eca7a1455a20bc059b4c93} 
+\index{ControllerData@{ControllerData}!fsr\_heel\_array\_elbow@{fsr\_heel\_array\_elbow}}
+\index{fsr\_heel\_array\_elbow@{fsr\_heel\_array\_elbow}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{fsr\_heel\_array\_elbow}{fsr\_heel\_array\_elbow}}
+{\footnotesize\ttfamily int Controller\+Data\+::fsr\+\_\+heel\+\_\+array\+\_\+elbow\mbox{[}50\mbox{]} = \{0\}}
+
+\Hypertarget{class_controller_data_a16268e7aff43c0f85e8593d639cad546}\label{class_controller_data_a16268e7aff43c0f85e8593d639cad546} 
+\index{ControllerData@{ControllerData}!fsr\_heel\_max\_elbow@{fsr\_heel\_max\_elbow}}
+\index{fsr\_heel\_max\_elbow@{fsr\_heel\_max\_elbow}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{fsr\_heel\_max\_elbow}{fsr\_heel\_max\_elbow}}
+{\footnotesize\ttfamily float Controller\+Data\+::fsr\+\_\+heel\+\_\+max\+\_\+elbow = 0}
+
+\Hypertarget{class_controller_data_ab2c3f0cdd6aef70b6a2deefbed327248}\label{class_controller_data_ab2c3f0cdd6aef70b6a2deefbed327248} 
+\index{ControllerData@{ControllerData}!fsr\_heel\_min\_elbow@{fsr\_heel\_min\_elbow}}
+\index{fsr\_heel\_min\_elbow@{fsr\_heel\_min\_elbow}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{fsr\_heel\_min\_elbow}{fsr\_heel\_min\_elbow}}
+{\footnotesize\ttfamily float Controller\+Data\+::fsr\+\_\+heel\+\_\+min\+\_\+elbow = 0}
+
+\Hypertarget{class_controller_data_a350d71b3b38615b13e23932c73b03ca1}\label{class_controller_data_a350d71b3b38615b13e23932c73b03ca1} 
+\index{ControllerData@{ControllerData}!fsr\_heel\_previous\_elbow@{fsr\_heel\_previous\_elbow}}
+\index{fsr\_heel\_previous\_elbow@{fsr\_heel\_previous\_elbow}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{fsr\_heel\_previous\_elbow}{fsr\_heel\_previous\_elbow}}
+{\footnotesize\ttfamily float Controller\+Data\+::fsr\+\_\+heel\+\_\+previous\+\_\+elbow = 0}
+
+\Hypertarget{class_controller_data_a36e7e004dd9d9a8082e401825d3946dd}\label{class_controller_data_a36e7e004dd9d9a8082e401825d3946dd} 
+\index{ControllerData@{ControllerData}!fsr\_heel\_sum\_elbow@{fsr\_heel\_sum\_elbow}}
+\index{fsr\_heel\_sum\_elbow@{fsr\_heel\_sum\_elbow}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{fsr\_heel\_sum\_elbow}{fsr\_heel\_sum\_elbow}}
+{\footnotesize\ttfamily float Controller\+Data\+::fsr\+\_\+heel\+\_\+sum\+\_\+elbow = 0}
+
+\Hypertarget{class_controller_data_ae1849fe580724bfb6e8a8144f9294c9c}\label{class_controller_data_ae1849fe580724bfb6e8a8144f9294c9c} 
+\index{ControllerData@{ControllerData}!fsr\_min\_max\_elbow@{fsr\_min\_max\_elbow}}
+\index{fsr\_min\_max\_elbow@{fsr\_min\_max\_elbow}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{fsr\_min\_max\_elbow}{fsr\_min\_max\_elbow}}
+{\footnotesize\ttfamily float Controller\+Data\+::fsr\+\_\+min\+\_\+max\+\_\+elbow = 0}
+
+\Hypertarget{class_controller_data_a0b26b175261da033b74bfd5edd710193}\label{class_controller_data_a0b26b175261da033b74bfd5edd710193} 
+\index{ControllerData@{ControllerData}!fsr\_toe\_array\_elbow@{fsr\_toe\_array\_elbow}}
+\index{fsr\_toe\_array\_elbow@{fsr\_toe\_array\_elbow}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{fsr\_toe\_array\_elbow}{fsr\_toe\_array\_elbow}}
+{\footnotesize\ttfamily int Controller\+Data\+::fsr\+\_\+toe\+\_\+array\+\_\+elbow\mbox{[}50\mbox{]} = \{0\}}
+
+\Hypertarget{class_controller_data_a824bbfb3e803d12107d29ae62f96f8d8}\label{class_controller_data_a824bbfb3e803d12107d29ae62f96f8d8} 
+\index{ControllerData@{ControllerData}!fsr\_toe\_max\_elbow@{fsr\_toe\_max\_elbow}}
+\index{fsr\_toe\_max\_elbow@{fsr\_toe\_max\_elbow}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{fsr\_toe\_max\_elbow}{fsr\_toe\_max\_elbow}}
+{\footnotesize\ttfamily float Controller\+Data\+::fsr\+\_\+toe\+\_\+max\+\_\+elbow = 0}
+
+\Hypertarget{class_controller_data_a8246b1b2ebf44d1d949125d04c0e1374}\label{class_controller_data_a8246b1b2ebf44d1d949125d04c0e1374} 
+\index{ControllerData@{ControllerData}!fsr\_toe\_min\_elbow@{fsr\_toe\_min\_elbow}}
+\index{fsr\_toe\_min\_elbow@{fsr\_toe\_min\_elbow}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{fsr\_toe\_min\_elbow}{fsr\_toe\_min\_elbow}}
+{\footnotesize\ttfamily float Controller\+Data\+::fsr\+\_\+toe\+\_\+min\+\_\+elbow = 0}
+
+\Hypertarget{class_controller_data_a03e92765b89c3177070b361cdb53d3cc}\label{class_controller_data_a03e92765b89c3177070b361cdb53d3cc} 
+\index{ControllerData@{ControllerData}!fsr\_toe\_previous\_elbow@{fsr\_toe\_previous\_elbow}}
+\index{fsr\_toe\_previous\_elbow@{fsr\_toe\_previous\_elbow}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{fsr\_toe\_previous\_elbow}{fsr\_toe\_previous\_elbow}}
+{\footnotesize\ttfamily float Controller\+Data\+::fsr\+\_\+toe\+\_\+previous\+\_\+elbow = 0}
+
+\Hypertarget{class_controller_data_a828c91016625a66e857b0cb57c262f4f}\label{class_controller_data_a828c91016625a66e857b0cb57c262f4f} 
+\index{ControllerData@{ControllerData}!fsr\_toe\_sum\_elbow@{fsr\_toe\_sum\_elbow}}
+\index{fsr\_toe\_sum\_elbow@{fsr\_toe\_sum\_elbow}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{fsr\_toe\_sum\_elbow}{fsr\_toe\_sum\_elbow}}
+{\footnotesize\ttfamily float Controller\+Data\+::fsr\+\_\+toe\+\_\+sum\+\_\+elbow = 0}
+
+\Hypertarget{class_controller_data_a1d5efea0663cb09e48e67be948181c0c}\label{class_controller_data_a1d5efea0663cb09e48e67be948181c0c} 
+\index{ControllerData@{ControllerData}!i\_elbow@{i\_elbow}}
+\index{i\_elbow@{i\_elbow}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{i\_elbow}{i\_elbow}}
+{\footnotesize\ttfamily int Controller\+Data\+::i\+\_\+elbow = 0}
+
+\Hypertarget{class_controller_data_a3021acf90593343a3816aa588a47f33a}\label{class_controller_data_a3021acf90593343a3816aa588a47f33a} 
+\index{ControllerData@{ControllerData}!iCalibr@{iCalibr}}
+\index{iCalibr@{iCalibr}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{iCalibr}{iCalibr}}
+{\footnotesize\ttfamily uint16\+\_\+t Controller\+Data\+::i\+Calibr = 0}
+
+\Hypertarget{class_controller_data_a2c5cc1aea47ac96a714fcb83929421e4}\label{class_controller_data_a2c5cc1aea47ac96a714fcb83929421e4} 
+\index{ControllerData@{ControllerData}!is\_first\_fsr\_reading\_elbow@{is\_first\_fsr\_reading\_elbow}}
+\index{is\_first\_fsr\_reading\_elbow@{is\_first\_fsr\_reading\_elbow}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{is\_first\_fsr\_reading\_elbow}{is\_first\_fsr\_reading\_elbow}}
+{\footnotesize\ttfamily bool Controller\+Data\+::is\+\_\+first\+\_\+fsr\+\_\+reading\+\_\+elbow = true}
+
+\Hypertarget{class_controller_data_aa3050d7b85ba24ad7d60d2fa1a4e8708}\label{class_controller_data_aa3050d7b85ba24ad7d60d2fa1a4e8708} 
+\index{ControllerData@{ControllerData}!is\_first\_run\_elbow@{is\_first\_run\_elbow}}
+\index{is\_first\_run\_elbow@{is\_first\_run\_elbow}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{is\_first\_run\_elbow}{is\_first\_run\_elbow}}
+{\footnotesize\ttfamily bool Controller\+Data\+::is\+\_\+first\+\_\+run\+\_\+elbow = true}
+
+\Hypertarget{class_controller_data_aa2b9c9720ce82d9064ed27945d87d676}\label{class_controller_data_aa2b9c9720ce82d9064ed27945d87d676} 
+\index{ControllerData@{ControllerData}!isPerturbing@{isPerturbing}}
+\index{isPerturbing@{isPerturbing}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{isPerturbing}{isPerturbing}}
+{\footnotesize\ttfamily bool Controller\+Data\+::is\+Perturbing = false}
+
+\Hypertarget{class_controller_data_a8418df0f63e05fff2106d1fc21889d46}\label{class_controller_data_a8418df0f63e05fff2106d1fc21889d46} 
+\index{ControllerData@{ControllerData}!joint@{joint}}
+\index{joint@{joint}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{joint}{joint}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72d}{config\+\_\+defs\+::\+Joint\+Type}} Controller\+Data\+::joint}
+
+id of the current joint \Hypertarget{class_controller_data_a3695a3ae970d352ff907eff05f9d6214}\label{class_controller_data_a3695a3ae970d352ff907eff05f9d6214} 
+\index{ControllerData@{ControllerData}!kf@{kf}}
+\index{kf@{kf}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{kf}{kf}}
+{\footnotesize\ttfamily float Controller\+Data\+::kf = 1}
+
+gain for the controller \Hypertarget{class_controller_data_a0a6892b6398f9142c7db5221a63699e1}\label{class_controller_data_a0a6892b6398f9142c7db5221a63699e1} 
+\index{ControllerData@{ControllerData}!level\_entrance\_angle@{level\_entrance\_angle}}
+\index{level\_entrance\_angle@{level\_entrance\_angle}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{level\_entrance\_angle}{level\_entrance\_angle}}
+{\footnotesize\ttfamily float Controller\+Data\+::level\+\_\+entrance\+\_\+angle = 0.\+0f}
+
+level entrance angle for the spring term \Hypertarget{class_controller_data_a40f878dfc58214448287756e0c932049}\label{class_controller_data_a40f878dfc58214448287756e0c932049} 
+\index{ControllerData@{ControllerData}!max\_measured@{max\_measured}}
+\index{max\_measured@{max\_measured}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{max\_measured}{max\_measured}}
+{\footnotesize\ttfamily float Controller\+Data\+::max\+\_\+measured = 0}
+
+max measured value \Hypertarget{class_controller_data_a903a4d463e5375e9e93f1915b8d7aead}\label{class_controller_data_a903a4d463e5375e9e93f1915b8d7aead} 
+\index{ControllerData@{ControllerData}!max\_setpoint@{max\_setpoint}}
+\index{max\_setpoint@{max\_setpoint}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{max\_setpoint}{max\_setpoint}}
+{\footnotesize\ttfamily float Controller\+Data\+::max\+\_\+setpoint = 0}
+
+max setpoint value \Hypertarget{class_controller_data_a467a144248072467ccade09379e5d214}\label{class_controller_data_a467a144248072467ccade09379e5d214} 
+\index{ControllerData@{ControllerData}!neutral\_angle@{neutral\_angle}}
+\index{neutral\_angle@{neutral\_angle}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{neutral\_angle}{neutral\_angle}}
+{\footnotesize\ttfamily float Controller\+Data\+::neutral\+\_\+angle = 0.\+0f}
+
+neutral angle for the spring term \Hypertarget{class_controller_data_ab9abd53114278fa1832a115a5638350f}\label{class_controller_data_ab9abd53114278fa1832a115a5638350f} 
+\index{ControllerData@{ControllerData}!output\_limit\_elbow@{output\_limit\_elbow}}
+\index{output\_limit\_elbow@{output\_limit\_elbow}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{output\_limit\_elbow}{output\_limit\_elbow}}
+{\footnotesize\ttfamily float Controller\+Data\+::output\+\_\+limit\+\_\+elbow = 5}
+
+\Hypertarget{class_controller_data_a110d86939aa92159bc9cc803ebf4e4a6}\label{class_controller_data_a110d86939aa92159bc9cc803ebf4e4a6} 
+\index{ControllerData@{ControllerData}!parameter\_set@{parameter\_set}}
+\index{parameter\_set@{parameter\_set}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{parameter\_set}{parameter\_set}}
+{\footnotesize\ttfamily uint8\+\_\+t Controller\+Data\+::parameter\+\_\+set}
+
+temporary value used to store the parameter set while we are pulling from the sd card. \Hypertarget{class_controller_data_ab54a3884cc99b67100ce4d1114e76b93}\label{class_controller_data_ab54a3884cc99b67100ce4d1114e76b93} 
+\index{ControllerData@{ControllerData}!parameters@{parameters}}
+\index{parameters@{parameters}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{parameters}{parameters}}
+{\footnotesize\ttfamily float Controller\+Data\+::parameters\mbox{[}\mbox{\hyperlink{namespacecontroller__defs_aee311835f95c470c5549c1d25498d96f}{controller\+\_\+defs\+::max\+\_\+parameters}}\mbox{]}}
+
+Parameter list for the controller see the \doxylink{namespacecontroller__defs}{controller\+\_\+defs} namespace for the specific controller. \Hypertarget{class_controller_data_aba7959e6cb5f97539b71de8f398b0247}\label{class_controller_data_aba7959e6cb5f97539b71de8f398b0247} 
+\index{ControllerData@{ControllerData}!PIDMLTPLR@{PIDMLTPLR}}
+\index{PIDMLTPLR@{PIDMLTPLR}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{PIDMLTPLR}{PIDMLTPLR}}
+{\footnotesize\ttfamily int Controller\+Data\+::\+PIDMLTPLR = 0}
+
+\Hypertarget{class_controller_data_a4ad52155058ce856bfffc10821de81d5}\label{class_controller_data_a4ad52155058ce856bfffc10821de81d5} 
+\index{ControllerData@{ControllerData}!prev\_calibrate\_level\_entrance@{prev\_calibrate\_level\_entrance}}
+\index{prev\_calibrate\_level\_entrance@{prev\_calibrate\_level\_entrance}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{prev\_calibrate\_level\_entrance}{prev\_calibrate\_level\_entrance}}
+{\footnotesize\ttfamily float Controller\+Data\+::prev\+\_\+calibrate\+\_\+level\+\_\+entrance = false}
+
+previous value of the calibrate level entrance flag \Hypertarget{class_controller_data_aa3a3085726c9ffdaaf47f40554defdb7}\label{class_controller_data_aa3a3085726c9ffdaaf47f40554defdb7} 
+\index{ControllerData@{ControllerData}!prev\_calibrate\_trq\_sensor@{prev\_calibrate\_trq\_sensor}}
+\index{prev\_calibrate\_trq\_sensor@{prev\_calibrate\_trq\_sensor}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{prev\_calibrate\_trq\_sensor}{prev\_calibrate\_trq\_sensor}}
+{\footnotesize\ttfamily bool Controller\+Data\+::prev\+\_\+calibrate\+\_\+trq\+\_\+sensor = false}
+
+previous value of the calibrate torque sensor flag \Hypertarget{class_controller_data_a93b97d03acfa2530ffbdc03ea8273bac}\label{class_controller_data_a93b97d03acfa2530ffbdc03ea8273bac} 
+\index{ControllerData@{ControllerData}!prev\_max\_measured@{prev\_max\_measured}}
+\index{prev\_max\_measured@{prev\_max\_measured}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{prev\_max\_measured}{prev\_max\_measured}}
+{\footnotesize\ttfamily float Controller\+Data\+::prev\+\_\+max\+\_\+measured = 0}
+
+previous max measured value \Hypertarget{class_controller_data_ab9d7cb1d304ffd6406e93d523ba70f49}\label{class_controller_data_ab9d7cb1d304ffd6406e93d523ba70f49} 
+\index{ControllerData@{ControllerData}!prev\_max\_setpoint@{prev\_max\_setpoint}}
+\index{prev\_max\_setpoint@{prev\_max\_setpoint}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{prev\_max\_setpoint}{prev\_max\_setpoint}}
+{\footnotesize\ttfamily float Controller\+Data\+::prev\+\_\+max\+\_\+setpoint = 0}
+
+previous max setpoint value \Hypertarget{class_controller_data_a976c8dd7fbdeb7401f351d8fc9e0cad4}\label{class_controller_data_a976c8dd7fbdeb7401f351d8fc9e0cad4} 
+\index{ControllerData@{ControllerData}!previous\_cmd@{previous\_cmd}}
+\index{previous\_cmd@{previous\_cmd}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{previous\_cmd}{previous\_cmd}}
+{\footnotesize\ttfamily float Controller\+Data\+::previous\+\_\+cmd = 0}
+
+\Hypertarget{class_controller_data_ac696b3068e4d00425242146bac490d53}\label{class_controller_data_ac696b3068e4d00425242146bac490d53} 
+\index{ControllerData@{ControllerData}!ptb\_frequency@{ptb\_frequency}}
+\index{ptb\_frequency@{ptb\_frequency}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{ptb\_frequency}{ptb\_frequency}}
+{\footnotesize\ttfamily uint8\+\_\+t Controller\+Data\+::ptb\+\_\+frequency = 0}
+
+\Hypertarget{class_controller_data_aa2d4b199f66787b500198625ac8fe924}\label{class_controller_data_aa2d4b199f66787b500198625ac8fe924} 
+\index{ControllerData@{ControllerData}!ptb\_fsrGotHigh@{ptb\_fsrGotHigh}}
+\index{ptb\_fsrGotHigh@{ptb\_fsrGotHigh}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{ptb\_fsrGotHigh}{ptb\_fsrGotHigh}}
+{\footnotesize\ttfamily bool Controller\+Data\+::ptb\+\_\+fsr\+Got\+High = false}
+
+\Hypertarget{class_controller_data_ad9186eceab764d4a0825be4fdbaea1bc}\label{class_controller_data_ad9186eceab764d4a0825be4fdbaea1bc} 
+\index{ControllerData@{ControllerData}!ptb\_iiStep@{ptb\_iiStep}}
+\index{ptb\_iiStep@{ptb\_iiStep}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{ptb\_iiStep}{ptb\_iiStep}}
+{\footnotesize\ttfamily uint16\+\_\+t Controller\+Data\+::ptb\+\_\+ii\+Step = 0}
+
+\Hypertarget{class_controller_data_a325571abc1bf9a5c9f4504b926b06ade}\label{class_controller_data_a325571abc1bf9a5c9f4504b926b06ade} 
+\index{ControllerData@{ControllerData}!ptb\_iStep@{ptb\_iStep}}
+\index{ptb\_iStep@{ptb\_iStep}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{ptb\_iStep}{ptb\_iStep}}
+{\footnotesize\ttfamily uint16\+\_\+t Controller\+Data\+::ptb\+\_\+i\+Step = 0}
+
+\Hypertarget{class_controller_data_ab821e4bd0cea60446a8bec4bd9de3be7}\label{class_controller_data_ab821e4bd0cea60446a8bec4bd9de3be7} 
+\index{ControllerData@{ControllerData}!ptb\_newIsSwing@{ptb\_newIsSwing}}
+\index{ptb\_newIsSwing@{ptb\_newIsSwing}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{ptb\_newIsSwing}{ptb\_newIsSwing}}
+{\footnotesize\ttfamily bool Controller\+Data\+::ptb\+\_\+new\+Is\+Swing = true}
+
+\Hypertarget{class_controller_data_aea9ed1ce6efcaefb2de032de9e980189}\label{class_controller_data_aea9ed1ce6efcaefb2de032de9e980189} 
+\index{ControllerData@{ControllerData}!ptb\_oldIsSwing@{ptb\_oldIsSwing}}
+\index{ptb\_oldIsSwing@{ptb\_oldIsSwing}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{ptb\_oldIsSwing}{ptb\_oldIsSwing}}
+{\footnotesize\ttfamily bool Controller\+Data\+::ptb\+\_\+old\+Is\+Swing = true}
+
+\Hypertarget{class_controller_data_a75fa59e4d9b89e728cf0f1563d63b20d}\label{class_controller_data_a75fa59e4d9b89e728cf0f1563d63b20d} 
+\index{ControllerData@{ControllerData}!ptb\_setpoint@{ptb\_setpoint}}
+\index{ptb\_setpoint@{ptb\_setpoint}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{ptb\_setpoint}{ptb\_setpoint}}
+{\footnotesize\ttfamily uint16\+\_\+t Controller\+Data\+::ptb\+\_\+setpoint = 0}
+
+\Hypertarget{class_controller_data_ac207c03a33023316957b19f0b0bb789b}\label{class_controller_data_ac207c03a33023316957b19f0b0bb789b} 
+\index{ControllerData@{ControllerData}!ptbApplied@{ptbApplied}}
+\index{ptbApplied@{ptbApplied}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{ptbApplied}{ptbApplied}}
+{\footnotesize\ttfamily bool Controller\+Data\+::ptb\+Applied = false}
+
+\Hypertarget{class_controller_data_a1b7fdb86cb22e444ccc3bc8593bfd725}\label{class_controller_data_a1b7fdb86cb22e444ccc3bc8593bfd725} 
+\index{ControllerData@{ControllerData}!ptbDetermined@{ptbDetermined}}
+\index{ptbDetermined@{ptbDetermined}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{ptbDetermined}{ptbDetermined}}
+{\footnotesize\ttfamily bool Controller\+Data\+::ptb\+Determined = false}
+
+\Hypertarget{class_controller_data_a5a0c4258808a1c87925cf45454f5f0c0}\label{class_controller_data_a5a0c4258808a1c87925cf45454f5f0c0} 
+\index{ControllerData@{ControllerData}!ptbRandomIsFirstRun@{ptbRandomIsFirstRun}}
+\index{ptbRandomIsFirstRun@{ptbRandomIsFirstRun}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{ptbRandomIsFirstRun}{ptbRandomIsFirstRun}}
+{\footnotesize\ttfamily bool Controller\+Data\+::ptb\+Random\+Is\+First\+Run = true}
+
+\Hypertarget{class_controller_data_a4b24736db974f9c5d7d72337d7e72c86}\label{class_controller_data_a4b24736db974f9c5d7d72337d7e72c86} 
+\index{ControllerData@{ControllerData}!reference\_angle@{reference\_angle}}
+\index{reference\_angle@{reference\_angle}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{reference\_angle}{reference\_angle}}
+{\footnotesize\ttfamily float Controller\+Data\+::reference\+\_\+angle = 0}
+
+reference angle for the spring term \Hypertarget{class_controller_data_ab805bf4284c32205255d36bf8efc20b9}\label{class_controller_data_ab805bf4284c32205255d36bf8efc20b9} 
+\index{ControllerData@{ControllerData}!reference\_angle\_offset@{reference\_angle\_offset}}
+\index{reference\_angle\_offset@{reference\_angle\_offset}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{reference\_angle\_offset}{reference\_angle\_offset}}
+{\footnotesize\ttfamily float Controller\+Data\+::reference\+\_\+angle\+\_\+offset = 0}
+
+offset for the reference angle \Hypertarget{class_controller_data_a0c7eaf3a6a5ad6972d36562d24972453}\label{class_controller_data_a0c7eaf3a6a5ad6972d36562d24972453} 
+\index{ControllerData@{ControllerData}!reference\_angle\_updated@{reference\_angle\_updated}}
+\index{reference\_angle\_updated@{reference\_angle\_updated}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{reference\_angle\_updated}{reference\_angle\_updated}}
+{\footnotesize\ttfamily bool Controller\+Data\+::reference\+\_\+angle\+\_\+updated = false}
+
+flag to indicate if the reference angle was updated this step \Hypertarget{class_controller_data_a078ac176b7dc2de497d80ad6d2b17d8e}\label{class_controller_data_a078ac176b7dc2de497d80ad6d2b17d8e} 
+\index{ControllerData@{ControllerData}!setpoint@{setpoint}}
+\index{setpoint@{setpoint}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{setpoint}{setpoint}}
+{\footnotesize\ttfamily float Controller\+Data\+::setpoint}
+
+controller setpoint, basically the motor command. \Hypertarget{class_controller_data_a16c89696f94bb098ab3041ae958554f9}\label{class_controller_data_a16c89696f94bb098ab3041ae958554f9} 
+\index{ControllerData@{ControllerData}!time\_current\_ptb@{time\_current\_ptb}}
+\index{time\_current\_ptb@{time\_current\_ptb}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{time\_current\_ptb}{time\_current\_ptb}}
+{\footnotesize\ttfamily float Controller\+Data\+::time\+\_\+current\+\_\+ptb = 0}
+
+\Hypertarget{class_controller_data_a441ce0f57dd89c0de323b3d1b48f2b22}\label{class_controller_data_a441ce0f57dd89c0de323b3d1b48f2b22} 
+\index{ControllerData@{ControllerData}!time\_previous\_ptb@{time\_previous\_ptb}}
+\index{time\_previous\_ptb@{time\_previous\_ptb}!ControllerData@{ControllerData}}
+\doxysubsubsection{\texorpdfstring{time\_previous\_ptb}{time\_previous\_ptb}}
+{\footnotesize\ttfamily float Controller\+Data\+::time\+\_\+previous\+\_\+ptb = 0}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Exo\+Code/src/\mbox{\hyperlink{_controller_data_8h}{Controller\+Data.\+h}}\item 
+Exo\+Code/src/\mbox{\hyperlink{_controller_data_8cpp}{Controller\+Data.\+cpp}}\end{DoxyCompactItemize}

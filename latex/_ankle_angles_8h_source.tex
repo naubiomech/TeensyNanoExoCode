@@ -1,0 +1,43 @@
+\doxysection{Ankle\+Angles.\+h}
+\hypertarget{_ankle_angles_8h_source}{}\label{_ankle_angles_8h_source}\index{ExoCode/src/AnkleAngles.h@{ExoCode/src/AnkleAngles.h}}
+\mbox{\hyperlink{_ankle_angles_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ ANKLE\_ANGLE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ ANKLE\_ANGLE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#if\ defined(ARDUINO\_TEENSY36)\ ||\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <Arduino.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_board_8h}{Board.h}}"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{comment}{//TODO:\ Add\ angle\ calibration}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }AnkleAngles}
+\DoxyCodeLine{00016\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00018\ \ \ \ \ AnkleAngles()\ \{\}}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{comment}{//\ AnkleAngles(AnkleAngles\&\ other)\ =\ delete;}}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{comment}{//\ void\ operator=(const\ AnkleAngles\&)\ =\ delete;}}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{comment}{//\ static\ AnkleAngles*\ GetInstance();}}
+\DoxyCodeLine{00029\ \textcolor{comment}{}\ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacereal__time__i2c_a9b3528c32358ba78a17363ba7d4284f8}{init}}(\textcolor{keywordtype}{bool}\ is\_left);}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{float}\ get(\textcolor{keywordtype}{bool}\ return\_normalized\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{float}\ \_update\_population\_statistics(\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ new\_value);}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{float}\ \_max\_average\ =\ 0.01;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{float}\ \_min\_average\ =\ 0.99;}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{float}\ \_mean\ =\ 0;}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \_ema\_alpha\ =\ 0.0001;}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \_max\_min\_delta\ =\ 0.00001;}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_left\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_is\_initialized\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \_right\_pin\ =\ logic\_micro\_pins::right\_ankle\_angle\_pin;}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \_left\_pin\ =\ logic\_micro\_pins::left\_ankle\_angle\_pin;}
+\DoxyCodeLine{00062\ \};}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,59 @@
+\doxysection{Time\+\_\+\+Helper.\+h}
+\hypertarget{_time___helper_8h_source}{}\label{_time___helper_8h_source}\index{ExoCode/src/Time\_Helper.h@{ExoCode/src/Time\_Helper.h}}
+\mbox{\hyperlink{_time___helper_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ TIME\_HELPER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ TIME\_HELPER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ MAX\_TICKERS\ 15}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ Class\ to\ help\ track\ the\ time\ of\ code\ execution.\ The\ class\ uses\ a\ singleton\ design\ pattern.\ }}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *\ Example\ usage:\ }}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ *\ \ \ \ \ \ Time\_Helper*\ my\_time\_helper\_singleton\ =\ get\_instance();}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *\ \ \ \ \ \ static\ const\ float\ my\_context\ =\ my\_time\_helper\_singleton-\/>generate\_new\_context();}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ *\ \ \ \ \ \ static\ my\_delta\_time;}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ *\ \ \ \ \ \ my\_delta\_time\ =\ my\_time\_helper\_singleton-\/>tick(my\_context);}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ The\ above\ code\ gets\ a\ reference\ to\ the\ singleton\ and\ uses\ it\ to\ generate\ a\ persisent\ context\ (see\ below).\ }}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *\ 'my\_delta\_time'\ will\ be\ filled\ with\ the\ time\ between\ the\ calls\ to\ tick\ in\ millis\ (first\ call\ will\ return\ 0).}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ *\ When\ you\ are\ done\ with\ a\ context,\ clean\ it\ up\ using\ 'destroy\_context'.\ If\ you\ would\ like\ to\ use\ microseconds,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ *\ the\ default\ value\ of\ 'use\_micros'\ in\ the\ constructor\ should\ be\ true.\ }}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ *\ If\ 'tick()'\ is\ continuosly\ returning\ 0,\ you\ are\ passing\ an\ invalid\ context.\ }}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00024\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structticker__t_ac05e15ad0b696c59fa02bb78ac4cb917}{context}};}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{float}\ old\_time\ =\ -\/1;}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structticker__t_ae1c3cf30317c3e280df72b9b33f55d58}{k\_index}};}
+\DoxyCodeLine{00030\ \}\ \mbox{\hyperlink{structticker__t}{ticker\_t}};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_time___helper}{Time\_Helper}}}
+\DoxyCodeLine{00033\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_time___helper}{Time\_Helper}}(\textcolor{keywordtype}{bool}\ use\_micros=\textcolor{keyword}{true});}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_time___helper}{Time\_Helper}}*\ \mbox{\hyperlink{class_time___helper_a2a0dea539c87434ff475c8067117b4ea}{get\_instance}}();}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_time___helper_adb674241b924d5b6e243d6f5edecb8b5}{peek}}(\textcolor{keywordtype}{float}\ context);}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_time___helper_ae6eeb53e7ef059680ac8a6e5796d71ca}{tick}}(\textcolor{keywordtype}{float}\ context);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_time___helper_ac0054da0f1ae6ffe5d8633044e1bae0a}{generate\_new\_context}}();}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_time___helper_a7b109c2bb60de98b608876f8f4e1d653}{destroy\_context}}(\textcolor{keywordtype}{float}\ context);}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \_context\_conflicts(\textcolor{keywordtype}{float}\ context);}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structticker__t}{ticker\_t}}*\ \_ticker\_from\_context(\textcolor{keywordtype}{float}\ context);}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ ticker\_count\ =\ 0;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ std::vector<ticker\_t>\ tickers;}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \_k\_use\_micros;}
+\DoxyCodeLine{00051\ \};}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

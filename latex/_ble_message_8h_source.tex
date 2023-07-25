@@ -1,0 +1,40 @@
+\doxysection{Ble\+Message.\+h}
+\hypertarget{_ble_message_8h_source}{}\label{_ble_message_8h_source}\index{ExoCode/src/BleMessage.h@{ExoCode/src/BleMessage.h}}
+\mbox{\hyperlink{_ble_message_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ BLEMESSAGE\_H}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ BLEMESSAGE\_H}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00013\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \_max\_size\ =\ 10;}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_ble_message}{BleMessage}}}
+\DoxyCodeLine{00016\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_ble_message_a61d2131e49e546c5268da0e7e20db3a9}{BleMessage}}();}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_ble_message_ac5b5395d0665b550d77a3e5484a968c3}{clear}}();}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_ble_message_ad8c2f3828eb3583761168a9c1db7325e}{copy}}(\mbox{\hyperlink{class_ble_message}{BleMessage}}*\ n);}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GUI\ command}}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{class_ble_message_a68f28871695c0b82fd301cf60220c56f}{command}}\ =\ 0;}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Number\ of\ parameters\ to\ expect\ with\ the\ command}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_ble_message_af401738e36358b3a9d83206a25badb6d}{expecting}}\ =\ 0;}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Variable\ to\ indicate\ the\ message\ has\ all\ of\ its\ data}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_ble_message_a857cc869ebf02ce1fdb54a19389af41f}{is\_complete}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Array\ to\ hold\ the\ message\ parameters}}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_ble_message_acee0044c68462c5b78d49a931f404e1b}{data}}[\_max\_size];}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_ble_message_a1c13874bae140ab2e98be4156abf8612}{print}}(\mbox{\hyperlink{class_ble_message}{BleMessage}}\ msg);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_ble_message_abcc861e69591678c55c2b07e1d90b0c3}{matching}}(\mbox{\hyperlink{class_ble_message}{BleMessage}}\ msg1,\ \mbox{\hyperlink{class_ble_message}{BleMessage}}\ msg2);}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Current\ index\ of\ the\ data\ array}}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \_size\ =\ 0;}
+\DoxyCodeLine{00064\ \};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

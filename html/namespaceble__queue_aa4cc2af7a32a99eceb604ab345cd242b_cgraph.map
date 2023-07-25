@@ -1,0 +1,5 @@
+<map id="ble_queue::push" name="ble_queue::push">
+<area shape="rect" id="Node000001" title="Put a message on the FIFO queue." alt="" coords="5,5,122,32"/>
+<area shape="rect" id="Node000002" href="$class_ble_message.html#ad8c2f3828eb3583761168a9c1db7325e" title="Sets its values equal to another BleMessage." alt="" coords="170,5,299,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,16,155,16,155,21,122,21"/>
+</map>

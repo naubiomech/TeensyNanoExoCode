@@ -1,0 +1,188 @@
+\doxysection{Motor\+Data Class Reference}
+\hypertarget{class_motor_data}{}\label{class_motor_data}\index{MotorData@{MotorData}}
+
+
+{\ttfamily \#include $<$Motor\+Data.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_motor_data_a6fed54bec79726d9049502632be2be6a}{Motor\+Data}} (\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}} \mbox{\hyperlink{class_motor_data_a3b808174d79455ea760e8398ce29d932}{id}}, uint8\+\_\+t \texorpdfstring{$\ast$}{*}config\+\_\+to\+\_\+send)
+\item 
+void \mbox{\hyperlink{class_motor_data_a6c785789ec1689cc0108a6928cb44172}{reconfigure}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}config\+\_\+to\+\_\+send)
+\begin{DoxyCompactList}\small\item\em reconfigures the the motor data if the configuration changes after constructor called. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}} \mbox{\hyperlink{class_motor_data_a3b808174d79455ea760e8398ce29d932}{id}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{class_motor_data_af38473a3781f1605587b9f32d5c86e36}{motor\+\_\+type}}
+\item 
+float \mbox{\hyperlink{class_motor_data_afceee322e49150761049d02e6e3bf262}{last\+\_\+command}}
+\item 
+float \mbox{\hyperlink{class_motor_data_a3c58ade99b071d182454f12e4eb5fbca}{p}}
+\item 
+float \mbox{\hyperlink{class_motor_data_a6431077f5ae693bd0d907cf31a802307}{v}}
+\item 
+float \mbox{\hyperlink{class_motor_data_a06013f6febf56bad3a81bbf067ea84fb}{i}}
+\item 
+float \mbox{\hyperlink{class_motor_data_a060a466bea63a1745f1aadacad7b032a}{p\+\_\+des}} = 0
+\item 
+float \mbox{\hyperlink{class_motor_data_a83af6607b877a4a7f5620cf5c2c6105c}{v\+\_\+des}} = 0
+\item 
+float \mbox{\hyperlink{class_motor_data_a56f7609c8a6771a0de87c633a4454eb9}{kp}} = 0
+\item 
+float \mbox{\hyperlink{class_motor_data_ab75ff031a363f1e4c7d39bfdd3c30d2a}{kd}} = 0
+\item 
+float \mbox{\hyperlink{class_motor_data_aad6fd1aa6d9e869218028f6998ccce44}{t\+\_\+ff}} = 0
+\item 
+bool \mbox{\hyperlink{class_motor_data_a2ccc8906fd6f7eee7852591dac1b081d}{do\+\_\+zero}}
+\item 
+bool \mbox{\hyperlink{class_motor_data_a4b909a13e4ac0eb7c3f05a1de2b0dc60}{enabled}}
+\item 
+bool \mbox{\hyperlink{class_motor_data_abac1713d68ed69064312a8f1cb9169ce}{is\+\_\+on}}
+\item 
+bool \mbox{\hyperlink{class_motor_data_a4d2aace9c1e4021756aec67a94b262a8}{is\+\_\+left}}
+\item 
+bool \mbox{\hyperlink{class_motor_data_a5c135f11c9a91c1e609a27f5b84321b2}{flip\+\_\+direction}}
+\item 
+float \mbox{\hyperlink{class_motor_data_a734ab4d41c8165842579a6c0e0f8f4d4}{gearing}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_motor_data_a6fed54bec79726d9049502632be2be6a}\label{class_motor_data_a6fed54bec79726d9049502632be2be6a} 
+\index{MotorData@{MotorData}!MotorData@{MotorData}}
+\index{MotorData@{MotorData}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{MotorData()}{MotorData()}}
+{\footnotesize\ttfamily Motor\+Data\+::\+Motor\+Data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}}}]{id,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{config\+\_\+to\+\_\+send }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_motor_data_a6c785789ec1689cc0108a6928cb44172}\label{class_motor_data_a6c785789ec1689cc0108a6928cb44172} 
+\index{MotorData@{MotorData}!reconfigure@{reconfigure}}
+\index{reconfigure@{reconfigure}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{reconfigure()}{reconfigure()}}
+{\footnotesize\ttfamily void Motor\+Data\+::reconfigure (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{config\+\_\+to\+\_\+send }\end{DoxyParamCaption})}
+
+
+
+reconfigures the the motor data if the configuration changes after constructor called. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em configuration} & array \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_motor_data_a2ccc8906fd6f7eee7852591dac1b081d}\label{class_motor_data_a2ccc8906fd6f7eee7852591dac1b081d} 
+\index{MotorData@{MotorData}!do\_zero@{do\_zero}}
+\index{do\_zero@{do\_zero}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{do\_zero}{do\_zero}}
+{\footnotesize\ttfamily bool Motor\+Data\+::do\+\_\+zero}
+
+Flag to zero the position of the motor \Hypertarget{class_motor_data_a4b909a13e4ac0eb7c3f05a1de2b0dc60}\label{class_motor_data_a4b909a13e4ac0eb7c3f05a1de2b0dc60} 
+\index{MotorData@{MotorData}!enabled@{enabled}}
+\index{enabled@{enabled}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{enabled}{enabled}}
+{\footnotesize\ttfamily bool Motor\+Data\+::enabled}
+
+Motor enable state \Hypertarget{class_motor_data_a5c135f11c9a91c1e609a27f5b84321b2}\label{class_motor_data_a5c135f11c9a91c1e609a27f5b84321b2} 
+\index{MotorData@{MotorData}!flip\_direction@{flip\_direction}}
+\index{flip\_direction@{flip\_direction}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{flip\_direction}{flip\_direction}}
+{\footnotesize\ttfamily bool Motor\+Data\+::flip\+\_\+direction}
+
+Should the motor direction be flipped, if true torque commands and position/velocity information will be inverted \Hypertarget{class_motor_data_a734ab4d41c8165842579a6c0e0f8f4d4}\label{class_motor_data_a734ab4d41c8165842579a6c0e0f8f4d4} 
+\index{MotorData@{MotorData}!gearing@{gearing}}
+\index{gearing@{gearing}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{gearing}{gearing}}
+{\footnotesize\ttfamily float Motor\+Data\+::gearing}
+
+Motor gearing used to convert motor position, velocity, and torque between the motor and joint frames. \Hypertarget{class_motor_data_a06013f6febf56bad3a81bbf067ea84fb}\label{class_motor_data_a06013f6febf56bad3a81bbf067ea84fb} 
+\index{MotorData@{MotorData}!i@{i}}
+\index{i@{i}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{i}{i}}
+{\footnotesize\ttfamily float Motor\+Data\+::i}
+
+Read current. \Hypertarget{class_motor_data_a3b808174d79455ea760e8398ce29d932}\label{class_motor_data_a3b808174d79455ea760e8398ce29d932} 
+\index{MotorData@{MotorData}!id@{id}}
+\index{id@{id}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\+\_\+defs\+::joint\+\_\+id}} Motor\+Data\+::id}
+
+motor id, should be the same as the joint id. \Hypertarget{class_motor_data_a4d2aace9c1e4021756aec67a94b262a8}\label{class_motor_data_a4d2aace9c1e4021756aec67a94b262a8} 
+\index{MotorData@{MotorData}!is\_left@{is\_left}}
+\index{is\_left@{is\_left}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{is\_left}{is\_left}}
+{\footnotesize\ttfamily bool Motor\+Data\+::is\+\_\+left}
+
+Motor side information 1 if on the left, 0 otherwise \Hypertarget{class_motor_data_abac1713d68ed69064312a8f1cb9169ce}\label{class_motor_data_abac1713d68ed69064312a8f1cb9169ce} 
+\index{MotorData@{MotorData}!is\_on@{is\_on}}
+\index{is\_on@{is\_on}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{is\_on}{is\_on}}
+{\footnotesize\ttfamily bool Motor\+Data\+::is\+\_\+on}
+
+Motor power state \Hypertarget{class_motor_data_ab75ff031a363f1e4c7d39bfdd3c30d2a}\label{class_motor_data_ab75ff031a363f1e4c7d39bfdd3c30d2a} 
+\index{MotorData@{MotorData}!kd@{kd}}
+\index{kd@{kd}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{kd}{kd}}
+{\footnotesize\ttfamily float Motor\+Data\+::kd = 0}
+
+Derivative gain \Hypertarget{class_motor_data_a56f7609c8a6771a0de87c633a4454eb9}\label{class_motor_data_a56f7609c8a6771a0de87c633a4454eb9} 
+\index{MotorData@{MotorData}!kp@{kp}}
+\index{kp@{kp}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{kp}{kp}}
+{\footnotesize\ttfamily float Motor\+Data\+::kp = 0}
+
+Proportional gain \Hypertarget{class_motor_data_afceee322e49150761049d02e6e3bf262}\label{class_motor_data_afceee322e49150761049d02e6e3bf262} 
+\index{MotorData@{MotorData}!last\_command@{last\_command}}
+\index{last\_command@{last\_command}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{last\_command}{last\_command}}
+{\footnotesize\ttfamily float Motor\+Data\+::last\+\_\+command}
+
+Last command sent to the motor. \Hypertarget{class_motor_data_af38473a3781f1605587b9f32d5c86e36}\label{class_motor_data_af38473a3781f1605587b9f32d5c86e36} 
+\index{MotorData@{MotorData}!motor\_type@{motor\_type}}
+\index{motor\_type@{motor\_type}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{motor\_type}{motor\_type}}
+{\footnotesize\ttfamily uint8\+\_\+t Motor\+Data\+::motor\+\_\+type}
+
+Type of motor being used. \Hypertarget{class_motor_data_a3c58ade99b071d182454f12e4eb5fbca}\label{class_motor_data_a3c58ade99b071d182454f12e4eb5fbca} 
+\index{MotorData@{MotorData}!p@{p}}
+\index{p@{p}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{p}{p}}
+{\footnotesize\ttfamily float Motor\+Data\+::p}
+
+Read position. \Hypertarget{class_motor_data_a060a466bea63a1745f1aadacad7b032a}\label{class_motor_data_a060a466bea63a1745f1aadacad7b032a} 
+\index{MotorData@{MotorData}!p\_des@{p\_des}}
+\index{p\_des@{p\_des}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{p\_des}{p\_des}}
+{\footnotesize\ttfamily float Motor\+Data\+::p\+\_\+des = 0}
+
+Desired position, not currently used but available for position control \Hypertarget{class_motor_data_aad6fd1aa6d9e869218028f6998ccce44}\label{class_motor_data_aad6fd1aa6d9e869218028f6998ccce44} 
+\index{MotorData@{MotorData}!t\_ff@{t\_ff}}
+\index{t\_ff@{t\_ff}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{t\_ff}{t\_ff}}
+{\footnotesize\ttfamily float Motor\+Data\+::t\+\_\+ff = 0}
+
+Torque command \Hypertarget{class_motor_data_a6431077f5ae693bd0d907cf31a802307}\label{class_motor_data_a6431077f5ae693bd0d907cf31a802307} 
+\index{MotorData@{MotorData}!v@{v}}
+\index{v@{v}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{v}{v}}
+{\footnotesize\ttfamily float Motor\+Data\+::v}
+
+Read velocity. \Hypertarget{class_motor_data_a83af6607b877a4a7f5620cf5c2c6105c}\label{class_motor_data_a83af6607b877a4a7f5620cf5c2c6105c} 
+\index{MotorData@{MotorData}!v\_des@{v\_des}}
+\index{v\_des@{v\_des}!MotorData@{MotorData}}
+\doxysubsubsection{\texorpdfstring{v\_des}{v\_des}}
+{\footnotesize\ttfamily float Motor\+Data\+::v\+\_\+des = 0}
+
+Desired velocity, not currently used but available for velocity control 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Exo\+Code/src/\mbox{\hyperlink{_motor_data_8h}{Motor\+Data.\+h}}\item 
+Exo\+Code/src/\mbox{\hyperlink{_motor_data_8cpp}{Motor\+Data.\+cpp}}\end{DoxyCompactItemize}

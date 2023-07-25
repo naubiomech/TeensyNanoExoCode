@@ -1,0 +1,41 @@
+\doxysection{error\+\_\+handlers.\+h}
+\hypertarget{error__handlers_8h_source}{}\label{error__handlers_8h_source}\index{ExoCode/src/error\_handlers.h@{ExoCode/src/error\_handlers.h}}
+\mbox{\hyperlink{error__handlers_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ ERROR\_HANDLERS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ ERROR\_HANDLERS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#if\ defined(ARDUINO\_TEENSY36)\ \ ||\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_exo_data_8h}{ExoData.h}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_exo_8h}{Exo.h}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{error__types_8h}{error\_types.h}}"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{uart__commands_8h}{uart\_commands.h}}"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ Handles\ errors}}
+\DoxyCodeLine{00012\ \textcolor{keyword}{namespace\ }error\_handlers}
+\DoxyCodeLine{00013\ \{}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{void}\ soft(Exo*\ exo,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \textcolor{keywordtype}{int}\ error\_code)}
+\DoxyCodeLine{00016\ \ \ \ \ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TODO:\ Recalibrate/Warn\ user}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00020\ \ \ \ \ \}}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{void}\ hard(Exo*\ exo,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \textcolor{keywordtype}{int}\ error\_code)}
+\DoxyCodeLine{00022\ \ \ \ \ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a2aa97c53cd67d549d14b349cf1b46f0e}{for\_each\_joint}}([](\mbox{\hyperlink{class_joint_data}{JointData}}*\ joint\_data,\ \textcolor{keywordtype}{float}*\ args)\ \{\textcolor{keywordflow}{if}\ (joint\_data-\/>\mbox{\hyperlink{class_joint_data_ac92eaeab50564303d8c8ca0febd44c12}{is\_used}})\ joint\_data-\/>\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a4b909a13e4ac0eb7c3f05a1de2b0dc60}{enabled}}\ =\ 0;\});}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00025\ \ \ \ \ \}}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ fatal(Exo*\ exo,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \textcolor{keywordtype}{int}\ error\_code)}
+\DoxyCodeLine{00027\ \ \ \ \ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a2aa97c53cd67d549d14b349cf1b46f0e}{for\_each\_joint}}([](\mbox{\hyperlink{class_joint_data}{JointData}}*\ joint\_data,\ \textcolor{keywordtype}{float}*\ args)\ \{\textcolor{keywordflow}{if}\ (joint\_data-\/>\mbox{\hyperlink{class_joint_data_ac92eaeab50564303d8c8ca0febd44c12}{is\_used}})\ joint\_data-\/>\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a4b909a13e4ac0eb7c3f05a1de2b0dc60}{enabled}}\ =\ 0;\});}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00030\ \ \ \ \ \}}
+\DoxyCodeLine{00031\ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ defined(ARDUINO\_TEENSY36)\ \ ||\ defined(ARDUINO\_TEENSY41)}}
+
+\end{DoxyCode}

@@ -1,0 +1,78 @@
+\doxysection{Pi\+Logger.\+h}
+\hypertarget{_pi_logger_8h_source}{}\label{_pi_logger_8h_source}\index{ExoCode/src/PiLogger.h@{ExoCode/src/PiLogger.h}}
+\mbox{\hyperlink{_pi_logger_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PILOGGER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PILOGGER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_exo_data_8h}{ExoData.h}}"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_pi_logger}{PiLogger}}\ }
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keyword}{public}:\ }
+\DoxyCodeLine{00009\ \ \ \ \ \mbox{\hyperlink{class_pi_logger_a3d906c85dff932a19b63b7392683b1a0}{PiLogger}}(\mbox{\hyperlink{class_exo_data}{ExoData}}*\ data)\ :\ \_data(data)\ \{\}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pi_logger_a2cdaf67a1503871fc97fb4fd34ff0f77}{sendUpdate}}()}
+\DoxyCodeLine{00012\ \ \ \ \ \{}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \_start();}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LTFsr"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}});}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LTSta"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a4de38edc48e1f3768bda0b278580e6d9}{toe\_stance}});}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LJTor"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_aec2580e88fbe79db393a7bd6f945ce4e}{torque\_reading}});}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LJPos"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_aaee486eb0ddfdfd5d13e7f19a1114586}{joint\_position}});}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LJVel"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_a1c35091d470e4bb27d1aabf6cacdc383}{joint\_velocity}});}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LMPos"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a3c58ade99b071d182454f12e4eb5fbca}{p}});}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LMVel"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a6431077f5ae693bd0d907cf31a802307}{v}});}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LMCur"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a06013f6febf56bad3a81bbf067ea84fb}{i}});}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LMCom"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_afceee322e49150761049d02e6e3bf262}{last\_command}});}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LTFsr"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}});}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LTSta"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a4de38edc48e1f3768bda0b278580e6d9}{toe\_stance}});}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LJTor"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_aec2580e88fbe79db393a7bd6f945ce4e}{torque\_reading}});}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LJPos"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_aaee486eb0ddfdfd5d13e7f19a1114586}{joint\_position}});}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LJVel"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_a1c35091d470e4bb27d1aabf6cacdc383}{joint\_velocity}});}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LMPos"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a3c58ade99b071d182454f12e4eb5fbca}{p}});}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LMVel"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a6431077f5ae693bd0d907cf31a802307}{v}});}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LMCur"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a06013f6febf56bad3a81bbf067ea84fb}{i}});}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}LMCom"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_afceee322e49150761049d02e6e3bf262}{last\_command}});}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}Error"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_a87cc77ebcf2d36db06ac8135093c3b14}{error\_code}});}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}ErJID"{}},\ \_data-\/>\mbox{\hyperlink{class_exo_data_a7c02eb366ac9e7e15e17a22c1998b791}{error\_joint\_id}});}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ uint16\_t\ exo\_status\ =\ \_data-\/>\mbox{\hyperlink{class_exo_data_abefd55ddd1c6824caf8d57f8ba1756e1}{get\_status}}();}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ active\_trial\ =\ (exo\_status\ ==\ \mbox{\hyperlink{namespacestatus__defs_1_1messages_a05ead43d10f0f28d7a4730a26c718435}{status\_defs::messages::trial\_on}})\ ||\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ (exo\_status\ ==\ \mbox{\hyperlink{namespacestatus__defs_1_1messages_a0c30b5bfc6e07c0fdab78c4d2a312e61}{status\_defs::messages::fsr\_calibration}})\ ||}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ (exo\_status\ ==\ \mbox{\hyperlink{namespacestatus__defs_1_1messages_aaec6aa80e8ca5c39a33d2ec0d7d2f7d4}{status\_defs::messages::fsr\_refinement}})\ ||}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ (exo\_status\ ==\ \mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{status\_defs::messages::error}});}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \_print\_tab(\textcolor{stringliteral}{"{}ActiveTrial"{}},\ active\_trial);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \_end();}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ \_data;}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ String\ \_format(String\ name,\ \textcolor{keywordtype}{float}\ value)}
+\DoxyCodeLine{00051\ \ \ \ \ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ name+\textcolor{stringliteral}{"{}:"{}}+String(value);}
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ \_print\_tab(String\ name,\ \textcolor{keywordtype}{float}\ value)}
+\DoxyCodeLine{00056\ \ \ \ \ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ Serial.print(\_format(name,\ value)+\textcolor{stringliteral}{"{}\(\backslash\)t"{}});}
+\DoxyCodeLine{00058\ \ \ \ \ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{void}\ \_start()}
+\DoxyCodeLine{00061\ \ \ \ \ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ Serial.println(\textcolor{stringliteral}{"{}piLoggerStart"{}});}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00064\ \ \ \ \ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ \_end()}
+\DoxyCodeLine{00066\ \ \ \ \ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ Serial.println(\textcolor{stringliteral}{"{}piLoggerEnd"{}});}
+\DoxyCodeLine{00068\ \ \ \ \ \}}
+\DoxyCodeLine{00069\ \ \ \ \ }
+\DoxyCodeLine{00070\ \};}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

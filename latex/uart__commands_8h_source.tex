@@ -1,0 +1,702 @@
+\doxysection{uart\+\_\+commands.\+h}
+\hypertarget{uart__commands_8h_source}{}\label{uart__commands_8h_source}\index{ExoCode/src/uart\_commands.h@{ExoCode/src/uart\_commands.h}}
+\mbox{\hyperlink{uart__commands_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ UART\_COMMANDS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ UART\_COMMANDS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_u_a_r_t_handler_8h}{UARTHandler.h}}"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_u_a_r_t__msg__t_8h}{UART\_msg\_t.h}}"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_parse_ini_8h}{ParseIni.h}}"{}}\ \textcolor{comment}{//\ for\ config\ info}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_exo_data_8h}{ExoData.h}}"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_joint_data_8h}{JointData.h}}"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_params_from_s_d_8h}{ParamsFromSD.h}}"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_logger_8h}{Logger.h}}"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_real_time_i2_c_8h}{RealTimeI2C.h}}"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_r_t__command__names}{UART\_command\_names}}}
+\DoxyCodeLine{00021\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{comment}{/*\ update\_x\ must\ be\ get\_x\ +\ 1\ */}}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ empty\_msg\ =\ 0x00;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ get\_controller\_params\ =\ 0x01;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ update\_controller\_params\ =\ 0x02;}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ get\_status\ =\ 0x03;}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ update\_status\ =\ 0x04;}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ get\_config\ =\ 0x05;}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ update\_config\ =\ 0x06;}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ get\_cal\_trq\_sensor\ =\ 0x07;}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ update\_cal\_trq\_sensor\ =\ 0x08;}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ get\_cal\_fsr\ =\ 0x09;}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ update\_cal\_fsr\ =\ 0x0A;}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ get\_refine\_fsr\ =\ 0x0B;}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ update\_refine\_fsr\ =\ 0x0C;}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ get\_motor\_enable\_disable\ =\ 0x0D;}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ update\_motor\_enable\_disable\ =\ 0x0E;}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ get\_motor\_zero\ =\ 0x0F;}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ update\_motor\_zero\ =\ 0x10;}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ get\_real\_time\_data\ =\ 0x11;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ update\_real\_time\_data\ =\ 0x12;}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ get\_controller\_param\ =\ 0x13;}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ update\_controller\_param\ =\ 0x14;}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ get\_error\_code\ =\ 0x15;}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ update\_error\_code\ =\ 0x16;}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ get\_FSR\_thesholds\ =\ 0x17;}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint8\_t\ update\_FSR\_thesholds\ =\ 0x18;}
+\DoxyCodeLine{00048\ \};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00054\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_r_t__command__enums}{UART\_command\_enums}}}
+\DoxyCodeLine{00055\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41d}{controller\_params}}:uint8\_t\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41da62ac410c5615afc2501c45fd3f7b4a90}{CONTROLLER\_ID}}\ =\ 0,}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41da312e801910234aa0639100688ae6e76a}{PARAM\_LENGTH}}\ =\ 1,}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41da290cf6c291a04186cd68b6f34995ea4c}{PARAM\_START}}\ =\ 2,}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41daaddeac40406177897b3fccba88558f1c}{LENGTH}}}
+\DoxyCodeLine{00061\ \ \ \ \ \};}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ae5199a1f98ae03b80a4d2648b61fc5a0}{status}}:uint8\_t\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ae5199a1f98ae03b80a4d2648b61fc5a0a5f241c8c8f985b3c51e05d39cf030f4c}{STATUS}}\ =\ 0,}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41daaddeac40406177897b3fccba88558f1c}{LENGTH}}}
+\DoxyCodeLine{00065\ \ \ \ \ \};}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a53025a84ecdebcfd6d3434f09644e80e}{cal\_trq\_sensor}}:uint8\_t\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a53025a84ecdebcfd6d3434f09644e80eaafd2b706789bfed8338c7db14b8b05d6}{CAL\_TRQ\_SENSOR}}\ =\ 0,}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41daaddeac40406177897b3fccba88558f1c}{LENGTH}}}
+\DoxyCodeLine{00069\ \ \ \ \ \};}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_adc63aa050e663fcc73ccfcda476e5b9d}{cal\_fsr}}:uint8\_t\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_adc63aa050e663fcc73ccfcda476e5b9da875fb2e53ea18b98e77e2e5a4bdf4b22}{CAL\_FSR}}\ =\ 0,}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41daaddeac40406177897b3fccba88558f1c}{LENGTH}}}
+\DoxyCodeLine{00073\ \ \ \ \ \};}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_aedfb2e5933c6e14fa69467c097b3d299}{refine\_fsr}}:uint8\_t\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_aedfb2e5933c6e14fa69467c097b3d299ad44cab276671e30314508655e2165180}{REFINE\_FSR}}\ =\ 0,}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41daaddeac40406177897b3fccba88558f1c}{LENGTH}}}
+\DoxyCodeLine{00077\ \ \ \ \ \};}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a83af4886b74e4e42662cec781f07962d}{motor\_enable\_disable}}:uint8\_t\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a83af4886b74e4e42662cec781f07962da0711902b40986f40236a2e5a4b4c3acd}{ENABLE\_DISABLE}}\ =\ 0,}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41daaddeac40406177897b3fccba88558f1c}{LENGTH}}}
+\DoxyCodeLine{00081\ \ \ \ \ \};}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a62192f6ae78d45769e275673a07359db}{motor\_zero}}:uint8\_t\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a62192f6ae78d45769e275673a07359dba529e9e0beb5f85d1f132917c1a09860c}{ZERO}}\ =\ 0,}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41daaddeac40406177897b3fccba88558f1c}{LENGTH}}}
+\DoxyCodeLine{00085\ \ \ \ \ \};}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_aca54094cddd746dd096b86ce0614d747}{controller\_param}}:uint8\_t\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41da62ac410c5615afc2501c45fd3f7b4a90}{CONTROLLER\_ID}}\ =\ 0,}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_aca54094cddd746dd096b86ce0614d747a8cf3de1bb2c7bc645e0ab16d448711d0}{PARAM\_INDEX}}\ =\ 1,}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_aca54094cddd746dd096b86ce0614d747a9bb914d2eaedd80abc450b5a48f4bf67}{PARAM\_VALUE}}\ =\ 2,}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41daaddeac40406177897b3fccba88558f1c}{LENGTH}}}
+\DoxyCodeLine{00091\ \ \ \ \ \};}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ace98ef4f4d4c888d6ad05a105f24ad2f}{real\_time\_data}}:uint8\_t\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00094\ \ \ \ \ \};}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac43c0da62256ebbe991c78149e2a7960}{error\_code}}:uint8\_t\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac43c0da62256ebbe991c78149e2a7960a6ad8a2c102c0b3940f4bd1d36ffd61a8}{ERROR\_CODE}}\ =\ 0,}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41daaddeac40406177897b3fccba88558f1c}{LENGTH}}}
+\DoxyCodeLine{00098\ \ \ \ \ \};}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a3ad2d18cfaba6fc3b36d240fa35d4c5f}{FSR\_thresholds}}:uint8\_t\ \{}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a3ad2d18cfaba6fc3b36d240fa35d4c5fa64de411d6dbab559bc61a9a35ca11a97}{LEFT\_THRESHOLD}}\ =\ 0,}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_a3ad2d18cfaba6fc3b36d240fa35d4c5fafdc61a6f7802a1626a684b3cafe18c0b}{RIGHT\_THRESHOLD}}\ =\ 1,}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41daaddeac40406177897b3fccba88558f1c}{LENGTH}}}
+\DoxyCodeLine{00103\ \ \ \ \ \};}
+\DoxyCodeLine{00104\ \};}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00113\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_r_t__command__handlers}{UART\_command\_handlers}}}
+\DoxyCodeLine{00114\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ get\_controller\_params(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00116\ \ \ \ \ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{comment}{//logger::println("{}UART\_command\_handlers::update\_controller\_params-\/>Fetching\ params\ with\ msg:\ "{});}}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{comment}{//UART\_msg\_t\_utils::print\_msg(msg);}}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_joint_data}{JointData}}*\ j\_data\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a891bba5b5066ca4ab674624cccb7ea1e}{get\_joint\_with}}(msg.joint\_id);}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (j\_data\ ==\ NULL)}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}UART\_command\_handlers::get\_controller\_params-\/>No\ joint\ with\ id\ =\ \ "{}});\ logger::print(msg.joint\_id);\ logger::println(\textcolor{stringliteral}{"{}\ found"{}});}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ msg.command\ =\ UART\_command\_names::update\_controller\_params;}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ uint8\_t\ param\_length\ =\ j\_data-\/>\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_a96be800b0e886ccb254f56cae30d1989}{get\_parameter\_length}}();}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ msg.len\ =\ param\_length\ +\ (uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41daaddeac40406177897b3fccba88558f1c}{UART\_command\_enums::controller\_params::LENGTH}};\ }
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ msg.data[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41da62ac410c5615afc2501c45fd3f7b4a90}{UART\_command\_enums::controller\_params::CONTROLLER\_ID}}]\ =\ j\_data-\/>\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_a1133871874467ea57c7dbd49292a190e}{controller}};}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ msg.data[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41da312e801910234aa0639100688ae6e76a}{UART\_command\_enums::controller\_params::PARAM\_LENGTH}}]\ =\ param\_length;}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i=0;\ i<param\_length;\ i++)}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ msg.data[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41da290cf6c291a04186cd68b6f34995ea4c}{UART\_command\_enums::controller\_params::PARAM\_START}}\ +\ i]\ =\ j\_data-\/>\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_ab54a3884cc99b67100ce4d1114e76b93}{parameters}}[i];}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ handler-\/>\mbox{\hyperlink{class_u_a_r_t_handler_a533ee17e009761b4ed1fd7f9780dcd14}{UART\_msg}}(msg);}
+\DoxyCodeLine{00139\ \ \ \ \ \}}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ update\_controller\_params(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00141\ \ \ \ \ \{}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{comment}{//TODO:\ Error\ checking\ (valid\ controller\ for\ joint,\ and\ matching\ param\ length)}}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \textcolor{comment}{//logger::println("{}UART\_command\_handlers::update\_controller\_params-\/>Got\ new\ params\ with\ msg:\ "{});}}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{comment}{//UART\_msg\_t\_utils::print\_msg(msg);}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_joint_data}{JointData}}*\ j\_data\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a891bba5b5066ca4ab674624cccb7ea1e}{get\_joint\_with}}(msg.joint\_id);}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (j\_data\ ==\ NULL)}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}UART\_command\_handlers::update\_controller\_params-\/>No\ joint\ with\ id\ =\ \ "{}}\ +\ String(msg.joint\_id)\ +\ \textcolor{stringliteral}{"{}\ found"{}});}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_TEENSY36)\ ||\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ j\_data-\/>\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_a1133871874467ea57c7dbd49292a190e}{controller}}\ =\ (uint8\_t)msg.data[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41da62ac410c5615afc2501c45fd3f7b4a90}{UART\_command\_enums::controller\_params::CONTROLLER\_ID}}];}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ set\_controller\_params(msg.joint\_id,\ (uint8\_t)msg.data[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41da62ac410c5615afc2501c45fd3f7b4a90}{UART\_command\_enums::controller\_params::CONTROLLER\_ID}}],\ (uint8\_t)msg.data[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41da290cf6c291a04186cd68b6f34995ea4c}{UART\_command\_enums::controller\_params::PARAM\_START}}],\ exo\_data);}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Serial.println("{}Updating\ Controller\ Params:\ "{}\ +\ String(msg.joint\_id)\ +\ "{},\ "{}\ +\ String((uint8\_t)msg.data[(uint8\_t)UART\_command\_enums::controller\_params::PARAM\_START])\ +\ "{},\ "{}\ +\ String(j\_data-\/>controller.controller));}}
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00159\ \ \ \ \ \}}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ get\_status(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00162\ \ \ \ \ \{}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ tx\_msg;}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_aecc92ac5c4f9d6ef64ef6f96306a04ca}{command}}\ =\ UART\_command\_names::update\_status;}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a89a2fdf8dc093d96cc876d1bda646316}{joint\_id}}\ =\ 0;}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a5bdfff9ae701926533c966aea4c1847e}{len}}\ =\ (uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_ae5199a1f98ae03b80a4d2648b61fc5a0aaddeac40406177897b3fccba88558f1c}{UART\_command\_enums::status::LENGTH}};}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_ae5199a1f98ae03b80a4d2648b61fc5a0a5f241c8c8f985b3c51e05d39cf030f4c}{UART\_command\_enums::status::STATUS}}]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_abefd55ddd1c6824caf8d57f8ba1756e1}{get\_status}}();}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ handler-\/>\mbox{\hyperlink{class_u_a_r_t_handler_a533ee17e009761b4ed1fd7f9780dcd14}{UART\_msg}}(tx\_msg);}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{comment}{//logger::println("{}UART\_command\_handlers::get\_status-\/>sent\ updated\ status"{});}}
+\DoxyCodeLine{00172\ \ \ \ \ \}}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ update\_status(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00175\ \ \ \ \ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af8b70c2f823aedcf14cebd69e33f8782}{set\_status}}(msg.data[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_ae5199a1f98ae03b80a4d2648b61fc5a0a5f241c8c8f985b3c51e05d39cf030f4c}{UART\_command\_enums::status::STATUS}}]);}
+\DoxyCodeLine{00177\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#if\ defined(ARDUINO\_TEENSY36)\ \ ||\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (msg.data[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_ae5199a1f98ae03b80a4d2648b61fc5a0a5f241c8c8f985b3c51e05d39cf030f4c}{UART\_command\_enums::status::STATUS}}]\ ==\ \mbox{\hyperlink{namespacestatus__defs_1_1messages_a05ead43d10f0f28d7a4730a26c718435}{status\_defs::messages::trial\_on}})\ }
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ default\ parameters\ for\ each\ used\ joint}}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a1d3bcaf04d33566a49d9a974f52bc641}{set\_default\_parameters}}();}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00183\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00184\ \ \ \ \ \}}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ get\_config(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00187\ \ \ \ \ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ tx\_msg;}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_aecc92ac5c4f9d6ef64ef6f96306a04ca}{command}}\ =\ UART\_command\_names::update\_config;}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a89a2fdf8dc093d96cc876d1bda646316}{joint\_id}}\ =\ 0;}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a5bdfff9ae701926533c966aea4c1847e}{len}}\ =\ \mbox{\hyperlink{namespaceini__config_a94be16c85b00371eb4b36558a936c333}{ini\_config::number\_of\_keys}};}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[config\_defs::board\_name\_idx]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::board\_name\_idx];}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[config\_defs::battery\_idx]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::battery\_idx];}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[config\_defs::board\_version\_idx]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::board\_version\_idx];}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[config\_defs::exo\_name\_idx]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::exo\_name\_idx];}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[config\_defs::exo\_side\_idx]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::exo\_side\_idx];}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[config\_defs::hip\_idx]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::hip\_idx];}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[config\_defs::knee\_idx]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::knee\_idx];}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[config\_defs::ankle\_idx]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::ankle\_idx];}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[config\_defs::hip\_gear\_idx]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::hip\_gear\_idx];}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[config\_defs::knee\_gear\_idx]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::knee\_gear\_idx];}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[config\_defs::ankle\_gear\_idx]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::ankle\_gear\_idx];}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[config\_defs::exo\_hip\_default\_controller\_idx]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::exo\_hip\_default\_controller\_idx];}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[config\_defs::exo\_knee\_default\_controller\_idx]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::exo\_knee\_default\_controller\_idx];}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[config\_defs::exo\_ankle\_default\_controller\_idx]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::exo\_ankle\_default\_controller\_idx];}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[config\_defs::hip\_flip\_dir\_idx]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::hip\_flip\_dir\_idx];}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[config\_defs::knee\_flip\_dir\_idx]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::knee\_flip\_dir\_idx];}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[config\_defs::ankle\_flip\_dir\_idx]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::ankle\_flip\_dir\_idx];}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ handler-\/>\mbox{\hyperlink{class_u_a_r_t_handler_a533ee17e009761b4ed1fd7f9780dcd14}{UART\_msg}}(tx\_msg);}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \textcolor{comment}{//logger::println("{}UART\_command\_handlers::get\_config-\/>sent\ updated\ config"{});}}
+\DoxyCodeLine{00212\ \ \ \ \ \}}
+\DoxyCodeLine{00213\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ update\_config(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00214\ \ \ \ \ \{}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \textcolor{comment}{//logger::println("{}UART\_command\_handlers::update\_config-\/>got\ message:\ "{});}}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ UART\_msg\_t\_utils::print\_msg(msg);}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::board\_name\_idx]\ =\ msg.data[config\_defs::board\_name\_idx];}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::battery\_idx]\ =\ msg.data[config\_defs::battery\_idx];}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::board\_version\_idx]\ =\ msg.data[config\_defs::board\_version\_idx];}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::exo\_name\_idx]\ =\ msg.data[config\_defs::exo\_name\_idx];}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::exo\_side\_idx]\ =\ msg.data[config\_defs::exo\_side\_idx];}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::hip\_idx]\ =\ msg.data[config\_defs::hip\_idx];}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::knee\_idx]\ =\ msg.data[config\_defs::knee\_idx];}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::ankle\_idx]\ =\ msg.data[config\_defs::ankle\_idx];}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::hip\_gear\_idx]\ =\ msg.data[config\_defs::hip\_gear\_idx];}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::knee\_gear\_idx]\ =\ msg.data[config\_defs::knee\_gear\_idx];}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::ankle\_gear\_idx]\ =\ msg.data[config\_defs::ankle\_gear\_idx];}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::exo\_hip\_default\_controller\_idx]\ =\ msg.data[config\_defs::exo\_hip\_default\_controller\_idx];}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::exo\_knee\_default\_controller\_idx]\ =\ msg.data[config\_defs::exo\_knee\_default\_controller\_idx];}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::exo\_ankle\_default\_controller\_idx]\ =\ msg.data[config\_defs::exo\_ankle\_default\_controller\_idx];}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::hip\_flip\_dir\_idx]\ =\ msg.data[config\_defs::hip\_flip\_dir\_idx];}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::knee\_flip\_dir\_idx]\ =\ msg.data[config\_defs::knee\_flip\_dir\_idx];}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::ankle\_flip\_dir\_idx]\ =\ msg.data[config\_defs::ankle\_flip\_dir\_idx];}
+\DoxyCodeLine{00234\ \ \ \ \ \}}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ get\_cal\_trq\_sensor(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00237\ \ \ \ \ \{}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00239\ \ \ \ \ \}}
+\DoxyCodeLine{00240\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ update\_cal\_trq\_sensor(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00241\ \ \ \ \ \{}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \textcolor{comment}{//logger::println("{}UART\_command\_handlers::update\_cal\_trq\_sensor-\/>Got\ Cal\ trq\ sensor"{});}}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_ac74a7b16376ba236c4ec55a73858996d}{start\_pretrial\_cal}}();}
+\DoxyCodeLine{00244\ \ \ \ \ \}}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00246\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ get\_cal\_fsr(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00247\ \ \ \ \ \{}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00249\ \ \ \ \ \}}
+\DoxyCodeLine{00250\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ update\_cal\_fsr(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00251\ \ \ \ \ \{}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \textcolor{comment}{//logger::println("{}UART\_command\_handlers::update\_cal\_fsr-\/>Got\ msg"{});}}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a52173d48fe18bb2042d0afa2049d0fcb}{do\_calibration\_toe\_fsr}}\ =\ 1;}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a6f85f44213dd2711f363055f2838a0dc}{do\_calibration\_heel\_fsr}}\ =\ 1;}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a52173d48fe18bb2042d0afa2049d0fcb}{do\_calibration\_toe\_fsr}}\ =\ 1;}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a6f85f44213dd2711f363055f2838a0dc}{do\_calibration\_heel\_fsr}}\ =\ 1;}
+\DoxyCodeLine{00257\ \ \ \ \ \}}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ get\_refine\_fsr(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00260\ \ \ \ \ \{}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00262\ \ \ \ \ \}}
+\DoxyCodeLine{00263\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ update\_refine\_fsr(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00264\ \ \ \ \ \{}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TODO:\ only\ calibrate\ if\ the\ fsr\ is\ used}}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \textcolor{comment}{//logger::println("{}UART\_command\_handlers::update\_refine\_fsr-\/>Got\ msg"{});}}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a37b2bdae9af91980e45bc28048f93743}{do\_calibration\_refinement\_toe\_fsr}}\ =\ 1;}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_afab0e686d9aa15fc14e4f9e3ed7dbaa9}{do\_calibration\_refinement\_heel\_fsr}}\ =\ 1;}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a37b2bdae9af91980e45bc28048f93743}{do\_calibration\_refinement\_toe\_fsr}}\ =\ 1;}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_afab0e686d9aa15fc14e4f9e3ed7dbaa9}{do\_calibration\_refinement\_heel\_fsr}}\ =\ 1;}
+\DoxyCodeLine{00271\ \ \ \ \ \}}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00273\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ get\_motor\_enable\_disable(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00274\ \ \ \ \ \{}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \ \ \ \ \}}
+\DoxyCodeLine{00278\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ update\_motor\_enable\_disable(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00279\ \ \ \ \ \{}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \textcolor{comment}{//logger::println("{}UART\_command\_handlers::update\_motor\_enable\_disable-\/>Got\ msg"{});}}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a2aa97c53cd67d549d14b349cf1b46f0e}{for\_each\_joint}}([](\mbox{\hyperlink{class_joint_data}{JointData}}*\ j\_data,\ \textcolor{keywordtype}{float}*\ args)\ \{\textcolor{keywordflow}{if}\ (j\_data-\/>\mbox{\hyperlink{class_joint_data_ac92eaeab50564303d8c8ca0febd44c12}{is\_used}})\ j\_data-\/>\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a4b909a13e4ac0eb7c3f05a1de2b0dc60}{enabled}}\ =\ (\textcolor{keywordtype}{bool})args[0];\},\ msg.data);}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a47e327da385f78f5a86b421820ccaca8}{user\_paused}}\ =\ !(bool)msg.data[0];}
+\DoxyCodeLine{00283\ \ \ \ \ \}}
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00285\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ get\_motor\_zero(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00286\ \ \ \ \ \{}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00288\ \ \ \ \ \}}
+\DoxyCodeLine{00289\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ update\_motor\_zero(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00290\ \ \ \ \ \{}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00292\ }
+\DoxyCodeLine{00293\ \ \ \ \ \}}
+\DoxyCodeLine{00294\ }
+\DoxyCodeLine{00295\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ get\_real\_time\_data(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg,\ uint8\_t\ *config)}
+\DoxyCodeLine{00296\ \ \ \ \ \{}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ rx\_msg;}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_aecc92ac5c4f9d6ef64ef6f96306a04ca}{command}}\ =\ UART\_command\_names::update\_real\_time\_data;}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a89a2fdf8dc093d96cc876d1bda646316}{joint\_id}}\ =\ 0;}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a5bdfff9ae701926533c966aea4c1847e}{len}}\ =\ (uint8\_t)rt\_data::BILATERAL\_ANKLE\_RT\_LEN;\ \textcolor{comment}{//\ TODO:\ Set\ based\ on\ config}}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ logger::println("{}config[config\_defs::exo\_name\_idx]\ ::\ "{});\ //Uncomment\ if\ you\ want\ to\ check\ that\ system\ is\ receiving\ correct\ config\ info}}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ logger::println(config[config\_defs::exo\_name\_idx]);}}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (config[config\_defs::exo\_name\_idx])}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a96281b8c1766326cc2f99d44f6950c67}{config\_defs::exo\_name::bilateral\_ankle}}:}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a5bdfff9ae701926533c966aea4c1847e}{len}}\ =\ (uint8\_t)rt\_data::BILATERAL\_ANKLE\_RT\_LEN;}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Jack\ Plot}}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ rx\_msg.data[0]\ =\ exo\_data-\/>right\_leg.percent\_stance\ /\ 100;\ //\ ankle.controller.filtered\_torque\_reading;\ //motor.i;\ //filtered\_torque\_reading\ *-\/1;}}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ rx\_msg.data[1]\ =\ exo\_data-\/>right\_leg.ankle.controller.filtered\_torque\_reading;//exo\_data-\/>right\_leg.ankle.motor.i;}}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ rx\_msg.data[2]\ =\ exo\_data-\/>right\_leg.toe\_fsr;\ //\ ankle.controller.ff\_setpoint;}}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ rx\_msg.data[3]\ =\ exo\_data-\/>left\_leg.percent\_stance\ /\ 100;\ //\ ankle.controller.filtered\_torque\_reading;\ //\ filtered\_torque\_reading;\ //rx\_msg.data[3]\ =\ exo\_data-\/>right\_leg.ankle.motor.i}}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ rx\_msg.data[4]\ =\ exo\_data-\/>left\_leg.ankle.controller.filtered\_torque\_reading;//toe\_stance;\ //(uint8\_t)\ exo\_data-\/>right\_leg.inclination;\ //exo\_data-\/>left\_leg.toe\_stance;\ //exo\_data-\/>left\_leg.ankle.motor.i;}}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ rx\_msg.data[5]\ =\ exo\_data-\/>left\_leg.toe\_fsr;\ //\ ankle.controller.ff\_setpoint;}}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ rx\_msg.data[6]\ =\ exo\_data-\/>right\_leg.ankle.controller.ff\_setpoint;\ //toe\_fsr;\ //ankle.joint\_position;}}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ rx\_msg.data[7]\ =\ exo\_data-\/>left\_leg.ankle.controller.ff\_setpoint;\ //toe\_fsr;}}
+\DoxyCodeLine{00319\ }
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Chance\ Plot}}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[0]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_ab8c14a39ecef1caf87d0dfe3caeb0c50}{filtered\_torque\_reading}};}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[1]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a4de38edc48e1f3768bda0b278580e6d9}{toe\_stance}};}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[2]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_a801807b602e60437c2baf597d7347fce}{ff\_setpoint}};}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[3]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_ab8c14a39ecef1caf87d0dfe3caeb0c50}{filtered\_torque\_reading}};}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[4]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a4de38edc48e1f3768bda0b278580e6d9}{toe\_stance}};}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[5]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_a801807b602e60437c2baf597d7347fce}{ff\_setpoint}};}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[6]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}};}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[7]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}};}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797ab41922a6b46722ea662e4552a5d4b304}{config\_defs::exo\_name::bilateral\_hip}}:}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a5bdfff9ae701926533c966aea4c1847e}{len}}\ =\ (uint8\_t)rt\_data::BILATERAL\_HIP\_RT\_LEN;}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[0]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_afe95c2c5dab0d187e67c067c04d406ac}{percent\_gait}}\ /\ 100;}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[1]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a4de38edc48e1f3768bda0b278580e6d9}{toe\_stance}};}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[2]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a9880285edbff6437f8c3f1d30ff297ed}{hip}}.\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a06013f6febf56bad3a81bbf067ea84fb}{i}};\textcolor{comment}{//\ hip.controller.setpoint;\ //filtered\_cmd}}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[3]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_afe95c2c5dab0d187e67c067c04d406ac}{percent\_gait}}\ /\ 100;}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[4]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a4de38edc48e1f3768bda0b278580e6d9}{toe\_stance}};}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[5]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a9880285edbff6437f8c3f1d30ff297ed}{hip}}.\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a06013f6febf56bad3a81bbf067ea84fb}{i}};\textcolor{comment}{//\ hip.controller.setpoint;\ //filtered\_cmd}}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[6]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}};}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[7]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}};}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00342\ }
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a3710456ad1658cc1309c7692b8734aa4}{config\_defs::exo\_name::bilateral\_hip\_ankle}}:}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a5bdfff9ae701926533c966aea4c1847e}{len}}\ =\ (uint8\_t)rt\_data::BILATERAL\_ANKLE\_RT\_LEN;}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[0]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_ab8c14a39ecef1caf87d0dfe3caeb0c50}{filtered\_torque\_reading}};\ \ \ \ \ \ \textcolor{comment}{//Purple\ Torque}}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[1]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a9880285edbff6437f8c3f1d30ff297ed}{hip}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_a078ac176b7dc2de497d80ad6d2b17d8e}{setpoint}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Purple\ State}}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[2]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_a801807b602e60437c2baf597d7347fce}{ff\_setpoint}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Red\ Torque}}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[3]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_ab8c14a39ecef1caf87d0dfe3caeb0c50}{filtered\_torque\_reading}};\ \textcolor{comment}{//rx\_msg.data[3]\ =\ exo\_data-\/>right\_leg.ankle.motor.i;\ //Purple\ Torque}}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//TODO:\ Implement\ Mark\ Feature}}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[4]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a9880285edbff6437f8c3f1d30ff297ed}{hip}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_a078ac176b7dc2de497d80ad6d2b17d8e}{setpoint}};\ \textcolor{comment}{//rx\_msg.data[4]\ =\ exo\_data-\/>left\_leg.toe\_stance;\ \ //Purple\ State}}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[5]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_a801807b602e60437c2baf597d7347fce}{ff\_setpoint}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Red\ Torque}}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[6]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Red\ State}}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[7]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Red\ State}}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00355\ \ \ }
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a5cc826b3e637c8ef62f52d86c2b2cbd1}{config\_defs::exo\_name::right\_knee}}:}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a5bdfff9ae701926533c966aea4c1847e}{len}}\ =\ (uint8\_t)rt\_data::RIGHT\_KNEE;}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[0]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a68653046feafd91dbc9828e4b9f93316}{knee}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_ab8c14a39ecef1caf87d0dfe3caeb0c50}{filtered\_torque\_reading}};}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[1]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a68653046feafd91dbc9828e4b9f93316}{knee}}.\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a06013f6febf56bad3a81bbf067ea84fb}{i}};\textcolor{comment}{//exo\_data-\/>right\_leg.toe\_stance;}}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[2]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a68653046feafd91dbc9828e4b9f93316}{knee}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_a078ac176b7dc2de497d80ad6d2b17d8e}{setpoint}};\ }
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[3]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a68653046feafd91dbc9828e4b9f93316}{knee}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_ab8c14a39ecef1caf87d0dfe3caeb0c50}{filtered\_torque\_reading}};\ \textcolor{comment}{//rx\_msg.data[3]\ =\ exo\_data-\/>right\_leg.ankle.motor.i;}}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//TODO:\ Implement\ Mark\ Feature}}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[4]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a68653046feafd91dbc9828e4b9f93316}{knee}}.\mbox{\hyperlink{class_joint_data_afaead532774a6d60394f3667838d61d1}{motor}}.\mbox{\hyperlink{class_motor_data_a06013f6febf56bad3a81bbf067ea84fb}{i}};\textcolor{comment}{//exo\_data-\/>left\_leg.toe\_stance;\ //rx\_msg.data[4]\ =\ exo\_data-\/>left\_leg.toe\_stance;\ }}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[5]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a68653046feafd91dbc9828e4b9f93316}{knee}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_a078ac176b7dc2de497d80ad6d2b17d8e}{setpoint}};}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//rx\_msg.data[6]\ =\ exo\_data-\/>right\_leg.thigh\_angle\ /\ 100;}}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//rx\_msg.data[7]\ =\ exo\_data-\/>left\_leg.thigh\_angle\ /\ 100;}}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[6]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}};}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[7]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Red\ State}}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a5bdfff9ae701926533c966aea4c1847e}{len}}\ =\ (uint8\_t)rt\_data::BILATERAL\_ANKLE\_RT\_LEN;}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[0]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_ab8c14a39ecef1caf87d0dfe3caeb0c50}{filtered\_torque\_reading}};}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[1]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a4de38edc48e1f3768bda0b278580e6d9}{toe\_stance}};}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[2]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_a801807b602e60437c2baf597d7347fce}{ff\_setpoint}};}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[3]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_ab8c14a39ecef1caf87d0dfe3caeb0c50}{filtered\_torque\_reading}};}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//TODO:\ Implement\ Mark\ Feature}}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[4]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a4de38edc48e1f3768bda0b278580e6d9}{toe\_stance}};\ }
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[5]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_a801807b602e60437c2baf597d7347fce}{ff\_setpoint}};}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[6]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}};}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[7]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}};}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00384\ }
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00386\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#if\ REAL\_TIME\_I2C}}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacereal__time__i2c_af068276144c2f09cb47a9a0707c067fd}{real\_time\_i2c::msg}}(rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}},\ rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a5bdfff9ae701926533c966aea4c1847e}{len}});}
+\DoxyCodeLine{00388\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#else\ }}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ handler-\/>\mbox{\hyperlink{class_u_a_r_t_handler_a533ee17e009761b4ed1fd7f9780dcd14}{UART\_msg}}(rx\_msg);}
+\DoxyCodeLine{00390\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \textcolor{comment}{//logger::println("{}UART\_command\_handlers::get\_real\_time\_data-\/>sent\ real\ time\ data"{});\ \ \ Uncomment\ if\ you\ want\ to\ test\ to\ see\ what\ data\ is\ being\ sent}}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \textcolor{comment}{//UART\_msg\_t\_utils::print\_msg(rx\_msg);}}
+\DoxyCodeLine{00393\ \ \ \ \ \}}
+\DoxyCodeLine{00394\ }
+\DoxyCodeLine{00395\ \ \ \ \ \textcolor{comment}{//\ Overload\ for\ no\ config}}
+\DoxyCodeLine{00396\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ get\_real\_time\_data(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00397\ \ \ \ \ \{}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ uint8\_t\ empty\_config[\mbox{\hyperlink{namespaceini__config_a94be16c85b00371eb4b36558a936c333}{ini\_config::number\_of\_keys}}]\ =\ \{0\};}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ get\_real\_time\_data(handler,\ exo\_data,\ msg,\ empty\_config);}
+\DoxyCodeLine{00400\ \ \ \ \ \}}
+\DoxyCodeLine{00401\ }
+\DoxyCodeLine{00402\ }
+\DoxyCodeLine{00403\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ update\_real\_time\_data(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00404\ \ \ \ \ \{}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ logger::println("{}UART\_command\_handlers::update\_real\_time\_data-\/>got\ message:\ "{});}}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ UART\_msg\_t\_utils::print\_msg(msg);}}
+\DoxyCodeLine{00407\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#if\ REAL\_TIME\_I2C}}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00409\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rt\_data::len\ !=\ msg.len)}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ rt\_data::len;\ i++)}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \ \ rt\_data::float\_values[i]\ =\ msg.data[i];}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ rt\_data::new\_rt\_msg\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ exo\_data-\/>right\_leg.ankle.torque\_reading\ =\ msg.data[0];}}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ exo\_data-\/>right\_leg.ankle.controller.setpoint\ =\ msg.data[2];}}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ exo\_data-\/>left\_leg.ankle.torque\_reading\ =\ msg.data[3];}}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ exo\_data-\/>left\_leg.ankle.controller.setpoint\ =\ msg.data[5];}}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ exo\_data-\/>right\_leg.toe\_fsr\ =\ msg.data[6];}}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ exo\_data-\/>left\_leg.toe\_fsr\ =\ msg.data[7];}}
+\DoxyCodeLine{00425\ \ \ \ \ \}}
+\DoxyCodeLine{00426\ }
+\DoxyCodeLine{00427\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ update\_controller\_param(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00428\ \ \ \ \ \{}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ the\ joint}}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_joint_data}{JointData}}*\ j\_data\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a891bba5b5066ca4ab674624cccb7ea1e}{get\_joint\_with}}(msg.joint\_id);}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (j\_data\ ==\ NULL)}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}UART\_command\_handlers::update\_controller\_param-\/>No\ joint\ with\ id\ =\ \ "{}});\ logger::print(msg.joint\_id);\ logger::println(\textcolor{stringliteral}{"{}\ found"{}});}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00436\ }
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ the\ controller}}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (msg.data[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41da62ac410c5615afc2501c45fd3f7b4a90}{UART\_command\_enums::controller\_params::CONTROLLER\_ID}}]\ !=\ j\_data-\/>\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_a1133871874467ea57c7dbd49292a190e}{controller}})}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ j\_data-\/>\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_a1133871874467ea57c7dbd49292a190e}{controller}}\ =\ (uint8\_t)msg.data[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_ac679363bfb0cb9f616be44388332f41da62ac410c5615afc2501c45fd3f7b4a90}{UART\_command\_enums::controller\_params::CONTROLLER\_ID}}];}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a1d3bcaf04d33566a49d9a974f52bc641}{set\_default\_parameters}}();}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00443\ }
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ the\ parameter}}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ j\_data-\/>\mbox{\hyperlink{class_joint_data_ad90ce98dc4a3f5f65e08e08fb6352dd9}{controller}}.\mbox{\hyperlink{class_controller_data_ab54a3884cc99b67100ce4d1114e76b93}{parameters}}[(uint8\_t)msg.data[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_aca54094cddd746dd096b86ce0614d747a8cf3de1bb2c7bc645e0ab16d448711d0}{UART\_command\_enums::controller\_param::PARAM\_INDEX}}]]\ =\ msg.data[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_aca54094cddd746dd096b86ce0614d747a9bb914d2eaedd80abc450b5a48f4bf67}{UART\_command\_enums::controller\_param::PARAM\_VALUE}}];}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Serial.println("{}Updating\ Controller\ Params:\ "{}\ +\ String(msg.joint\_id)\ +\ "{},\ "{}\ }}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ +\ String((uint8\_t)msg.data[(uint8\_t)UART\_command\_enums::controller\_param::CONTROLLER\_ID])\ +\ "{},\ "{}\ }}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ +\ String((uint8\_t)msg.data[(uint8\_t)UART\_command\_enums::controller\_param::PARAM\_INDEX])\ +\ "{},\ "{}}}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ +\ String((uint8\_t)msg.data[(uint8\_t)UART\_command\_enums::controller\_param::PARAM\_VALUE])\ +\ "{},\ "{});}}
+\DoxyCodeLine{00450\ \ \ \ \ \}}
+\DoxyCodeLine{00451\ }
+\DoxyCodeLine{00452\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ update\_error\_code(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00453\ \ \ \ \ \{}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \textcolor{comment}{//logger::println("{}UART\_command\_handlers::update\_error\_code-\/>got\ message:\ "{});}}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \textcolor{comment}{//UART\_msg\_t\_utils::print\_msg(msg);}}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ the\ error\ code}}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a87cc77ebcf2d36db06ac8135093c3b14}{error\_code}}\ =\ msg.data[0];}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a7c02eb366ac9e7e15e17a22c1998b791}{error\_joint\_id}}\ =\ msg.joint\_id;}
+\DoxyCodeLine{00460\ \ \ \ \ \}}
+\DoxyCodeLine{00461\ }
+\DoxyCodeLine{00462\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ get\_error\_code(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)\ }
+\DoxyCodeLine{00463\ \ \ \ \ \{}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ tx\_msg;}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_aecc92ac5c4f9d6ef64ef6f96306a04ca}{command}}\ =\ UART\_command\_names::update\_error\_code;}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a89a2fdf8dc093d96cc876d1bda646316}{joint\_id}}\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a7c02eb366ac9e7e15e17a22c1998b791}{error\_joint\_id}};}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a5bdfff9ae701926533c966aea4c1847e}{len}}\ =\ 1;}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[0]\ =\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a87cc77ebcf2d36db06ac8135093c3b14}{error\_code}};}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ handler-\/>\mbox{\hyperlink{class_u_a_r_t_handler_a533ee17e009761b4ed1fd7f9780dcd14}{UART\_msg}}(tx\_msg);}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ logger::println("{}Sent\ error\ code"{});}}
+\DoxyCodeLine{00471\ \ \ \ \ \}}
+\DoxyCodeLine{00472\ }
+\DoxyCodeLine{00473\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ get\_FSR\_thesholds(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00474\ \ \ \ \ \{}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ tx\_msg;}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_aecc92ac5c4f9d6ef64ef6f96306a04ca}{command}}\ =\ UART\_command\_names::update\_FSR\_thesholds;}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a89a2fdf8dc093d96cc876d1bda646316}{joint\_id}}\ =\ 0;}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a5bdfff9ae701926533c966aea4c1847e}{len}}\ =\ (uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_a3ad2d18cfaba6fc3b36d240fa35d4c5faaddeac40406177897b3fccba88558f1c}{UART\_command\_enums::FSR\_thresholds::LENGTH}};}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_a3ad2d18cfaba6fc3b36d240fa35d4c5fafdc61a6f7802a1626a684b3cafe18c0b}{UART\_command\_enums::FSR\_thresholds::RIGHT\_THRESHOLD}}]\ =\ }
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a5b93cb4cab81f372456e754186b9a513}{toe\_fsr\_upper\_threshold}}\ +\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_abe1b8a075cb06107fc3e7b47e360701d}{toe\_fsr\_lower\_threshold}})/2;}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ tx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_a1a9037c39295f16d6231bb874ce15b77}{data}}[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_a3ad2d18cfaba6fc3b36d240fa35d4c5fa64de411d6dbab559bc61a9a35ca11a97}{UART\_command\_enums::FSR\_thresholds::LEFT\_THRESHOLD}}]\ =\ }
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a5b93cb4cab81f372456e754186b9a513}{toe\_fsr\_upper\_threshold}}\ +\ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_abe1b8a075cb06107fc3e7b47e360701d}{toe\_fsr\_lower\_threshold}})/2;}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ handler-\/>\mbox{\hyperlink{class_u_a_r_t_handler_a533ee17e009761b4ed1fd7f9780dcd14}{UART\_msg}}(tx\_msg);}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ logger::println("{}Sent\ FSR\ thresholds"{});}}
+\DoxyCodeLine{00485\ \ \ \ \ \}}
+\DoxyCodeLine{00486\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ update\_FSR\_thesholds(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00487\ \ \ \ \ \{}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ logger::println("{}UART\_command\_handlers::update\_FSR\_thesholds-\/>got\ message:\ "{});}}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ UART\_msg\_t\_utils::print\_msg(msg);}}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a5b93cb4cab81f372456e754186b9a513}{toe\_fsr\_upper\_threshold}}\ =\ msg.data[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_a3ad2d18cfaba6fc3b36d240fa35d4c5fafdc61a6f7802a1626a684b3cafe18c0b}{UART\_command\_enums::FSR\_thresholds::RIGHT\_THRESHOLD}}]\ +\ \mbox{\hyperlink{namespacefsr__config_aed952b4c8fa3264e85f5c6e1ea757a21}{fsr\_config::SCHMITT\_DELTA}};}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_abe1b8a075cb06107fc3e7b47e360701d}{toe\_fsr\_lower\_threshold}}\ =\ msg.data[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_a3ad2d18cfaba6fc3b36d240fa35d4c5fafdc61a6f7802a1626a684b3cafe18c0b}{UART\_command\_enums::FSR\_thresholds::RIGHT\_THRESHOLD}}]\ -\/\ \mbox{\hyperlink{namespacefsr__config_aed952b4c8fa3264e85f5c6e1ea757a21}{fsr\_config::SCHMITT\_DELTA}};}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a5b93cb4cab81f372456e754186b9a513}{toe\_fsr\_upper\_threshold}}\ =\ msg.data[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_a3ad2d18cfaba6fc3b36d240fa35d4c5fa64de411d6dbab559bc61a9a35ca11a97}{UART\_command\_enums::FSR\_thresholds::LEFT\_THRESHOLD}}]\ +\ \mbox{\hyperlink{namespacefsr__config_aed952b4c8fa3264e85f5c6e1ea757a21}{fsr\_config::SCHMITT\_DELTA}};}
+\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_abe1b8a075cb06107fc3e7b47e360701d}{toe\_fsr\_lower\_threshold}}\ =\ msg.data[(uint8\_t)\mbox{\hyperlink{namespace_u_a_r_t__command__enums_a3ad2d18cfaba6fc3b36d240fa35d4c5fa64de411d6dbab559bc61a9a35ca11a97}{UART\_command\_enums::FSR\_thresholds::LEFT\_THRESHOLD}}]\ -\/\ \mbox{\hyperlink{namespacefsr__config_aed952b4c8fa3264e85f5c6e1ea757a21}{fsr\_config::SCHMITT\_DELTA}};}
+\DoxyCodeLine{00494\ \ \ \ \ \}}
+\DoxyCodeLine{00495\ \};}
+\DoxyCodeLine{00496\ }
+\DoxyCodeLine{00497\ }
+\DoxyCodeLine{00498\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_r_t__command__utils}{UART\_command\_utils}}}
+\DoxyCodeLine{00499\ \{}
+\DoxyCodeLine{00500\ }
+\DoxyCodeLine{00501\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ call\_and\_response(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg,\ \textcolor{keywordtype}{float}\ timeout)}
+\DoxyCodeLine{00502\ \ \ \ \ \{}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ rx\_msg\ =\ \{0,\ 0,\ 0,\ 0\};}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ uint8\_t\ searching\ =\ 1;}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ logger::println("{}UART\_command\_utils::call\_and\_response-\/>searching\ for\ message"{});}}
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ start\_time\ =\ millis();}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (searching)}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ handler-\/>\mbox{\hyperlink{class_u_a_r_t_handler_a533ee17e009761b4ed1fd7f9780dcd14}{UART\_msg}}(msg);}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ logger::println("{}UART\_command\_utils::call\_and\_response-\/>sent\ msg"{});}}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \ \ \ \ delay(500);}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg\ =\ handler-\/>\mbox{\hyperlink{class_u_a_r_t_handler_aab14c2e505c7019c8c389f0ada7d7901}{poll}}(200000);}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \ \ \ \ searching\ =\ (rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_aecc92ac5c4f9d6ef64ef6f96306a04ca}{command}}\ !=\ (msg.command+1));}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TODO\ add\ timeout}}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (millis()\ -\/\ start\_time\ >\ timeout)}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ logger::println("{}UART\_command\_utils::call\_and\_response-\/>timed\ out"{});}}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rx\_msg;}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ logger::println("{}UART\_command\_utils::call\_and\_response-\/>found\ message:"{});}}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ UART\_msg\_t\_utils::print\_msg(rx\_msg);}
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rx\_msg;}
+\DoxyCodeLine{00524\ \ \ \ \ \}}
+\DoxyCodeLine{00525\ }
+\DoxyCodeLine{00526\ \ \ \ \ \textcolor{keyword}{static}\ uint8\_t\ get\_config(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ uint8\_t*\ config,\ \textcolor{keywordtype}{float}\ timeout)}
+\DoxyCodeLine{00527\ \ \ \ \ \{}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg;}
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ start\_time\ =\ millis();}
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (1)}
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ \ \ \ \ msg.command\ =\ UART\_command\_names::get\_config;}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \ \ \ \ msg.len\ =\ 0;}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \ \ \ \ msg\ =\ call\_and\_response(handler,\ msg,\ timeout);}
+\DoxyCodeLine{00535\ }
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((millis()\ -\/\ start\_time)\ >\ timeout)}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}UART\_command\_utils::get\_config-\/>timed\ out"{}});}
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00541\ }
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ the\ length\ of\ the\ message\ needs\ to\ be\ equal\ to\ the\ config\ length}}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (msg.len\ !=\ \mbox{\hyperlink{namespaceini__config_a94be16c85b00371eb4b36558a936c333}{ini\_config::number\_of\_keys}})}
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}UART\_command\_utils::get\_config-\/>msg.len\ !=\ number\_of\_keys"{}});}
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ keep\ trying\ to\ get\ config}}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i=0;\ i<msg.len;\ i++)}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ a\ valid\ config\ will\ not\ contain\ a\ zero}}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!msg.data[i])\ }
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger::print(\textcolor{stringliteral}{"{}UART\_command\_utils::get\_config-\/>Config\ contained\ a\ zero\ at\ index\ "{}});}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger::println(i);}
+\DoxyCodeLine{00556\ }
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ keep\ trying\ to\ get\ config}}
+\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00560\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}UART\_command\_utils::get\_config-\/>got\ good\ config"{}});}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00564\ }
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ pack\ config\ }}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i=0;\ i<msg.len;\ i++)}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \ \ \ \ config[i]\ =\ msg.data[i];}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00571\ \ \ \ \ \}}
+\DoxyCodeLine{00572\ }
+\DoxyCodeLine{00573\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ wait\_for\_get\_config(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ data,\ \textcolor{keywordtype}{float}\ timeout)}
+\DoxyCodeLine{00574\ \ \ \ \ \{}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ rx\_msg;}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ start\_time\ =\ millis();}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keyword}{true})}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}UART\_command\_utils::wait\_for\_config-\/>Polling\ for\ config"{}});}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ rx\_msg\ =\ handler-\/>\mbox{\hyperlink{class_u_a_r_t_handler_aab14c2e505c7019c8c389f0ada7d7901}{poll}}(100000);}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rx\_msg.\mbox{\hyperlink{struct_u_a_r_t__msg__t_aecc92ac5c4f9d6ef64ef6f96306a04ca}{command}}\ ==\ UART\_command\_names::get\_config)}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}UART\_command\_utils::wait\_for\_config-\/>Got\ config\ request"{}});}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::get\_config(handler,\ data,\ rx\_msg);}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ \ \ \ \ delayMicroseconds(500);}
+\DoxyCodeLine{00588\ }
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((millis()\ -\/\ start\_time)\ >\ timeout)}
+\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}UART\_command\_utils::wait\_for\_config-\/>Timed\ out"{}});}
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}UART\_command\_utils::wait\_for\_config-\/>Sent\ config"{}});}
+\DoxyCodeLine{00596\ \ \ \ \ \}}
+\DoxyCodeLine{00597\ }
+\DoxyCodeLine{00598\ \ \ \ \ }
+\DoxyCodeLine{00599\ }
+\DoxyCodeLine{00600\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ handle\_msg(\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ handler,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data,\ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg)}
+\DoxyCodeLine{00601\ \ \ \ \ \{}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (msg.command\ ==\ UART\_command\_names::empty\_msg)}
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}UART\_command\_utils::handle\_message-\/>got\ message:\ "{}});}
+\DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ UART\_msg\_t\_utils::print\_msg(msg);}
+\DoxyCodeLine{00609\ }
+\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (msg.command)}
+\DoxyCodeLine{00611\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::empty\_msg:}
+\DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}UART\_command\_utils::handle\_message-\/>Empty\ Message!"{}});}
+\DoxyCodeLine{00614\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00616\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::get\_controller\_params:}
+\DoxyCodeLine{00617\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::get\_controller\_params(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00618\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00619\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::update\_controller\_params:}
+\DoxyCodeLine{00620\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::update\_controller\_params(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00621\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00622\ }
+\DoxyCodeLine{00623\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::get\_status:}
+\DoxyCodeLine{00624\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::get\_status(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00626\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::update\_status:}
+\DoxyCodeLine{00627\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::update\_status(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00628\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00629\ }
+\DoxyCodeLine{00630\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::get\_config:}
+\DoxyCodeLine{00631\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::get\_config(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00632\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00633\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::update\_config:}
+\DoxyCodeLine{00634\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::update\_config(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00635\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00636\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00637\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::get\_cal\_trq\_sensor:}
+\DoxyCodeLine{00638\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::get\_cal\_trq\_sensor(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00639\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00640\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::update\_cal\_trq\_sensor:}
+\DoxyCodeLine{00641\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::update\_cal\_trq\_sensor(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00642\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00643\ }
+\DoxyCodeLine{00644\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::get\_cal\_fsr:}
+\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::get\_cal\_fsr(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00647\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::update\_cal\_fsr:}
+\DoxyCodeLine{00648\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::update\_cal\_fsr(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00649\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00650\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00651\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::get\_refine\_fsr:}
+\DoxyCodeLine{00652\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::get\_refine\_fsr(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00653\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00654\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::update\_refine\_fsr:}
+\DoxyCodeLine{00655\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::update\_refine\_fsr(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00656\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00657\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00658\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::get\_motor\_enable\_disable:}
+\DoxyCodeLine{00659\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::get\_motor\_enable\_disable(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00660\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00661\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::update\_motor\_enable\_disable:}
+\DoxyCodeLine{00662\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::update\_motor\_enable\_disable(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00663\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00664\ }
+\DoxyCodeLine{00665\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::get\_motor\_zero:}
+\DoxyCodeLine{00666\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::get\_motor\_zero(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00667\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00668\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::update\_motor\_zero:}
+\DoxyCodeLine{00669\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::update\_motor\_zero(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00670\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00671\ }
+\DoxyCodeLine{00672\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::get\_real\_time\_data:}
+\DoxyCodeLine{00673\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::get\_real\_time\_data(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00674\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00675\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::update\_real\_time\_data:}
+\DoxyCodeLine{00676\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::update\_real\_time\_data(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00677\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00678\ }
+\DoxyCodeLine{00679\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::update\_controller\_param:}
+\DoxyCodeLine{00680\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::update\_controller\_param(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00681\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00682\ }
+\DoxyCodeLine{00683\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::get\_error\_code:}
+\DoxyCodeLine{00684\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::get\_error\_code(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00685\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00686\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::update\_error\_code:}
+\DoxyCodeLine{00687\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::update\_error\_code(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00688\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00689\ }
+\DoxyCodeLine{00690\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::get\_FSR\_thesholds:}
+\DoxyCodeLine{00691\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::get\_FSR\_thesholds(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00692\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00693\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ UART\_command\_names::update\_FSR\_thesholds:}
+\DoxyCodeLine{00694\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_command\_handlers::update\_FSR\_thesholds(handler,\ exo\_data,\ msg);}
+\DoxyCodeLine{00695\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00696\ }
+\DoxyCodeLine{00697\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00698\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00699\ \ \ \ \ \ \ \ \ \ \ \ \ logger::println(\textcolor{stringliteral}{"{}UART\_command\_utils::handle\_message-\/>Unknown\ Message!"{}},\ \mbox{\hyperlink{_log_levels_8h_a9cf4d2a890c8688e0fe1bc38fa88de94a902b0d55fddef6f8d651fe1035b7d4bd}{LogLevel::Error}});}
+\DoxyCodeLine{00700\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_msg\_t\_utils::print\_msg(msg);}
+\DoxyCodeLine{00701\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00702\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00703\ \ \ \ \ \}}
+\DoxyCodeLine{00704\ \};}
+\DoxyCodeLine{00705\ }
+\DoxyCodeLine{00706\ }
+\DoxyCodeLine{00707\ }
+\DoxyCodeLine{00708\ }
+\DoxyCodeLine{00709\ }
+\DoxyCodeLine{00710\ }
+\DoxyCodeLine{00711\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,36 @@
+\doxysection{Exo\+Code/src/\+Sync\+Led.h File Reference}
+\hypertarget{_sync_led_8h}{}\label{_sync_led_8h}\index{ExoCode/src/SyncLed.h@{ExoCode/src/SyncLed.h}}
+
+
+Class to blink and LED in a specific pattern to syncronize the data from the microcontroler with optical tracking systems There will be \+\_\+num\+Start\+Stop\+Blinks high pulses at the begining and end of the sequence with each pulse lasting \+\_\+sync\+\_\+start\+\_\+stop\+\_\+half\+\_\+period\+\_\+us. In in between the start and stop it will blink with each high or low lasting \+\_\+sync\+\_\+half\+\_\+period\+\_\+us. The sequence is started and stopped using trigger().  
+
+
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=212pt]{_sync_led_8h__dep__incl}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Detailed Description}
+Class to blink and LED in a specific pattern to syncronize the data from the microcontroler with optical tracking systems There will be \+\_\+num\+Start\+Stop\+Blinks high pulses at the begining and end of the sequence with each pulse lasting \+\_\+sync\+\_\+start\+\_\+stop\+\_\+half\+\_\+period\+\_\+us. In in between the start and stop it will blink with each high or low lasting \+\_\+sync\+\_\+half\+\_\+period\+\_\+us. The sequence is started and stopped using trigger(). 
+
+This setup requires an external timer since the arduino ISR timers can\textquotesingle{}t take in arguments like the class\textquotesingle{}s self. The to change the LED\textquotesingle{}s actual on/off state, update\+Led must be called. A sample wrapper for the ISR for the timer\+:
+
+void gross\+Led\+Interupt\+Wrapper(void) \{ sync\+Led.\+sync\+Led\+Handler(); // calculate the LED state based on the timer, but don\textquotesingle{}t change the actual LED state. sync\+Timer.\+begin(gross\+Led\+Interupt\+Wrapper, sync\+Led.\+current\+Sync\+Period); // update the timer period ideally we would only do this if it changed, might add a flag to sync\+Led if needed \}
+
+Then in the main loop or when you are recording data\+: int led\+State = sync\+Led.\+update\+Led(); // actually change the led state, and record the state in the data
+
+The static state (not flashing) can be set to either HIGH or LOW
+
+If you need the pin low to be LED on (like with a P channel mosfet) you can change that in the defines below.
+
+\begin{DoxyAuthor}{Author}
+P. Stegall 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+Sept. 2021 
+\end{DoxyDate}

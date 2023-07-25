@@ -1,0 +1,28 @@
+<map id="ExoCode/src/MotorData.cpp" name="ExoCode/src/MotorData.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="68,5,254,32"/>
+<area shape="rect" id="Node000002" href="$_motor_data_8h.html" title="Declares a class used to store data for motors to access." alt="" coords="115,80,207,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,33,164,65,158,65,158,33"/>
+<area shape="rect" id="Node000004" href="$_parse_ini_8h.html" title="Declares the functions needed and defines mapping between the INI keys and the exo components." alt="" coords="5,155,85,181"/>
+<area shape="poly" id="edge11_Node000001_Node000004" title=" " alt="" coords="150,34,104,82,62,144,57,141,100,78,146,30"/>
+<area shape="rect" id="Node000009" href="$_logger_8h.html" title=" " alt="" coords="332,155,403,181"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="180,30,340,144,337,148,177,35"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="222,304,298,331"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="169,106,201,180,250,289,245,291,196,182,164,108"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="142,109,79,149,76,144,139,105"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="42,229,107,256"/>
+<area shape="poly" id="edge10_Node000002_Node000005" title=" " alt="" coords="156,109,91,218,87,215,151,106"/>
+<area shape="rect" id="Node000006" href="$_board_8h.html" title=" " alt="" coords="211,155,277,181"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="177,105,220,143,217,147,174,109"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="53,181,66,215,61,217,48,183"/>
+<area shape="poly" id="edge9_Node000006_Node000003" title=" " alt="" coords="247,182,252,256,257,289,252,290,246,256,241,182"/>
+<area shape="rect" id="Node000007" href="$_config_8h.html" title=" " alt="" coords="262,229,330,256"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="255,180,280,216,276,219,251,183"/>
+<area shape="poly" id="edge7_Node000007_Node000003" title=" " alt="" coords="292,258,275,292,270,289,287,255"/>
+<area shape="rect" id="Node000008" href="$_log_levels_8h.html" title=" " alt="" coords="398,304,487,331"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="322,254,405,295,403,299,320,259"/>
+<area shape="poly" id="edge13_Node000009_Node000003" title=" " alt="" coords="369,182,362,218,355,238,344,258,323,280,299,298,296,294,320,276,340,254,350,236,357,216,364,181"/>
+<area shape="poly" id="edge15_Node000009_Node000007" title=" " alt="" coords="357,184,320,221,316,217,353,180"/>
+<area shape="poly" id="edge14_Node000009_Node000008" title=" " alt="" coords="405,173,454,191,478,207,497,228,502,246,497,264,486,281,472,296,468,292,482,278,492,262,496,246,492,231,474,211,452,196,403,178"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="406,229,482,256"/>
+<area shape="poly" id="edge16_Node000009_Node000010" title=" " alt="" coords="383,180,422,217,418,221,379,184"/>
+</map>

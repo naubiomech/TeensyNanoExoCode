@@ -1,0 +1,48 @@
+\doxysection{Error\+Manager.\+h}
+\hypertarget{_error_manager_8h_source}{}\label{_error_manager_8h_source}\index{ExoCode/src/ErrorManager.h@{ExoCode/src/ErrorManager.h}}
+\mbox{\hyperlink{_error_manager_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ ERRORMANAGER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ ERRORMANAGER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#if\ defined(ARDUINO\_TEENSY36)\ \ ||\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{error__types_8h}{error\_types.h}}"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }ErrorManager}
+\DoxyCodeLine{00015\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ ErrorManager(Exo*\ exo,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data);}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ check();}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ assign\_handlers(error\_handler\_t\ soft,\ error\_handler\_t\ hard,\ error\_handler\_t\ fatal);}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ assign\_triggers(error\_trigger\_t\ soft,\ error\_trigger\_t\ hard,\ error\_trigger\_t\ fatal);}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ get\_error();}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ set\_system\_error(\textcolor{keywordtype}{int}\ to\_code);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \_new\_error(\textcolor{keywordtype}{int}\ working\_error\_code);}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ Exo*\ \_exo;}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ \_data;}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \_set\_handlers;}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \_set\_triggers;}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ error\_handler\_t\ \_soft\_handler\ =\ NULL;}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ error\_handler\_t\ \_hard\_handler\ =\ NULL;}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ error\_handler\_t\ \_fatal\_handler\ =\ NULL;}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ error\_trigger\_t\ \_soft\_trigger\ =\ NULL;}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ error\_trigger\_t\ \_hard\_trigger\ =\ NULL;}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ error\_trigger\_t\ \_fatal\_trigger\ =\ NULL;}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ \_system\_error\_code;\ \textcolor{comment}{/*\ Used\ to\ pass\ errors\ from\ other\ system\ modules*/}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ \_reported\_error\_code;\ \textcolor{comment}{/*\ Used\ to\ pass\ errors\ from\ other\ system\ modules*/}}
+\DoxyCodeLine{00078\ \};}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ defined(ARDUINO\_TEENSY36)\ \ ||\ defined(ARDUINO\_TEENSY41)}}
+
+\end{DoxyCode}

@@ -1,0 +1,95 @@
+\doxysection{Inclination\+Detector Class Reference}
+\hypertarget{class_inclination_detector}{}\label{class_inclination_detector}\index{InclinationDetector@{InclinationDetector}}
+
+
+Given stance and ankle angle data, return the current estimate of inclination.  
+
+
+
+
+{\ttfamily \#include $<$Inclination\+Detector.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_inclination_detector_a236be3c724d1e8084ec5297422f411d1}{Inclination\+Detector}} ()
+\item 
+void \mbox{\hyperlink{class_inclination_detector_a3bfd5b5f6724397872e9c849298430e2}{set\+\_\+decline\+\_\+angle}} (float threshold)
+\begin{DoxyCompactList}\small\item\em Set the decline angle object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_inclination_detector_a4a6d2242e4f8426e3ccf88a19648f7d1}{set\+\_\+incline\+\_\+angle}} (float threshold)
+\begin{DoxyCompactList}\small\item\em Set the incline angle threshold. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_inclination_detector_8h_a1aad764ba35fa21ff29a70473d9f96f0}{Inclination}} \mbox{\hyperlink{class_inclination_detector_a7390286bab1ba5a2864cea7e87a04426}{check}} (const bool is\+\_\+stance, const bool fsr\+\_\+calibrating, const float norm\+\_\+angle)
+\begin{DoxyCompactList}\small\item\em check the current data \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Given stance and ankle angle data, return the current estimate of inclination. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_inclination_detector_a236be3c724d1e8084ec5297422f411d1}\label{class_inclination_detector_a236be3c724d1e8084ec5297422f411d1} 
+\index{InclinationDetector@{InclinationDetector}!InclinationDetector@{InclinationDetector}}
+\index{InclinationDetector@{InclinationDetector}!InclinationDetector@{InclinationDetector}}
+\doxysubsubsection{\texorpdfstring{InclinationDetector()}{InclinationDetector()}}
+{\footnotesize\ttfamily Inclination\+Detector\+::\+Inclination\+Detector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_inclination_detector_a7390286bab1ba5a2864cea7e87a04426}\label{class_inclination_detector_a7390286bab1ba5a2864cea7e87a04426} 
+\index{InclinationDetector@{InclinationDetector}!check@{check}}
+\index{check@{check}!InclinationDetector@{InclinationDetector}}
+\doxysubsubsection{\texorpdfstring{check()}{check()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_inclination_detector_8h_a1aad764ba35fa21ff29a70473d9f96f0}{Inclination}} Inclination\+Detector\+::check (\begin{DoxyParamCaption}\item[{const bool}]{is\+\_\+stance,  }\item[{const bool}]{fsr\+\_\+calibrating,  }\item[{const float}]{norm\+\_\+angle }\end{DoxyParamCaption})}
+
+
+
+check the current data 
+
+
+\begin{DoxyParams}{Parameters}
+{\em is\+\_\+stance} & \\
+\hline
+{\em norm\+\_\+angle} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Inclination 
+\end{DoxyReturn}
+\Hypertarget{class_inclination_detector_a3bfd5b5f6724397872e9c849298430e2}\label{class_inclination_detector_a3bfd5b5f6724397872e9c849298430e2} 
+\index{InclinationDetector@{InclinationDetector}!set\_decline\_angle@{set\_decline\_angle}}
+\index{set\_decline\_angle@{set\_decline\_angle}!InclinationDetector@{InclinationDetector}}
+\doxysubsubsection{\texorpdfstring{set\_decline\_angle()}{set\_decline\_angle()}}
+{\footnotesize\ttfamily void Inclination\+Detector\+::set\+\_\+decline\+\_\+angle (\begin{DoxyParamCaption}\item[{float}]{threshold }\end{DoxyParamCaption})}
+
+
+
+Set the decline angle object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em threshold} & \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_inclination_detector_a4a6d2242e4f8426e3ccf88a19648f7d1}\label{class_inclination_detector_a4a6d2242e4f8426e3ccf88a19648f7d1} 
+\index{InclinationDetector@{InclinationDetector}!set\_incline\_angle@{set\_incline\_angle}}
+\index{set\_incline\_angle@{set\_incline\_angle}!InclinationDetector@{InclinationDetector}}
+\doxysubsubsection{\texorpdfstring{set\_incline\_angle()}{set\_incline\_angle()}}
+{\footnotesize\ttfamily void Inclination\+Detector\+::set\+\_\+incline\+\_\+angle (\begin{DoxyParamCaption}\item[{float}]{threshold }\end{DoxyParamCaption})}
+
+
+
+Set the incline angle threshold. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em threshold} & \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Exo\+Code/src/\mbox{\hyperlink{_inclination_detector_8h}{Inclination\+Detector.\+h}}\item 
+Exo\+Code/src/\mbox{\hyperlink{_inclination_detector_8cpp}{Inclination\+Detector.\+cpp}}\end{DoxyCompactItemize}

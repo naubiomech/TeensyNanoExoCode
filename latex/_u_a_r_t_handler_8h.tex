@@ -1,0 +1,152 @@
+\doxysection{Exo\+Code/src/\+UARTHandler.h File Reference}
+\hypertarget{_u_a_r_t_handler_8h}{}\label{_u_a_r_t_handler_8h}\index{ExoCode/src/UARTHandler.h@{ExoCode/src/UARTHandler.h}}
+
+
+Singleton class that manages the UART data. NOT THREAD SAFE. The class queues recieved messages.  
+
+
+{\ttfamily \#include \"{}UART\+\_\+msg\+\_\+t.\+h\"{}}\newline
+{\ttfamily \#include \"{}Arduino.\+h\"{}}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+Include dependency graph for UARTHandler.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_u_a_r_t_handler_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_u_a_r_t_handler_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}
+\begin{DoxyCompactList}\small\item\em Singleton Class to handle the UART Work. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_u_a_r_t_handler_8h_a9aa8c9390a52beddb1c7e73db3dbc888}{MAX\+\_\+\+NUM\+\_\+\+LEGS}}~2
+\item 
+\#define \mbox{\hyperlink{_u_a_r_t_handler_8h_a0b814b51533d77aa4a8d3b2fe4a6a4be}{MAX\+\_\+\+NUM\+\_\+\+JOINTS\+\_\+\+PER\+\_\+\+LEG}}~2
+\item 
+\#define \mbox{\hyperlink{_u_a_r_t_handler_8h_a1b44bac7ce184c2214432c5df7026839}{MAX\+\_\+\+RAW\+\_\+\+BUFFER\+\_\+\+SIZE}}~256
+\item 
+\#define \mbox{\hyperlink{_u_a_r_t_handler_8h_a87f68e96fb938eddc39ad1f19d923a96}{MAX\+\_\+\+DATA\+\_\+\+SIZE}}~32
+\item 
+\#define \mbox{\hyperlink{_u_a_r_t_handler_8h_a0360c59e3525b3bb6ae907bfaf85bf7b}{UART\+\_\+\+DATA\+\_\+\+TYPE}}~short int
+\item 
+\#define \mbox{\hyperlink{_u_a_r_t_handler_8h_ae0f36cfc53cb18fe10ea3108a7892e85}{FIXED\+\_\+\+POINT\+\_\+\+FACTOR}}~100
+\item 
+\#define \mbox{\hyperlink{_u_a_r_t_handler_8h_a1fac9153314479ad0ad495d752f0224a}{UART\+\_\+\+BAUD}}~256000
+\item 
+\#define \mbox{\hyperlink{_u_a_r_t_handler_8h_af93d1ffa527a8d74a873d67174d006e1}{MAX\+\_\+\+RX\+\_\+\+LEN}}~64
+\item 
+\#define \mbox{\hyperlink{_u_a_r_t_handler_8h_a3903450e4e8881b4dad09f8a4d9337b0}{RX\+\_\+\+TIMEOUT\+\_\+\+US}}~1000
+\item 
+\#define \mbox{\hyperlink{_u_a_r_t_handler_8h_a29fd18bed01c4d836c7ebfe73a125c3f}{END}}~0300    /\texorpdfstring{$\ast$}{*} indicates end of packet \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{_u_a_r_t_handler_8h_a4af1b6159e447ba72652bb7fcdfa726e}{ESC}}~0333    /\texorpdfstring{$\ast$}{*} indicates byte stuffing \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{_u_a_r_t_handler_8h_a6fc9b44a3b864f9b898250b8a3385c5a}{ESC\+\_\+\+END}}~0334    /\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_u_a_r_t_handler_8h_a4af1b6159e447ba72652bb7fcdfa726e}{ESC}} ESC\+\_\+\+END means \mbox{\hyperlink{_u_a_r_t_handler_8h_a29fd18bed01c4d836c7ebfe73a125c3f}{END}} data byte \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{_u_a_r_t_handler_8h_abfd5264ac25d24d1fe5cd4720849cc4c}{ESC\+\_\+\+ESC}}~0335    /\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_u_a_r_t_handler_8h_a4af1b6159e447ba72652bb7fcdfa726e}{ESC}} ESC\+\_\+\+ESC means \mbox{\hyperlink{_u_a_r_t_handler_8h_a4af1b6159e447ba72652bb7fcdfa726e}{ESC}} data byte \texorpdfstring{$\ast$}{*}/
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Singleton class that manages the UART data. NOT THREAD SAFE. The class queues recieved messages. 
+
+\begin{DoxyAuthor}{Author}
+Chance Cuddeback 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2022-\/09-\/07 
+\end{DoxyDate}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_u_a_r_t_handler_8h_a29fd18bed01c4d836c7ebfe73a125c3f}\label{_u_a_r_t_handler_8h_a29fd18bed01c4d836c7ebfe73a125c3f} 
+\index{UARTHandler.h@{UARTHandler.h}!END@{END}}
+\index{END@{END}!UARTHandler.h@{UARTHandler.h}}
+\doxysubsubsection{\texorpdfstring{END}{END}}
+{\footnotesize\ttfamily \#define END~0300    /\texorpdfstring{$\ast$}{*} indicates end of packet \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{_u_a_r_t_handler_8h_a4af1b6159e447ba72652bb7fcdfa726e}\label{_u_a_r_t_handler_8h_a4af1b6159e447ba72652bb7fcdfa726e} 
+\index{UARTHandler.h@{UARTHandler.h}!ESC@{ESC}}
+\index{ESC@{ESC}!UARTHandler.h@{UARTHandler.h}}
+\doxysubsubsection{\texorpdfstring{ESC}{ESC}}
+{\footnotesize\ttfamily \#define ESC~0333    /\texorpdfstring{$\ast$}{*} indicates byte stuffing \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{_u_a_r_t_handler_8h_a6fc9b44a3b864f9b898250b8a3385c5a}\label{_u_a_r_t_handler_8h_a6fc9b44a3b864f9b898250b8a3385c5a} 
+\index{UARTHandler.h@{UARTHandler.h}!ESC\_END@{ESC\_END}}
+\index{ESC\_END@{ESC\_END}!UARTHandler.h@{UARTHandler.h}}
+\doxysubsubsection{\texorpdfstring{ESC\_END}{ESC\_END}}
+{\footnotesize\ttfamily \#define ESC\+\_\+\+END~0334    /\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_u_a_r_t_handler_8h_a4af1b6159e447ba72652bb7fcdfa726e}{ESC}} ESC\+\_\+\+END means \mbox{\hyperlink{_u_a_r_t_handler_8h_a29fd18bed01c4d836c7ebfe73a125c3f}{END}} data byte \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{_u_a_r_t_handler_8h_abfd5264ac25d24d1fe5cd4720849cc4c}\label{_u_a_r_t_handler_8h_abfd5264ac25d24d1fe5cd4720849cc4c} 
+\index{UARTHandler.h@{UARTHandler.h}!ESC\_ESC@{ESC\_ESC}}
+\index{ESC\_ESC@{ESC\_ESC}!UARTHandler.h@{UARTHandler.h}}
+\doxysubsubsection{\texorpdfstring{ESC\_ESC}{ESC\_ESC}}
+{\footnotesize\ttfamily \#define ESC\+\_\+\+ESC~0335    /\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_u_a_r_t_handler_8h_a4af1b6159e447ba72652bb7fcdfa726e}{ESC}} ESC\+\_\+\+ESC means \mbox{\hyperlink{_u_a_r_t_handler_8h_a4af1b6159e447ba72652bb7fcdfa726e}{ESC}} data byte \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{_u_a_r_t_handler_8h_ae0f36cfc53cb18fe10ea3108a7892e85}\label{_u_a_r_t_handler_8h_ae0f36cfc53cb18fe10ea3108a7892e85} 
+\index{UARTHandler.h@{UARTHandler.h}!FIXED\_POINT\_FACTOR@{FIXED\_POINT\_FACTOR}}
+\index{FIXED\_POINT\_FACTOR@{FIXED\_POINT\_FACTOR}!UARTHandler.h@{UARTHandler.h}}
+\doxysubsubsection{\texorpdfstring{FIXED\_POINT\_FACTOR}{FIXED\_POINT\_FACTOR}}
+{\footnotesize\ttfamily \#define FIXED\+\_\+\+POINT\+\_\+\+FACTOR~100}
+
+\Hypertarget{_u_a_r_t_handler_8h_a87f68e96fb938eddc39ad1f19d923a96}\label{_u_a_r_t_handler_8h_a87f68e96fb938eddc39ad1f19d923a96} 
+\index{UARTHandler.h@{UARTHandler.h}!MAX\_DATA\_SIZE@{MAX\_DATA\_SIZE}}
+\index{MAX\_DATA\_SIZE@{MAX\_DATA\_SIZE}!UARTHandler.h@{UARTHandler.h}}
+\doxysubsubsection{\texorpdfstring{MAX\_DATA\_SIZE}{MAX\_DATA\_SIZE}}
+{\footnotesize\ttfamily \#define MAX\+\_\+\+DATA\+\_\+\+SIZE~32}
+
+\Hypertarget{_u_a_r_t_handler_8h_a0b814b51533d77aa4a8d3b2fe4a6a4be}\label{_u_a_r_t_handler_8h_a0b814b51533d77aa4a8d3b2fe4a6a4be} 
+\index{UARTHandler.h@{UARTHandler.h}!MAX\_NUM\_JOINTS\_PER\_LEG@{MAX\_NUM\_JOINTS\_PER\_LEG}}
+\index{MAX\_NUM\_JOINTS\_PER\_LEG@{MAX\_NUM\_JOINTS\_PER\_LEG}!UARTHandler.h@{UARTHandler.h}}
+\doxysubsubsection{\texorpdfstring{MAX\_NUM\_JOINTS\_PER\_LEG}{MAX\_NUM\_JOINTS\_PER\_LEG}}
+{\footnotesize\ttfamily \#define MAX\+\_\+\+NUM\+\_\+\+JOINTS\+\_\+\+PER\+\_\+\+LEG~2}
+
+\Hypertarget{_u_a_r_t_handler_8h_a9aa8c9390a52beddb1c7e73db3dbc888}\label{_u_a_r_t_handler_8h_a9aa8c9390a52beddb1c7e73db3dbc888} 
+\index{UARTHandler.h@{UARTHandler.h}!MAX\_NUM\_LEGS@{MAX\_NUM\_LEGS}}
+\index{MAX\_NUM\_LEGS@{MAX\_NUM\_LEGS}!UARTHandler.h@{UARTHandler.h}}
+\doxysubsubsection{\texorpdfstring{MAX\_NUM\_LEGS}{MAX\_NUM\_LEGS}}
+{\footnotesize\ttfamily \#define MAX\+\_\+\+NUM\+\_\+\+LEGS~2}
+
+\Hypertarget{_u_a_r_t_handler_8h_a1b44bac7ce184c2214432c5df7026839}\label{_u_a_r_t_handler_8h_a1b44bac7ce184c2214432c5df7026839} 
+\index{UARTHandler.h@{UARTHandler.h}!MAX\_RAW\_BUFFER\_SIZE@{MAX\_RAW\_BUFFER\_SIZE}}
+\index{MAX\_RAW\_BUFFER\_SIZE@{MAX\_RAW\_BUFFER\_SIZE}!UARTHandler.h@{UARTHandler.h}}
+\doxysubsubsection{\texorpdfstring{MAX\_RAW\_BUFFER\_SIZE}{MAX\_RAW\_BUFFER\_SIZE}}
+{\footnotesize\ttfamily \#define MAX\+\_\+\+RAW\+\_\+\+BUFFER\+\_\+\+SIZE~256}
+
+\Hypertarget{_u_a_r_t_handler_8h_af93d1ffa527a8d74a873d67174d006e1}\label{_u_a_r_t_handler_8h_af93d1ffa527a8d74a873d67174d006e1} 
+\index{UARTHandler.h@{UARTHandler.h}!MAX\_RX\_LEN@{MAX\_RX\_LEN}}
+\index{MAX\_RX\_LEN@{MAX\_RX\_LEN}!UARTHandler.h@{UARTHandler.h}}
+\doxysubsubsection{\texorpdfstring{MAX\_RX\_LEN}{MAX\_RX\_LEN}}
+{\footnotesize\ttfamily \#define MAX\+\_\+\+RX\+\_\+\+LEN~64}
+
+\Hypertarget{_u_a_r_t_handler_8h_a3903450e4e8881b4dad09f8a4d9337b0}\label{_u_a_r_t_handler_8h_a3903450e4e8881b4dad09f8a4d9337b0} 
+\index{UARTHandler.h@{UARTHandler.h}!RX\_TIMEOUT\_US@{RX\_TIMEOUT\_US}}
+\index{RX\_TIMEOUT\_US@{RX\_TIMEOUT\_US}!UARTHandler.h@{UARTHandler.h}}
+\doxysubsubsection{\texorpdfstring{RX\_TIMEOUT\_US}{RX\_TIMEOUT\_US}}
+{\footnotesize\ttfamily \#define RX\+\_\+\+TIMEOUT\+\_\+\+US~1000}
+
+\Hypertarget{_u_a_r_t_handler_8h_a1fac9153314479ad0ad495d752f0224a}\label{_u_a_r_t_handler_8h_a1fac9153314479ad0ad495d752f0224a} 
+\index{UARTHandler.h@{UARTHandler.h}!UART\_BAUD@{UART\_BAUD}}
+\index{UART\_BAUD@{UART\_BAUD}!UARTHandler.h@{UARTHandler.h}}
+\doxysubsubsection{\texorpdfstring{UART\_BAUD}{UART\_BAUD}}
+{\footnotesize\ttfamily \#define UART\+\_\+\+BAUD~256000}
+
+\Hypertarget{_u_a_r_t_handler_8h_a0360c59e3525b3bb6ae907bfaf85bf7b}\label{_u_a_r_t_handler_8h_a0360c59e3525b3bb6ae907bfaf85bf7b} 
+\index{UARTHandler.h@{UARTHandler.h}!UART\_DATA\_TYPE@{UART\_DATA\_TYPE}}
+\index{UART\_DATA\_TYPE@{UART\_DATA\_TYPE}!UARTHandler.h@{UARTHandler.h}}
+\doxysubsubsection{\texorpdfstring{UART\_DATA\_TYPE}{UART\_DATA\_TYPE}}
+{\footnotesize\ttfamily \#define UART\+\_\+\+DATA\+\_\+\+TYPE~short int}
+

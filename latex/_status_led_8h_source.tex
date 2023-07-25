@@ -1,0 +1,215 @@
+\doxysection{Status\+Led.\+h}
+\hypertarget{_status_led_8h_source}{}\label{_status_led_8h_source}\index{ExoCode/src/StatusLed.h@{ExoCode/src/StatusLed.h}}
+\mbox{\hyperlink{_status_led_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#ifndef\ StatusLed\_h}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#define\ StatusLed\_h}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_board_8h}{Board.h}}"{}}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_status_defs_8h}{StatusDefs.h}}"{}}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#if\ defined(ARDUINO\_TEENSY36)\ \ ||\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacestatus__led__defs}{status\_led\_defs}}}
+\DoxyCodeLine{00033\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{typedef}\ std::map<uint16\_t,\ uint16\_t>\ IdxRemap;\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{const}\ IdxRemap\ status\_led\_idx\ =\ }
+\DoxyCodeLine{00038\ \ \ \ \ \{\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a0f868e342655c4220f6d276de38e226c}{status\_defs::messages::off}},\ 0\},}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_adeaed9f533058d077fdc1bc8e0731271}{status\_defs::messages::trial\_off}},\ 1\},\ \ \ \ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a05ead43d10f0f28d7a4730a26c718435}{status\_defs::messages::trial\_on}},\ 2\},}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a43d0f946b32880b3c81995842145a6b9}{status\_defs::messages::test}},\ 3\},\ \ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a353bd55654b45e65ddd6b5be4a5f5ee8}{status\_defs::messages::torque\_calibration}},\ 4\},}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a0c30b5bfc6e07c0fdab78c4d2a312e61}{status\_defs::messages::fsr\_calibration}},\ 5\},\ \ \ \ }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_aaec6aa80e8ca5c39a33d2ec0d7d2f7d4}{status\_defs::messages::fsr\_refinement}},\ 6\},\ \ \ }
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a85ed6e0c4233acbffa946d8be58ee821}{status\_defs::messages::motor\_start\_up}},\ 7\},}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a5b54930240169a6b5a462fa997908ddf}{status\_defs::messages::error}},\ 8\},\ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a6115d99b1eedecde4df88e5eae587624}{status\_defs::messages::error\_left\_heel\_fsr}},\ 8\},}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a16985f740de8e1d7840d1bd1416f58e7}{status\_defs::messages::error\_left\_toe}},\ 8\},\ \ \ \ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_ad8d5e65be3d1a25efd7f6529ce77b539}{status\_defs::messages::error\_right\_heel\_fsr}},\ 8\},}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_ab45b458b13c1ca5ec04fa0561db39ab6}{status\_defs::messages::error\_right\_toe\_fsr}},\ 8\},}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a49d3f5a0ad81354b6fbfbb5f17ace2d5}{status\_defs::messages::error\_left\_hip\_torque\_sensor}},\ 8\},}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a6403038554f6d6e94715bc02ba939cc3}{status\_defs::messages::error\_left\_knee\_torque\_sensor}},\ 8\},}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a57759100d42aad707770a884668bbc00}{status\_defs::messages::error\_left\_ankle\_torque\_sensor}},\ 8\},}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a95a8059fb20b5025b34ea01f294d8122}{status\_defs::messages::error\_right\_hip\_torque\_sensor}},\ 8\},}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_af68cf1e9218d94ebdcaa65c3531ee4f6}{status\_defs::messages::error\_right\_knee\_torque\_sensor}},\ 8\},}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a7b7de0c0fb1e39b3428c3958dc0ae1dd}{status\_defs::messages::error\_right\_ankle\_torque\_sensor}},\ 8\},}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_adf240efbe59474ea7623b59571f981f2}{status\_defs::messages::error\_left\_hip\_motor}},\ 8\},}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_ad120f21eaf4f81d91a50403bae201ce4}{status\_defs::messages::error\_left\_knee\_motor}},\ 8\},}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a3f56bc4f5a826130c12fa6ff7ab33c4d}{status\_defs::messages::error\_left\_ankle\_motor}},\ 8\},}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_afb049dd4521120f6d2de36038d62450f}{status\_defs::messages::error\_right\_hip\_motor}},\ 8\},}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a2193ddeb39d157e22d10dbd86ea29537}{status\_defs::messages::error\_right\_knee\_motor}},\ 8\},}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a597dd217c016b7f4d38a737a6a92561d}{status\_defs::messages::error\_right\_ankle\_motor}},\ 8\},}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_ab568bc52b62a8495f11e248c85977fb3}{status\_defs::messages::error\_left\_hip\_controller}},\ 8\},}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_abe576caf9f323c97c0de5f1dee3f6b9d}{status\_defs::messages::error\_left\_knee\_controller}},\ 8\},}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a4e75090047f16e193c67d011e6ccbf78}{status\_defs::messages::error\_left\_ankle\_controller}},\ 8\},}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_afa0a8dde2774b2b3007ed5464ba0a36f}{status\_defs::messages::error\_right\_hip\_controller}},\ 8\},}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_af50196058c3aecf5e62c6165684d2e21}{status\_defs::messages::error\_right\_knee\_controller}},\ 8\},}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a4a270272bc5d1f7c4102d582446a8cca}{status\_defs::messages::error\_right\_ankle\_controller}},\ 8\},}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a36caa342a6655d919c9a297744113ad4}{status\_defs::messages::error\_to\_be\_used\_1}},\ 8\},}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_ace26abc454d0fcbce58916953882f9fd}{status\_defs::messages::error\_to\_be\_used\_2}},\ 8\},}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_aa7990e46633a951c5303f9316344be9b}{status\_defs::messages::error\_to\_be\_used\_3}},\ 8\},}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_ad79688d70815e07bd47a84887fa63032}{status\_defs::messages::error\_to\_be\_used\_4}},\ 8\},}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_ae822dae2a65d99f9c7c3f042b66b21da}{status\_defs::messages::error\_to\_be\_used\_5}},\ 8\},}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a08b222c05ac80cb78f876b46fd2fda0b}{status\_defs::messages::error\_to\_be\_used\_6}},\ 8\},}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a0f411a2aba5dea2f193a7afbd2dde6cc}{status\_defs::messages::error\_to\_be\_used\_7}},\ 8\},}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a8ab3bbd908160c4705ebac9b64a34135}{status\_defs::messages::error\_to\_be\_used\_8}},\ 8\},}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a82c00c91961821742a280a730a72a74a}{status\_defs::messages::error\_to\_be\_used\_9}},\ 8\},}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_af106977d048ed19111ddcf23bab458ae}{status\_defs::messages::error\_to\_be\_used\_10}},\ 8\},}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_aaf038572f5792cb598233d02b1c3d12c}{status\_defs::messages::error\_to\_be\_used\_11}},\ 8\},}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_ab3f9da655dec4637ff142facb6d6473e}{status\_defs::messages::error\_to\_be\_used\_12}},\ 8\},}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a4b16fcbffe07529ee64d7b1edba07f95}{status\_defs::messages::error\_to\_be\_used\_13}},\ 8\},}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a9932519bc2e0fb7284bbd4ae06e41f94}{status\_defs::messages::warning}},\ 9\},}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a9f7d78b3d59ce076d081d5e7ef6667ba}{status\_defs::messages::warning\_exo\_run\_time}},\ 9\},\ }
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a859ad715096de627ea427307e1e0601d}{status\_defs::messages::warning\_to\_be\_used\_1}},\ 9\},\ }
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a0b290e54c5a58fda14714db22ba9cfde}{status\_defs::messages::warning\_to\_be\_used\_2}},\ 9\},\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_afe1792715290991181c344d74f47312b}{status\_defs::messages::warning\_to\_be\_used\_3}},\ 9\},\ }
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_aff866db32313f97c2e9c243489d83e65}{status\_defs::messages::warning\_to\_be\_used\_4}},\ 9\},\ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_aba2407d25827a17a55a27ac24d2b4032}{status\_defs::messages::warning\_to\_be\_used\_5}},\ 9\},\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a567c4437c6ea96bef5259c7c3075842c}{status\_defs::messages::warning\_to\_be\_used\_6}},\ 9\},\ }
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_acc5d34240a039db9409d579cb71f93aa}{status\_defs::messages::warning\_to\_be\_used\_7}},\ 9\},\ }
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_aeb03234c85d1f1575893a83c14878462}{status\_defs::messages::warning\_to\_be\_used\_8}},\ 9\},\ }
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a09f1a21ae904f561f3a138211a1e86f1}{status\_defs::messages::warning\_to\_be\_used\_9}},\ 9\},\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a2e5ffa9c28819fd2bfc2a0907bc86c39}{status\_defs::messages::warning\_to\_be\_used\_10}},\ 9\},\ }
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_ab6b211f315c1ea93a65491a54a93c9d2}{status\_defs::messages::warning\_to\_be\_used\_11}},\ 9\},\ }
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a5dc0b888adc52e229d4c3cf48ab041b8}{status\_defs::messages::warning\_to\_be\_used\_12}},\ 9\},\ }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_af0f4caa1128676c7e038b79d56635ff6}{status\_defs::messages::warning\_to\_be\_used\_13}},\ 9\},\ }
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__defs_1_1messages_a3ad9fa3b3ab5b8f836a5100a80e7e51e}{status\_defs::messages::warning\_to\_be\_used\_14}},\ 9\},}
+\DoxyCodeLine{00101\ \ \ \ \ \};\ }
+\DoxyCodeLine{00102\ \}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00104\ \textcolor{comment}{//\ Define\ the\ on\ and\ off\ state\ of\ the\ LED.\ \ This\ is\ handy\ for\ if\ you\ are\ using\ a\ P\ Channel\ MOSFET\ where\ low\ is\ on.}}
+\DoxyCodeLine{00105\ \textcolor{comment}{//\#define\ STATUS\_LED\_ON\_STATE\ 0}}
+\DoxyCodeLine{00106\ \textcolor{comment}{//\#define\ STATUS\_LED\_OFF\_STATE\ 255}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \textcolor{comment}{//\ color\ assumes\ 255\ is\ on.\ \ The\ code\ will\ use\ the\ on/off\ state\ above\ to\ compensate\ for\ the\ code.}}
+\DoxyCodeLine{00109\ \textcolor{comment}{//\#define\ STATUS\_MESSAGE\_LED\_OFF\ 0\ \ //\ set\ the\ message\ index}}
+\DoxyCodeLine{00110\ \textcolor{comment}{//\#define\ STATUS\_COLOR\_LED\_OFF\ \{0,\ 0,\ 0\}\ \ //\ set\ the\ color\ in\ \{R,\ G,\ B\}\ format\ 0-\/255}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \textcolor{comment}{//\#define\ STATUS\_MESSAGE\_TRIAL\_OFF\ 1\ \ //\ set\ the\ message\ index}}
+\DoxyCodeLine{00113\ \textcolor{comment}{//\#define\ STATUS\_COLOR\_TRIAL\_OFF\ \{0,\ 0,\ 255\}\ \ \ //\ set\ the\ color\ in\ \{R,\ G,\ B\}\ format\ 0-\/255\ }}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \textcolor{comment}{//\#define\ STATUS\_MESSAGE\_TRIAL\_ON\ 2\ //\ set\ the\ message\ index}}
+\DoxyCodeLine{00116\ \textcolor{comment}{//\#define\ STATUS\_COLOR\_TRIAL\_ON\ \{0,\ 255,\ 0\}\ \ //\ set\ the\ color\ in\ \{R,\ G,\ B\}\ format\ 0-\/255}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \textcolor{comment}{//\#define\ STATUS\_MESSAGE\_ERROR\ 3\ \ //\ set\ the\ message\ index}}
+\DoxyCodeLine{00119\ \textcolor{comment}{//\#define\ STATUS\_COLOR\_ERROR\ \{255,\ 0,\ 0\}\ \ //\ set\ the\ color\ in\ \{R,\ G,\ B\}\ format\ 0-\/255}}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \textcolor{comment}{//\#define\ NO\_PWM\ true\ //\ true\ if\ using\ simple\ digital\ pins,\ false\ if\ using\ pwm\ pins}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00126\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacestatus__led__defs}{status\_led\_defs}}}
+\DoxyCodeLine{00127\ \{\ \ \ }
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keyword}{namespace\ }colors\ \textcolor{comment}{//\ just\ used\ namespace\ due\ to\ the\ complex\ structure.}}
+\DoxyCodeLine{00132\ \ \ \ \ \{}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a2f709e2d1a7f1dcccabe110c40b0b2b9}{off}}[]\ =\ \ \{0,\ 0,\ 0\};}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a96b6e3f1008f96971a9e3afa1de18a13}{trial\_off}}[]\ =\ \{0,\ 0,\ 255\};}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_addfe6119280354e5f0a462695c367acb}{trial\_on}}[]\ =\ \{0,\ 255,\ 0\};}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a2ec7ea4115161c070f4ffbd49bc70095}{test}}[]\ =\ \{0,\ 255,\ 0\};}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacetorque__calibration}{torque\_calibration}}[]\ =\ \{255,\ 255,\ 0\};}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_ab1ed75357dd777344c4854b21509248b}{fsr\_calibration}}[]\ =\ \{255,\ 0,\ 255\};}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a1d767fbfc7a6636b70a1a3a9183a3ec7}{fsr\_refinement}}[]\ =\ \{255,\ 0,\ 255\};}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_af489db85e06428482132c94acd6d670b}{motor\_start\_up}}[]\ =\ \{255,\ 68,\ 0\};}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a2a1386e5d490ed3a03721603ea9e8db4}{error}}[]\ =\ \{255,\ 0,\ 0\};}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a3962c260bb7fd6a8f60b3b92eda39eab}{warning}}[]\ =\ \{255,\ 68,\ 0\};}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00144\ \ \ \ \ \}}
+\DoxyCodeLine{00145\ \ \ \ \ }
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keyword}{namespace\ }patterns\ \textcolor{comment}{//\ just\ used\ namespace\ due\ to\ the\ complex\ structure.}}
+\DoxyCodeLine{00150\ \ \ \ \ \{}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_af50699f8d5bb9f8faa4e03b3aef21001}{solid}}\ =\ 0;}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_afb964875f3914b688bb7fbac1d6be596}{blink}}\ =\ 1;}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a195ec27886ed4c7db8d1358e48255d6a}{pulse}}\ =\ 2;}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a5ed9733acf4e793cbe4db6682bf37c18}{rainbow}}\ =\ 3;}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Format\ is\ pattern\ number\ and\ period\ in\ ms}}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a690cb000461dff25b5ec172cd2afc3c2}{off}}[]\ =\ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_af50699f8d5bb9f8faa4e03b3aef21001}{solid}},\ 0\};\ \textcolor{comment}{//\ Solid}}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a5c8bc12d9b25c0a05277c6569719054d}{trial\_off}}[]\ =\ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_af50699f8d5bb9f8faa4e03b3aef21001}{solid}},0\};\ \textcolor{comment}{//\ Solid}}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a8a388006a4c64a63fc47e2445e23acd5}{trial\_on}}[]\ =\ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a195ec27886ed4c7db8d1358e48255d6a}{pulse}},\ 500\};\ \textcolor{comment}{//\ Solid}}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a6b9c890f8f07e965ea69e75f51b158e5}{test}}[]\ =\ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a5ed9733acf4e793cbe4db6682bf37c18}{rainbow}},\ 4000\};\ \textcolor{comment}{//\ pulse}}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacetorque__calibration}{torque\_calibration}}[]\ =\ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_af50699f8d5bb9f8faa4e03b3aef21001}{solid}},\ 0\};}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_ac747c22e24c290054f60b0ac4e9f77c8}{fsr\_calibration}}[]\ =\ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_af50699f8d5bb9f8faa4e03b3aef21001}{solid}},\ 0\};}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a61cd30c7e1e1105a245c487238f953ff}{fsr\_refinement}}[]\ =\ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a195ec27886ed4c7db8d1358e48255d6a}{pulse}},\ 250\};}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a7f2d3dd9e17555e05972072b492ca9d2}{motor\_start\_up}}[]\ =\ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a195ec27886ed4c7db8d1358e48255d6a}{pulse}},\ 4000\};}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_ad8a7abfbc26f89bb52a004c3c0354a1c}{error}}[]\ =\ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_afb964875f3914b688bb7fbac1d6be596}{blink}},\ 250\};\ \textcolor{comment}{//\ blinking}}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a664c7ae78b6d2219482e78d9bdf82e3e}{warning}}[]\ =\ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_afb964875f3914b688bb7fbac1d6be596}{blink}},\ 250\};\ \textcolor{comment}{//\ blinking}}
+\DoxyCodeLine{00168\ \ \ \ \ \}}
+\DoxyCodeLine{00169\ \ \ \ \ }
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacestatus__led__defs_ada9272fb30ab06e74a3f335bb5102a99}{on\_state}}\ =\ \mbox{\hyperlink{namespacelogic__micro__pins_ab67bac5a45d7e514c9c84e30e56c9f3f}{logic\_micro\_pins::status\_led\_on\_state}};\ }
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{namespacestatus__led__defs_a33acabc4bb80c550867973edf27df581}{off\_state}}\ =\ \mbox{\hyperlink{namespacelogic__micro__pins_afe10b6942719814aebb9d65a4f7134d1}{logic\_micro\_pins::status\_led\_off\_state}};\ \ }
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacestatus__led__defs_a1ea89e90910e5a11a9c32c8901b7c9d3}{has\_pwm}}\ =\ \mbox{\hyperlink{namespacelogic__micro__pins_af50816ba2d942a8122921f8e3a9485b0}{logic\_micro\_pins::status\_has\_pwm}};\ \ }
+\DoxyCodeLine{00175\ \}}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \textcolor{comment}{//\ Arduino\ compiles\ everything\ in\ the\ src\ folder\ even\ if\ not\ included\ so\ it\ causes\ and\ error\ for\ the\ nano\ if\ this\ is\ not\ included.}}
+\DoxyCodeLine{00178\ \textcolor{preprocessor}{\#if\ defined(ARDUINO\_TEENSY36)\ \ ||\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00182\ \textcolor{keyword}{class\ }StatusLed}
+\DoxyCodeLine{00183\ \{}
+\DoxyCodeLine{00184\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00185\ \ \ \ \ \textcolor{comment}{//\ Constructors\ one\ you\ can\ set\ the\ default\ LED\ State}}
+\DoxyCodeLine{00186\ \ \ \ \ StatusLed(\textcolor{keywordtype}{int}\ r\_pin,\ \textcolor{keywordtype}{int}\ g\_pin,\ \textcolor{keywordtype}{int}\ b\_pin);\ \ \ \textcolor{comment}{//\ pins\ are\ the\ pins\ assocated\ with\ the\ different\ LED\ inputs}}
+\DoxyCodeLine{00187\ \ \ \ \ StatusLed(\textcolor{keywordtype}{int}\ r\_pin,\ \textcolor{keywordtype}{int}\ g\_pin,\ \textcolor{keywordtype}{int}\ b\_pin,\ \textcolor{keywordtype}{int}\ brightness);\ \ \textcolor{comment}{//\ pins\ are\ the\ pins\ assocated\ with\ the\ different\ LED\ inputs,\ brightness\ is\ used\ to\ scale\ the\ colors\ that\ are\ sent:\ color\ *\ brightness/255}}
+\DoxyCodeLine{00188\ \ \ \ }
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keywordtype}{void}\ update(uint16\_t\ message);\ \textcolor{comment}{//\ Changes\ the\ LED\ State\ to\ the\ current\ state}}
+\DoxyCodeLine{00195\ \ \ \ \ }
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_brightness(\textcolor{keywordtype}{int}\ brightness);\ \ \textcolor{comment}{//\ Used\ if\ you\ need\ to\ change\ the\ brightness\ after\ initialization,\ brightness\ is\ used\ to\ scale\ the\ colors\ that\ are\ sent:\ color\ *\ brightness/255}}
+\DoxyCodeLine{00202\ \ \ \ \ }
+\DoxyCodeLine{00206\ \ \ \ \ \textcolor{keywordtype}{void}\ toggle();}
+\DoxyCodeLine{00207\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00208\ \ \ }
+\DoxyCodeLine{00216\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_color(\textcolor{keywordtype}{int}\ R,\ \textcolor{keywordtype}{int}\ G,\ \textcolor{keywordtype}{int}\ B);\ \ \textcolor{comment}{//\ changes\ the\ color\ R,\ G,\ and\ B\ are\ 0-\/255\ values\ to\ set\ the\ corresponding\ colors.}}
+\DoxyCodeLine{00217\ \ \ \ \ }
+\DoxyCodeLine{00221\ \ \ \ \ \textcolor{keywordtype}{void}\ \_solid();}
+\DoxyCodeLine{00222\ \ \ \ \ }
+\DoxyCodeLine{00226\ \ \ \ \ \textcolor{keywordtype}{void}\ \_pulse();}
+\DoxyCodeLine{00227\ \ \ \ \ }
+\DoxyCodeLine{00231\ \ \ \ \ \textcolor{keywordtype}{void}\ \_blink();}
+\DoxyCodeLine{00232\ \ \ \ \ }
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keywordtype}{void}\ \_rainbow\_sin();}
+\DoxyCodeLine{00237\ \ \ \ \ }
+\DoxyCodeLine{00241\ \ \ \ \ \textcolor{keywordtype}{void}\ \_rainbow\_hsv();}
+\DoxyCodeLine{00242\ \ \ \ \ }
+\DoxyCodeLine{00243\ \ \ \ \ \textcolor{keywordtype}{int}\ \_r\_pin;\ \ }
+\DoxyCodeLine{00244\ \ \ \ \ \textcolor{keywordtype}{int}\ \_g\_pin;\ \ }
+\DoxyCodeLine{00245\ \ \ \ \ \textcolor{keywordtype}{int}\ \_b\_pin;\ \ }
+\DoxyCodeLine{00246\ \ \ \ \ \textcolor{keywordtype}{int}\ \_brightness;\ \ }
+\DoxyCodeLine{00247\ \ \ \ \ \textcolor{keywordtype}{int}\ \_current\_message;\ \ }
+\DoxyCodeLine{00248\ \ \ \ \ uint16\_t\ \_msg\_idx;\ }
+\DoxyCodeLine{00250\ \ \ \ \ \textcolor{keywordtype}{int}\ \_pattern\_start\_timestamp;\ }
+\DoxyCodeLine{00251\ \ \ \ \ \textcolor{keywordtype}{int}\ \_period\_ms;\ }
+\DoxyCodeLine{00252\ \ \ \ \ \textcolor{keywordtype}{int}\ \_pattern\_brightness\_percent;\ }
+\DoxyCodeLine{00254\ \ \ \ \ \textcolor{comment}{//\ make\ sure\ to\ keep\ in\ index\ order\ from\ messages,\ this\ is\ an\ array\ of\ the\ colors\ to\ use\ \_messageColors[\_currentMessage][color]\ where\ color\ is\ 0\ for\ r,\ 1\ for\ g,\ and\ 2\ for\ b.}}
+\DoxyCodeLine{00255\ \ \ \ \ \textcolor{comment}{//\ This\ method\ of\ accessing\ array\ elements\ is\ bulky\ but\ works.}}
+\DoxyCodeLine{00256\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \_message\_colors[10][3]\ =\ \{\{\mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a2f709e2d1a7f1dcccabe110c40b0b2b9}{status\_led\_defs::colors::off}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a2f709e2d1a7f1dcccabe110c40b0b2b9}{status\_led\_defs::colors::off}}[1],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a2f709e2d1a7f1dcccabe110c40b0b2b9}{status\_led\_defs::colors::off}}[2]\},\ }
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a96b6e3f1008f96971a9e3afa1de18a13}{status\_led\_defs::colors::trial\_off}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a96b6e3f1008f96971a9e3afa1de18a13}{status\_led\_defs::colors::trial\_off}}[1],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a96b6e3f1008f96971a9e3afa1de18a13}{status\_led\_defs::colors::trial\_off}}[2]\},\ }
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1colors_addfe6119280354e5f0a462695c367acb}{status\_led\_defs::colors::trial\_on}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_addfe6119280354e5f0a462695c367acb}{status\_led\_defs::colors::trial\_on}}[1],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_addfe6119280354e5f0a462695c367acb}{status\_led\_defs::colors::trial\_on}}[2]\},\ }
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a2ec7ea4115161c070f4ffbd49bc70095}{status\_led\_defs::colors::test}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a2ec7ea4115161c070f4ffbd49bc70095}{status\_led\_defs::colors::test}}[1],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a2ec7ea4115161c070f4ffbd49bc70095}{status\_led\_defs::colors::test}}[2]\},\ }
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a17dc4de849ec3e1ac7e470a288762376}{status\_led\_defs::colors::torque\_calibration}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a17dc4de849ec3e1ac7e470a288762376}{status\_led\_defs::colors::torque\_calibration}}[1],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a17dc4de849ec3e1ac7e470a288762376}{status\_led\_defs::colors::torque\_calibration}}[2]\},\ }
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1colors_ab1ed75357dd777344c4854b21509248b}{status\_led\_defs::colors::fsr\_calibration}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_ab1ed75357dd777344c4854b21509248b}{status\_led\_defs::colors::fsr\_calibration}}[1],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_ab1ed75357dd777344c4854b21509248b}{status\_led\_defs::colors::fsr\_calibration}}[2]\},\ }
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a1d767fbfc7a6636b70a1a3a9183a3ec7}{status\_led\_defs::colors::fsr\_refinement}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a1d767fbfc7a6636b70a1a3a9183a3ec7}{status\_led\_defs::colors::fsr\_refinement}}[1],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a1d767fbfc7a6636b70a1a3a9183a3ec7}{status\_led\_defs::colors::fsr\_refinement}}[2]\},}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1colors_af489db85e06428482132c94acd6d670b}{status\_led\_defs::colors::motor\_start\_up}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_af489db85e06428482132c94acd6d670b}{status\_led\_defs::colors::motor\_start\_up}}[1],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_af489db85e06428482132c94acd6d670b}{status\_led\_defs::colors::motor\_start\_up}}[2]\},}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a2a1386e5d490ed3a03721603ea9e8db4}{status\_led\_defs::colors::error}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a2a1386e5d490ed3a03721603ea9e8db4}{status\_led\_defs::colors::error}}[1],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a2a1386e5d490ed3a03721603ea9e8db4}{status\_led\_defs::colors::error}}[2]\},\ }
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a3962c260bb7fd6a8f60b3b92eda39eab}{status\_led\_defs::colors::warning}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a3962c260bb7fd6a8f60b3b92eda39eab}{status\_led\_defs::colors::warning}}[1],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1colors_a3962c260bb7fd6a8f60b3b92eda39eab}{status\_led\_defs::colors::warning}}[2]\}\ }
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};\ }
+\DoxyCodeLine{00268\ \ \ \ \ \textcolor{comment}{//\ make\ sure\ to\ keep\ in\ index\ order\ from\ messages,\ this\ is\ an\ array\ of\ the\ colors\ to\ use\ \_messageColors[\_currentMessage][color]\ where\ color\ is\ 0\ for\ r,\ 1\ for\ g,\ and\ 2\ for\ b.}}
+\DoxyCodeLine{00269\ \ \ \ \ \textcolor{comment}{//\ This\ method\ of\ accessing\ array\ elements\ is\ bulky\ but\ works.}}
+\DoxyCodeLine{00270\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \_message\_pattern[10][2]\ =\ \{\{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a690cb000461dff25b5ec172cd2afc3c2}{status\_led\_defs::patterns::off}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a690cb000461dff25b5ec172cd2afc3c2}{status\_led\_defs::patterns::off}}[1]\},\ }
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a5c8bc12d9b25c0a05277c6569719054d}{status\_led\_defs::patterns::trial\_off}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a5c8bc12d9b25c0a05277c6569719054d}{status\_led\_defs::patterns::trial\_off}}[1]\},\ }
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a8a388006a4c64a63fc47e2445e23acd5}{status\_led\_defs::patterns::trial\_on}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a8a388006a4c64a63fc47e2445e23acd5}{status\_led\_defs::patterns::trial\_on}}[1]\},\ }
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a6b9c890f8f07e965ea69e75f51b158e5}{status\_led\_defs::patterns::test}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a6b9c890f8f07e965ea69e75f51b158e5}{status\_led\_defs::patterns::test}}[1]\},\ }
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_ab602c02deefeac6c92567d27ecc791b2}{status\_led\_defs::patterns::torque\_calibration}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_ab602c02deefeac6c92567d27ecc791b2}{status\_led\_defs::patterns::torque\_calibration}}[1]\},\ }
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_ac747c22e24c290054f60b0ac4e9f77c8}{status\_led\_defs::patterns::fsr\_calibration}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_ac747c22e24c290054f60b0ac4e9f77c8}{status\_led\_defs::patterns::fsr\_calibration}}[1]\},\ }
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a61cd30c7e1e1105a245c487238f953ff}{status\_led\_defs::patterns::fsr\_refinement}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a61cd30c7e1e1105a245c487238f953ff}{status\_led\_defs::patterns::fsr\_refinement}}[1]\},}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a7f2d3dd9e17555e05972072b492ca9d2}{status\_led\_defs::patterns::motor\_start\_up}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a7f2d3dd9e17555e05972072b492ca9d2}{status\_led\_defs::patterns::motor\_start\_up}}[1]\},}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_ad8a7abfbc26f89bb52a004c3c0354a1c}{status\_led\_defs::patterns::error}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_ad8a7abfbc26f89bb52a004c3c0354a1c}{status\_led\_defs::patterns::error}}[1]\},}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a664c7ae78b6d2219482e78d9bdf82e3e}{status\_led\_defs::patterns::warning}}[0],\ \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns_a664c7ae78b6d2219482e78d9bdf82e3e}{status\_led\_defs::patterns::warning}}[1]\}\ }
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00283\ \};}
+\DoxyCodeLine{00284\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00285\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
