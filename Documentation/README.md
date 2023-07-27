@@ -41,6 +41,7 @@
     1. [Lab Resources](#lab-resources)
     1. [C++ Resources](#c-resources)
     1. [Bluetooth Resources](#bluetooth-resources)
+9. [Known Issues](#known-issues) 
 **
 
 ## Background
@@ -1378,3 +1379,10 @@ This would be done if new features need to be configured.
 - [w3schools](https://www.w3schools.com/cpp/default.asp)
 
 ### Bluetooth Resources
+- [Adafruit guide](https://learn.adafruit.com/introduction-to-bluetooth-low-energy)
+
+***
+## Known Issues
+### Println()
+There has been a reoccuring issue within the codebase when using Serial.println(). For some reason this can casue the code to crash at 
+runtime. However, using Serial.print("\n") works just fine. 
