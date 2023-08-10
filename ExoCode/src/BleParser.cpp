@@ -6,7 +6,7 @@
 #include "BleMessageQueue.h"
 #include "Logger.h"
 
-#define BLE_PARSER_DEBUG 1
+#define BLE_PARSER_DEBUG 0
 
 BleParser::BleParser()
 {
