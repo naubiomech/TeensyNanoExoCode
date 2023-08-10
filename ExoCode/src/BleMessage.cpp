@@ -32,7 +32,8 @@ void BleMessage::print(BleMessage msg)
     logger::print("\t");
     logger::print(msg.is_complete);
     logger::print("\t");
-    logger::println(msg.expecting);
+    logger::print(msg.expecting);
+    logger::print("\n");
     if (msg.expecting <= 0) 
     {
         return;
@@ -46,7 +47,7 @@ void BleMessage::print(BleMessage msg)
         }
         logger::print(", ");
     }
-    logger::println();
+    logger::print("\n");
 }
 
 // TODO: Overide == operator

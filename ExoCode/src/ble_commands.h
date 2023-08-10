@@ -37,7 +37,7 @@ typedef struct
  */
 namespace ble_names
 {
-    // Recieved Commands
+    // Recieved Commands (GIU->Firmware)
     static const char start             = 'E';
     static const char stop              = 'G';
     static const char cal_trq           = 'H';
@@ -50,9 +50,9 @@ namespace ble_names
     static const char motors_off        = 'w';
     static const char mark              = 'N';
     static const char update_param      = 'f';
-    static const char perturb           = 'Y';        //TO DO: CHANGE THIS
+    static const char perturb           = 'Y';
 
-    // Sending Commands
+    // Sending Commands (Firmware->GUI)
     static const char send_real_time_data = '?';
     static const char send_batt           = '~';
     static const char send_cal_done       = 'n';
@@ -164,6 +164,8 @@ namespace ble_handlers
                 return;
             }
         );
+
+        logger::print("\n\n=============================== Started ==========================\n\n");
 
         // Set the data status to running
         data->set_status(status_defs::messages::trial_on);
@@ -422,6 +424,7 @@ namespace ble_handlers
          //logger::print("ble_handlers::update_param() - Controller ID: "); logger::println((uint8_t)msg->data[1]);
          //logger::print("ble_handlers::update_param() - Param Index: "); logger::println((uint8_t)msg->data[2]);
          //logger::print("ble_handlers::update_param() - Param Value: "); logger::println((uint8_t)msg->data[3]);
+        logger::print("New message\n");
         UARTHandler* uart_handler = UARTHandler::get_instance();
         UART_msg_t tx_msg;
         tx_msg.command = UART_command_names::update_controller_param;

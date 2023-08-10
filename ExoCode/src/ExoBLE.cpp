@@ -8,7 +8,7 @@
 #include "error_codes.h"
 #include "Logger.h"
 
-#define EXOBLE_DEBUG 1
+#define EXOBLE_DEBUG 0
 
 ExoBLE::ExoBLE()
 {
@@ -126,7 +126,8 @@ void ExoBLE::advertising_onoff(bool onoff)
 bool ExoBLE::handle_updates()
 {
     #if EXOBLE_DEBUG
-    logger::println("ExoBLE::handle_updates:Start");
+    logger::print("ExoBLE::handle_updates:Start");
+    logger::print("\n");
     #endif
 
     static Time_Helper *t_helper = Time_Helper::get_instance();
@@ -146,16 +147,18 @@ bool ExoBLE::handle_updates()
 
         // Poll for updates and check connection status
         #if EXOBLE_DEBUG
-        logger::println("Poll for updates and check connection status");
+        logger::print("Poll for updates and check connection status");
+        logger::print("\n");
         #endif
-        BLE.poll(BLE_times::_poll_timeout);
+        BLE.poll();
         int32_t current_status = BLE.connected();
 
         if (_connected == current_status)
         {
 #if EXOBLE_DEBUG
             logger::print("ExoBLE::handle_updates:queue size:");
-            logger::println(ble_queue::size());
+            logger::print(ble_queue::size());
+            logger::print("\n");
 #endif
             return ble_queue::size();
         }
@@ -165,14 +168,16 @@ bool ExoBLE::handle_updates()
         {
 // Disconnection
 #if EXOBLE_DEBUG
-            logger::println("Disconnection");
+            logger::print("Disconnection");
+            logger::print("\n");
 #endif
         }
         else if (current_status > _connected)
         {
 // Connection
 #if EXOBLE_DEBUG
-            logger::println("Connection");
+            logger::print("Connection");
+            logger::print("\n");
 #endif
         }
         advertising_onoff(current_status == 0);
@@ -181,7 +186,8 @@ bool ExoBLE::handle_updates()
 
 #if EXOBLE_DEBUG
     logger::print("ExoBLE::handle_updates:queue size:");
-    logger::println(ble_queue::size());
+    logger::print(ble_queue::size());
+    logger::print("\n");
 #endif
 
 
@@ -219,7 +225,8 @@ void ExoBLE::send_error(int error_code, int joint_id)
     logger::print("Exoble::send_error->Sending: ", LogLevel::Error);
     logger::print(joint_id, LogLevel::Error);
     logger::print(", ", LogLevel::Error);
-    logger::println(error_code, LogLevel::Error);
+    logger::print(error_code, LogLevel::Error);
+    logger::print("\n");
     #endif
 
     String error_string = String(error_code) + ":" + String(joint_id);
@@ -236,9 +243,6 @@ void ble_rx::on_rx_recieved(BLEDevice central, BLECharacteristic characteristic)
     static BleParser *parser = new BleParser();
     static BleMessage *msg = new BleMessage();
 
-    #if EXOBLE_DEBUG
-    logger::println("on_rx_recieved");
-    #endif
 
     // Must reset message to avoid duplicate data
     (*msg) = *empty_msg;
@@ -254,7 +258,7 @@ void ble_rx::on_rx_recieved(BLEDevice central, BLECharacteristic characteristic)
             logger::print(data[i]);
             logger::print(", ");
         }
-        logger::println();
+        logger::print("\n");
         #endif
 
     msg = parser->handle_raw_data(data, len);
@@ -269,7 +273,7 @@ void ble_rx::on_rx_recieved(BLEDevice central, BLECharacteristic characteristic)
     }
 
     #if EXOBLE_DEBUG
-    logger::println("on_rx_recieved->End");
+    logger::print("on_rx_recieved->End\n");
     #endif
 }
 

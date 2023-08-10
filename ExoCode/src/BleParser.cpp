@@ -6,7 +6,7 @@
 #include "BleMessageQueue.h"
 #include "Logger.h"
 
-#define BLE_PARSER_DEBUG 1
+#define BLE_PARSER_DEBUG 0
 
 BleParser::BleParser()
 {
@@ -25,7 +25,7 @@ BleMessage *BleParser::handle_raw_data(char *buffer, int length)
         logger::print(buffer[i]);
         logger::print(" ");
     }
-    logger::println("");
+    logger::print("\n");
     #endif
 
     static BleMessage *return_msg = new BleMessage();
@@ -37,7 +37,7 @@ BleMessage *BleParser::handle_raw_data(char *buffer, int length)
         if (_working_message.is_complete)
         {
             #if BLE_PARSER_DEBUG
-            logger::println("BleParser::handle_raw_data->message is complete");
+            logger::print("BleParser::handle_raw_data->message is complete\n");
             #endif
             return_msg->copy(&_working_message);
             _working_message.clear();
@@ -46,7 +46,7 @@ BleMessage *BleParser::handle_raw_data(char *buffer, int length)
         else
         {
             #if BLE_PARSER_DEBUG
-            logger::println("BleParser::handle_raw_data->message is not complete");
+            logger::print("BleParser::handle_raw_data->message is not complete\n");
             #endif
             //_waiting_for_data = true;
         }
@@ -100,8 +100,10 @@ int BleParser::package_raw_data(byte *buffer, BleMessage &msg)
     int buffer_index = 0;
     buffer[buffer_index++] = _start_char;
     buffer[buffer_index++] = msg.command;
+    int expecting_char_length = utils::get_char_length(msg.expecting);
     itoa(msg.expecting, &cBuffer[0], 10);
-    memcpy(&buffer[buffer_index++], &cBuffer[0], 1);
+    memcpy(&buffer[buffer_index], &cBuffer[0], expecting_char_length);
+    buffer_index += expecting_char_length;
     buffer[buffer_index++] = _start_data;
     for (int i = 0; i < msg.expecting; i++)
     {
@@ -111,7 +113,7 @@ int BleParser::package_raw_data(byte *buffer, BleMessage &msg)
         int cLength = utils::get_char_length(modData);
         if (cLength > _maxChars)
         {
-            logger::print("BleParser::package_raw_data: cLength > _maxChars", LogLevel::Error);
+            logger::print("BleParser::package_raw_data: cLength > _maxChars\n", LogLevel::Error);
             cLength = 1;
             modData = 0;
         }
@@ -122,8 +124,6 @@ int BleParser::package_raw_data(byte *buffer, BleMessage &msg)
         buffer_index += cLength;
         buffer[buffer_index++] = _delimiter;
     }
-
-    // TODO: Check what is being sent
     
 
 #if BLE_PARSER_DEBUG
@@ -133,7 +133,7 @@ int BleParser::package_raw_data(byte *buffer, BleMessage &msg)
         logger::print(buffer[i]);
         logger::print(" ");
     }
-    logger::println("");
+    logger::print("\n");
 #endif
 
     return buffer_index;
@@ -147,7 +147,8 @@ void BleParser::_handle_command(char command)
 {
 #if BLE_PARSER_DEBUG
     logger::print("BleParser::_handle_command: ");
-    logger::println(command);
+    logger::print(command);
+    logger::print("\n");
 #endif
 
     int length = -1;

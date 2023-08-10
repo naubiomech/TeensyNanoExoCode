@@ -9,7 +9,7 @@
 
 #define FIXED_POINT_FACTOR 100
 
-#if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41) 
+#if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41)
     #define HOST 1
     #if BOARD_VERSION == AK_Board_V0_3
     #define MY_WIRE Wire1
@@ -122,12 +122,13 @@ bool real_time_i2c::poll(float* pack_array)
     logger::println();
     #endif
 
-    for (int i=0; i<len; i++)
+    for (int i=0; i<(len); i++)
     {
         uint8_t data_offset = (2) + (i*2); // preamble plus i * sizeof(float)/sizeof(short int)
         float tmp = 0;
         utils::short_fixed_point_bytes_to_float((uint8_t*)(buff+data_offset), &tmp, FIXED_POINT_FACTOR);
         pack_array[i] =  tmp;
+
         #if RT_I2C_DEBUG
         logger::print("real_time_i2c::poll()->i: ");
         logger::print(i);
@@ -139,8 +140,7 @@ bool real_time_i2c::poll(float* pack_array)
         logger::print(buff[data_offset+1]);
         logger::print(" tmp: ");
         logger::print(tmp);
-        logger::println();
-        logger::flush();
+        logger::print("\n");
         #endif
     }
     

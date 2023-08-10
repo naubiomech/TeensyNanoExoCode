@@ -12,7 +12,7 @@
 
 #if defined(ARDUINO_ARDUINO_NANO33BLE) | defined(ARDUINO_NANO_RP2040_CONNECT)
 
-#define COMSMCU_DEBUG 1
+#define COMSMCU_DEBUG 0
 
 ComsMCU::ComsMCU(ExoData* data, uint8_t* config_to_send):_data{data}
 {
@@ -140,8 +140,10 @@ void ComsMCU::update_gui()
 
     // Get real time data from ExoData and send to GUI
     const bool new_rt_data = real_time_i2c::poll(rt_floats);
+    static float del_t_no_msg = millis();
     if (new_rt_data || rt_data::new_rt_msg)
     {
+        del_t_no_msg = millis();
         #if COMSMCU_DEBUG
         logger::println("ComsMCU::update_gui->new_rt_data");
         #endif
@@ -172,6 +174,29 @@ void ComsMCU::update_gui()
         #if COMSMCU_DEBUG
         logger::println("ComsMCU::update_gui->sent message");
         #endif
+    } 
+    else 
+    {
+        // If we should be getting messages and we dont for 1 second, spin on error
+        uint16_t exo_status = _data->get_status();
+        const bool correct_status = (exo_status == status_defs::messages::trial_on) || 
+            (exo_status == status_defs::messages::fsr_calibration) || 
+            (exo_status == status_defs::messages::fsr_refinement) ||
+            (exo_status == status_defs::messages::error);
+        if (correct_status)
+        {
+            // if (millis() - del_t_no_msg > 3000)
+            // {
+            //     #if COMSMCU_DEBUG
+            //     logger::println("ComsMCU::update_gui->No message for 3 second");
+            //     #endif
+            //     while (true)
+            //     {
+            //         logger::println("ComsMCU::update_gui->No message for 3 second");
+            //         delay(10000);
+            //     }
+            // }
+        }
     }
 
     // Periodically send status information

@@ -459,7 +459,7 @@ void loop()
 #include "src/WaistBarometer.h"
 #include "src/InclineDetector.h"
 
-#define MAIN_DEBUG 1
+#define MAIN_DEBUG 0
 
 // create array to store config.
 namespace config_info
