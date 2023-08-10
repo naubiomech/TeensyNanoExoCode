@@ -1,0 +1,18 @@
+<map id="ExoCode/src/SyncLed.cpp" name="ExoCode/src/SyncLed.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,182,32"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="27,229,104,256"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,34,59,55,43,81,36,116,38,152,46,186,56,215,51,217,41,188,33,153,30,116,38,79,55,51,76,30"/>
+<area shape="rect" id="Node000003" href="$_sync_led_8h.html" title="Class to blink and LED in a specific pattern to syncronize the data from the microcontroler with opti..." alt="" coords="52,80,135,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="96,33,96,65,91,65,91,33"/>
+<area shape="rect" id="Node000004" href="$_logger_8h.html" title=" " alt="" coords="159,80,231,107"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="113,30,167,69,164,73,110,35"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="160,110,125,128,93,156,78,185,71,215,65,214,73,183,89,153,122,124,158,105"/>
+<area shape="rect" id="Node000005" href="$_log_levels_8h.html" title=" " alt="" coords="146,229,236,256"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="197,107,194,214,189,214,192,107"/>
+<area shape="rect" id="Node000006" href="$_config_8h.html" title=" " alt="" coords="103,155,172,181"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="187,109,159,145,154,141,183,106"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="247,155,324,181"/>
+<area shape="poly" id="edge9_Node000004_Node000007" title=" " alt="" coords="212,105,260,143,257,148,209,109"/>
+<area shape="poly" id="edge7_Node000006_Node000002" title=" " alt="" coords="127,184,90,221,86,217,123,180"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="149,180,175,216,171,219,145,183"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="ExoCode/src/Battery.h" name="ExoCode/src/Battery.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="110,5,263,32"/>
+<area shape="rect" id="Node000002" href="$_battery_8cpp.html" title=" " alt="" coords="5,80,173,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,43,107,82,104,77,156,39"/>
+<area shape="rect" id="Node000003" href="$_coms_m_c_u_8h.html" title="The top of the composite structure for the communication microcontroller. This class manages the blue..." alt="" coords="197,80,371,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="216,39,268,77,265,82,213,43"/>
+<area shape="rect" id="Node000004" href="$_coms_m_c_u_8cpp.html" title=" " alt="" coords="190,155,378,181"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="286,122,286,154,281,154,281,122"/>
+</map>

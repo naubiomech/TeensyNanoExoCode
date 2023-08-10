@@ -1,0 +1,11 @@
+<map id="ExoCode/src/BleMessageQueue.h" name="ExoCode/src/BleMessageQueue.h">
+<area shape="rect" id="Node000001" title="Defines a FIFO queue for the BLEMessage type. The maximum size is specified in the cpp." alt="" coords="246,5,467,32"/>
+<area shape="rect" id="Node000002" href="$_ble_message_queue_8cpp.html" title=" " alt="" coords="5,80,241,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="303,39,165,82,163,77,301,34"/>
+<area shape="rect" id="Node000003" href="$_ble_parser_8cpp.html" title=" " alt="" coords="265,80,448,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="359,47,359,80,354,80,354,47"/>
+<area shape="rect" id="Node000004" href="$_coms_m_c_u_8h.html" title="The top of the composite structure for the communication microcontroller. This class manages the blue..." alt="" coords="472,80,646,107"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="406,35,524,77,523,82,405,40"/>
+<area shape="rect" id="Node000005" href="$_coms_m_c_u_8cpp.html" title=" " alt="" coords="465,155,653,181"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="562,122,562,154,556,154,556,122"/>
+</map>

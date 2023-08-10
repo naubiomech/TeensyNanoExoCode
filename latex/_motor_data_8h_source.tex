@@ -1,0 +1,49 @@
+\doxysection{Motor\+Data.\+h}
+\hypertarget{_motor_data_8h_source}{}\label{_motor_data_8h_source}\index{ExoCode/src/MotorData.h@{ExoCode/src/MotorData.h}}
+\mbox{\hyperlink{_motor_data_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ MotorData\_h}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ MotorData\_h}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_parse_ini_8h}{ParseIni.h}}"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_board_8h}{Board.h}}"{}}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ forward\ declaration}}
+\DoxyCodeLine{00022\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_exo_data}{ExoData}};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_motor_data}{MotorData}}\ }
+\DoxyCodeLine{00025\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_motor_data}{MotorData}}(\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\_defs::joint\_id}}\ \textcolor{keywordtype}{id},\ uint8\_t*\ config\_to\_send);}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_motor_data_a6c785789ec1689cc0108a6928cb44172}{reconfigure}}(uint8\_t*\ config\_to\_send);}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076}{config\_defs::joint\_id}}\ \mbox{\hyperlink{class_motor_data_a3b808174d79455ea760e8398ce29d932}{id}};\ }
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{class_motor_data_af38473a3781f1605587b9f32d5c86e36}{motor\_type}};\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_motor_data_afceee322e49150761049d02e6e3bf262}{last\_command}};\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_motor_data_a3c58ade99b071d182454f12e4eb5fbca}{p}};\ \ }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_motor_data_a6431077f5ae693bd0d907cf31a802307}{v}};\ \ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_motor_data_a06013f6febf56bad3a81bbf067ea84fb}{i}};\ \ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_motor_data_a060a466bea63a1745f1aadacad7b032a}{p\_des}}\ =\ 0;\ \ \ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_motor_data_a83af6607b877a4a7f5620cf5c2c6105c}{v\_des}}\ =\ 0;\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_motor_data_a56f7609c8a6771a0de87c633a4454eb9}{kp}}\ =\ 0;\ }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_motor_data_ab75ff031a363f1e4c7d39bfdd3c30d2a}{kd}}\ =\ 0;\ }
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_motor_data_aad6fd1aa6d9e869218028f6998ccce44}{t\_ff}}\ =\ 0;\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ add\ do\_zero\_flag\ and\ check\ in\ run.}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_motor_data_a2ccc8906fd6f7eee7852591dac1b081d}{do\_zero}};\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_motor_data_a4b909a13e4ac0eb7c3f05a1de2b0dc60}{enabled}};\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_motor_data_abac1713d68ed69064312a8f1cb9169ce}{is\_on}};\ }
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_motor_data_a4d2aace9c1e4021756aec67a94b262a8}{is\_left}};\ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_motor_data_a5c135f11c9a91c1e609a27f5b84321b2}{flip\_direction}};\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_motor_data_a734ab4d41c8165842579a6c0e0f8f4d4}{gearing}};\ }
+\DoxyCodeLine{00055\ \};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,7 @@
+<map id="ExoCode/src/BleMessageQueue.h" name="ExoCode/src/BleMessageQueue.h">
+<area shape="rect" id="Node000001" title="Defines a FIFO queue for the BLEMessage type. The maximum size is specified in the cpp." alt="" coords="5,5,227,32"/>
+<area shape="rect" id="Node000002" href="$_ble_message_8h.html" title="Defines the BleMessage class used to hold command&#45;data pairs exchanged between the GUI." alt="" coords="64,80,168,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,33,119,65,113,65,113,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="88,155,144,181"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="119,107,119,140,113,140,113,107"/>
+</map>

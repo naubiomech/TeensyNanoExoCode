@@ -1,0 +1,48 @@
+\doxysection{status\+\_\+led\+\_\+defs Namespace Reference}
+\hypertarget{namespacestatus__led__defs}{}\label{namespacestatus__led__defs}\index{status\_led\_defs@{status\_led\_defs}}
+
+
+define how each message will be displayed.  
+
+
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacestatus__led__defs_1_1colors}{colors}}
+\begin{DoxyCompactList}\small\item\em colors each message should display \end{DoxyCompactList}\item 
+namespace \mbox{\hyperlink{namespacestatus__led__defs_1_1patterns}{patterns}}
+\begin{DoxyCompactList}\small\item\em patterns to use for each message \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacestatus__led__defs_ada9272fb30ab06e74a3f335bb5102a99}{on\+\_\+state}} = \mbox{\hyperlink{namespacelogic__micro__pins_ab67bac5a45d7e514c9c84e30e56c9f3f}{logic\+\_\+micro\+\_\+pins\+::status\+\_\+led\+\_\+on\+\_\+state}}
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacestatus__led__defs_a33acabc4bb80c550867973edf27df581}{off\+\_\+state}} = \mbox{\hyperlink{namespacelogic__micro__pins_afe10b6942719814aebb9d65a4f7134d1}{logic\+\_\+micro\+\_\+pins\+::status\+\_\+led\+\_\+off\+\_\+state}}
+\item 
+const bool \mbox{\hyperlink{namespacestatus__led__defs_a1ea89e90910e5a11a9c32c8901b7c9d3}{has\+\_\+pwm}} = \mbox{\hyperlink{namespacelogic__micro__pins_af50816ba2d942a8122921f8e3a9485b0}{logic\+\_\+micro\+\_\+pins\+::status\+\_\+has\+\_\+pwm}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+define how each message will be displayed. 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacestatus__led__defs_a1ea89e90910e5a11a9c32c8901b7c9d3}\label{namespacestatus__led__defs_a1ea89e90910e5a11a9c32c8901b7c9d3} 
+\index{status\_led\_defs@{status\_led\_defs}!has\_pwm@{has\_pwm}}
+\index{has\_pwm@{has\_pwm}!status\_led\_defs@{status\_led\_defs}}
+\doxysubsubsection{\texorpdfstring{has\_pwm}{has\_pwm}}
+{\footnotesize\ttfamily const bool status\+\_\+led\+\_\+defs\+::has\+\_\+pwm = \mbox{\hyperlink{namespacelogic__micro__pins_af50816ba2d942a8122921f8e3a9485b0}{logic\+\_\+micro\+\_\+pins\+::status\+\_\+has\+\_\+pwm}}}
+
+records if the display should use PWM or simple digital output. \Hypertarget{namespacestatus__led__defs_a33acabc4bb80c550867973edf27df581}\label{namespacestatus__led__defs_a33acabc4bb80c550867973edf27df581} 
+\index{status\_led\_defs@{status\_led\_defs}!off\_state@{off\_state}}
+\index{off\_state@{off\_state}!status\_led\_defs@{status\_led\_defs}}
+\doxysubsubsection{\texorpdfstring{off\_state}{off\_state}}
+{\footnotesize\ttfamily const uint8\+\_\+t status\+\_\+led\+\_\+defs\+::off\+\_\+state = \mbox{\hyperlink{namespacelogic__micro__pins_afe10b6942719814aebb9d65a4f7134d1}{logic\+\_\+micro\+\_\+pins\+::status\+\_\+led\+\_\+off\+\_\+state}}}
+
+off state of the LED used to determine PWM ratio \Hypertarget{namespacestatus__led__defs_ada9272fb30ab06e74a3f335bb5102a99}\label{namespacestatus__led__defs_ada9272fb30ab06e74a3f335bb5102a99} 
+\index{status\_led\_defs@{status\_led\_defs}!on\_state@{on\_state}}
+\index{on\_state@{on\_state}!status\_led\_defs@{status\_led\_defs}}
+\doxysubsubsection{\texorpdfstring{on\_state}{on\_state}}
+{\footnotesize\ttfamily const uint8\+\_\+t status\+\_\+led\+\_\+defs\+::on\+\_\+state = \mbox{\hyperlink{namespacelogic__micro__pins_ab67bac5a45d7e514c9c84e30e56c9f3f}{logic\+\_\+micro\+\_\+pins\+::status\+\_\+led\+\_\+on\+\_\+state}}}
+
+on state of the LED used to determine PWM ratio 

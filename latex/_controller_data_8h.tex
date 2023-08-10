@@ -1,0 +1,385 @@
+\doxysection{Exo\+Code/src/\+Controller\+Data.h File Reference}
+\hypertarget{_controller_data_8h}{}\label{_controller_data_8h}\index{ExoCode/src/ControllerData.h@{ExoCode/src/ControllerData.h}}
+
+
+Declares a class used to store data for controllers to access.  
+
+
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include \"{}Arduino.\+h\"{}}\newline
+{\ttfamily \#include \"{}Board.\+h\"{}}\newline
+{\ttfamily \#include \"{}Parse\+Ini.\+h\"{}}\newline
+Include dependency graph for Controller\+Data.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=330pt]{_controller_data_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_controller_data_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_controller_data}{Controller\+Data}}
+\begin{DoxyCompactList}\small\item\em class to store information related to controllers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs}{controller\+\_\+defs}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1zero__torque}{controller\+\_\+defs\+::zero\+\_\+torque}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1stasis}{controller\+\_\+defs\+::stasis}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment}{controller\+\_\+defs\+::proportional\+\_\+joint\+\_\+moment}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1heel__toe}{controller\+\_\+defs\+::heel\+\_\+toe}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle}{controller\+\_\+defs\+::extension\+\_\+angle}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang}{controller\+\_\+defs\+::bang\+\_\+bang}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance}{controller\+\_\+defs\+::late\+\_\+stance}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase}{controller\+\_\+defs\+::gait\+\_\+phase}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1parabolic}{controller\+\_\+defs\+::parabolic}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins}{controller\+\_\+defs\+::zhang\+\_\+collins}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip}{controller\+\_\+defs\+::franks\+\_\+collins\+\_\+hip}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1sine}{controller\+\_\+defs\+::sine}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1perturbation}{controller\+\_\+defs\+::perturbation}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1constant__torque}{controller\+\_\+defs\+::constant\+\_\+torque}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1elbow__min__max}{controller\+\_\+defs\+::elbow\+\_\+min\+\_\+max}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general}{controller\+\_\+defs\+::ptb\+\_\+general}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive}{controller\+\_\+defs\+::propulsive\+\_\+assistive}}
+\item 
+namespace \mbox{\hyperlink{namespacecontroller__defs_1_1calibr__manager}{controller\+\_\+defs\+::calibr\+\_\+manager}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_controller_data_8h_a7990da7a17d405201ebafaa0ef534270}{Controller\+Data\+\_\+h}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1zero__torque_ab3bb883631695f61461c899bd7c003e5}{controller\+\_\+defs\+::zero\+\_\+torque\+::use\+\_\+pid\+\_\+idx}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1zero__torque_a940ffca7a074d933d53941e0f6be103b}{controller\+\_\+defs\+::zero\+\_\+torque\+::p\+\_\+gain\+\_\+idx}} = 1
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1zero__torque_ade51ff6c3c206f0c0ac6db4423251020}{controller\+\_\+defs\+::zero\+\_\+torque\+::i\+\_\+gain\+\_\+idx}} = 2
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1zero__torque_aec3a676d5becff7b61dca12e7a0f8c65}{controller\+\_\+defs\+::zero\+\_\+torque\+::d\+\_\+gain\+\_\+idx}} = 3
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1zero__torque_ae2c1302751a465d49198ba9cc0ea0477}{controller\+\_\+defs\+::zero\+\_\+torque\+::num\+\_\+parameter}} = 4
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1stasis_ae2cab1c944eea799f0d7f5c0bdd45b9e}{controller\+\_\+defs\+::stasis\+::num\+\_\+parameter}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_a144410a668ecddb0a993f20d3edb8e85}{controller\+\_\+defs\+::proportional\+\_\+joint\+\_\+moment\+::stance\+\_\+max\+\_\+idx}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_a083e87412a006978bde75c761dbcb55e}{controller\+\_\+defs\+::proportional\+\_\+joint\+\_\+moment\+::swing\+\_\+max\+\_\+idx}} = 1
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_a7442e01e2b595e9f64b6f4965f69be32}{controller\+\_\+defs\+::proportional\+\_\+joint\+\_\+moment\+::is\+\_\+assitance\+\_\+idx}} = 2
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_a15203c74ff925dc214e27335b944f066}{controller\+\_\+defs\+::proportional\+\_\+joint\+\_\+moment\+::use\+\_\+pid\+\_\+idx}} = 3
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_a9246c1baba879812049b95717018fcc5}{controller\+\_\+defs\+::proportional\+\_\+joint\+\_\+moment\+::p\+\_\+gain\+\_\+idx}} = 4
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_a290fa403c4fd2e78eb93a6e995741244}{controller\+\_\+defs\+::proportional\+\_\+joint\+\_\+moment\+::i\+\_\+gain\+\_\+idx}} = 5
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_ade002f563fcb65cf734eb3bb0873a9d5}{controller\+\_\+defs\+::proportional\+\_\+joint\+\_\+moment\+::d\+\_\+gain\+\_\+idx}} = 6
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_a07981bbca1a20008313b0ba265697b9e}{controller\+\_\+defs\+::proportional\+\_\+joint\+\_\+moment\+::torque\+\_\+alpha\+\_\+idx}} = 7
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1proportional__joint__moment_a31952ff5fb99c7680e2d0b69e7036cec}{controller\+\_\+defs\+::proportional\+\_\+joint\+\_\+moment\+::num\+\_\+parameter}} = 8
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1heel__toe_a9ea4316d77a90919146e559a007a1274}{controller\+\_\+defs\+::heel\+\_\+toe\+::flexion\+\_\+torque\+\_\+setpoint\+\_\+idx}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1heel__toe_a26060524f4ec44efa3a62d686ba80ada}{controller\+\_\+defs\+::heel\+\_\+toe\+::extension\+\_\+torque\+\_\+setpoint\+\_\+idx}} = 1
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1heel__toe_ac0d0a6403a6e6d1f2966c269069e088a}{controller\+\_\+defs\+::heel\+\_\+toe\+::use\+\_\+pid\+\_\+idx}} = 2
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1heel__toe_a99b6c223078b5bcd6b68f4cc9f923884}{controller\+\_\+defs\+::heel\+\_\+toe\+::p\+\_\+gain\+\_\+idx}} = 3
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1heel__toe_a21f1d98e764c1b8ee5646aaf9e990433}{controller\+\_\+defs\+::heel\+\_\+toe\+::i\+\_\+gain\+\_\+idx}} = 4
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1heel__toe_a9a9a93e8ab7e7114098d6d7f080ec598}{controller\+\_\+defs\+::heel\+\_\+toe\+::d\+\_\+gain\+\_\+idx}} = 5
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1heel__toe_acd193cb6b55a7d84a9c0610ef305f86d}{controller\+\_\+defs\+::heel\+\_\+toe\+::num\+\_\+parameter}} = 6
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_a2701db3e2ff7ca6f5cc4e8f3bdf00e4e}{controller\+\_\+defs\+::extension\+\_\+angle\+::flexion\+\_\+setpoint\+\_\+idx}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_ade48875a461b29ffafaed23826d15cec}{controller\+\_\+defs\+::extension\+\_\+angle\+::extension\+\_\+setpoint\+\_\+idx}} = 1
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_ae411c3722e51a14dd6b1e5ecf73fcfe6}{controller\+\_\+defs\+::extension\+\_\+angle\+::target\+\_\+flexion\+\_\+percent\+\_\+max\+\_\+idx}} = 2
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_a22c8a43dd6f620c0a215417bae9323e6}{controller\+\_\+defs\+::extension\+\_\+angle\+::clear\+\_\+angle\+\_\+idx}} = 3
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_a1612bcfe7575c728f74edefb37de4033}{controller\+\_\+defs\+::extension\+\_\+angle\+::angle\+\_\+threshold\+\_\+idx}} = 4
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_ae5d2abc672005d528b284fdbacff9006}{controller\+\_\+defs\+::extension\+\_\+angle\+::velocity\+\_\+threshold\+\_\+idx}} = 5
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_a7c96736008968d3e18a2969a852af351}{controller\+\_\+defs\+::extension\+\_\+angle\+::use\+\_\+pid\+\_\+idx}} = 6
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_a356af0eac56d9a7a61d59d7bfb9534fb}{controller\+\_\+defs\+::extension\+\_\+angle\+::p\+\_\+gain\+\_\+idx}} = 7
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_a02a84fac617300e53d49e26d6c8bdd6c}{controller\+\_\+defs\+::extension\+\_\+angle\+::i\+\_\+gain\+\_\+idx}} = 8
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_a1be21acb77c6fd5c7d5b343d5c2733fd}{controller\+\_\+defs\+::extension\+\_\+angle\+::d\+\_\+gain\+\_\+idx}} = 9
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1extension__angle_a7178bac8496220c49725635235c0c981}{controller\+\_\+defs\+::extension\+\_\+angle\+::num\+\_\+parameter}} = 10
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_ab497830fea6638c3fe59a11b5a7db1ae}{controller\+\_\+defs\+::bang\+\_\+bang\+::flexion\+\_\+setpoint\+\_\+idx}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a796ab7f57e040caa28d2cb5b9735a68a}{controller\+\_\+defs\+::bang\+\_\+bang\+::extension\+\_\+setpoint\+\_\+idx}} = 1
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a1fec60d70b6c2d44825e1d1913f82946}{controller\+\_\+defs\+::bang\+\_\+bang\+::is\+\_\+assitance\+\_\+idx}} = 2
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a83eb7fdfe1dc7b23f65d035f88f400e8}{controller\+\_\+defs\+::bang\+\_\+bang\+::target\+\_\+flexion\+\_\+percent\+\_\+max\+\_\+idx}} = 3
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a4a5c9fd92a9a1ef3ce0a22b6ce97c861}{controller\+\_\+defs\+::bang\+\_\+bang\+::clear\+\_\+angle\+\_\+idx}} = 4
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_ab34e4334ef836d5086d28ec41dab5d22}{controller\+\_\+defs\+::bang\+\_\+bang\+::angle\+\_\+threshold\+\_\+idx}} = 5
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a97905d72ded84f7e3e940fabe86e231f}{controller\+\_\+defs\+::bang\+\_\+bang\+::velocity\+\_\+threshold\+\_\+idx}} = 6
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a0b865b3faf27190847a489b45ed2a86a}{controller\+\_\+defs\+::bang\+\_\+bang\+::use\+\_\+pid\+\_\+idx}} = 7
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a52fe3bb2fd31b3c32bc271ec6372d848}{controller\+\_\+defs\+::bang\+\_\+bang\+::p\+\_\+gain\+\_\+idx}} = 8
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_ac29b04561fac0669c1fee91991131a4a}{controller\+\_\+defs\+::bang\+\_\+bang\+::i\+\_\+gain\+\_\+idx}} = 9
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a39bbdf0f843f1e3cdd15875ad8588f48}{controller\+\_\+defs\+::bang\+\_\+bang\+::d\+\_\+gain\+\_\+idx}} = 10
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1bang__bang_a1ec50f75f6c02fa9fff1d3df783027a8}{controller\+\_\+defs\+::bang\+\_\+bang\+::num\+\_\+parameter}} = 11
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_afde66c78610fb24001ad414e79a4f947}{controller\+\_\+defs\+::late\+\_\+stance\+::resistance\+\_\+setpoint\+\_\+idx}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_aa55571881c390fbb014c76e016f4070b}{controller\+\_\+defs\+::late\+\_\+stance\+::angle\+\_\+on\+\_\+off}} = 1
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_a41a08df5502f8f48d53fb4c07776c28b}{controller\+\_\+defs\+::late\+\_\+stance\+::clear\+\_\+angle\+\_\+idx}} = 2
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_a15870c1f40a6bdfee6259f7c8791e073}{controller\+\_\+defs\+::late\+\_\+stance\+::velocity\+\_\+threshold\+\_\+idx}} = 3
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_aee9afa1c5ad331b7d7130d5ef639a3f9}{controller\+\_\+defs\+::late\+\_\+stance\+::use\+\_\+pid\+\_\+idx}} = 4
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_a8ee0ab8072f387d97baed10bf90d0251}{controller\+\_\+defs\+::late\+\_\+stance\+::p\+\_\+gain\+\_\+idx}} = 5
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_a0e9f4c30b697fc401ffadbe3c4e2f284}{controller\+\_\+defs\+::late\+\_\+stance\+::i\+\_\+gain\+\_\+idx}} = 6
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_a499f7f01f22d4d164a6649087ea198ba}{controller\+\_\+defs\+::late\+\_\+stance\+::d\+\_\+gain\+\_\+idx}} = 7
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1late__stance_acebb0f90deb484fc7c3ee6a1cb599274}{controller\+\_\+defs\+::late\+\_\+stance\+::num\+\_\+parameter}} = 8
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_af3f87809a2d7e668a2910629b6ba4a74}{controller\+\_\+defs\+::gait\+\_\+phase\+::flexion\+\_\+setpoint\+\_\+idx}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_a26decefcd84876dc6eb22c6b38238a88}{controller\+\_\+defs\+::gait\+\_\+phase\+::extension\+\_\+setpoint\+\_\+idx}} = 1
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_a11dd933fbae3f82415d0cbc0903680c3}{controller\+\_\+defs\+::gait\+\_\+phase\+::flexion\+\_\+start\+\_\+percentage\+\_\+idx}} = 2
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_ad78325ddf1e35a12f6a9f09240456d8f}{controller\+\_\+defs\+::gait\+\_\+phase\+::flexion\+\_\+end\+\_\+percentage\+\_\+idx}} = 3
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_afc2d76cf0d7366b27aa9da78b8233e1a}{controller\+\_\+defs\+::gait\+\_\+phase\+::extension\+\_\+start\+\_\+percentage\+\_\+idx}} = 4
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_ae5ab1951f75d16e9d2ba3b790e95e87e}{controller\+\_\+defs\+::gait\+\_\+phase\+::extension\+\_\+end\+\_\+percentage\+\_\+idx}} = 5
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_a6ee4475b835ff754214f64096b2f7ed1}{controller\+\_\+defs\+::gait\+\_\+phase\+::slope\+\_\+idx}} = 6
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_aab7bb3bb2cf47ca2057512d752691bfd}{controller\+\_\+defs\+::gait\+\_\+phase\+::use\+\_\+pid\+\_\+idx}} = 7
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_aed32fd77e9b002e7543b8327c6b17f7c}{controller\+\_\+defs\+::gait\+\_\+phase\+::p\+\_\+gain\+\_\+idx}} = 8
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_a6de5a0f06f2b136846e7458e7d38d8a3}{controller\+\_\+defs\+::gait\+\_\+phase\+::i\+\_\+gain\+\_\+idx}} = 9
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_aec7f3ba84c54885eb6d6d626fc343151}{controller\+\_\+defs\+::gait\+\_\+phase\+::d\+\_\+gain\+\_\+idx}} = 10
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1gait__phase_a28bac2adb828f993d40aad59d6857217}{controller\+\_\+defs\+::gait\+\_\+phase\+::num\+\_\+parameter}} = 11
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1parabolic_a42bab8f1f4939bac733b6f31b7500352}{controller\+\_\+defs\+::parabolic\+::flexion\+\_\+setpoint\+\_\+idx}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1parabolic_a14e5ef90b73589944379bce6debd257a}{controller\+\_\+defs\+::parabolic\+::extension\+\_\+setpoint\+\_\+idx}} = 1
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1parabolic_a66a6cd9cc80a6163e4323198f993b7c3}{controller\+\_\+defs\+::parabolic\+::flexion\+\_\+start\+\_\+percentage\+\_\+idx}} = 2
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1parabolic_a13eb0a63f95c66b0b351bd8005ac8fa8}{controller\+\_\+defs\+::parabolic\+::flexion\+\_\+end\+\_\+percentage\+\_\+idx}} = 3
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1parabolic_a9121f42c97188793fd04641c612ede47}{controller\+\_\+defs\+::parabolic\+::extension\+\_\+start\+\_\+percentage\+\_\+idx}} = 4
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1parabolic_a73ddf31c72d16d1e6a20744f9ebc629d}{controller\+\_\+defs\+::parabolic\+::extension\+\_\+end\+\_\+percentage\+\_\+idx}} = 5
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1parabolic_a79185e859c71b364b6cfcb5b0aa29729}{controller\+\_\+defs\+::parabolic\+::num\+\_\+parameter}} = 6
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_aabf55ca308a02afa205f7e0faaf2337e}{controller\+\_\+defs\+::zhang\+\_\+collins\+::torque\+\_\+idx}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_a4257f56ff4628429f1718ae8807d9a05}{controller\+\_\+defs\+::zhang\+\_\+collins\+::peak\+\_\+time\+\_\+idx}} = 1
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_ad748f50fcd628a618fc596d62779aadb}{controller\+\_\+defs\+::zhang\+\_\+collins\+::rise\+\_\+time\+\_\+idx}} = 2
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_aeccaee021e6b126ba857635345231c55}{controller\+\_\+defs\+::zhang\+\_\+collins\+::fall\+\_\+time\+\_\+idx}} = 3
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_a11765cbf53ba606c9d51ff97110366e5}{controller\+\_\+defs\+::zhang\+\_\+collins\+::direction\+\_\+idx}} = 4
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_a709294867412d9cb3cc7b5896f6122c2}{controller\+\_\+defs\+::zhang\+\_\+collins\+::use\+\_\+pid\+\_\+idx}} = 5
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_ad66d3ba99f3e0176b280af0b791e6b62}{controller\+\_\+defs\+::zhang\+\_\+collins\+::p\+\_\+gain\+\_\+idx}} = 6
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_abdcf7e858f2f230584cf53af09d260db}{controller\+\_\+defs\+::zhang\+\_\+collins\+::i\+\_\+gain\+\_\+idx}} = 7
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_a0b3faa97944843f16e28dcd9a7e23ae0}{controller\+\_\+defs\+::zhang\+\_\+collins\+::d\+\_\+gain\+\_\+idx}} = 8
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1zhang__collins_a78f7c38178247a2b13baa3520b00851b}{controller\+\_\+defs\+::zhang\+\_\+collins\+::num\+\_\+parameter}} = 9
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_ada4a2f68b82f21a63751239a16e5cb26}{controller\+\_\+defs\+::franks\+\_\+collins\+\_\+hip\+::mass\+\_\+idx}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_ad3d85a40f462ac0a51a6c05eab36adfb}{controller\+\_\+defs\+::franks\+\_\+collins\+\_\+hip\+::trough\+\_\+normalized\+\_\+torque\+\_\+\+Nm\+\_\+kg\+\_\+idx}} = 1
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_aba590875cbdd8ef552680b13c849e8e0}{controller\+\_\+defs\+::franks\+\_\+collins\+\_\+hip\+::peak\+\_\+normalized\+\_\+torque\+\_\+\+Nm\+\_\+kg\+\_\+idx}} = 2
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_adbe29284657760471b47a389b7d639dd}{controller\+\_\+defs\+::franks\+\_\+collins\+\_\+hip\+::start\+\_\+percent\+\_\+gait\+\_\+idx}} = 3
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_a9d612b2023b799b25976cec91e334e62}{controller\+\_\+defs\+::franks\+\_\+collins\+\_\+hip\+::trough\+\_\+onset\+\_\+percent\+\_\+gait\+\_\+idx}} = 4
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_ae67e6ae008b571073aeef32b9de1f3cc}{controller\+\_\+defs\+::franks\+\_\+collins\+\_\+hip\+::trough\+\_\+percent\+\_\+gait\+\_\+idx}} = 5
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_a32580fb8cade04d82ae6003c64f3f5e2}{controller\+\_\+defs\+::franks\+\_\+collins\+\_\+hip\+::mid\+\_\+time\+\_\+idx}} = 6
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_a23453867814c4ab181f0060bf7004ff1}{controller\+\_\+defs\+::franks\+\_\+collins\+\_\+hip\+::mid\+\_\+duration\+\_\+idx}} = 7
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_aa159abd196826193c86c294666fa457d}{controller\+\_\+defs\+::franks\+\_\+collins\+\_\+hip\+::peak\+\_\+percent\+\_\+gait\+\_\+idx}} = 8
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_ad811b0f525284bed7037bb5e8fc6fbed}{controller\+\_\+defs\+::franks\+\_\+collins\+\_\+hip\+::peak\+\_\+offset\+\_\+percent\+\_\+gait\+\_\+idx}} = 9
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_a05a2879c0c5995090760230566fb2731}{controller\+\_\+defs\+::franks\+\_\+collins\+\_\+hip\+::use\+\_\+pid\+\_\+idx}} = 10
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_a4c4629f6ae1bf29dce0ed0dc19cbddad}{controller\+\_\+defs\+::franks\+\_\+collins\+\_\+hip\+::p\+\_\+gain\+\_\+idx}} = 11
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_aeeb53953e467f0f78a1dda41cdad7a47}{controller\+\_\+defs\+::franks\+\_\+collins\+\_\+hip\+::i\+\_\+gain\+\_\+idx}} = 12
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_a7ae9421b5a17142e9bd3ba9c22dea5fc}{controller\+\_\+defs\+::franks\+\_\+collins\+\_\+hip\+::d\+\_\+gain\+\_\+idx}} = 13
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_a4a7d3335f0bdd7fc6524a58983801e3f}{controller\+\_\+defs\+::franks\+\_\+collins\+\_\+hip\+::num\+\_\+parameter}} = 14
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1sine_adc407d2fcb3fd87c5e8e137d7f587cce}{controller\+\_\+defs\+::sine\+::amplitude\+\_\+idx}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1sine_ae156a3a30103ffb50f035fcad71c2887}{controller\+\_\+defs\+::sine\+::period\+\_\+idx}} = 1
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1sine_a82b9c489bac260f773bd501317ef9feb}{controller\+\_\+defs\+::sine\+::phase\+\_\+shift\+\_\+idx}} = 2
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1sine_a0ff6386dc58746c102b56e57b0e13526}{controller\+\_\+defs\+::sine\+::use\+\_\+pid\+\_\+idx}} = 3
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1sine_a46cf1df1843d9afc78a275e013b893c8}{controller\+\_\+defs\+::sine\+::p\+\_\+gain\+\_\+idx}} = 4
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1sine_a9d6651bfeb7ddb8f582398adbdaa4c81}{controller\+\_\+defs\+::sine\+::i\+\_\+gain\+\_\+idx}} = 5
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1sine_a7ea68e369898ef453936094d3478bd27}{controller\+\_\+defs\+::sine\+::d\+\_\+gain\+\_\+idx}} = 6
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1sine_a00b5f0edda44ab94b1e8b523adc7653c}{controller\+\_\+defs\+::sine\+::num\+\_\+parameter}} = 7
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1perturbation_ac40e3de44fb57f60f3a80508b7f0b3de}{controller\+\_\+defs\+::perturbation\+::amplitude\+\_\+idx}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1perturbation_ae85663702b0e2ae58360f3606ca84f46}{controller\+\_\+defs\+::perturbation\+::threshold\+\_\+start\+\_\+idx}} = 1
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1perturbation_a428c21f8b769f893bc5067429246d616}{controller\+\_\+defs\+::perturbation\+::threshold\+\_\+end\+\_\+idx}} = 2
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1perturbation_acd57f26de69f63f77d7f2a776423ed0c}{controller\+\_\+defs\+::perturbation\+::direction\+\_\+idx}} = 3
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1perturbation_a347561eb7ebcc12c0b66adfededcb7b1}{controller\+\_\+defs\+::perturbation\+::num\+\_\+parameter}} = 4
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1constant__torque_a2cebbebfc3fc51c5f0439d15fa2278df}{controller\+\_\+defs\+::constant\+\_\+torque\+::amplitude\+\_\+idx}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1constant__torque_ad2e51e62b826b259bb41aabbae166156}{controller\+\_\+defs\+::constant\+\_\+torque\+::direction\+\_\+idx}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1constant__torque_a6200d65d29e2c3f8dc1ea04742d1ee55}{controller\+\_\+defs\+::constant\+\_\+torque\+::num\+\_\+parameter}} = 3
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1elbow__min__max_acc695eb7bbfc8a0ebfc187ca633e016f}{controller\+\_\+defs\+::elbow\+\_\+min\+\_\+max\+::amplitude\+\_\+idx}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1elbow__min__max_a564eea9f99ed1eca9abbf8682ce08924}{controller\+\_\+defs\+::elbow\+\_\+min\+\_\+max\+::fsr\+\_\+threshold\+\_\+idx}} = 1
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1elbow__min__max_a6df7eaf26fd42302c7f13f56ec8013f8}{controller\+\_\+defs\+::elbow\+\_\+min\+\_\+max\+::fsr\+\_\+threshold1\+\_\+idx}} = 2
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1elbow__min__max_a08e56c6633c08e012fedaa111050cd94}{controller\+\_\+defs\+::elbow\+\_\+min\+\_\+max\+::num\+\_\+parameter}} = 3
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_a518386ad6d48b8fa48cecd841cef71aa}{controller\+\_\+defs\+::ptb\+\_\+general\+::ptb\+\_\+mode\+\_\+idx}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_ad523b642c3118c1eb47c3603d4e8581b}{controller\+\_\+defs\+::ptb\+\_\+general\+::ptb\+\_\+settings\+\_\+1\+\_\+idx}} = 1
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_ad30064bf0f3d2497596a4298742c3a72}{controller\+\_\+defs\+::ptb\+\_\+general\+::ptb\+\_\+settings\+\_\+2\+\_\+idx}} = 2
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_a267f4242b5b707b84105b3f0f636e0e7}{controller\+\_\+defs\+::ptb\+\_\+general\+::ptb\+\_\+settings\+\_\+3\+\_\+idx}} = 3
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_acba9166f82d078f801b0ebc66a3bc9fb}{controller\+\_\+defs\+::ptb\+\_\+general\+::ptb\+\_\+settings\+\_\+4\+\_\+idx}} = 4
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_a48c6a31bc1f63511ffb7db942c7f948a}{controller\+\_\+defs\+::ptb\+\_\+general\+::use\+\_\+pid\+\_\+idx}} = 5
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_a94d9b97c0395ff763ba5d4ff4dd54b1e}{controller\+\_\+defs\+::ptb\+\_\+general\+::p\+\_\+gain\+\_\+idx}} = 6
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_ad53d6984b28df088660466dd1fe6784b}{controller\+\_\+defs\+::ptb\+\_\+general\+::i\+\_\+gain\+\_\+idx}} = 7
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_a7b197ab9c3158b1e33ec986fedce0012}{controller\+\_\+defs\+::ptb\+\_\+general\+::d\+\_\+gain\+\_\+idx}} = 8
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_a8d3bec9aae5d9eb2db6d2171424ce87a}{controller\+\_\+defs\+::ptb\+\_\+general\+::ptb\+\_\+settings\+\_\+9\+\_\+idx}} = 9
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1ptb__general_aeea84e0ac08d418ae06262cfb0ea46f0}{controller\+\_\+defs\+::ptb\+\_\+general\+::num\+\_\+parameter}} = 10
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_a16b6fd4c01bb1755b90ce977f130d471}{controller\+\_\+defs\+::propulsive\+\_\+assistive\+::plantar\+\_\+scaling}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_ac677bd733b5cdddaa35e396fb2942dfc}{controller\+\_\+defs\+::propulsive\+\_\+assistive\+::dorsi\+\_\+scaling}} = 1
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_a682a6347d0db6c25a283a73f08c0bbc9}{controller\+\_\+defs\+::propulsive\+\_\+assistive\+::timing\+\_\+threshold}} = 2
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_aa9a3f53b70a0ab1d99ddfceb2bc67803}{controller\+\_\+defs\+::propulsive\+\_\+assistive\+::spring\+\_\+stiffness}} = 3
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_ac2c7b3466d345b87bfd1b1419f150086}{controller\+\_\+defs\+::propulsive\+\_\+assistive\+::neutral\+\_\+angle}} = 4
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_a931e22d71d540cb6a87dc91f5794b857}{controller\+\_\+defs\+::propulsive\+\_\+assistive\+::damping}} = 5
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_ae8acfd58943696c260b9574fd87608c1}{controller\+\_\+defs\+::propulsive\+\_\+assistive\+::propulsive\+\_\+gain}} = 6
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_ae8b4c9b85a0af0076d60c5954aa977ca}{controller\+\_\+defs\+::propulsive\+\_\+assistive\+::kp}} = 7
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_a85b07071ebf9852021287de3156a7e24}{controller\+\_\+defs\+::propulsive\+\_\+assistive\+::kd}} = 8
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1propulsive__assistive_a19041cd4cd22415d2e90f59c734bde00}{controller\+\_\+defs\+::propulsive\+\_\+assistive\+::num\+\_\+parameter}} = 9
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1calibr__manager_a3027385b8f5de1cb5f063879011a92bf}{controller\+\_\+defs\+::calibr\+\_\+manager\+::calibr\+\_\+cmd}} = 0
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_1_1calibr__manager_a78c18c2d6f6111098f7f353cd69d1a91}{controller\+\_\+defs\+::calibr\+\_\+manager\+::num\+\_\+parameter}} = 1
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{namespacecontroller__defs_aee311835f95c470c5549c1d25498d96f}{controller\+\_\+defs\+::max\+\_\+parameters}} = \mbox{\hyperlink{namespacecontroller__defs_1_1franks__collins__hip_a4a7d3335f0bdd7fc6524a58983801e3f}{franks\+\_\+collins\+\_\+hip\+::num\+\_\+parameter}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Declares a class used to store data for controllers to access. 
+
+\begin{DoxyAuthor}{Author}
+P. Stegall 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+Jan. 2022 
+\end{DoxyDate}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_controller_data_8h_a7990da7a17d405201ebafaa0ef534270}\label{_controller_data_8h_a7990da7a17d405201ebafaa0ef534270} 
+\index{ControllerData.h@{ControllerData.h}!ControllerData\_h@{ControllerData\_h}}
+\index{ControllerData\_h@{ControllerData\_h}!ControllerData.h@{ControllerData.h}}
+\doxysubsubsection{\texorpdfstring{ControllerData\_h}{ControllerData\_h}}
+{\footnotesize\ttfamily \#define Controller\+Data\+\_\+h}
+

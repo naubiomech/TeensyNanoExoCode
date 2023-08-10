@@ -1,0 +1,94 @@
+\doxysection{UARTHandler.\+h}
+\hypertarget{_u_a_r_t_handler_8h_source}{}\label{_u_a_r_t_handler_8h_source}\index{ExoCode/src/UARTHandler.h@{ExoCode/src/UARTHandler.h}}
+\mbox{\hyperlink{_u_a_r_t_handler_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#ifndef\ UARTHandler\_h}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ UARTHandler\_h}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{//\#include\ "{}Board.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\#include\ "{}ParseIni.h"{}}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\#include\ "{}ExoData.h"{}}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\#include\ "{}Utilities.h"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_u_a_r_t__msg__t_8h}{UART\_msg\_t.h}}"{}}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ MAX\_NUM\_LEGS\ 2}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ MAX\_NUM\_JOINTS\_PER\_LEG\ 2\ }\textcolor{comment}{//\ current\ PCB\ can\ only\ do\ 2\ motors\ per\ leg.}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ MAX\_RAW\_BUFFER\_SIZE\ 256}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ MAX\_DATA\_SIZE\ 32}}
+\DoxyCodeLine{00026\ \textcolor{comment}{//\ if\ type\ is\ changes\ you\ will\ need\ to\ comment/uncomment\ lines\ in\ pack\_float\ and\ unpack\_float}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ UART\_DATA\_TYPE\ short\ int}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ FIXED\_POINT\_FACTOR\ 100}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ UART\_BAUD\ 256000}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ MAX\_RX\_LEN\ 64\ }\textcolor{comment}{//\ bytes}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ RX\_TIMEOUT\_US\ 1000\ \ \ }\textcolor{comment}{//\ microseconds}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{comment}{/*\ SLIP\ special\ character\ codes}}
+\DoxyCodeLine{00035\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ END\ \ \ \ \ \ \ \ \ \ \ \ \ 0300\ \ \ \ }\textcolor{comment}{/*\ indicates\ end\ of\ packet\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ ESC\ \ \ \ \ \ \ \ \ \ \ \ \ 0333\ \ \ \ }\textcolor{comment}{/*\ indicates\ byte\ stuffing\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ ESC\_END\ \ \ \ \ \ \ \ \ 0334\ \ \ \ }\textcolor{comment}{/*\ ESC\ ESC\_END\ means\ END\ data\ byte\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ ESC\_ESC\ \ \ \ \ \ \ \ \ 0335\ \ \ \ }\textcolor{comment}{/*\ ESC\ ESC\_ESC\ means\ ESC\ data\ byte\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#if\ defined(ARDUINO\_TEENSY36)\ ||\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#define\ MY\_SERIAL\ Serial8}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#elif\ defined(ARDUINO\_ARDUINO\_NANO33BLE)\ |\ defined(ARDUINO\_NANO\_RP2040\_CONNECT)}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ MY\_SERIAL\ Serial1}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#else\ }}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#error\ No\ Serial\ Object\ Found}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00053\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}}
+\DoxyCodeLine{00054\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}*\ \mbox{\hyperlink{class_u_a_r_t_handler_a6f121152ad62b363414a94e0e099206d}{get\_instance}}();}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_u_a_r_t_handler_a533ee17e009761b4ed1fd7f9780dcd14}{UART\_msg}}(uint8\_t\ msg\_id,\ uint8\_t\ len,\ uint8\_t\ joint\_id,\ \textcolor{keywordtype}{float}\ *buffer);}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_u_a_r_t_handler_a533ee17e009761b4ed1fd7f9780dcd14}{UART\_msg}}(\mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ msg);}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ \mbox{\hyperlink{class_u_a_r_t_handler_aab14c2e505c7019c8c389f0ada7d7901}{poll}}(\textcolor{keywordtype}{float}\ timeout\_us\ =\ \mbox{\hyperlink{_u_a_r_t_handler_8h_a3903450e4e8881b4dad09f8a4d9337b0}{RX\_TIMEOUT\_US}});}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{class_u_a_r_t_handler_adaf35cf0f596387d7bb7ebe588b3f38c}{check\_for\_data}}();}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_u_a_r_t_handler}{UARTHandler}}();}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \_pack(uint8\_t\ msg\_id,\ uint8\_t\ len,\ uint8\_t\ joint\_id,\ \textcolor{keywordtype}{float}\ *data,\ uint8\_t\ *data\_to\_pack);}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_u_a_r_t__msg__t}{UART\_msg\_t}}\ \_unpack(uint8\_t*\ data,\ uint8\_t\ len);}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ uint8\_t\ \_get\_packed\_length(uint8\_t\ msg\_id,\ uint8\_t\ len,\ uint8\_t\ joint\_id,\ \textcolor{keywordtype}{float}\ *data);}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \_send\_packet(uint8\_t*\ p,\ uint8\_t\ len);}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \_recv\_packet(uint8\_t\ *p,\ uint8\_t\ len\ =\ \mbox{\hyperlink{_u_a_r_t_handler_8h_af93d1ffa527a8d74a873d67174d006e1}{MAX\_RX\_LEN}});}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \_send\_char(uint8\_t\ val);}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ uint8\_t\ \_recv\_char(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ uint8\_t\ \_time\_left(uint8\_t\ should\_latch\ =\ 0);}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \_reset\_partial\_packet();}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Data\ */}}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{comment}{//circular\_buffer<uint8\_t,\ 64>\ \_rx\_raw;}}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_timeout\_us\ =\ \mbox{\hyperlink{_u_a_r_t_handler_8h_a3903450e4e8881b4dad09f8a4d9337b0}{RX\_TIMEOUT\_US}};}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ uint8\_t\ \_partial\_packet[\mbox{\hyperlink{_u_a_r_t_handler_8h_af93d1ffa527a8d74a873d67174d006e1}{MAX\_RX\_LEN}}];}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ uint8\_t\ \_partial\_packet\_len\ =\ 0;}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ uint8\_t\ \_msg\_buffer[\mbox{\hyperlink{_u_a_r_t_handler_8h_af93d1ffa527a8d74a873d67174d006e1}{MAX\_RX\_LEN}}];}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ uint8\_t\ \_msg\_buffer\_len\ =\ 0;}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \};}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

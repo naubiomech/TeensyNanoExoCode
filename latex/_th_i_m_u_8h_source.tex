@@ -1,0 +1,33 @@
+\doxysection{Th\+IMU.\+h}
+\hypertarget{_th_i_m_u_8h_source}{}\label{_th_i_m_u_8h_source}\index{ExoCode/src/ThIMU.h@{ExoCode/src/ThIMU.h}}
+\mbox{\hyperlink{_th_i_m_u_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ THIMU\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ THIMU\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#if\ defined(ARDUINO\_TEENSY36)\ ||\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <Arduino.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <Wire.h>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_i2_c_handler_8h}{I2CHandler.h}}"{}}\ \textcolor{comment}{//\ Just\ used\ for\ register\ and\ address\ definitions}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }ThIMU}
+\DoxyCodeLine{00014\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ ThIMU(\textcolor{keywordtype}{bool}\ is\_left);}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacereal__time__i2c_a9b3528c32358ba78a17363ba7d4284f8}{init}}(\textcolor{keywordtype}{float}\ timeout\ =\ 500);\ \textcolor{comment}{//\ timeout\ in\ ms}}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{float}\ read\_data();}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_handshake();}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_is\_left;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_is\_initialized;}
+\DoxyCodeLine{00024\ \};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

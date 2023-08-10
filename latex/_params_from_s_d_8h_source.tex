@@ -1,0 +1,91 @@
+\doxysection{Params\+From\+SD.\+h}
+\hypertarget{_params_from_s_d_8h_source}{}\label{_params_from_s_d_8h_source}\index{ExoCode/src/ParamsFromSD.h@{ExoCode/src/ParamsFromSD.h}}
+\mbox{\hyperlink{_params_from_s_d_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ ParamsFromSD\_h}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ ParamsFromSD\_h}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_exo_data_8h}{ExoData.h}}"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_parse_ini_8h}{ParseIni.h}}"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_utilities_8h}{Utilities.h}}"{}}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <SD.h>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <SPI.h>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ Arduino\ compiles\ everything\ in\ the\ src\ folder\ even\ if\ not\ included\ so\ it\ causes\ and\ error\ for\ the\ nano\ if\ this\ is\ not\ included.}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#if\ defined(ARDUINO\_TEENSY36)\ \ ||\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\ \ \ \ \#ifndef\ SD\_SELECT}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ SD\_SELECT\ BUILTIN\_SDCARD}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00029\ \ \ \ \ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{typedef}\ std::map<uint8\_t,\ std::string>\ ParamFilenameKey;}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{namespace\ }param\_error}
+\DoxyCodeLine{00035\ \ \ \ \ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ num\_joint\_ids\ =\ 3;\ }
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ SD\_not\_found\_idx\ =\ num\_joint\_ids;\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ file\_not\_found\_idx\ =\ SD\_not\_found\_idx\ +\ 1;\ }
+\DoxyCodeLine{00039\ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \ \ \ \ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{namespace\ }controller\_parameter\_filenames}
+\DoxyCodeLine{00045\ \ \ \ \ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ParamFilenameKey\ \mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da997f6b054d31252dfe32ef38f9dddb2a}{hip}}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ for\ disabled\ clear\ the\ parameters,\ may\ not\ want\ to\ use\ this\ if\ this\ is\ just\ a\ temp\ pause.\ \ Same\ for\ zeroTorque}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a075ae3d2fc31640504f814f60e5ef713}{config\_defs::hip\_controllers::disabled}},\textcolor{stringliteral}{"{}hipControllers/zeroTorque.csv"{}}\},}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a1f74dd9f329b1ec51a26f2d13988e401}{config\_defs::hip\_controllers::zero\_torque}},\textcolor{stringliteral}{"{}hipControllers/zeroTorque.csv"{}}\},}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aac997b2344542e904e25772c33171106}{config\_defs::hip\_controllers::heel\_toe}},\textcolor{stringliteral}{"{}hipControllers/heelToe.csv"{}}\},}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491af34f31b67085a4f709d3d12dc6b2b24b}{config\_defs::hip\_controllers::extension\_angle}},\textcolor{stringliteral}{"{}hipControllers/extensionAngle.csv"{}}\},}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a9ea6e735ff6b882d7008ff5e619387d2}{config\_defs::hip\_controllers::franks\_collins\_hip}},\ \textcolor{stringliteral}{"{}hipControllers/franksCollins.csv"{}}\},}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a5e2c55e024f55cd931bd04e54da4f79f}{config\_defs::hip\_controllers::bang\_bang}},\ \textcolor{stringliteral}{"{}hipControllers/bangBang.csv"{}}\},}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a45f8827656ef42c3c2dd054b93daf0f1}{config\_defs::hip\_controllers::late\_stance}},\ \textcolor{stringliteral}{"{}hipControllers/lateStance.csv"{}}\},}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491ad43577ad6e16315e98e2abdd86183dde}{config\_defs::hip\_controllers::gait\_phase}},\ \textcolor{stringliteral}{"{}hipControllers/gaitPhase.csv"{}}\},}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aacf0d09710ee2f2dd6c1124d35d8d842}{config\_defs::hip\_controllers::user\_defined}},\ \textcolor{stringliteral}{"{}hipControllers/userDefined.csv"{}}\},}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a925212d1624625aed9491413b4b7be05}{config\_defs::hip\_controllers::sine}},\ \textcolor{stringliteral}{"{}hipControllers/sine.csv"{}}\},}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a3dd4bbe98cd3ce33bc3dfe91cad73dfd}{config\_defs::hip\_controllers::stasis}},\ \textcolor{stringliteral}{"{}hipControllers/stasis.csv"{}}\},}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491a800823c47b8759400d01312793445b0e}{config\_defs::hip\_controllers::perturbation}},\ \textcolor{stringliteral}{"{}hipControllers/perturbation.csv"{}}\},}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aac62cafde9aacabff464ccc7ff517b85}{config\_defs::hip\_controllers::parabolic}},\ \textcolor{stringliteral}{"{}hipControllers/parabolic.csv"{}}\},}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491aa16f70bf830d4a75f41fb4c825120d67}{config\_defs::hip\_controllers::constant\_torque}},\ \textcolor{stringliteral}{"{}hipControllers/constantTorque.csv"{}}\},}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a79f54c273a0030537dd9e71d1ef05491ab0cbddde7837a85bf2863295f34bb397}{config\_defs::hip\_controllers::ptb\_general}},\textcolor{stringliteral}{"{}hipControllers/ptbGeneral.csv"{}}\},}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ParamFilenameKey\ \mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da22b84b6e35ace0cd87f805ecf020ff36}{knee}}}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a075ae3d2fc31640504f814f60e5ef713}{config\_defs::knee\_controllers::disabled}},\textcolor{stringliteral}{"{}kneeControllers/zeroTorque.csv"{}}\},}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a1f74dd9f329b1ec51a26f2d13988e401}{config\_defs::knee\_controllers::zero\_torque}},\textcolor{stringliteral}{"{}kneeControllers/zeroTorque.csv"{}}\},}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6aacf0d09710ee2f2dd6c1124d35d8d842}{config\_defs::knee\_controllers::user\_defined}},\ \textcolor{stringliteral}{"{}kneeControllers/userDefined.csv"{}}\},}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a925212d1624625aed9491413b4b7be05}{config\_defs::knee\_controllers::sine}},\ \textcolor{stringliteral}{"{}kneeControllers/sine.csv"{}}\},}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a3dd4bbe98cd3ce33bc3dfe91cad73dfd}{config\_defs::knee\_controllers::stasis}},\ \textcolor{stringliteral}{"{}kneeControllers/stasis.csv"{}}\},}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6a800823c47b8759400d01312793445b0e}{config\_defs::knee\_controllers::perturbation}},\ \textcolor{stringliteral}{"{}kneeControllers/perturbation.csv"{}}\},}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6aa16f70bf830d4a75f41fb4c825120d67}{config\_defs::knee\_controllers::constant\_torque}},\ \textcolor{stringliteral}{"{}kneeControllers/constantTorque.csv"{}}\},}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_aad31ccd3b86db0b36034ffef91e086c6abb39f1b18f00b8847a32ad069b6dbf10}{config\_defs::knee\_controllers::elbow\_min\_max}},\ \textcolor{stringliteral}{"{}kneeControllers/elbowMinMax.csv"{}}\},}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ParamFilenameKey\ \mbox{\hyperlink{namespaceconfig__defs_a8b1d8e3fa0b565044bbffccabea7a72da12a0852b1a5f77f797900387fca77bf4}{ankle}}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea075ae3d2fc31640504f814f60e5ef713}{config\_defs::ankle\_controllers::disabled}},\textcolor{stringliteral}{"{}ankleControllers/zeroTorque.csv"{}}\},}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea1f74dd9f329b1ec51a26f2d13988e401}{config\_defs::ankle\_controllers::zero\_torque}},\textcolor{stringliteral}{"{}ankleControllers/zeroTorque.csv"{}}\},}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eae9ba497e4231c77902ca7bb301d0651f}{config\_defs::ankle\_controllers::pjmc}},\textcolor{stringliteral}{"{}ankleControllers/PJMC.csv"{}}\},}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea9772e3e3c0fc114a950f3b532142d9d3}{config\_defs::ankle\_controllers::zhang\_collins}},\textcolor{stringliteral}{"{}ankleControllers/zhangCollins.csv"{}}\},}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eaacf0d09710ee2f2dd6c1124d35d8d842}{config\_defs::ankle\_controllers::user\_defined}},\ \textcolor{stringliteral}{"{}ankleControllers/userDefined.csv"{}}\},}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea925212d1624625aed9491413b4b7be05}{config\_defs::ankle\_controllers::sine}},\ \textcolor{stringliteral}{"{}ankleControllers/sine.csv"{}}\},}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea3dd4bbe98cd3ce33bc3dfe91cad73dfd}{config\_defs::ankle\_controllers::stasis}},\ \textcolor{stringliteral}{"{}ankleControllers/stasis.csv"{}}\},}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002ea800823c47b8759400d01312793445b0e}{config\_defs::ankle\_controllers::perturbation}},\ \textcolor{stringliteral}{"{}ankleControllers/perturbation.csv"{}}\},}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eaa16f70bf830d4a75f41fb4c825120d67}{config\_defs::ankle\_controllers::constant\_torque}},\ \textcolor{stringliteral}{"{}ankleControllers/constantTorque.csv"{}}\},}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eab0cbddde7837a85bf2863295f34bb397}{config\_defs::ankle\_controllers::ptb\_general}},\textcolor{stringliteral}{"{}ankleControllers/ptbGeneral.csv"{}}\},}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eac836e7e9ebe90e19e16ec2a96a772ebf}{config\_defs::ankle\_controllers::gasp}},\textcolor{stringliteral}{"{}ankleControllers/GAsP.csv"{}}\},}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \{(uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a343fb0cc1289829ae8dc0b205fdc002eabb39f1b18f00b8847a32ad069b6dbf10}{config\_defs::ankle\_controllers::elbow\_min\_max}},\ \textcolor{stringliteral}{"{}ankleControllers/elbowMinMax.csv"{}}\},}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00093\ \ \ \ \ \};}
+\DoxyCodeLine{00094\ \ \ \ \ }
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordtype}{void}\ print\_param\_error\_message(uint8\_t\ error\_type);}
+\DoxyCodeLine{00101\ \ \ \ \ }
+\DoxyCodeLine{00113\ \ \ \ \ uint8\_t\ set\_controller\_params(uint8\_t\ joint\_id,\ uint8\_t\ controller\_id,\ uint8\_t\ set\_num,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data);}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

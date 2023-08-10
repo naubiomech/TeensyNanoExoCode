@@ -1,0 +1,21 @@
+<map id="ExoCode/src/UARTHandler.h" name="ExoCode/src/UARTHandler.h">
+<area shape="rect" id="Node000001" title="Singleton class that manages the UART data. NOT THREAD SAFE. The class queues recieved messages." alt="" coords="265,5,454,32"/>
+<area shape="rect" id="Node000002" href="$_u_a_r_t__msg__t_8h.html" title=" " alt="" coords="213,80,322,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="345,35,296,73,293,69,342,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="245,304,322,331"/>
+<area shape="poly" id="edge10_Node000001_Node000003" title=" " alt="" coords="359,33,293,290,288,289,354,32"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="397,80,461,107"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="373,31,409,67,405,71,369,34"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="271,107,284,289,279,290,266,107"/>
+<area shape="rect" id="Node000004" href="$_logger_8h.html" title=" " alt="" coords="146,155,218,181"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="254,109,209,147,206,143,251,105"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="196,180,235,228,273,290,268,293,230,231,191,183"/>
+<area shape="rect" id="Node000005" href="$_log_levels_8h.html" title=" " alt="" coords="5,304,95,331"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="147,176,119,182,90,193,63,208,42,231,36,244,35,260,41,290,36,291,29,260,31,243,37,228,60,204,88,188,118,177,146,171"/>
+<area shape="rect" id="Node000006" href="$_config_8h.html" title=" " alt="" coords="52,229,120,256"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="167,184,115,223,112,218,164,180"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="144,229,220,256"/>
+<area shape="poly" id="edge9_Node000004_Node000007" title=" " alt="" coords="185,182,185,214,179,214,179,182"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="121,254,236,296,234,301,119,259"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="82,258,65,292,60,289,77,255"/>
+</map>

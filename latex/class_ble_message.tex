@@ -1,0 +1,150 @@
+\doxysection{Ble\+Message Class Reference}
+\hypertarget{class_ble_message}{}\label{class_ble_message}\index{BleMessage@{BleMessage}}
+
+
+{\ttfamily \#include $<$Ble\+Message.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_ble_message_a61d2131e49e546c5268da0e7e20db3a9}{Ble\+Message}} ()
+\begin{DoxyCompactList}\small\item\em Construct a new Ble Message object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_ble_message_ac5b5395d0665b550d77a3e5484a968c3}{clear}} ()
+\begin{DoxyCompactList}\small\item\em Set the message back to its defaults. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_ble_message_ad8c2f3828eb3583761168a9c1db7325e}{copy}} (\mbox{\hyperlink{class_ble_message}{Ble\+Message}} \texorpdfstring{$\ast$}{*}n)
+\begin{DoxyCompactList}\small\item\em Sets its values equal to another \doxylink{class_ble_message}{Ble\+Message}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_ble_message_a1c13874bae140ab2e98be4156abf8612}{print}} (\mbox{\hyperlink{class_ble_message}{Ble\+Message}} msg)
+\begin{DoxyCompactList}\small\item\em Print the message values to the Serial monitor. \end{DoxyCompactList}\item 
+static int \mbox{\hyperlink{class_ble_message_abcc861e69591678c55c2b07e1d90b0c3}{matching}} (\mbox{\hyperlink{class_ble_message}{Ble\+Message}} msg1, \mbox{\hyperlink{class_ble_message}{Ble\+Message}} msg2)
+\begin{DoxyCompactList}\small\item\em Check if two messages are matching. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+char \mbox{\hyperlink{class_ble_message_a68f28871695c0b82fd301cf60220c56f}{command}} = 0
+\item 
+int \mbox{\hyperlink{class_ble_message_af401738e36358b3a9d83206a25badb6d}{expecting}} = 0
+\item 
+bool \mbox{\hyperlink{class_ble_message_a857cc869ebf02ce1fdb54a19389af41f}{is\+\_\+complete}} = false
+\item 
+float \mbox{\hyperlink{class_ble_message_acee0044c68462c5b78d49a931f404e1b}{data}} \mbox{[}\+\_\+max\+\_\+size\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_ble_message_a61d2131e49e546c5268da0e7e20db3a9}\label{class_ble_message_a61d2131e49e546c5268da0e7e20db3a9} 
+\index{BleMessage@{BleMessage}!BleMessage@{BleMessage}}
+\index{BleMessage@{BleMessage}!BleMessage@{BleMessage}}
+\doxysubsubsection{\texorpdfstring{BleMessage()}{BleMessage()}}
+{\footnotesize\ttfamily Ble\+Message\+::\+Ble\+Message (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Construct a new Ble Message object. 
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=343pt]{class_ble_message_a61d2131e49e546c5268da0e7e20db3a9_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_ble_message_ac5b5395d0665b550d77a3e5484a968c3}\label{class_ble_message_ac5b5395d0665b550d77a3e5484a968c3} 
+\index{BleMessage@{BleMessage}!clear@{clear}}
+\index{clear@{clear}!BleMessage@{BleMessage}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily void Ble\+Message\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Set the message back to its defaults. 
+
+\Hypertarget{class_ble_message_ad8c2f3828eb3583761168a9c1db7325e}\label{class_ble_message_ad8c2f3828eb3583761168a9c1db7325e} 
+\index{BleMessage@{BleMessage}!copy@{copy}}
+\index{copy@{copy}!BleMessage@{BleMessage}}
+\doxysubsubsection{\texorpdfstring{copy()}{copy()}}
+{\footnotesize\ttfamily void Ble\+Message\+::copy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_ble_message}{Ble\+Message}} \texorpdfstring{$\ast$}{*}}]{n }\end{DoxyParamCaption})}
+
+
+
+Sets its values equal to another \doxylink{class_ble_message}{Ble\+Message}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & Message to copy \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_ble_message_abcc861e69591678c55c2b07e1d90b0c3}\label{class_ble_message_abcc861e69591678c55c2b07e1d90b0c3} 
+\index{BleMessage@{BleMessage}!matching@{matching}}
+\index{matching@{matching}!BleMessage@{BleMessage}}
+\doxysubsubsection{\texorpdfstring{matching()}{matching()}}
+{\footnotesize\ttfamily int Ble\+Message\+::matching (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_ble_message}{Ble\+Message}}}]{msg1,  }\item[{\mbox{\hyperlink{class_ble_message}{Ble\+Message}}}]{msg2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Check if two messages are matching. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg1} & One of the messages to check \\
+\hline
+{\em msg2} & One of the messages to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int One if the messages match, Zero if they dont 
+\end{DoxyReturn}
+\Hypertarget{class_ble_message_a1c13874bae140ab2e98be4156abf8612}\label{class_ble_message_a1c13874bae140ab2e98be4156abf8612} 
+\index{BleMessage@{BleMessage}!print@{print}}
+\index{print@{print}!BleMessage@{BleMessage}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void Ble\+Message\+::print (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_ble_message}{Ble\+Message}}}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Print the message values to the Serial monitor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & Message to print \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_ble_message_a68f28871695c0b82fd301cf60220c56f}\label{class_ble_message_a68f28871695c0b82fd301cf60220c56f} 
+\index{BleMessage@{BleMessage}!command@{command}}
+\index{command@{command}!BleMessage@{BleMessage}}
+\doxysubsubsection{\texorpdfstring{command}{command}}
+{\footnotesize\ttfamily char Ble\+Message\+::command = 0}
+
+\Hypertarget{class_ble_message_acee0044c68462c5b78d49a931f404e1b}\label{class_ble_message_acee0044c68462c5b78d49a931f404e1b} 
+\index{BleMessage@{BleMessage}!data@{data}}
+\index{data@{data}!BleMessage@{BleMessage}}
+\doxysubsubsection{\texorpdfstring{data}{data}}
+{\footnotesize\ttfamily float Ble\+Message\+::data\mbox{[}\+\_\+max\+\_\+size\mbox{]}}
+
+\Hypertarget{class_ble_message_af401738e36358b3a9d83206a25badb6d}\label{class_ble_message_af401738e36358b3a9d83206a25badb6d} 
+\index{BleMessage@{BleMessage}!expecting@{expecting}}
+\index{expecting@{expecting}!BleMessage@{BleMessage}}
+\doxysubsubsection{\texorpdfstring{expecting}{expecting}}
+{\footnotesize\ttfamily int Ble\+Message\+::expecting = 0}
+
+\Hypertarget{class_ble_message_a857cc869ebf02ce1fdb54a19389af41f}\label{class_ble_message_a857cc869ebf02ce1fdb54a19389af41f} 
+\index{BleMessage@{BleMessage}!is\_complete@{is\_complete}}
+\index{is\_complete@{is\_complete}!BleMessage@{BleMessage}}
+\doxysubsubsection{\texorpdfstring{is\_complete}{is\_complete}}
+{\footnotesize\ttfamily bool Ble\+Message\+::is\+\_\+complete = false}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Exo\+Code/src/\mbox{\hyperlink{_ble_message_8h}{Ble\+Message.\+h}}\item 
+Exo\+Code/src/\mbox{\hyperlink{_ble_message_8cpp}{Ble\+Message.\+cpp}}\end{DoxyCompactItemize}

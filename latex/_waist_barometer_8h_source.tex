@@ -1,0 +1,39 @@
+\doxysection{Waist\+Barometer.\+h}
+\hypertarget{_waist_barometer_8h_source}{}\label{_waist_barometer_8h_source}\index{ExoCode/src/WaistBarometer.h@{ExoCode/src/WaistBarometer.h}}
+\mbox{\hyperlink{_waist_barometer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ WAISTBAROMETER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ WAISTBAROMETER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#if\ defined(ARDUINO\_ARDUINO\_NANO33BLE)}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00017\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ unit\_PSI\ =\ 0,}
+\DoxyCodeLine{00019\ \ \ \ \ unit\_MBAR\ =\ 1,}
+\DoxyCodeLine{00020\ \ \ \ \ unit\_kPa\ =\ 2,}
+\DoxyCodeLine{00021\ \ \ \ \ unit\_Pa\ =\ 3,}
+\DoxyCodeLine{00022\ \ \ \ \ pressure\_unit\_LENGTH}
+\DoxyCodeLine{00023\ \}\ pressure\_unit\_t;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{class\ }WaistBarometer}
+\DoxyCodeLine{00027\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ WaistBarometer(pressure\_unit\_t\ desired\_unit\ =\ unit\_Pa);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ getPressure();}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ pressure\_unit\_t\ \_unit;}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \};}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ARDUINO\_ARDUINO\_NANO33BLE}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ WAISTBAROMETER\_H}}
+
+\end{DoxyCode}

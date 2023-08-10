@@ -1,0 +1,11 @@
+<map id="ExoData" name="ExoData">
+<area shape="rect" id="Node000001" title="Class to store all the data related to the exo." alt="" coords="68,325,139,352"/>
+<area shape="rect" id="Node000002" href="$class_leg_data.html" title="class to store information related to the leg." alt="" coords="69,219,138,245"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,260,106,325,101,325,101,260"/>
+<area shape="rect" id="Node000003" href="$class_joint_data.html" title="class to store information related to joint." alt="" coords="66,96,141,123"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="106,138,106,218,101,218,101,138"/>
+<area shape="rect" id="Node000004" href="$class_motor_data.html" title=" " alt="" coords="5,5,87,32"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="64,43,97,94,93,97,60,46"/>
+<area shape="rect" id="Node000005" href="$class_controller_data.html" title="class to store information related to controllers." alt="" coords="110,5,214,32"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="148,46,114,97,110,94,143,43"/>
+</map>

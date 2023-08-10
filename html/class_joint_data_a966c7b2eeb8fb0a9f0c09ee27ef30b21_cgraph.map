@@ -1,0 +1,7 @@
+<map id="JointData::reconfigure" name="JointData::reconfigure">
+<area shape="rect" id="Node000001" title="reconfigures the the joint data if the configuration changes after constructor called." alt="" coords="5,31,152,57"/>
+<area shape="rect" id="Node000002" href="$class_controller_data.html#aa5379adfd775e094bc3408f250a2d8a0" title="reconfigures the the controller data if the configuration changes after constructor called." alt="" coords="200,5,374,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,32,184,28,185,34,152,38"/>
+<area shape="rect" id="Node000003" href="$class_motor_data.html#a6c785789ec1689cc0108a6928cb44172" title="reconfigures the the motor data if the configuration changes after constructor called." alt="" coords="211,56,363,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="152,50,196,56,195,61,151,56"/>
+</map>

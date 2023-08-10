@@ -1,0 +1,316 @@
+\doxysection{error\+\_\+triggers.\+h}
+\hypertarget{error__triggers_8h_source}{}\label{error__triggers_8h_source}\index{ExoCode/src/error\_triggers.h@{ExoCode/src/error\_triggers.h}}
+\mbox{\hyperlink{error__triggers_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ ERROR\_TRIGGERS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ ERROR\_TRIGGERS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#if\ defined(ARDUINO\_TEENSY36)\ \ ||\ defined(ARDUINO\_TEENSY41)}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_exo_data_8h}{ExoData.h}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_exo_8h}{Exo.h}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{error__types_8h}{error\_types.h}}"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_utilities_8h}{Utilities.h}}"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_config_8h}{Config.h}}"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_parse_ini_8h}{ParseIni.h}}"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ TODO:\ Make\ these\ device\ configuration\ dependent}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{namespace\ }error\_triggers\_state}
+\DoxyCodeLine{00018\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{bool}\ triggered\_error\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{comment}{//\ Motor\ Inertia\ goodies}}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ motor\_inertia\_threshold\ =\ 0.01;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{float}\ left\_prev\_velocity\ =\ 0;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{float}\ right\_prev\_velocity\ =\ 0;}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{comment}{//\ Motor\ Position\ goodies}}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ motor\_position\_alpha\ =\ 0.1;}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ motor\_position\_tolerance\ =\ 10;\ \textcolor{comment}{//\ degrees}}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{float}\ filtered\_motor\_position\_left\ =\ 0;}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{float}\ filtered\_motor\_position\_right\ =\ 0;}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{const}\ std::pair<float,\ float>\ left\_position\_bounds\ =\ std::make\_pair<float,\ float>\ (12-\/motor\_position\_tolerance,\ 10+motor\_position\_tolerance);}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{const}\ std::pair<float,\ float>\ right\_position\_bounds\ =\ std::make\_pair<float,\ float>\ (12-\/motor\_position\_tolerance,\ 10+motor\_position\_tolerance);}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{comment}{//\ Torque\ goodies}}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ torque\_output\_alpha\ =\ 0.2;}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ torque\_output\_threshold\ =\ 45;}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{float}\ average\_torque\_output\_left\ =\ 0;}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{float}\ average\_torque\_output\_right\ =\ 0;}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{comment}{//\ X-\/Sigma\ Rejection\ on\ sensor\ goodies}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ failure\_count\_threshold\ =\ 2;}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ torque\_std\_dev\_multiple\ =\ 10;}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ torque\_window\_size\ =\ 100;}
+\DoxyCodeLine{00045\ \ \ \ \ std::queue<float>\ torque\_sensor\_queue\_left;}
+\DoxyCodeLine{00046\ \ \ \ \ std::queue<float>\ torque\_sensor\_queue\_right;}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{int}\ torque\_failure\_count\_left\ =\ 0;}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{int}\ torque\_failure\_count\_right\ =\ 0;}
+\DoxyCodeLine{00049\ \ \ \ \ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ force\_std\_dev\_multiple\ =\ 10;}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ force\_window\_size\ =\ 100;}
+\DoxyCodeLine{00052\ \ \ \ \ std::queue<float>\ force\_sensor\_queue\_left;}
+\DoxyCodeLine{00053\ \ \ \ \ std::queue<float>\ force\_sensor\_queue\_right;}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{int}\ force\_failure\_count\_left\ =\ 0;}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{int}\ force\_failure\_count\_right\ =\ 0;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{comment}{//\ Tracking\ goodies}}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ tracking\_alpha\ =\ 0.1;}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ tracking\_threshold\ =\ 15;\ \textcolor{comment}{//\ Nm}}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{float}\ average\_tracking\_error\_left\ =\ 0;}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{float}\ average\_tracking\_error\_right\ =\ 0;}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{comment}{//\ Transimission\ efficiency\ goodies}}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ transmission\_efficiency\_alpha\ =\ 0.1;}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ transmission\_efficiency\_threshold\ =\ 0.01;}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{float}\ average\_motor\_torque\_left\ =\ 0;}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{float}\ average\_motor\_torque\_right\ =\ 0;}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{comment}{//\ PJMC\ State\ goodies}}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{comment}{//\ alpha\ =\ 2\ /\ (N\ +\ 1),\ where\ N\ is\ the\ equivalent\ moving\ average\ window\ size}}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ pjmc\_state\_time\ =\ 25;\ \textcolor{comment}{//\ seconds}}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ pjmc\_state\_alpha\ =\ 2\ /\ ((pjmc\_state\_time\ *\ \mbox{\hyperlink{_config_8h_a1ff4ea5999dbe65bcdc1d02d90eb8525}{LOOP\_FREQ\_HZ}})\ +\ 1);}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ pjmc\_state\_threshold\ =\ 0.95;}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{float}\ average\_pjmc\_state\_left\ =\ 0;}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{float}\ average\_pjmc\_state\_right\ =\ 0;}
+\DoxyCodeLine{00076\ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{comment}{//\ Returns\ true\ if\ error}}
+\DoxyCodeLine{00079\ \textcolor{keyword}{namespace\ }error\_triggers}
+\DoxyCodeLine{00080\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{int}\ soft(Exo*\ exo,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data)}
+\DoxyCodeLine{00082\ \ \ \ \ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (error\_triggers\_state::triggered\_error)}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ return\ NO\_ERROR;}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{error__types_8h_af0a8653c4876ac7c5b5d4b03962fc73aabf350750d0d4fabd8954c0f1e9bbae94}{NO\_ERROR}};}
+\DoxyCodeLine{00086\ \ \ \ \ \}}
+\DoxyCodeLine{00087\ \ \ \ \ }
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordtype}{int}\ hard(Exo*\ exo,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data)}
+\DoxyCodeLine{00089\ \ \ \ \ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (error\_triggers\_state::triggered\_error)}}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ return\ NO\_ERROR;}}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ legs\ have\ been\ in\ stance\ for\ too\ long}}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ error\_triggers\_state::average\_pjmc\_state\_left\ =\ utils::ewma(exo\_data-\/>left\_leg.toe\_stance,}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::average\_pjmc\_state\_left,\ error\_triggers\_state::pjmc\_state\_alpha);}}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ error\_triggers\_state::average\_pjmc\_state\_right\ =\ utils::ewma(exo\_data-\/>right\_leg.toe\_stance,}}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::average\_pjmc\_state\_right,\ error\_triggers\_state::pjmc\_state\_alpha);}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ bool\ left\_stance\_error\ =\ (error\_triggers\_state::average\_pjmc\_state\_left\ >\ error\_triggers\_state::pjmc\_state\_threshold);}}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ bool\ right\_stance\_error\ =\ (error\_triggers\_state::average\_pjmc\_state\_right\ >\ error\_triggers\_state::pjmc\_state\_threshold);}}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (left\_stance\_error\ ||\ right\_stance\_error)}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ //logger::println("{}Error:\ PJMC\ State\ too\ high"{});}}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ error\_triggers\_state::triggered\_error\ =\ true;}}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ exo\_data-\/>error\_joint\_id\ =\ (left\_stance\_error)\ ?\ (uint8\_t)config\_defs::joint\_id::left\_ankle\ :\ (uint8\_t)config\_defs::joint\_id::right\_ankle;}}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ return\ POOR\_STATE\_VARIANCE;}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{error__types_8h_af0a8653c4876ac7c5b5d4b03962fc73aabf350750d0d4fabd8954c0f1e9bbae94}{NO\_ERROR}};}
+\DoxyCodeLine{00108\ \ \ \ \ \}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{int}\ fatal(Exo*\ exo,\ \mbox{\hyperlink{class_exo_data}{ExoData}}*\ exo\_data)}
+\DoxyCodeLine{00111\ \ \ \ \ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (error\_triggers\_state::triggered\_error)}}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ return\ NO\_ERROR;}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Only\ run\ for\ configurations\ with\ torque\ sensors}}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::exo\_name\_idx]\ ==\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a96281b8c1766326cc2f99d44f6950c67}{config\_defs::exo\_name::bilateral\_ankle}}\ ||}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_adb716628633d114cc379c47bcec33c6e}{config}}[config\_defs::exo\_name\_idx]\ ==\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a646a9785fd413ba3e258bc0ba1a1f797a3710456ad1658cc1309c7692b8734aa4}{config\_defs::exo\_name::bilateral\_hip\_ankle}})}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ torque\ is\ too\ high}}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::average\_torque\_output\_left\ =\ \mbox{\hyperlink{namespaceutils_abf29b08cdde8e83e33543eb80cd0960d}{utils::ewma}}(exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_aec2580e88fbe79db393a7bd6f945ce4e}{torque\_reading}},}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::average\_torque\_output\_left,\ error\_triggers\_state::torque\_output\_alpha);}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::average\_torque\_output\_right\ =\ \mbox{\hyperlink{namespaceutils_abf29b08cdde8e83e33543eb80cd0960d}{utils::ewma}}(exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_aec2580e88fbe79db393a7bd6f945ce4e}{torque\_reading}}*-\/1,}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::average\_torque\_output\_right,\ error\_triggers\_state::torque\_output\_alpha);}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ left\_torque\_error\ =\ (abs(error\_triggers\_state::average\_torque\_output\_left)\ >\ error\_triggers\_state::torque\_output\_threshold);}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ right\_torque\_error\ =\ (abs(error\_triggers\_state::average\_torque\_output\_right)\ >\ error\_triggers\_state::torque\_output\_threshold);}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (left\_torque\_error\ ||\ right\_torque\_error)}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//logger::println("{}Error:\ Torque\ too\ high"{});}}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::triggered\_error\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a7c02eb366ac9e7e15e17a22c1998b791}{error\_joint\_id}}\ =\ (left\_torque\_error)\ ?\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a3bf114dd56933f9ae20ee9dd4d3c7518}{config\_defs::joint\_id::left\_ankle}}\ :\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076af2dc1d3b6601076eddc1ca7c21d95706}{config\_defs::joint\_id::right\_ankle}};}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{error__types_8h_af0a8653c4876ac7c5b5d4b03962fc73aa956632a670e250fe692a030d135fd8b3}{TORQUE\_OUT\_OF\_BOUNDS}};}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ tracking\ error\ is\ too\ high}}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ float\ tracking\_error\_left\ =\ exo\_data-\/>left\_leg.ankle.torque\_reading\ -\/\ exo\_data-\/>left\_leg.ankle.controller.ff\_setpoint;}}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ float\ tracking\_error\_right\ =\ (exo\_data-\/>right\_leg.ankle.torque\_reading*-\/1)\ -\/\ exo\_data-\/>right\_leg.ankle.controller.ff\_setpoint;}}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ error\_triggers\_state::average\_tracking\_error\_left\ =\ utils::ewma(tracking\_error\_left,}}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::average\_tracking\_error\_left,\ error\_triggers\_state::tracking\_alpha);}}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ error\_triggers\_state::average\_tracking\_error\_right\ =\ utils::ewma(tracking\_error\_right,}}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::average\_tracking\_error\_right,\ error\_triggers\_state::tracking\_alpha);}}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ bool\ left\_tracking\_error\ =\ (abs(error\_triggers\_state::average\_tracking\_error\_left)\ >\ error\_triggers\_state::tracking\_threshold);}}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ bool\ right\_tracking\_error\ =\ (abs(error\_triggers\_state::average\_tracking\_error\_right)\ >\ error\_triggers\_state::tracking\_threshold);}}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (left\_tracking\_error\ ||\ right\_tracking\_error)}}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ //logger::println("{}Error:\ Tracking\ error\ too\ high"{});}}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ error\_triggers\_state::triggered\_error\ =\ true;}}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ exo\_data-\/>error\_joint\_id\ =\ (left\_tracking\_error)\ ?\ (uint8\_t)config\_defs::joint\_id::left\_ankle\ :\ (uint8\_t)config\_defs::joint\_id::right\_ankle;}}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ return\ TRACKING\_ERROR;}}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00150\ \ \ }
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ the\ torque\ sensor\ variance,\ if\ the\ variance\ is\ too\ high,\ then\ the\ sensor\ may\ be\ faulty}}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::torque\_sensor\_queue\_left.push(exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_aec2580e88fbe79db393a7bd6f945ce4e}{torque\_reading}});}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::torque\_sensor\_queue\_right.push(exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_aec2580e88fbe79db393a7bd6f945ce4e}{torque\_reading}}*-\/1);}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (error\_triggers\_state::torque\_sensor\_queue\_left.\mbox{\hyperlink{namespaceble__queue_a28adeb2b7dc60dcfef5f470f3d272b86}{size}}()\ >\ error\_triggers\_state::torque\_window\_size)\ }
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::torque\_sensor\_queue\_left.pop();}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::torque\_sensor\_queue\_right.pop();}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::pair<float,\ float>\ left\_population\_vals\ =\ \mbox{\hyperlink{namespaceutils_a0613d9e40ec11d3e17655132b61ad2a0}{utils::online\_std\_dev}}(error\_triggers\_state::torque\_sensor\_queue\_left);}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::pair<float,\ float>\ right\_population\_vals\ =\ \mbox{\hyperlink{namespaceutils_a0613d9e40ec11d3e17655132b61ad2a0}{utils::online\_std\_dev}}(error\_triggers\_state::torque\_sensor\_queue\_right);}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::pair<float,\ float>\ left\_bounds\ =\ std::make\_pair(left\_population\_vals.first\ -\/\ error\_triggers\_state::torque\_std\_dev\_multiple*left\_population\_vals.second,}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ left\_population\_vals.first\ +\ error\_triggers\_state::torque\_std\_dev\_multiple*left\_population\_vals.second);}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::pair<float,\ float>\ right\_bounds\ =\ std::make\_pair(right\_population\_vals.first\ -\/\ error\_triggers\_state::torque\_std\_dev\_multiple*right\_population\_vals.second,}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ right\_population\_vals.first\ +\ error\_triggers\_state::torque\_std\_dev\_multiple*right\_population\_vals.second);}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::torque\_failure\_count\_left\ +=\ float(\mbox{\hyperlink{namespaceutils_af362fe7671d3080b044a58b906c66c39}{utils::is\_outside\_range}}(exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_aec2580e88fbe79db393a7bd6f945ce4e}{torque\_reading}},\ left\_bounds.first,\ left\_bounds.second));}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::torque\_failure\_count\_right\ +=\ float(\mbox{\hyperlink{namespaceutils_af362fe7671d3080b044a58b906c66c39}{utils::is\_outside\_range}}(exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_a90744f9673315b7d4b2d8be0e5050bde}{ankle}}.\mbox{\hyperlink{class_joint_data_aec2580e88fbe79db393a7bd6f945ce4e}{torque\_reading}}*-\/1,\ right\_bounds.first,\ right\_bounds.second));}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ left\_torque\_variance\_error\ =\ (error\_triggers\_state::torque\_failure\_count\_left\ >\ error\_triggers\_state::failure\_count\_threshold);}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ right\_torque\_variance\_error\ =\ (error\_triggers\_state::torque\_failure\_count\_right\ >\ error\_triggers\_state::failure\_count\_threshold);}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (left\_torque\_variance\_error\ ||\ right\_torque\_variance\_error)}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//logger::println("{}Error:\ Torque\ sensor\ variance\ too\ high"{});}}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::triggered\_error\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a7c02eb366ac9e7e15e17a22c1998b791}{error\_joint\_id}}\ =\ (left\_torque\_variance\_error)\ ?\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a3bf114dd56933f9ae20ee9dd4d3c7518}{config\_defs::joint\_id::left\_ankle}}\ :\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076af2dc1d3b6601076eddc1ca7c21d95706}{config\_defs::joint\_id::right\_ankle}};}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{error__types_8h_af0a8653c4876ac7c5b5d4b03962fc73aaae273fc9c3058c6cc4f4637ee1cf5054}{TORQUE\_VARIANCE\_ERROR}};}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ the\ force\ sensor\ variance,\ if\ the\ variance\ is\ too\ high,\ then\ the\ sensor\ may\ be\ faulty}}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::force\_sensor\_queue\_left.push(exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}});}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::force\_sensor\_queue\_right.push(exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}});}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (error\_triggers\_state::force\_sensor\_queue\_left.\mbox{\hyperlink{namespaceble__queue_a28adeb2b7dc60dcfef5f470f3d272b86}{size}}()\ >\ error\_triggers\_state::force\_window\_size)\ }
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::force\_sensor\_queue\_left.pop();}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::force\_sensor\_queue\_right.pop();}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::pair<float,\ float>\ left\_population\_vals\ =\ \mbox{\hyperlink{namespaceutils_a0613d9e40ec11d3e17655132b61ad2a0}{utils::online\_std\_dev}}(error\_triggers\_state::force\_sensor\_queue\_left);}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::pair<float,\ float>\ right\_population\_vals\ =\ \mbox{\hyperlink{namespaceutils_a0613d9e40ec11d3e17655132b61ad2a0}{utils::online\_std\_dev}}(error\_triggers\_state::force\_sensor\_queue\_right);}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::pair<float,\ float>\ left\_bounds\ =\ std::make\_pair(left\_population\_vals.first\ -\/\ error\_triggers\_state::force\_std\_dev\_multiple*left\_population\_vals.second,}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ left\_population\_vals.first\ +\ error\_triggers\_state::force\_std\_dev\_multiple*left\_population\_vals.second);}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::pair<float,\ float>\ right\_bounds\ =\ std::make\_pair(right\_population\_vals.first\ -\/\ error\_triggers\_state::force\_std\_dev\_multiple*right\_population\_vals.second,}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ right\_population\_vals.first\ +\ error\_triggers\_state::force\_std\_dev\_multiple*right\_population\_vals.second);}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::force\_failure\_count\_left\ +=\ float(\mbox{\hyperlink{namespaceutils_af362fe7671d3080b044a58b906c66c39}{utils::is\_outside\_range}}(exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}},\ left\_bounds.first,\ left\_bounds.second));}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::force\_failure\_count\_right\ +=\ float(\mbox{\hyperlink{namespaceutils_af362fe7671d3080b044a58b906c66c39}{utils::is\_outside\_range}}(exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}},\ right\_bounds.first,\ right\_bounds.second));}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ left\_force\_outside\_range\ =\ \mbox{\hyperlink{namespaceutils_af362fe7671d3080b044a58b906c66c39}{utils::is\_outside\_range}}(exo\_data-\/>\mbox{\hyperlink{class_exo_data_af6c87cc40873dbe89146c8742303e7ce}{left\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}},\ left\_bounds.first,\ left\_bounds.second);}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ right\_force\_outside\_range\ =\ \mbox{\hyperlink{namespaceutils_af362fe7671d3080b044a58b906c66c39}{utils::is\_outside\_range}}(exo\_data-\/>\mbox{\hyperlink{class_exo_data_a55ca7a43ea5f135647cde868c59a1770}{right\_leg}}.\mbox{\hyperlink{class_leg_data_ac8f944f40c207942172213c1df4981db}{toe\_fsr}},\ right\_bounds.first,\ right\_bounds.second);}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (error\_triggers\_state::force\_failure\_count\_left\ >\ error\_triggers\_state::failure\_count\_threshold\ ||}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::force\_failure\_count\_right\ >\ error\_triggers\_state::failure\_count\_threshold)}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::triggered\_error\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exo\_data-\/>\mbox{\hyperlink{class_exo_data_a7c02eb366ac9e7e15e17a22c1998b791}{error\_joint\_id}}\ =\ (left\_force\_outside\_range)\ ?\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076a3bf114dd56933f9ae20ee9dd4d3c7518}{config\_defs::joint\_id::left\_ankle}}\ :\ (uint8\_t)\mbox{\hyperlink{namespaceconfig__defs_a2d58dbc79a5104d434847439a5d6f076af2dc1d3b6601076eddc1ca7c21d95706}{config\_defs::joint\_id::right\_ankle}};}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{error__types_8h_af0a8653c4876ac7c5b5d4b03962fc73aa8963167cb0f8ce21fcaff956b37e1763}{FORCE\_VARIANCE\_ERROR}};}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Limit\ the\ motor\ positions,\ Too\ much\ drift!}}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ error\_triggers\_state::filtered\_motor\_position\_left\ =\ utils::ewma(exo\_data-\/>left\_leg.ankle.motor.p,\ }}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::filtered\_motor\_position\_left,\ error\_triggers\_state::motor\_position\_alpha);}}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ error\_triggers\_state::filtered\_motor\_position\_right\ =\ utils::ewma(exo\_data-\/>right\_leg.ankle.motor.p,}}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::filtered\_motor\_position\_right,\ error\_triggers\_state::motor\_position\_alpha);}}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ //\ print\ the\ motor\ positions\ every\ 100\ iterations}}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ static\ int\ count\ =\ 0;}}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (count++\ \%\ 100\ ==\ 0)}}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ logger::print("{}LP:"{}+String(error\_triggers\_state::filtered\_motor\_position\_left)+"{}\(\backslash\)t"{});}}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ logger::print("{}RP:"{}+String(error\_triggers\_state::filtered\_motor\_position\_right)+"{}\(\backslash\)n"{});}}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ bool\ left\_motor\_position\_error\ =\ utils::is\_outside\_range(error\_triggers\_state::filtered\_motor\_position\_left,\ }}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::left\_position\_bounds.first,\ error\_triggers\_state::left\_position\_bounds.second);}}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ bool\ right\_motor\_position\_error\ =\ utils::is\_outside\_range(error\_triggers\_state::filtered\_motor\_position\_right,}}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::right\_position\_bounds.first,\ error\_triggers\_state::right\_position\_bounds.second);}}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (left\_motor\_position\_error\ ||\ right\_motor\_position\_error)}}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ error\_triggers\_state::triggered\_error\ =\ true;}}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ return\ MOTOR\_POSTION\_OUT\_OF\_BOUNDS;}}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00233\ }
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ //\ Check\ the\ motors\ a\ mechanical\ break,\ if\ the\ moment\ of\ ineria\ drops\ there\ may\ be\ a\ break,\ Too\ much\ noise!}}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ const\ float\ left\_motor\_torque\ =\ exo\_data-\/>left\_leg.ankle.motor.i\ *\ exo-\/>left\_leg.get\_Kt\_for\_joint((uint8\_t)\ config\_defs::joint\_id::left\_ankle);}}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ const\ float\ right\_motor\_torque\ =\ exo\_data-\/>right\_leg.ankle.motor.i\ *\ exo-\/>right\_leg.get\_Kt\_for\_joint((uint8\_t)\ config\_defs::joint\_id::right\_ankle);}}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ const\ float\ left\_motor\_accel\ =\ (exo\_data-\/>left\_leg.ankle.motor.v\ -\/\ error\_triggers\_state::left\_prev\_velocity)\ /\ (1000\ /\ LOOP\_FREQ\_HZ);}}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ const\ float\ right\_motor\_accel\ =\ (exo\_data-\/>right\_leg.ankle.motor.v\ -\/\ error\_triggers\_state::right\_prev\_velocity)\ /\ (1000\ /\ LOOP\_FREQ\_HZ);}}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ error\_triggers\_state::left\_prev\_velocity\ =\ exo\_data-\/>left\_leg.ankle.motor.v;}}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ error\_triggers\_state::right\_prev\_velocity\ =\ exo\_data-\/>right\_leg.ankle.motor.v;}}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ float\ left\_motor\_inertia\ =\ 0;}}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ float\ right\_motor\_inertia\ =\ 0;}}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ //\ if\ the\ motor\ is\ not\ accelerating,\ then\ the\ inertia\ is\ 0}}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (!utils::is\_close\_to(left\_motor\_accel,\ 0,\ 0.001))}}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ left\_motor\_inertia\ =\ left\_motor\_torque\ /\ left\_motor\_accel;}}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (!utils::is\_close\_to(right\_motor\_accel,\ 0,\ 0.001))}}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ right\_motor\_inertia\ =\ right\_motor\_torque\ /\ right\_motor\_accel;}}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00255\ }
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ //\ print\ the\ motor\ inertia\ every\ 100\ loops}}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ static\ int\ loop\_count\ =\ 0;}}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ loop\_count++;}}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (loop\_count\ >=\ 99)}}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ loop\_count\ =\ 0;}}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ //\ logger::print("{}LN:"{}+String(left\_motor\_torque)+"{}\(\backslash\)t"{});}}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ //\ logger::print("{}LD:"{}+String(left\_motor\_accel)+"{}\(\backslash\)t"{});}}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ //logger::print("{}LI:"{}+String(left\_motor\_inertia)+"{}\(\backslash\)t"{});}}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ logger::print("{}RN:"{}+String(right\_motor\_torque)+"{}\(\backslash\)t"{});}}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ logger::print("{}RD:"{}+String(right\_motor\_accel)+"{}\(\backslash\)t"{});}}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ logger::print("{}RI:"{}+String(right\_motor\_inertia)+"{}\(\backslash\)n"{});}}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00269\ }
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (left\_motor\_inertia\ <\ error\_triggers\_state::motor\_inertia\_threshold\ ||}}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ right\_motor\_inertia\ <\ error\_triggers\_state::motor\_inertia\_threshold)}}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ error\_triggers\_state::triggered\_error\ =\ true;}}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ return\ MOTOR\_INERTIA\_ERROR;}}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ the\ transmission\ efficiency.\ If\ its\ too\ low,\ the\ cable\ may\ be\ broken.\ Must\ low\ pass\ motor\ current\ to\ account\ for\ time\ delay,\ Too\ much\ noise!}}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ float\ left\_motor\_torque\ =\ abs(exo\_data-\/>left\_leg.ankle.motor.i)\ *\ exo-\/>left\_leg.get\_Kt\_for\_joint((uint8\_t)\ config\_defs::joint\_id::left\_ankle);}}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ error\_triggers\_state::average\_motor\_torque\_left\ =\ utils::ewma(abs(left\_motor\_torque),}}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::average\_motor\_torque\_left,\ error\_triggers\_state::transmission\_efficiency\_alpha);\ }}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ float\ right\_motor\_torque\ =\ abs(exo\_data-\/>right\_leg.ankle.motor.i)\ *\ exo-\/>right\_leg.get\_Kt\_for\_joint((uint8\_t)\ config\_defs::joint\_id::right\_ankle);}}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ error\_triggers\_state::average\_motor\_torque\_right\ =\ utils::ewma(abs(right\_motor\_torque),}}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_triggers\_state::average\_motor\_torque\_right,\ error\_triggers\_state::transmission\_efficiency\_alpha);}}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ float\ left\_transmission\_efficiency\ =\ 1;}}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ float\ right\_transmission\_efficiency\ =\ 1;}}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (!utils::is\_close\_to(error\_triggers\_state::average\_motor\_torque\_left,\ 0,\ 0.001))}}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ left\_transmission\_efficiency\ =\ exo\_data-\/>left\_leg.ankle.torque\_reading\ /\ error\_triggers\_state::average\_motor\_torque\_left;}}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (!utils::is\_close\_to(error\_triggers\_state::average\_motor\_torque\_right,\ 0,\ 0.001))}}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ right\_transmission\_efficiency\ =\ exo\_data-\/>right\_leg.ankle.torque\_reading\ /\ error\_triggers\_state::average\_motor\_torque\_right;}}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ ((abs(left\_transmission\_efficiency)\ <\ error\_triggers\_state::transmission\_efficiency\_threshold)\ ||}}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ (abs(right\_transmission\_efficiency)\ <\ error\_triggers\_state::transmission\_efficiency\_threshold))}}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ logger::println("{}Error:\ Transmission\ efficiency\ too\ low"{});}}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ return\ POOR\_TRANSMISSION\_EFFICIENCY;}}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{error__types_8h_af0a8653c4876ac7c5b5d4b03962fc73aabf350750d0d4fabd8954c0f1e9bbae94}{NO\_ERROR}};}
+\DoxyCodeLine{00305\ \ \ \ \ \}}
+\DoxyCodeLine{00306\ \}}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00308\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00310\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ defined(ARDUINO\_TEENSY36)\ \ ||\ defined(ARDUINO\_TEENSY41)}}
+
+\end{DoxyCode}
