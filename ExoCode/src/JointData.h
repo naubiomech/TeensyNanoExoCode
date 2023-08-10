@@ -33,7 +33,7 @@ class ExoData;
  */
 class JointData {
 	public:
-        JointData(config_defs::joint_id id, uint8_t* config_to_send);
+        JointData(config_defs::joint_id id, uint8_t* config_to_send, float joint_RoM, bool flip_ankle_angle);
         
         /**
          * @brief reconfigures the the joint data if the configuration changes after constructor called.
@@ -59,8 +59,10 @@ class JointData {
         float joint_global_angle; /**< The angle of the joint relative to the ground */
         float prev_joint_position; /**< The position of the joint, after any transmission */
         float joint_velocity;
-        const float joint_position_alpha = 0.1f;
-        const float joint_velocity_alpha = 0.1f;
+        const float joint_position_alpha = 0.05f;
+        const float joint_velocity_alpha = 0.05f;
+		const float joint_RoM;
+		bool do_flip_angle;
 
         /* Error handling data */
         // Torque tracking check
@@ -68,7 +70,7 @@ class JointData {
         float post_transmission_torque = 0; /**< torque after torque_output_alpha. */
 
         // Torque absolute check
-        float torque_output_threshold = 45; /**< maximum value of the the filtered torque. */
+        float torque_output_threshold = 40; /**< maximum value of the the filtered torque. */
 
         // Torque variance check
         const int torque_failure_count_max = 2; /**< ammount of samples outside of error bounds. */

@@ -281,7 +281,8 @@ namespace controller_defs /**< stores the parameter indexes for different contro
         const uint8_t propulsive_gain = 6;
         const uint8_t kp = 7;
         const uint8_t kd = 8;
-        const uint8_t num_parameter = 9;
+		const uint8_t turn_on_peak_limiter = 9;
+        const uint8_t num_parameter = 10;
     }
 	
 	namespace calibr_manager
@@ -344,8 +345,32 @@ class ControllerData {
         bool prev_calibrate_trq_sensor = false; /**< previous value of the calibrate torque sensor flag */
         const float cal_neutral_angle_alpha = 0.01f; /**< alpha for the low pass on the neutral angle calibration */
         float level_entrance_angle = 0.0f; /**< level entrance angle for the spring term */
-        float prev_calibrate_level_entrance = false; /**< previous value of the calibrate level entrance flag */
+        bool prev_calibrate_level_entrance = false; /**< previous value of the calibrate level entrance flag */
         const float cal_level_entrance_angle_alpha = 0.01f; /**< alpha for the low pass on the level entrance calibration */
+		float stateless_pjmc_term = 0;
+		float toeFsrThreshold = 0.2f;
+		bool wait4HiHeelFSR = false;
+		uint16_t iPidHiTorque = 0;
+		bool pausePid = false;
+		float currentTime = 0.0000f;
+		float previousTime = 0.0000f;
+		float itrTime = 0.0000f;
+		uint8_t numBelow500 = 0;
+		int maxTorqueCache = 0;
+		float previousMaxCmdCache = 15;
+		float previousMinCmdCache = -15;
+		float currentMaxCmdCache = 0;
+		float currentMinCmdCache = 0;
+		uint16_t cmdCacheItr = 0;
+		bool doIncrUpperLmt = false;
+		bool doIncrLowerLmt = false;
+		float setpoint2use = 0;
+		float maxPjmcSpringDamper = 0;
+		bool wasStance = false;
+		float prevMaxPjmcSpringDamper = 0;
+		float cmd_2nd = 0;
+		float cmd_1st = 0;
+		
 
         // Variables for the ElbowMinMax Controller
         float fsr_toe_min_elbow = 0;

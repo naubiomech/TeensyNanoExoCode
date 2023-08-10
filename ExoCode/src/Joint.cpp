@@ -3,6 +3,7 @@
 #include "Logger.h"
 #include "ErrorReporter.h"
 #include "error_codes.h"
+
 //#define JOINT_DEBUG
 
 // Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
@@ -917,14 +918,21 @@ void AnkleJoint::run_joint()
 
     // Angle Sensor data
     _joint_data->prev_joint_position = _joint_data->joint_position;
-    const float raw_angle = _ankle_angle.get();
-    const float new_angle = _is_left ? (raw_angle):(1 - raw_angle);
+    const float raw_angle = _joint_data->joint_RoM * _ankle_angle.get();
+    const float new_angle = _joint_data->do_flip_angle ? (_joint_data->joint_RoM - raw_angle):(raw_angle);
     _joint_data->joint_position = utils::ewma(
         new_angle, _joint_data->joint_position, _joint_data->joint_position_alpha);
     _joint_data->joint_velocity = utils::ewma(
         (_joint_data->joint_position - _joint_data->prev_joint_position) / (1.0f / LOOP_FREQ_HZ),
         _joint_data->joint_velocity, 
         _joint_data->joint_velocity_alpha);
+	
+/* 	if (!_is_left) {
+	Serial.print("\nRight joint_position: " + String(_joint_data->joint_position) + "flip? " + String(_joint_data->do_flip_angle));
+	}
+	else {
+		Serial.print("  |  Left joint_position: " + String(_joint_data->joint_position) + "flip? " + String(_joint_data->do_flip_angle));
+	} */
 
     // Serial.print(_is_left ? "Left " : "Right ");
     // Serial.print("Ankle Angle: ");

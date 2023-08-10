@@ -323,9 +323,11 @@
                 
                 // Torque Sensor Pins
                 const unsigned int num_available_joints = 2;
-                const unsigned int torque_sensor_left[] = {A16, A17};
+                //const unsigned int torque_sensor_left[] = {A16, A17};
+				const unsigned int torque_sensor_left[] = {A16};
                 //const unsigned int torque_sensor_left1 = A16;
-                const unsigned int torque_sensor_right[] = {A6, A7};
+                //const unsigned int torque_sensor_right[] = {A6, A7};
+				const unsigned int torque_sensor_right[] = {A6};
                 //const unsigned int torque_sensor_right1 = A8;
                 
                 

@@ -7,9 +7,9 @@
  * Uses an initializer list for the joint data, and creates the joint id for the joints. 
  */
 LegData::LegData(bool is_left, uint8_t* config_to_send)
-: hip((config_defs::joint_id)((uint8_t)(is_left ? config_defs::joint_id::left : config_defs::joint_id::right) | (uint8_t)config_defs::joint_id::hip), config_to_send)
-, knee((config_defs::joint_id)((uint8_t)(is_left ? config_defs::joint_id::left : config_defs::joint_id::right) | (uint8_t)config_defs::joint_id::knee), config_to_send)
-, ankle((config_defs::joint_id)((uint8_t)(is_left ? config_defs::joint_id::left : config_defs::joint_id::right) | (uint8_t)config_defs::joint_id::ankle), config_to_send) 
+: hip((config_defs::joint_id)((uint8_t)(is_left ? config_defs::joint_id::left : config_defs::joint_id::right) | (uint8_t)config_defs::joint_id::hip), config_to_send, is_left ? config_to_send[config_defs::left_hip_RoM_idx] : config_to_send[config_defs::right_hip_RoM_idx], config_to_send[config_defs::hip_flip_angle_dir_idx])
+, knee((config_defs::joint_id)((uint8_t)(is_left ? config_defs::joint_id::left : config_defs::joint_id::right) | (uint8_t)config_defs::joint_id::knee), config_to_send, is_left ? config_to_send[config_defs::left_knee_RoM_idx] : config_to_send[config_defs::right_knee_RoM_idx], config_to_send[config_defs::knee_flip_angle_dir_idx])
+, ankle((config_defs::joint_id)((uint8_t)(is_left ? config_defs::joint_id::left : config_defs::joint_id::right) | (uint8_t)config_defs::joint_id::ankle), config_to_send, is_left ? config_to_send[config_defs::left_ankle_RoM_idx] : config_to_send[config_defs::right_ankle_RoM_idx], config_to_send[config_defs::ankle_flip_angle_dir_idx]) 
 {
     this->is_left = is_left;
     

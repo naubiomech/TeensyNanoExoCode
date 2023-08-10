@@ -7,3 +7,4 @@ ExoCode/src/.vs
 .vs
 ExoCode/.vscode
 */.vs
+Libraries/ArduinoBLE/extras/arduino-ble-parser.py

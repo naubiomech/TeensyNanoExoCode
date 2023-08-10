@@ -213,6 +213,13 @@ namespace config_defs
 	static const int hip_flip_angle_dir_idx = 23;
 	static const int knee_flip_angle_dir_idx = 24;
 	static const int ankle_flip_angle_dir_idx = 25;
+	
+	static const int left_hip_RoM_idx = 26;
+	static const int right_hip_RoM_idx = 27;
+	static const int left_knee_RoM_idx = 28;
+	static const int right_knee_RoM_idx = 29;
+	static const int left_ankle_RoM_idx = 30;
+	static const int right_ankle_RoM_idx = 31;
 }
 
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41) 
@@ -451,6 +458,14 @@ namespace config_defs
 		std::string hip_flip_angle_dir;
         std::string knee_flip_angle_dir;
         std::string ankle_flip_angle_dir;
+		
+		float left_hip_RoM;
+		float right_hip_RoM;
+		float left_knee_RoM;
+		float right_knee_RoM;
+		float left_ankle_RoM;
+		float right_ankle_RoM;
+		
     };
 #endif
 

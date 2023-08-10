@@ -82,6 +82,10 @@ class _Controller
         float _prev_input;   /**< prev error term for calculating derivative */
         float _prev_de_dt;   /**< prev error derivative used if the timestep is not good*/
         float _prev_pid_time; /**< prev time the PID was called */
+		bool _is_first_frame = 1;
+		bool _do_start_timer = 0;
+		float _start_time;
+		bool _pid_on = 0;
         
         /**
          * @brief calculates the current PID contribution to the motor command. 
@@ -117,8 +121,10 @@ class PropulsiveAssistive : public _Controller
 
         float calc_motor_cmd();
     private:
-        void _update_reference_angles(LegData* leg_data, ControllerData* controller_data, float percent_grf);
+        void _update_reference_angles(LegData* leg_data, ControllerData* controller_data, float percent_grf, float percent_grf_heel);
         void _capture_neutral_angle(LegData* leg_data, ControllerData* controller_data);
+		void _grf_threshold_dynamic_tuner(LegData* leg_data, ControllerData* controller_data, float threshold, float percent_grf_heel);
+		void _plantar_setpoint_adjuster(LegData* leg_data, ControllerData* controller_data, float pjmcSpringDamper);
 };
 
 /**

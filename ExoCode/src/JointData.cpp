@@ -7,9 +7,11 @@
  * Stores the id, torque sensor reading, if it is on the left side (for convenience), and if the joint is used.
  * Uses an initializer list for the motor and controller data. 
  */
-JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send)
+JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send, float joint_RoM, bool do_flip_angle)
 : motor(id, config_to_send)
 , controller(id, config_to_send)
+, joint_RoM(joint_RoM)
+, do_flip_angle(do_flip_angle)
 {
     
     // set all the data based on the id and configuration
@@ -44,6 +46,16 @@ JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send)
             {
                 this->flip_direction = 0;
             }
+			
+			if ((config_to_send[config_defs::hip_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::hip_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::hip_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            {
+                this->do_flip_angle = 1;
+            }
+            else
+            {
+                this->do_flip_angle = 0;
+            }
+			
             break;
         }
         case (uint8_t)config_defs::joint_id::knee:
@@ -62,6 +74,16 @@ JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send)
             {
                 this->flip_direction = 0;
             }
+			
+			if ((config_to_send[config_defs::knee_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::knee_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::knee_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            {
+                this->do_flip_angle = 1;
+            }
+            else
+            {
+                this->do_flip_angle = 0;
+            }
+			
             break;
         }
         case (uint8_t)config_defs::joint_id::ankle:
@@ -80,6 +102,16 @@ JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send)
             {
                 this->flip_direction = 0;
             }
+			
+			if ((config_to_send[config_defs::ankle_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::ankle_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::ankle_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            {
+                this->do_flip_angle = 1;
+            }
+            else
+            {
+                this->do_flip_angle = 0;
+            }
+			
             break;
         }
     }

@@ -1,5 +1,6 @@
 #include "ParseIni.h"
 #include "Logger.h"
+#include <stdlib.h> // atof
 
 // We only need to parse the INI file if we have access to the SD card.
 // The nano will get the info through SPI so doesn't need these functions.
@@ -262,6 +263,42 @@
 		get_section_key(ini, temp_exo_name, "ankleFlipTorqueDir", buffer, buffer_len);
         data.ankle_flip_torque_dir = buffer;
         config_to_send[config_defs::ankle_flip_torque_dir_idx] = config_map::flip_dir[data.ankle_flip_torque_dir];
+		
+		get_section_key(ini, temp_exo_name, "leftHipRoM", buffer, buffer_len);
+        data.left_hip_RoM = atof(buffer);
+        config_to_send[config_defs::left_hip_RoM_idx] =  data.left_hip_RoM;
+		
+		get_section_key(ini, temp_exo_name, "rightHipRoM", buffer, buffer_len);
+        data.right_hip_RoM = atof(buffer);
+        config_to_send[config_defs::right_hip_RoM_idx] =  data.right_hip_RoM;
+		
+		get_section_key(ini, temp_exo_name, "leftKneeRoM", buffer, buffer_len);
+        data.left_knee_RoM = atof(buffer);
+        config_to_send[config_defs::left_knee_RoM_idx] =  data.left_knee_RoM;
+		
+		get_section_key(ini, temp_exo_name, "rightKneeRoM", buffer, buffer_len);
+        data.right_knee_RoM = atof(buffer);
+        config_to_send[config_defs::right_knee_RoM_idx] =  data.right_knee_RoM;
+		
+		get_section_key(ini, temp_exo_name, "leftAnkleRoM", buffer, buffer_len);
+        data.left_ankle_RoM = atof(buffer);
+        config_to_send[config_defs::left_ankle_RoM_idx] =  data.left_ankle_RoM;
+		
+		get_section_key(ini, temp_exo_name, "rightAnkleRoM", buffer, buffer_len);
+        data.right_ankle_RoM = atof(buffer);
+        config_to_send[config_defs::right_ankle_RoM_idx] =  data.right_ankle_RoM;
+		
+		get_section_key(ini, temp_exo_name, "hipFlipAngleDir", buffer, buffer_len);
+        data.hip_flip_angle_dir = buffer;
+        config_to_send[config_defs::hip_flip_angle_dir_idx] = config_map::flip_dir[data.hip_flip_angle_dir];
+		
+		get_section_key(ini, temp_exo_name, "kneeFlipAngleDir", buffer, buffer_len);
+        data.knee_flip_angle_dir = buffer;
+        config_to_send[config_defs::knee_flip_angle_dir_idx] = config_map::flip_dir[data.knee_flip_angle_dir];
+		
+		get_section_key(ini, temp_exo_name, "ankleFlipAngleDir", buffer, buffer_len);
+        data.ankle_flip_angle_dir = buffer;
+        config_to_send[config_defs::ankle_flip_angle_dir_idx] = config_map::flip_dir[data.ankle_flip_angle_dir];
     }
 
     /*

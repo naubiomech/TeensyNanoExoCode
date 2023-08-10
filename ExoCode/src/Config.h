@@ -25,6 +25,7 @@
     #define LOOP_TIME_TOLERANCE 0.1 
     
     #define USE_SPEED_CHECK 0
+	#define USE_ANGLE_SENSORS 1
 
     // MACRO magic to convert a define to a string
     #define VAL(str) #str
@@ -49,6 +50,14 @@
         const float FSR_LOWER_THRESHOLD = 0.15;
         const float SCHMITT_DELTA = (FSR_UPPER_THRESHOLD - FSR_LOWER_THRESHOLD)/2;
     }
+	
+	namespace angle_sensor
+	{
+		const float ANGLE_UPPER_THRESHOLD = 0.9;
+		const float ANGLE_LOWER_THRESHOLD = 0.1;
+		const float ROM_LEFT = 103.2f;
+		const float ROM_RIGHT = 91.4f; //In degrees
+	}
 
     namespace analog
     {
@@ -75,7 +84,7 @@
     {
         const String FirmwareVersion = String(TOSTRING(FIRMWARE_VERSION)); // string to add to firmware char
         const String PCBVersion = String(TOSTRING(BOARD_VERSION)); // string to add to pcb char
-        const String DeviceName = String("NULL"); // string to add to device char, if you would like the system to set it use "NULL"
+        const String DeviceName = String("T800_by_DiamondCity"); // string to add to device char, if you would like the system to set it use "NULL"
     }
 
     namespace UART_times
