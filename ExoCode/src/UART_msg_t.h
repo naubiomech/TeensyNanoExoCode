@@ -1,7 +1,7 @@
 #ifndef UARTMSG_H
 #define UARTMSG_H
 
-#define UART_MSG_T_MAX_DATA_LEN 64
+#define UART_MSG_T_MAX_DATA_LEN 128
 #include "Arduino.h"
 #include "Logger.h"
 

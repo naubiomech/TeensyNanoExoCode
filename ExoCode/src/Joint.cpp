@@ -1,6 +1,8 @@
 #include "Joint.h"
 #include "Time_Helper.h"
 #include "Logger.h"
+#include "ErrorReporter.h"
+#include "error_codes.h"
 //#define JOINT_DEBUG
 
 // Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
@@ -425,6 +427,12 @@ HipJoint::HipJoint(config_defs::joint_id id, ExoData* exo_data)
                 #endif
                 HipJoint::set_motor(new AK60_v1_1_T(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
                 break;
+            case (uint8_t)config_defs::motor::AK70:
+                #ifdef JOINT_DEBUG
+                    logger::println("AK70");
+                #endif
+                HipJoint::set_motor(new AK70(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
+                break;
             default :
                 //_motor = nullptr;
                 #ifdef JOINT_DEBUG
@@ -452,15 +460,35 @@ void HipJoint::run_joint()
         logger::print("HipJoint::run_joint::Start");
     #endif
 
-    // enable or disable the motor.
-    _motor->on_off(); 
-    _motor->enable();
-
     // make sure the correct controller is running.
     set_controller(_joint_data->controller.controller);
     
     // Calculate the motor command
     _joint_data->controller.setpoint = _controller->calc_motor_cmd();
+
+    // Check for joint errors
+    const uint16_t exo_status = _data->get_status();
+    const bool correct_status = (exo_status == status_defs::messages::trial_on) || 
+            (exo_status == status_defs::messages::fsr_calibration) || 
+            (exo_status == status_defs::messages::fsr_refinement);
+    const bool error = correct_status ? _error_manager.run(_joint_data) : false;
+    if (error) 
+    {
+        // Send all errors to the other microcontroller
+        for (int i=0; i < _error_manager.errorQueueSize(); i++)
+        {
+            _motor->set_error();
+            ErrorReporter::get_instance()->report(
+                _error_manager.popError(),
+                _id
+            );
+        }
+    }
+
+    // enable or disable the motor.
+    _motor->on_off(); 
+    _motor->enable();
+
     // Send the new command to the motor.
     _motor->transaction(_joint_data->controller.setpoint / _joint_data->motor.gearing);
 
@@ -629,6 +657,12 @@ KneeJoint::KneeJoint(config_defs::joint_id id, ExoData* exo_data)
                 #endif
                 KneeJoint::set_motor(new AK60_v1_1_T(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
                 break;
+            case (uint8_t)config_defs::motor::AK70:
+                #ifdef JOINT_DEBUG
+                    logger::println("AK70");
+                #endif
+                KneeJoint::set_motor(new AK70(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
+                break;
             default :
                 #ifdef JOINT_DEBUG
                     logger::println("NULL");
@@ -657,20 +691,37 @@ void KneeJoint::run_joint()
     #ifdef JOINT_DEBUG
         logger::print("KneeJoint::run_joint::Start");
     #endif
-    // enable or disable the motor.
-    _motor->on_off(); 
-    _motor->enable();
 
     // make sure the correct controller is running.
     set_controller(_joint_data->controller.controller);
     
     // Calculate the motor command
     _joint_data->controller.setpoint = _controller->calc_motor_cmd();
+
+    // Check for joint errors
+    const uint16_t exo_status = _data->get_status();
+    const bool correct_status = (exo_status == status_defs::messages::trial_on) || 
+            (exo_status == status_defs::messages::fsr_calibration) || 
+            (exo_status == status_defs::messages::fsr_refinement);
+    const bool error = correct_status ? _error_manager.run(_joint_data) : false;
+    if (error)
+    {
+        _motor->set_error();
+        // Send all errors to the other microcontroller
+        for (int i=0; i < _error_manager.errorQueueSize(); i++)
+        {
+            ErrorReporter::get_instance()->report(
+                _error_manager.popError(),
+                _id
+            );
+        }
+    }
+
+    // enable or disable the motor.
+    _motor->on_off(); 
+    _motor->enable();
+
     // Send the new command to the motor.
-    // logger::print(_joint_data->controller.setpoint);
-    // logger::print(" Knee\t");
-    // Use transaction because the motors are call and response
-    // _motor->transaction(0 / _joint_data->motor.gearing);
     _motor->transaction(_joint_data->controller.setpoint / _joint_data->motor.gearing);
 
         #ifdef JOINT_DEBUG
@@ -678,7 +729,7 @@ void KneeJoint::run_joint()
         logger::print(_controller->calc_motor_cmd());
         logger::print("\n");
     #endif
-};  
+};
 
 /*
  * reads data for sensors for the joint, torque and motor.
@@ -820,6 +871,12 @@ AnkleJoint::AnkleJoint(config_defs::joint_id id, ExoData* exo_data)
                 #endif
                 AnkleJoint::set_motor(new AK60_v1_1_T(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
                 break;
+            case (uint8_t)config_defs::motor::AK70:
+                #ifdef JOINT_DEBUG
+                    logger::println("AK70");
+                #endif
+                AnkleJoint::set_motor(new AK70(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
+                break;
             default :
                 #ifdef JOINT_DEBUG
                     logger::println("NULL");
@@ -857,9 +914,6 @@ void AnkleJoint::run_joint()
     #ifdef JOINT_DEBUG
         logger::print("AnkleJoint::run_joint::Start");
     #endif
-    // enable or disable the motor.
-    _motor->on_off();
-    _motor->enable();
 
     // Angle Sensor data
     _joint_data->prev_joint_position = _joint_data->joint_position;
@@ -872,20 +926,52 @@ void AnkleJoint::run_joint()
         _joint_data->joint_velocity, 
         _joint_data->joint_velocity_alpha);
 
-
-    // IMU Sensor Data
-    // const float current_us = micros();
-    // if ((current_us - _previous_sample_us) >= _imu_sample_rate_us)
-    // {
-    //     _previous_sample_us = current_us;    
-    //     const float raw_global_angle = _imu.get_global_angle();
-    //     _joint_data->joint_global_angle = (_is_left ? (raw_global_angle):(-1*raw_global_angle));
-    // }
+    // Serial.print(_is_left ? "Left " : "Right ");
+    // Serial.print("Ankle Angle: ");
+    // Serial.print(_joint_data->joint_position);
+    // Serial.print("\n");
 
     // make sure the correct controller is running.
     set_controller(_joint_data->controller.controller);
     // Calculate the motor command
     _joint_data->controller.setpoint = _controller->calc_motor_cmd();
+
+    // Check for joint errors
+    static float start = micros();
+
+    // Check if the exo is in the correct state to run the error manager (i.e. not in a trial
+    const uint16_t exo_status = _data->get_status();
+    const bool correct_status = (exo_status == status_defs::messages::trial_on) || 
+            (exo_status == status_defs::messages::fsr_calibration) || 
+            (exo_status == status_defs::messages::fsr_refinement);
+    const bool error = correct_status ? _error_manager.run(_joint_data) : false;
+
+    if (error) 
+    {
+        _motor->set_error();
+        _motor->on_off();
+        _motor->enable();
+        // Send all errors to the other microcontroller
+        for (int i=0; i < _error_manager.errorQueueSize(); i++)
+        {
+            ErrorReporter::get_instance()->report(
+                _error_manager.popError(),
+                _id
+            );
+        }
+    }
+
+    // enable or disable the motor.
+    _motor->on_off();
+    _motor->enable();
+
+    if (_is_left)
+    {
+        logger::print("Left Ankle: ");
+        // print the motor command
+        logger::println(_joint_data->controller.setpoint);
+    }
+
     // Send the new command to the motor.
     _motor->transaction(_joint_data->controller.setpoint / _joint_data->motor.gearing);
 
@@ -894,7 +980,7 @@ void AnkleJoint::run_joint()
         logger::print(_controller->calc_motor_cmd());
         logger::print("\n");
     #endif
-}; 
+};
 
 /*
  * reads data for sensors for the joint, torque and motor.

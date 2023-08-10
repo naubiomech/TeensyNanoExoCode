@@ -8,8 +8,10 @@
 #include "Motor.h"
 #include "CAN.h"
 #include "ErrorManager.h"
-#include "error_types.h"
+#include "error_codes.h"
 #include "Logger.h"
+#include "ErrorReporter.h"
+#include "error_codes.h"
 //#define MOTOR_DEBUG
 
 // Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
@@ -154,7 +156,7 @@ void _CANMotor::read_data()
                     logger::print("\n");
                 #endif
                 // reset timout_count because we got a valid message
-                this->_timeout_count = 0;
+                _motor_data->timeout_count = 0;
                 return;
             }
             searching = ((micros() - start) < _timeout);
@@ -171,9 +173,9 @@ void _CANMotor::read_data()
 void _CANMotor::send_data(float torque)
 {
     #ifdef MOTOR_DEBUG
-        // logger::print("Sending data: ");
-        // logger::print(uint32_t(_motor_data->id));
-        // logger::print("\n");
+        logger::print("Sending data: ");
+        logger::print(uint32_t(_motor_data->id));
+        logger::print("\n");
     #endif
 
     int direction_modifier = _motor_data->flip_direction ? -1 : 1;
@@ -231,7 +233,7 @@ void _CANMotor::check_response()
     bool active_trial = (exo_status == status_defs::messages::trial_on) || 
         (exo_status == status_defs::messages::fsr_calibration) ||
         (exo_status == status_defs::messages::fsr_refinement);
-    if (_data->user_paused || !active_trial)
+    if (_data->user_paused || !active_trial || _data->estop || _error)
     {
         return;
     }
@@ -252,7 +254,7 @@ void _CANMotor::check_response()
 
 void _CANMotor::on_off()
 {          
-    if (_data->estop)
+    if (_data->estop || _error)
     {
         _motor_data->is_on = false;
         // logger::print("_CANMotor::on_off(bool is_on) : E-stop pulled - ");
@@ -290,7 +292,7 @@ bool _CANMotor::enable()
 };
 
 bool _CANMotor::enable(bool overide)
-{ 
+{
     #ifdef MOTOR_DEBUG
     //  logger::print(_prev_motor_enabled);
     //  logger::print("\t");
@@ -301,7 +303,7 @@ bool _CANMotor::enable(bool overide)
     #endif
     
     // only change the state and send messages if the enabled state has changed.
-    if ( _motor_data->is_on && (_prev_motor_enabled != _motor_data->enabled || overide || !_enable_response))
+    if ((_prev_motor_enabled != _motor_data->enabled) || overide || !_enable_response)
     {
         CAN_message_t msg;
         msg.id = uint32_t(_motor_data->id);
@@ -313,31 +315,24 @@ bool _CANMotor::enable(bool overide)
         msg.buf[5] = 0xFF;
         msg.buf[6] = 0xFF;
 
-        // TODO: Dont reenable after after errror, or if estop is pulled
-        
-        if (_motor_data->enabled)
+        // TODO: Dont reenable after error, or if estop is pulled
+        if (_motor_data->enabled && !_error && !_data->estop)
         {
             // !!! A delay check between when turning on power and when timeouts stopped happening gave a delay of 1930 ms rounding to 2000.
             // enable motor
             msg.buf[7] = 0xFC;
-            // logger::print("_CANMotor::enable(bool is_on) : Enable on- ");
-            // logger::print(uint32_t(_motor_data->id));
-            // logger::print("\n");
         }
         else 
         {
             _enable_response = false;
             // disable motor, the message after this shouldn't matter as the power is cut, and the send() doesn't send a message if not enabled.
             msg.buf[7] = 0xFD;
-            // logger::print("_CANMotor::enable(bool is_on) : Enable off - ");
-            // logger::print(uint32_t(_motor_data->id));
-            // logger::print("\n");
         }
         CAN* can = can->getInstance();
         can->send(msg);
         delayMicroseconds(500);
         read_data();
-        if (_timeout_count == 0)
+        if (_motor_data->timeout_count == 0)
         {
             _enable_response = true;
         }
@@ -361,16 +356,17 @@ void _CANMotor::zero()
     CAN* can = can->getInstance();
     can->send(msg);
     
-    // logger::print("_CANMotor::zero() : Zeroed -  ");
-    // logger::print(uint32_t(_motor_data->id));
-    // logger::print("\n");
-    
     read_data();
 };
 
 float _CANMotor::get_Kt()
 {
     return _Kt;
+}
+
+void _CANMotor::set_error()
+{
+    _error = true;
 }
 
 void _CANMotor::set_Kt(float Kt)
@@ -381,18 +377,8 @@ void _CANMotor::set_Kt(float Kt)
 
 void _CANMotor::_handle_read_failure()
 {
-    _timeout_count++;
-    if (_timeout_count >= _timeout_count_max)
-    {
-        _data->error_joint_id = (int)_motor_data->id;
-        ErrorManager::set_system_error(MOTOR_TIMEOUT);
-        _timeout_count = 0;
-#ifdef MOTOR_DEBUG
-        logger::print("_CANMotor::_handle_read_failure() : Timeout: ");
-        logger::print(uint32_t(_motor_data->id));
-        logger::print("\n");
-#endif
-    }
+    Serial.println("Read failure");
+    _motor_data->timeout_count++;
 };
 
 float _CANMotor::_float_to_uint(float x, float x_min, float x_max, int bits)
@@ -491,5 +477,12 @@ _CANMotor(id, exo_data, enable_pin)
 #endif
 };
 
+AK70::AK70(config_defs::joint_id id, ExoData* exo_data, int enable_pin): // constructor: type is the motor type
+_CANMotor(id, exo_data, enable_pin)
+{
+    _I_MAX = 23.2f;
+    _V_MAX = 15.5f;
+    set_Kt(0.13 * 10);
+};
 
 #endif

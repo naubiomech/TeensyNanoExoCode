@@ -1,3 +1,11 @@
+/**
+ * @file AnkleAngles.h
+ * @author Chancelor Cuddeback
+ * @brief Reads the ASD5600 angle sensor on the ankle joint.
+ * @date 2023-07-18
+ * 
+ */
+
 #ifndef ANKLE_ANGLE_H
 #define ANKLE_ANGLE_H
 

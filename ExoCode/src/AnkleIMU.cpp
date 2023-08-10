@@ -12,7 +12,11 @@ static const int left_address = 0x29;
 static const int right_address = 0x28;
 static const int BNO055_EULER_R_LSB_ADDR = 0X1C;
 static const int BNO055_EULER_R_MSB_ADDR = 0x1D;
-
+/**
+ * @brief Construct a new Ankle I M U:: Ankle I M U object
+ * 
+ * @param is_left 
+ */
 AnkleIMU::AnkleIMU(bool is_left) : _is_left{is_left}
 {
     const int addr = (is_left)?(left_address):(right_address);

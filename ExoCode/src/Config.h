@@ -1,3 +1,10 @@
+/**
+ * @file Config.h
+ * @author Chancelor Cuddeback
+ * @brief Configuration variables for the codebase.
+ * @date 2023-07-18
+ * 
+ */
 
 #ifndef Config_h
 #define Config_h 
@@ -12,7 +19,7 @@
     #define AK_Board_V0_5_1 4
 
     // TODO : Incorporate into parse INI
-    #define BOARD_VERSION AK_Board_V0_3                   
+    #define BOARD_VERSION AK_Board_V0_5_1                   
     #define REAL_TIME_I2C 1
     #define LOOP_FREQ_HZ 500
     #define LOOP_TIME_TOLERANCE 0.1 
@@ -57,7 +64,7 @@
 
     namespace BLE_times
     {
-        const float _status_msg_delay = 1000000; //microseconds
+        const float _status_msg_delay = 2000000; //microseconds
         const float _real_time_msg_delay = 20000; //microseconds
         const float _update_delay = 1000; //microseconds
         const float _poll_timeout = 4; //milliseconds

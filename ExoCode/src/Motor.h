@@ -104,6 +104,8 @@ class _Motor
         virtual config_defs::joint_id get_id();
 
         virtual float get_Kt() = 0; /**< Torque constant of the motor, at the motor output. [Nm/A] */
+
+        virtual void set_error() = 0; /**< Sets the error flag for the motor. */
 		
 	protected:
         config_defs::joint_id _id; //motor id 
@@ -113,6 +115,7 @@ class _Motor
         int _enable_pin;
         bool _prev_motor_enabled; 
         bool _prev_on_state;
+        bool _error = false;
         float _Kt; // Torque constant of the motor, at the motor output. [Nm/A]   
 };
 
@@ -131,6 +134,7 @@ class NullMotor : public _Motor
     bool enable(bool overide) {return true;};
     void zero() {};
     float get_Kt() {return 0.0;};
+    void set_error() {};
 };
 
 
@@ -151,6 +155,7 @@ class _CANMotor : public _Motor
         void zero();
         float get_Kt();
         void check_response();
+        void set_error();
         
     protected:
 
@@ -194,15 +199,12 @@ class _CANMotor : public _Motor
         float _P_MAX; /**< Max angle of the motor */
         float _I_MAX; /**< Max current of the motor */
         float _V_MAX; /**< Max velocity of the motor */
-        int _timeout_count = 0; /**< Current count of the number of timeouts */
         bool _enable_response; /**< True if the motor responded to an enable command */
         const uint32_t _timeout = 500;  /**< Time to wait for response from the motor in micro-seconds */
-        const uint32_t _timeout_count_max = 40; /**< Number of timeouts before the motor is disabled */
 
         std::queue<float> _measured_current; /**< Queue of the measured current values */
         const int _current_queue_size = 25; /**< Size of the queue of measured current values */
         const float _variance_threshold = 0.01; /**< Threshold for the variance of the measured current values */
-        
 };
 
 /**
@@ -243,6 +245,13 @@ class AK80 : public _CANMotor
     public:
         AK80(config_defs::joint_id id, ExoData* exo_data, int enable_pin); // constructor: type is the motor type
 		~AK80(){};   
+};
+
+class AK70 : public _CANMotor
+{
+    public:
+        AK70(config_defs::joint_id id, ExoData* exo_data, int enable_pin); // constructor: type is the motor type
+        ~AK70(){};
 };
 
 #endif

@@ -1,7 +1,7 @@
 /*
    Code used to run the exo from the teensy.  This communicates with the nano over UART.
-  
-  
+   
+   
    P. Stegall Jan 2022
 */  
 
@@ -33,11 +33,6 @@
 #include "src/uart_commands.h"
 #include "src/UART_msg_t.h"
 
-// Error Handling
-#include "src/error_handlers.h"
-#include "src/error_triggers.h"
-#include "src/ErrorManager.h"
-
 // Logging
 #include "src/Logger.h"
 #include "src/PiLogger.h"
@@ -52,20 +47,14 @@ namespace config_info
 
 void setup()
 {
-  //analogWriteResolution(12);
-  analogReadResolution(12);
-  
-  Serial.begin(115200);
- // TODO: Remove serial while for deployed version as this would hang
-//     while (!Serial) {
-//      ; // wait for serial port to connect. Needed for native USB
-//     }
+    //analogWriteResolution(12);
+    analogReadResolution(12);
+    
+    Serial.begin(115200);
+    delay(100);
 
     // get the config information from the SD card.
     ini_parser(config_info::config_to_send);
-
-    // wait for the nano to get started
-    //delay(500);
     
     // Print to confirm config came through correctly. Should not contain zeros.
     #ifdef MAIN_DEBUG
@@ -115,7 +104,6 @@ void loop()
         }
     #endif
 
-    static ErrorManager error_manager(&exo, &exo_data);
     static UARTHandler* uart_handler = UARTHandler::get_instance();
     
     if (first_run)
@@ -124,9 +112,6 @@ void loop()
         
         UART_command_utils::wait_for_get_config(uart_handler, &exo_data, UART_times::CONFIG_TIMEOUT);
 
-        // assign the error handlers and triggers
-        error_manager.assign_handlers(error_handlers::soft, error_handlers::hard, error_handlers::fatal);
-        error_manager.assign_triggers(error_triggers::soft, error_triggers::hard, error_triggers::fatal);
       
         #ifdef MAIN_DEBUG
             logger::print("Superloop :: Start First Run Conditional\n");
@@ -442,46 +427,6 @@ void loop()
 
     // do exo calculations
     bool ran = exo.run();
-    if (ran) 
-    {
-        //pi_logger.sendUpdate();
-    }
-
-    // manage system errors
-    static bool reported_error{false};
-    static bool new_error{false};
-    static bool active_trial{false};
-    uint16_t exo_status = exo_data.get_status();
-    active_trial = (exo_status == status_defs::messages::trial_on) || 
-        (exo_status == status_defs::messages::fsr_calibration) ||
-        (exo_status == status_defs::messages::fsr_refinement) ||
-        (exo_status == status_defs::messages::error);
-    
-    if (active_trial && ran && !exo_data.user_paused)
-    {
-        //new_error = error_manager.check();
-    }
-    
-    if (new_error && !reported_error)
-    {
-        // Only report the first error
-        reported_error = true;
-        const int error_code = error_manager.get_error();
-        
-        exo_data.error_code = error_code;
-        exo_data.set_status(status_defs::messages::error);
-        UART_command_handlers::get_error_code(uart_handler, &exo_data, UART_msg_t());
-    }
-    
-    // print the exo_data at a fixed period.
-//    unsigned int data_print_ms = 5000;
-//    static unsigned int last_data_time = millis();
-//    if(millis() - last_data_time > data_print_ms)
-//    {
-//        logger::print("\n\n\nSuperloop :: Timed print : ");
-//        exo_data.print();
-//        last_data_time = millis();
-//    }
     
     // Print some dots so we know it is doing something
     #ifdef MAIN_DEBUG
@@ -514,6 +459,8 @@ void loop()
 #include "src/WaistBarometer.h"
 #include "src/InclineDetector.h"
 
+#define MAIN_DEBUG 0
+
 // create array to store config.
 namespace config_info
 {
@@ -540,18 +487,24 @@ namespace config_info
 
 void setup()
 {
-    logger::println();
+    Serial.begin(115200);
+    delay(100);
 
+    #if MAIN_DEBUG
+    while (!Serial);
     logger::print("Setup->Getting config");
+    #endif
     // get the sd card config from the teensy, this has a timeout
     UARTHandler* handler = UARTHandler::get_instance();
-    bool timed_out = UART_command_utils::get_config(handler, config_info::config_to_send, (float)UART_times::CONFIG_TIMEOUT);
-
+    const bool timed_out = UART_command_utils::get_config(handler, config_info::config_to_send, (float)UART_times::CONFIG_TIMEOUT);
+    
     ComsLed* led = ComsLed::get_instance();
     if (timed_out)
     {
         // yellow
+        #if MAIN_DEBUG
         logger::print("Setup->Timed Out Getting Config", LogLevel::Warn);
+        #endif
         led->set_color(255, 255, 0);
     }
     else
@@ -561,37 +514,61 @@ void setup()
     }
 
     #if REAL_TIME_I2C
-      real_time_i2c::init();
-    #endif
+    logger::print("Init I2C");  
+    real_time_i2c::init();
     logger::print("Setup->End Setup");
+    #endif
 }
 
 void loop()
 {
+    #if MAIN_DEBUG
+    static bool first_run = true;
+    if (first_run)
+    {
+      logger::println("Start Loop");
+    }
+    #endif
     static ExoData* exo_data = new ExoData(config_info::config_to_send);
+    #if MAIN_DEBUG
+    if (first_run)
+    {
+      logger::println("Construced exo_data");
+    }
+    #endif
     static ComsMCU* mcu = new ComsMCU(exo_data, config_info::config_to_send);
-    static WaistBarometer* waist_barometer = new WaistBarometer();
-    static InclineDetector* incline_detector = new InclineDetector();
+    #if MAIN_DEBUG
+    if (first_run)
+    {
+      logger::println("Construced mcu");
+    }
+    #endif
+    
     mcu->handle_ble();
     mcu->local_sample();
     mcu->update_UART();
     mcu->update_gui();
     mcu->handle_errors();
 
+    #if MAIN_DEBUG
     static float then = millis();
     float now = millis();
-    if ((now - then) > INCLINE_DELTA_MS)
+    if ((now - then) > 1000)
     {
         then = now;
-        incline_state_t state = incline_detector->run(waist_barometer->getPressure());
+        logger::println("...");
     }
+    first_run = false;
+    #endif
+    
 }
 
 #else // code to use when microcontroller is not recognized.
+#include "Utilities.h"
 void setup()
 {
-  logger::print("Unknown Microcontroller");
-  logger::print("\n");
+  Serial.begin(115200);
+  utils::spin_on_error_with("Unknown Microcontroller");
 }
 
 void loop()

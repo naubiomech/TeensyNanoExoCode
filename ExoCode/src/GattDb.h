@@ -1,6 +1,13 @@
+/**
+ * @file GattDb.h
+ * @author Chancelor Cuddeback
+ * @brief Defines the GATT database for the BLE interface
+ * @date 2023-07-18
+ * 
+ */
+
 #ifndef GATT_DB_H
 #define GATT_DB_H
-
 
 #if defined(ARDUINO_ARDUINO_NANO33BLE) | defined(ARDUINO_NANO_RP2040_CONNECT)
 #include "Arduino.h"
@@ -12,7 +19,7 @@ class GattDb
     private:
         const uint8_t BUFFERS_FIXED_LENGTH = false;
     public:
-        const uint8_t BUFFER_SIZE = 128;
+        const uint8_t BUFFER_SIZE = 255;
         //https://stackoverflow.com/questions/10052135/expected-identifier-before-string-constant
         /* Weirdness with initializer lists, had to use curly braces. */
         BLEService UARTService{"6E400001-B5A3-F393-E0A9-E50E24DCCA9E"};

@@ -1,12 +1,15 @@
 #include "Arduino.h"
 #include "BleMessageQueue.h"
 #include "Logger.h"
+
 //For mutex lock
 #if defined(ARDUINO_ARDUINO_NANO33BLE) | defined(ARDUINO_NANO_RP2040_CONNECT)
 #include "mbed.h"
 #include "rtos.h"
 static rtos::Mutex queue_mutex;
 #endif
+
+#define BLE_QUEUE_DEBUG 0
 
 static const int k_max_size = 10;
 static BleMessage queue[k_max_size];
@@ -26,7 +29,7 @@ BleMessage ble_queue::pop()
     }
     else
     {
-        //logger::println("BleMessageQueue::pop_queue->No messages in Queue!");
+        logger::println("BleMessageQueue::pop_queue->No messages in Queue!", LogLevel::Warn);
         return empty_message;
     }
     #if defined(ARDUINO_ARDUINO_NANO33BLE) | defined(ARDUINO_NANO_RP2040_CONNECT)
@@ -36,12 +39,20 @@ BleMessage ble_queue::pop()
 
 void ble_queue::push(BleMessage* msg)
 {
+    #if BLE_QUEUE_DEBUG
+    logger::println("BleMessageQueue::push_queue");
+    logger::print("m_size: ");
+    logger::println(m_size);
+    logger::print("msg: ");
+    BleMessage::print(*msg);
+    #endif
+
     #if defined(ARDUINO_ARDUINO_NANO33BLE) | defined(ARDUINO_NANO_RP2040_CONNECT)
     queue_mutex.lock();
     #endif
-    if (m_size == (k_max_size-1))
+    if (m_size >= (k_max_size-1))
     {
-        //logger::println("BleMessageQueue::push_queue->Queue Full!");
+        logger::println("BleMessageQueue::push_queue->Queue Full!", LogLevel::Warn);
         return;
     }
 
@@ -49,6 +60,13 @@ void ble_queue::push(BleMessage* msg)
     queue[m_size].copy(msg);
     #if defined(ARDUINO_ARDUINO_NANO33BLE) | defined(ARDUINO_NANO_RP2040_CONNECT)
     queue_mutex.unlock();
+    #endif
+
+    #if BLE_QUEUE_DEBUG
+    logger::print("m_size: ");
+    logger::println(m_size);
+    logger::print("msg: ");
+    BleMessage::print(queue[m_size]);
     #endif
 }
 

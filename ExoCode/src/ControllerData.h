@@ -268,7 +268,6 @@ namespace controller_defs /**< stores the parameter indexes for different contro
         const uint8_t d_gain_idx = 8;
 		const uint8_t ptb_settings_9_idx = 9;
         const uint8_t num_parameter = 10;
-        
     }
 
     namespace propulsive_assistive 
