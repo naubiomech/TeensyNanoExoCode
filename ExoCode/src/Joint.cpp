@@ -927,17 +927,12 @@ void AnkleJoint::run_joint()
         _joint_data->joint_velocity, 
         _joint_data->joint_velocity_alpha);
 	
- 	if (!_is_left) {
-	    Serial.print("\nRight joint_position: " + String(_joint_data->joint_position) + " flip? " + String(_joint_data->do_flip_angle));
-	}
-	else {
-		Serial.print("  |  Left joint_position: " + String(_joint_data->joint_position) + " flip? " + String(_joint_data->do_flip_angle));
-	} 
-
-    // Serial.print(_is_left ? "Left " : "Right ");
-    // Serial.print("Ankle Angle: ");
-    // Serial.print(_joint_data->joint_position);
-    // Serial.print("\n");
+ 	// if (!_is_left) {
+	//     Serial.print("\nRight joint_position: " + String(_joint_data->joint_position) + " flip? " + String(_joint_data->do_flip_angle));
+	// }
+	// else {
+	// 	Serial.print("  |  Left joint_position: " + String(_joint_data->joint_position) + " flip? " + String(_joint_data->do_flip_angle));
+	// } 
 
     // make sure the correct controller is running.
     set_controller(_joint_data->controller.controller);
