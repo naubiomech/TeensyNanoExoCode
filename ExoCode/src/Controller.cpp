@@ -141,75 +141,7 @@ float _Controller::_cf_mfac(float reference, float current_measurement)
 }
  
 float _Controller::_pid(float cmd, float measurement, float p_gain, float i_gain, float d_gain)
-{
-	//Serial.print("\nPID Running...");
-	/* _controller_data->currentTime = millis();
-	_controller_data->itrTime = _controller_data->currentTime - _controller_data->previousTime;
-	_controller_data->previousTime = _controller_data->currentTime; */
-	//measurement = 55;
-	//measurement = min(measurement, 35);
-	//measurement = max(measurement, -35);
-	/* if (!_leg_data->is_left) {
-		/* Serial.print("\nIteration time: " + String(_controller_data->itrTime) + "Previous Time: " + String(_controller_data->previousTime) + " Current Time: " + String(_controller_data->currentTime)); */
-		//Serial.print("\nPre-measurement: " + String(measurement));
-		//measurement = min(measurement, 35);
-		//measurement = max(measurement, -35);
-		//Serial.print(". Post-measurement: " + String(measurement));
-	//} */
-	#if USE_ANGLE_SENSORS
-	//Serial.println("USE_ANGLE_SENSORS");
-	#endif
-
-	//if ((_leg_data->do_calibration_refinement_toe_fsr) || (_leg_data->do_calibration_toe_fsr)) {
-		// Serial.print("\nCalibrating toe FSR... PID returns 0.");
-		//return 0;
-	//}
-	//else if (_leg_data->ankle.joint_position > 0.9) {
-		/* Serial.print("\nankle.joint_position at ");
-		Serial.print(String(_leg_data->ankle.joint_position));
-		Serial.print(". PID is off."); */
-	//	return 3.5;
-	//}
-	//else if (_leg_data->ankle.joint_position < 0.1) {
-		/* Serial.print("\nankle.joint_position at ");
-		Serial.print(String(_leg_data->ankle.joint_position));
-		Serial.print(". PID is off."); */
-	//	return -3.5;
-	//}
-	/* bool active_trial;
-	uint16_t exo_status = _data->get_status(); */
-	
-	/* if (exo_status == 6) {
-		active_trial = true;
-	}
-	if (active_trial) {
-		if (abs(measurement - cmd) > 10) {
-			_controller_data->pausePid = true;
-		}
-	} */
-	/* Serial.print("\nExo status: " + String(exo_status) + "pausePid = " + String(_controller_data->pausePid) + "iPidHiTorque = " + String(_controller_data->iPidHiTorque)); */
-	/* if (_controller_data->pausePid) {
-		if (_controller_data->iPidHiTorque < 200) {
-			_controller_data->iPidHiTorque = _controller_data->iPidHiTorque + 1;
-		return -5;
-		}
-		else {
-			_controller_data->iPidHiTorque = 0;
-			_controller_data->pausePid = false;
-		}
-	} */
-	
-	
-	/* if (measurement > _controller_data->maxTorqueCache) {
-		_controller_data->maxTorqueCache = measurement;
-	}
-	if (measurement < _controller_data->minTorqueCache) {
-		_controller_data->minTorqueCache = measurement;
-	}
-	if (_controller_data->maxTorqueCache - _controller_data->minTorqueCache > 50) {
-		return cmd;
-	} */
-	
+{	
     //check if time is ok
     bool time_good = true;
     if (_t_helper->tick(_t_helper_context) > ((float) 1/LOOP_FREQ_HZ * 1000000 * (1 + LOOP_TIME_TOLERANCE)))
@@ -218,40 +150,6 @@ float _Controller::_pid(float cmd, float measurement, float p_gain, float i_gain
     }
     float now = micros();
 	
-/* 	uint16_t exo_status = _data->get_status();
-	bool status_satisfied = (exo_status == status_defs::messages::fsr_refinement);
-	if (status_satisfied) {
-		_pid_on = 1;
-	}
-	if (!(_pid_on == 1)) {
-		return 0;
-	} */
-	//if (_data->user_paused || !trial_begun) {
-	/* if (trial_begun) {
-		_do_wait = 1;
-		_previously_paused = 1;
-		Serial.print("\nNot started yet. Exo status: ");
-		Serial.print(String(exo_status));
-		return 0;
-	}
-	else {
-		if (_previously_paused == 1) {
-			_previously_paused = 0;
-			_start_time = millis();
-		}
-		if ((now - _start_time) > 5000) {
-			_do_wait = 0;
-		}
-		else {
-			_do_wait = 1;
-		}
-	}
-	if (_do_wait == 1) {
-		Serial.print("\nHolding...");
-		return 0;
-	} */
-
-    //TODO: Test dynamic time step
     float dt = (now - _prev_pid_time) * 1000000;
 
     float error_val = cmd - measurement;  
@@ -264,8 +162,7 @@ float _Controller::_pid(float cmd, float measurement, float p_gain, float i_gain
     }
     else 
     {
-        //de_dt = _prev_de_dt;
-        de_dt = 0;
+        de_dt = _prev_de_dt;
     }
 
     _prev_pid_time = now;
@@ -275,10 +172,7 @@ float _Controller::_pid(float cmd, float measurement, float p_gain, float i_gain
     //float i = i_gain * _integral_val;  // resetting _integral_val was crashing the system 
     float d = d_gain * de_dt; 
     
-	//float pNd = min(p + d, 25);
-	//pNd = max(p + d, -25);
     return p + d;
-	//return pNd;
 }
 
 void _Controller::reset_integral()
@@ -363,6 +257,11 @@ PropulsiveAssistive::PropulsiveAssistive(config_defs::joint_id id, ExoData* exo_
     #endif
 }
 
+float PropulsiveAssistive::_adjust_stiffness(float set_stiffness, float deviation_from_level, float x_sat)
+{
+    return abs(set_stiffness*(deviation_from_level*deviation_from_level/(x_sat*x_sat)));
+}
+
 void PropulsiveAssistive::_update_reference_angles(LegData* leg_data, ControllerData* controller_data, float percent_grf, float percent_grf_heel)
 {
     const float threshold = controller_data->parameters[controller_defs::propulsive_assistive::timing_threshold]/100;
@@ -386,20 +285,6 @@ void PropulsiveAssistive::_update_reference_angles(LegData* leg_data, Controller
 
         controller_data->reference_angle_updated = true;
         controller_data->reference_angle = leg_data->ankle.joint_position;
-
-        if (leg_data->is_left)
-        {
-            // Serial.print("level_entrance_angle: ");
-            // Serial.println(controller_data->level_entrance_angle);
-            // Serial.print("joint_position: ");
-            // Serial.println(leg_data->ankle.joint_position);
-            // Serial.print("reference_angle: ");
-            // Serial.println(controller_data->reference_angle);
-            // // Print delimiting newline
-            // Serial.println();
-        }
-        
-        //controller_data->reference_angle_offset = leg_data->ankle.joint_global_angle;
     }
 
     // When the percent_grf drops below the threshold, reset the reference angle updated flag and expire the reference angle
@@ -505,7 +390,7 @@ float PropulsiveAssistive::calc_motor_cmd()
     const float percent_grf = min(_leg_data->toe_fsr, 1);
 	const float percent_grf_heel = min(_leg_data->heel_fsr, 1);
     const float slope = (plantar_setpoint - dorsi_setpoint)/(1 - threshold);
-    const float generic = max(((slope*(percent_grf - threshold)) + dorsi_setpoint), dorsi_setpoint);//Stateless "PJMC" stateless
+    const float generic = max(((slope*(percent_grf - threshold)) + dorsi_setpoint), dorsi_setpoint); // Stateless "PJMC" stateless
 	_controller_data->stateless_pjmc_term = generic;
 
     // Assistive Contribution (a.k.a: Suspension; this term consists of a "Spring term" and a "Damper term" as the suspension)
@@ -516,20 +401,19 @@ float PropulsiveAssistive::calc_motor_cmd()
     const float b = 0.01 * _controller_data->parameters[controller_defs::propulsive_assistive::damping];
     const float equilibrium_angle_offset = _controller_data->parameters[controller_defs::propulsive_assistive::neutral_angle]/100;
     const float deviation_from_level = (_controller_data->reference_angle - _controller_data->level_entrance_angle);
+    const float x_sat = 5; // Degrees from level that should fully activate the spring
+    const float adaptive_k = _adjust_stiffness(k, deviation_from_level, x_sat);
     const float delta = _controller_data->reference_angle + deviation_from_level - _leg_data->ankle.joint_position + equilibrium_angle_offset;//describes the amount of dorsi flexion since toe FSR > set threshold (negative at more plantarflexed angles)
     const float assistive = max(k*delta - b*_leg_data->ankle.joint_velocity, 0);//Dorsi velocity: Negative
-    // print assistive 
-    // Serial.print("assistive: ");
-    // Serial.println(assistive);
+
     // Use a tuned sigmoid to squelch the spring output during the 'swing' phase
     const float squelch_offset = -(1.5*_controller_data->toeFsrThreshold); // 1.5 ensures that the spring activates after the new angle is captured
     const float grf_squelch_multiplier = (exp(sigmoid_exp_scalar*(percent_grf+squelch_offset))) / 
             (exp(sigmoid_exp_scalar*(percent_grf+squelch_offset))+1);
-    const float squelched_supportive_term = assistive*grf_squelch_multiplier;//Finalized suspension term
-    // low pass the squelched supportive term
-    _controller_data->filtered_squelched_supportive_term = utils::ewma(squelched_supportive_term, 
+    _controller_data->filtered_squelched_supportive_term = utils::ewma(assistive, 
             _controller_data->filtered_squelched_supportive_term, 0.075);
-
+    const float squelched_supportive_term = _controller_data->filtered_squelched_supportive_term*grf_squelch_multiplier;//Finalized suspension term
+    
     // Propulsive Contribution
     const float kProp = 0.01 * _controller_data->parameters[controller_defs::propulsive_assistive::propulsive_gain];
     const float saturated_velocity = _leg_data->ankle.joint_velocity > 0 ? _leg_data->ankle.joint_velocity:0;
@@ -546,7 +430,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 	}
 	
     // Sum for ff
-    const float cmd_ff = -(_controller_data->filtered_squelched_supportive_term+generic+squelched_propulsive_term);//According to the new motor command direction definitions, at the ankle, positive for dorsi, and negative for plantar.
+    const float cmd_ff = -(squelched_supportive_term+generic+squelched_propulsive_term);//According to the new motor command direction definitions, at the ankle, positive for dorsi, and negative for plantar.
 
     // low pass filter on torque_reading
     const float torque = _joint_data->torque_reading;

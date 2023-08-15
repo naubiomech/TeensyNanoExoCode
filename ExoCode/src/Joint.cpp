@@ -927,12 +927,12 @@ void AnkleJoint::run_joint()
         _joint_data->joint_velocity, 
         _joint_data->joint_velocity_alpha);
 	
-/* 	if (!_is_left) {
-	Serial.print("\nRight joint_position: " + String(_joint_data->joint_position) + "flip? " + String(_joint_data->do_flip_angle));
+ 	if (!_is_left) {
+	    Serial.print("\nRight joint_position: " + String(_joint_data->joint_position) + " flip? " + String(_joint_data->do_flip_angle));
 	}
 	else {
-		Serial.print("  |  Left joint_position: " + String(_joint_data->joint_position) + "flip? " + String(_joint_data->do_flip_angle));
-	} */
+		Serial.print("  |  Left joint_position: " + String(_joint_data->joint_position) + " flip? " + String(_joint_data->do_flip_angle));
+	} 
 
     // Serial.print(_is_left ? "Left " : "Right ");
     // Serial.print("Ankle Angle: ");

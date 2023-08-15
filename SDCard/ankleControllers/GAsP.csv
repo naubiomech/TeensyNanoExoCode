@@ -1,0 +1,11 @@
+5,"header Size, the first N rows will be ignored, except for this first cells in the first two rows",,,,,,,
+9,"parameter number, the number of parameters to read per line",,,,,,,
+,Parameter list for the PJMC (proportional joint moment controller),,,,,,,
+,Parameter order : ,,,,,,,
+Plantar Scaling [Nm],Dorsi Scaling [Nm],Timing Theshold [%GRF],Spring Stiffness [Nm / %Plantar Extension],Neutral Angle [%Plantar Extension],Damping [Nm*s/%Angle],Propulsive Gain [Nm / (%Plantar Flexed Angular Velocity)],p gain,d gain
+0,0,20,0,10,0,0,0,0
+2,0,20,0,10,0,2,15,80
+8,2,20,10,10,0,2,15,80
+16,3,20,40,10,0,2,15,80
+24,3,20,60,10,0,2,15,80
+30,3,20,60,10,0,2,15,80

@@ -125,6 +125,7 @@ class PropulsiveAssistive : public _Controller
         void _capture_neutral_angle(LegData* leg_data, ControllerData* controller_data);
 		void _grf_threshold_dynamic_tuner(LegData* leg_data, ControllerData* controller_data, float threshold, float percent_grf_heel);
 		void _plantar_setpoint_adjuster(LegData* leg_data, ControllerData* controller_data, float pjmcSpringDamper);
+        float _adjust_stiffness(float set_stiffness, float deviation_from_level, float x_sat);
 };
 
 /**
