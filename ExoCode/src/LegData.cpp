@@ -29,6 +29,8 @@ LegData::LegData(bool is_left, uint8_t* config_to_send)
     this->toe_off = false;
     this->toe_strike = false;
     this->toe_on = false;
+    this->toe_strike_first = false;
+    this->heel_strike_first = false;
     
     this->expected_duration_window_upper_coeff = 1.75;
     this->expected_duration_window_lower_coeff = 0.25;

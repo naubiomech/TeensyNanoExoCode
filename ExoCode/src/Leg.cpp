@@ -215,9 +215,13 @@ bool Leg::_check_ground_strike()
     if(!_prev_heel_contact_state & !_prev_toe_contact_state) //If we were previously in swing
     {
         //check for rising edge on heel and toe, toe is to account for flat foot landings
-        if ((heel_contact_state > _prev_heel_contact_state) | (toe_contact_state > _prev_toe_contact_state))    //If either the heel or toe FSR is on the ground and it previously wasn't on the ground
+        bool heel_strike = heel_contact_state > _prev_heel_contact_state;
+        bool toe_strike = toe_contact_state > _prev_toe_contact_state;
+        if (heel_strike | toe_strike)    //If either the heel or toe FSR is on the ground and it previously wasn't on the ground
         {
             ground_strike = true;
+            _leg_data->toe_strike_first = toe_strike;
+            _leg_data->heel_strike_first = heel_strike;
             _prev_ground_strike_timestamp = _ground_strike_timestamp;
             _ground_strike_timestamp = millis();
         }

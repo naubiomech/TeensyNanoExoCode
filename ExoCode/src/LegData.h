@@ -69,6 +69,8 @@ class LegData {
         bool toe_stance;  /**< High when the toe FSR is in ground contact */
         bool prev_heel_stance;  /**< High when the heel FSR was in ground contact on the previous iteration */
         bool prev_toe_stance;   /**< High when the toe FSR was in ground contact on the previous iteration */
+        bool toe_strike_first;   /**< High when the current step had a toe strike before the heel */
+        bool heel_strike_first; /**< High when the current step had a heel strike before the toe */
         
         bool is_left; /**< 1 if the leg is on the left, 0 otherwise */
         bool is_used; /**< 1 if the leg is used, 0 otherwise */
