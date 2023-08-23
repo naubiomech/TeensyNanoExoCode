@@ -377,7 +377,6 @@ void _CANMotor::set_Kt(float Kt)
 
 void _CANMotor::_handle_read_failure()
 {
-    Serial.println("Read failure");
     _motor_data->timeout_count++;
 };
 
