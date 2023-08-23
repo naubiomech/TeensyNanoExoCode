@@ -346,8 +346,10 @@ class ControllerData {
         const float cal_neutral_angle_alpha = 0.01f; /**< alpha for the low pass on the neutral angle calibration */
         float level_entrance_angle = 0.0f; /**< level entrance angle for the spring term */
         bool prev_calibrate_level_entrance = false; /**< previous value of the calibrate level entrance flag */
-        const float cal_level_entrance_angle_alpha = 0.01f; /**< alpha for the low pass on the level entrance calibration */
-		float stateless_pjmc_term = 0;
+        const float cal_level_entrance_angle_alpha = 0.05f; /**< alpha for the low pass on the level entrance calibration */
+		float spring_torque = 0.0f; /**< Torque that the spring term produces*/
+        
+        float stateless_pjmc_term = 0;
 		float toeFsrThreshold = 0.2f;
 		bool wait4HiHeelFSR = false;
 		uint16_t iPidHiTorque = 0;

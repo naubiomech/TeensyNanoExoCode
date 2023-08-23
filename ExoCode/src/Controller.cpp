@@ -272,7 +272,7 @@ void PropulsiveAssistive::_update_reference_angles(LegData* leg_data, Controller
 
     if (should_reset_level_entrance_angle)
     {
-        controller_data->level_entrance_angle = 0.5;
+        controller_data->level_entrance_angle = 50;
     }
 
     if (should_update)
@@ -430,6 +430,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 	}
 	
     // Sum for ff
+    _controller_data->spring_torque = -squelched_supportive_term;
     const float cmd_ff = -(squelched_supportive_term+generic+squelched_propulsive_term);//According to the new motor command direction definitions, at the ankle, positive for dorsi, and negative for plantar.
 
     // low pass filter on torque_reading
