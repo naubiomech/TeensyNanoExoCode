@@ -39,6 +39,7 @@ class MotorData
         float p;  /**< Read position. */ 
         float v;  /**< Read velocity. */
         float i;  /**< Read current. */
+        float kt; /**< Motor torque constant. */
         float p_des = 0;   /**< Desired position, not currently used but available for position control */
         float v_des = 0; /**< Desired velocity, not currently used but available for velocity control */
         float kp = 0; /**< Proportional gain */
