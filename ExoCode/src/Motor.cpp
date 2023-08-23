@@ -91,7 +91,6 @@ config_defs::joint_id _Motor::get_id()
  * Constructor for the CAN Motor.  
  * We are using multilevel inheritance, so we have a general motor type, which is inherited by the CAN (e.g. TMotor) or other type (e.g. Maxon) since models within these types will share communication protocols, which is then inherited by the specific motor model (e.g. AK60), which may have specific torque constants etc.
  * 
- * 
  */
 _CANMotor::_CANMotor(config_defs::joint_id id, ExoData* exo_data, int enable_pin) // constructor: type is the motor type
 : _Motor(id, exo_data, enable_pin)
@@ -101,7 +100,10 @@ _CANMotor::_CANMotor(config_defs::joint_id id, ExoData* exo_data, int enable_pin
     _KD_MIN = 0.0f;
     _KD_MAX = 5.0f;
     _P_MAX = 12.5f;
-    
+
+    JointData* j_data = exo_data->get_joint_with(static_cast<uint8_t>(id));
+    j_data->motor.kt = this->get_Kt();
+
     _enable_response = false;
 
 #ifdef MOTOR_DEBUG
@@ -253,7 +255,7 @@ void _CANMotor::check_response()
 }
 
 void _CANMotor::on_off()
-{          
+{
     if (_data->estop || _error)
     {
         _motor_data->is_on = false;

@@ -568,32 +568,4 @@ void Leg::update_motor_cmds()
 };
 
 
-float Leg::get_Kt_for_joint(uint8_t id)
-{
-    float Kt = 0;
-    switch (id)
-    {
-    case (uint8_t)config_defs::joint_id::left_hip:
-    case (uint8_t)config_defs::joint_id::right_hip:
-        Kt = _hip._motor->get_Kt();
-        break;
-    case (uint8_t)config_defs::joint_id::left_knee:
-    case (uint8_t)config_defs::joint_id::right_knee:
-        Kt = _knee._motor->get_Kt();
-        break;
-    case (uint8_t)config_defs::joint_id::left_ankle:
-    case (uint8_t)config_defs::joint_id::right_ankle:
-        Kt = _ankle._motor->get_Kt();
-        break;
-    default:
-        // logger::print("ExoData::get_joint_with->No joint with ");
-        // logger::print(id);
-        // logger::println(" was found.");
-        break;
-    }
-    return Kt;
-}
-
-
-
 #endif
