@@ -80,10 +80,11 @@ class JointData {
         int torque_failure_count = 0; /**< number of successive samples outside of error bounds. */
 
         // Transmission efficiency check
-        const float transmission_efficiency_threshold = 0.01;
+        const float transmission_efficiency_threshold = 0.001;
         const float motor_torque_smoothing = 0.1;
         float smoothed_motor_torque = 0;
-        const float close_to_zero_tolerance = 0.01;
+        const float close_to_zero_tolerance = 0.1;
+        float torque_error = 0;
 
 };
 

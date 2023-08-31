@@ -350,7 +350,8 @@ namespace UART_command_handlers
 				//rx_msg.data[2] = exo_data->right_leg.ankle.controller.numBelow500;
 				//Left Torque
                 //rx_msg.data[3] = exo_data->left_leg.ankle.controller.filtered_torque_reading;
-				rx_msg.data[3] = exo_data->left_leg.ankle.joint_position;
+				//rx_msg.data[3] = exo_data->left_leg.ankle.joint_position;
+                rx_msg.data[3] = exo_data->left_leg.ankle.torque_error;
 				//Left State. Only integer values will be plotted for rx_msg.data[1]
                 rx_msg.data[4] = exo_data->left_leg.toe_stance;
 				//Left Set
@@ -360,7 +361,8 @@ namespace UART_command_handlers
 				//rx_msg.data[5] = exo_data->left_leg.ankle.controller.setpoint;
 				//rx_msg.data[5] = exo_data->left_leg.ankle.controller.previousMaxCmdCache;
 				//rx_msg.data[5] = exo_data->left_leg.ankle.controller.numBelow500;
-				rx_msg.data[5] = exo_data->right_leg.ankle.joint_position;
+				//rx_msg.data[5] = exo_data->right_leg.ankle.joint_position;
+                rx_msg.data[5] = exo_data->right_leg.ankle.torque_error;
 				//Right FSR
                 //rx_msg.data[6] = exo_data->right_leg.toe_fsr;
 				//rx_msg.data[6] =exo_data->right_leg.ankle.joint_position;

@@ -379,7 +379,7 @@ void _CANMotor::set_Kt(float Kt)
 
 void _CANMotor::_handle_read_failure()
 {
-    Serial.println("Read failure");
+    logger::println("Read failure");
     _motor_data->timeout_count++;
 };
 
@@ -421,7 +421,9 @@ _CANMotor(id, exo_data, enable_pin)
 {
     _I_MAX = 22.0f;
     _V_MAX = 41.87f;
-    set_Kt(0.068 * 6);
+    float kt = 0.068 * 6;
+    set_Kt(kt);
+    exo_data->get_joint_with(static_cast<uint8_t>(id))->motor.kt = kt;
 
 #ifdef MOTOR_DEBUG
     logger::println("AK60::AK60 : Leaving Constructor");
@@ -438,7 +440,10 @@ _CANMotor(id, exo_data, enable_pin)
 {
     _I_MAX = 13.5f;
     _V_MAX = 23.04f;
-    set_Kt((1/0.37775));
+
+    float kt = 1/0.37775;
+    set_Kt(kt);
+    exo_data->get_joint_with(static_cast<uint8_t>(id))->motor.kt = kt;
 
 #ifdef MOTOR_DEBUG
     logger::println("AK60_v1_1::AK60_v1_1 : Leaving Constructor");
@@ -453,9 +458,12 @@ _CANMotor(id, exo_data, enable_pin)
 AK60_v1_1_T::AK60_v1_1_T(config_defs::joint_id id, ExoData* exo_data, int enable_pin) : // constructor: type is the motor type
     _CANMotor(id, exo_data, enable_pin)
 {
-    _I_MAX = 9.0f;      //This is actually the maximum torque not current, but functions the same way
-    _V_MAX = 23.04f;
-    set_Kt(1);          //Just made KT one so that code still works as intended (i.e., so you don't have to switch from dividing by KT each time you change out motors)
+    _I_MAX = 9.0f;
+    _V_MAX = 23.04f; 
+
+    float kt = 1;
+    set_Kt(kt);
+    exo_data->get_joint_with(static_cast<uint8_t>(id))->motor.kt = kt;
 
 #ifdef MOTOR_DEBUG
     logger::println("AK60_v1_1::AK60_v1_1 : Leaving Constructor");
@@ -472,7 +480,11 @@ _CANMotor(id, exo_data, enable_pin)
 {
     _I_MAX = 24.0f;
     _V_MAX = 25.65f;
-    set_Kt(0.091 * 9);
+
+    float kt = 0.091 * 9;
+    set_Kt(kt);
+    exo_data->get_joint_with(static_cast<uint8_t>(id))->motor.kt = kt;
+
 
 #ifdef MOTOR_DEBUG
     logger::println("AK80::AK80 : Leaving Constructor");
@@ -484,7 +496,9 @@ _CANMotor(id, exo_data, enable_pin)
 {
     _I_MAX = 23.2f;
     _V_MAX = 15.5f;
-    set_Kt(0.13 * 10);
+    float kt = 0.13 * 10;
+    set_Kt(kt);
+    exo_data->get_joint_with(static_cast<uint8_t>(id))->motor.kt = kt;
 };
 
 #endif
