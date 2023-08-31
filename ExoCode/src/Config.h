@@ -33,7 +33,7 @@
 
     namespace logging
     {
-        const LogLevel level = LogLevel::Release;
+        const LogLevel level = LogLevel::Error;
         const int baud_rate = 115200;
     }
     

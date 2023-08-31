@@ -67,12 +67,12 @@ public:
         // Low pass motor torque
         _data->smoothed_motor_torque = utils::ewma(motor_torque, 
                         _data->smoothed_motor_torque, _data->motor_torque_smoothing);
-        // If average motor torque is not close to 0, calculate the motor current
-        const float transmission_efficiency = 
+        // If average motor torque is not close to 0, calculate the transmission efficiency
+        const float torque_error = 
             utils::is_close_to(_data->smoothed_motor_torque, 0, _data->close_to_zero_tolerance) ?
-                (0) : (_data->torque_reading / _data->smoothed_motor_torque); 
+                (0) : abs((_data->smoothed_motor_torque - _data->torque_reading) / _data->smoothed_motor_torque);
 
-        return abs(transmission_efficiency) < _data->transmission_efficiency_threshold;
+        return torque_error > (1 - _data->transmission_efficiency_threshold);
     }
     void handle(JointData* _data)
     {
