@@ -25,6 +25,7 @@ going to be using it to program a lot, I suggest taking the time to learn how to
 use it [here](https://code.visualstudio.com/learn/get-started/basics)
 
 ## Branch Managment
+### Branch Strategy
 All changes to main require a pull request to be reviewed by another person. Please follow the Github Flow Branch Strategy, detailed [here](https://www.gitkraken.com/learn/git/best-practices/git-branch-strategy#github-flow-branch-strategy).
 In this branch strategy the main branch is protected from frequent pushes and should at
 all times be deployable. New features are added in what are called feature branches.
@@ -32,8 +33,13 @@ Feature branches should be created frequently for every small change, there shou
 direct changes to main! You can and should push changes to feature branches very
 frequently. Once you have THOROUGHLY tested your feature branch, you may submit a pull
 request to main. The feature branch should have a descriptive name. For example, if
-you're working on implementing a new hip controller the branch name would be
+you're working on implementing a new hip controller the branch name could be
 'controllername-hip-controller'.
+
+### Branch Deletion
+Once a branch is not needed, meaning that it has been merged and validated, it could be deleted. This is up to the creator of the branch or someone
+cleaning up old branches. Its best to keep a branch around in the even that its changes need to be debugged, but if it's properly validated there 
+should be no need to debug the branch. 
 
 
 ## Libraries
