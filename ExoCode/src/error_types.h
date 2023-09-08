@@ -72,15 +72,17 @@ public:
             utils::is_close_to(_data->smoothed_motor_torque, 0, _data->close_to_zero_tolerance) ?
                 (0) : abs((float(_data->smoothed_motor_torque) - float(_data->torque_reading)) / float(_data->smoothed_motor_torque));
         const uint8_t _id = static_cast<uint8_t>(_data->id);
-        _data->torque_error = torque_error;
-        // Serial.print(_id);
-        // Serial.print(":");
-        // Serial.print(torque_error);
-        // Serial.print(", ");
-        // Serial.print(motor_torque);
-        // Serial.print(", ");
-        // Serial.print(_data->torque_reading);
-        // Serial.print(_id < 60 ? "\t" : "\n");
+        _data->torque_error = utils::ewma(torque_error,
+                        _data->torque_error, _data->torque_error_smoothing);
+
+        Serial.print(_id);
+        Serial.print(":");
+        Serial.print(torque_error);
+        Serial.print(", ");
+        Serial.print(motor_torque);
+        Serial.print(", ");
+        Serial.print(_data->torque_reading);
+        Serial.print(_id < 60 ? "\t" : "\n");
 
         return abs(torque_error) > 100*(1 - _data->transmission_efficiency_threshold);
     }
