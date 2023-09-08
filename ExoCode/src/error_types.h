@@ -78,10 +78,6 @@ public:
         Serial.print(_id);
         Serial.print(":");
         Serial.print(torque_error);
-        Serial.print(", ");
-        Serial.print(motor_torque);
-        Serial.print(", ");
-        Serial.print(_data->torque_reading);
         Serial.print(_id < 60 ? "\t" : "\n");
 
         return abs(torque_error) > 100*(1 - _data->transmission_efficiency_threshold);
