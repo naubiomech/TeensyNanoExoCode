@@ -1,9 +1,0 @@
-5,"header Size, the first N rows will be ignored, except for this first cells in the first two rows",
-3,"parameter number, the number of parameters to read per line",
-,Parameter list for the  Sine controller,
-,Parameter order:,
-Ampitude(Nm),Period (ms),Phase Shift (rad)
-1,1000,0
-1,1000,90
-3,1000,0
-3,1000,90

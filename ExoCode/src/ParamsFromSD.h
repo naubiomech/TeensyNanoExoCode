@@ -49,30 +49,24 @@
             {(uint8_t)config_defs::hip_controllers::disabled,"hipControllers/zeroTorque.csv"},
             {(uint8_t)config_defs::hip_controllers::zero_torque,"hipControllers/zeroTorque.csv"},
             {(uint8_t)config_defs::hip_controllers::heel_toe,"hipControllers/heelToe.csv"},
-            {(uint8_t)config_defs::hip_controllers::extension_angle,"hipControllers/extensionAngle.csv"},
             {(uint8_t)config_defs::hip_controllers::franks_collins_hip, "hipControllers/franksCollins.csv"},
-            {(uint8_t)config_defs::hip_controllers::bang_bang, "hipControllers/bangBang.csv"},
-            {(uint8_t)config_defs::hip_controllers::late_stance, "hipControllers/lateStance.csv"},
-            {(uint8_t)config_defs::hip_controllers::gait_phase, "hipControllers/gaitPhase.csv"},
-            {(uint8_t)config_defs::hip_controllers::user_defined, "hipControllers/userDefined.csv"},
-            {(uint8_t)config_defs::hip_controllers::sine, "hipControllers/sine.csv"},
             {(uint8_t)config_defs::hip_controllers::stasis, "hipControllers/stasis.csv"},
-            {(uint8_t)config_defs::hip_controllers::perturbation, "hipControllers/perturbation.csv"},
-            {(uint8_t)config_defs::hip_controllers::parabolic, "hipControllers/parabolic.csv"},
             {(uint8_t)config_defs::hip_controllers::constant_torque, "hipControllers/constantTorque.csv"},
             {(uint8_t)config_defs::hip_controllers::ptb_general,"hipControllers/ptbGeneral.csv"},
+            {(uint8_t)config_defs::hip_controllers::hip_resist,"hipControllers/hipResist.csv"},
+            {(uint8_t)config_defs::hip_controllers::chirp,"hipControllers/chirp.csv"},
+            {(uint8_t)config_defs::hip_controllers::step,"hipControllers/step.csv"},
         };
         
         const ParamFilenameKey knee
         {
             {(uint8_t)config_defs::knee_controllers::disabled,"kneeControllers/zeroTorque.csv"},
             {(uint8_t)config_defs::knee_controllers::zero_torque,"kneeControllers/zeroTorque.csv"},
-            {(uint8_t)config_defs::knee_controllers::user_defined, "kneeControllers/userDefined.csv"},
-            {(uint8_t)config_defs::knee_controllers::sine, "kneeControllers/sine.csv"},
             {(uint8_t)config_defs::knee_controllers::stasis, "kneeControllers/stasis.csv"},
-            {(uint8_t)config_defs::knee_controllers::perturbation, "kneeControllers/perturbation.csv"},
             {(uint8_t)config_defs::knee_controllers::constant_torque, "kneeControllers/constantTorque.csv"},
             {(uint8_t)config_defs::knee_controllers::elbow_min_max, "kneeControllers/elbowMinMax.csv"},
+            {(uint8_t)config_defs::knee_controllers::chirp,"kneeControllers/chirp.csv"},
+            {(uint8_t)config_defs::knee_controllers::step,"kneeControllers/step.csv"},
         };
         
         const ParamFilenameKey ankle
@@ -81,14 +75,13 @@
             {(uint8_t)config_defs::ankle_controllers::zero_torque,"ankleControllers/zeroTorque.csv"},
             {(uint8_t)config_defs::ankle_controllers::pjmc,"ankleControllers/PJMC.csv"},
             {(uint8_t)config_defs::ankle_controllers::zhang_collins,"ankleControllers/zhangCollins.csv"},
-            {(uint8_t)config_defs::ankle_controllers::user_defined, "ankleControllers/userDefined.csv"},
-            {(uint8_t)config_defs::ankle_controllers::sine, "ankleControllers/sine.csv"},
             {(uint8_t)config_defs::ankle_controllers::stasis, "ankleControllers/stasis.csv"},
-            {(uint8_t)config_defs::ankle_controllers::perturbation, "ankleControllers/perturbation.csv"},
             {(uint8_t)config_defs::ankle_controllers::constant_torque, "ankleControllers/constantTorque.csv"},
             {(uint8_t)config_defs::ankle_controllers::ptb_general,"ankleControllers/ptbGeneral.csv"},
             {(uint8_t)config_defs::ankle_controllers::gasp,"ankleControllers/GAsP.csv"},
 			{(uint8_t)config_defs::ankle_controllers::elbow_min_max, "ankleControllers/elbowMinMax.csv"},
+            {(uint8_t)config_defs::ankle_controllers::chirp,"ankleControllers/chirp.csv"},
+            {(uint8_t)config_defs::ankle_controllers::step,"ankleControllers/step.csv"},
         };
     };
     

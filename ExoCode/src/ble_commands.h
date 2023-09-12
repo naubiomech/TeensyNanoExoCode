@@ -50,7 +50,6 @@ namespace ble_names
     static const char motors_off        = 'w';
     static const char mark              = 'N';
     static const char update_param      = 'f';
-    static const char perturb           = 'Y';
 
     // Sending Commands (Firmware->GUI)
     static const char send_real_time_data = '?';
@@ -83,7 +82,6 @@ namespace ble
         {ble_names::motors_on,          0},
         {ble_names::motors_off,         0},
         {ble_names::mark,               0},
-        {ble_names::perturb,            0},
         {ble_names::new_fsr,            2},
         {ble_names::new_trq,            4},
         {ble_names::update_param,       4},
@@ -436,125 +434,7 @@ namespace ble_handlers
         uart_handler->UART_msg(tx_msg);
     }
 
-    inline static void perturb(ExoData* data, BleMessage* msg)
-    {
-        // Get joints that are being used
-        const uint8_t max_joints = 6;
-        uint8_t used_joints[max_joints];
-        uint8_t used_joint_len = data->get_used_joints(used_joints);
-        bool is_hip;
-        bool is_knee;
-        bool is_ankle;
-
-        // Pick a used jointa at random
-        uint8_t rand_idx = (uint8_t)random(0, used_joint_len);
-        // Determine if the selected joint is hip, knee, or ankle
-        if (used_joints[rand_idx] != 0 && (data->left_leg.hip.is_used == 1 || data->right_leg.hip.is_used ==1))
-        {
-            is_hip = 1;
-        }
-        else
-        {
-            is_hip = 0;
-        }
-        if (used_joints[rand_idx] != 0 && (data->left_leg.knee.is_used == 1 || data->right_leg.knee.is_used == 1))
-        {
-            is_knee = 1;
-        }
-        else
-        {
-            is_knee = 0;
-        }
-        if (used_joints[rand_idx] != 0 && (data->left_leg.ankle.is_used == 1 || data->right_leg.ankle.is_used == 1))
-        {
-            is_ankle = 1;
-        }
-        else
-        {
-            is_ankle = 0;
-        }
-        // Safety check
-        if (((is_hip + is_knee + is_ankle) > 1) || (is_hip + is_knee + is_ankle) == 0)
-        {
-            // The joint type check failed, abort
-            logger::println("ble_handlers::perturb()->Failed to reconcile joint type!");
-            return;
-        }
-
-        // Get controller id
-        uint8_t controller_id = 0;
-        if (is_hip)
-        {
-            controller_id = (uint8_t)config_defs::hip_controllers::perturbation;
-        }
-        else if (is_knee)
-        {
-            controller_id = (uint8_t)config_defs::knee_controllers::perturbation;
-        }
-        else if (is_ankle)
-        {
-            controller_id = (uint8_t)config_defs::ankle_controllers::perturbation;
-        }
-
-        //TODO: Check that the controller is already the pertubation controller
-        //JointData* joint = data->get_joint_with(used_joints[rand_idx]);
-        //if (joint->controller.controller)
-
-        // Send message over UART
-   /*     UARTHandler* uart_handler = UARTHandler::get_instance();
-        UART_msg_t tx_msg;
-        tx_msg.command = UART_command_names::update_controller_param;
-        tx_msg.joint_id = used_joints[rand_idx];
-        tx_msg.data[(uint8_t)UART_command_enums::controller_param::CONTROLLER_ID] = controller_id;
-        tx_msg.data[(uint8_t)UART_command_enums::controller_param::PARAM_INDEX] = (uint8_t)controller_defs::perturbation::perturb_idx;
-        tx_msg.data[(uint8_t)UART_command_enums::controller_param::PARAM_VALUE] = (uint8_t)1;
-        tx_msg.len = 4;
-        uart_handler->UART_msg(tx_msg);*/
-
-        // If Perturb all joints
-        /*
-        for (int i = 0; i < used_joint_len; i++)
-        {
-            uint8_t is_hip = used_joints[i] & config_defs::joint_id::hip;
-            uint8_t is_knee = used_joints[i] & config_defs::joint_id::knee;
-            uint8_t is_ankle = used_joints[i] & config_defs::joint_id::ankle;
-            // Safety check
-            if (((is_hip + is_knee + is_ankle) > 1) || (is_hip + is_knee + is_ankle) == 0)
-            {
-                // The joint type check failed, abort
-                logger::println("ble_handlers::perturb()->Failed to reconcile joint type!");
-                return;
-            }
-
-            // Get controller id
-            uint8_t controller_id = 0;
-            if (is_hip)
-            {
-                controller_id = (uint8_t)config_defs::hip_controllers::perturbation;
-            }
-            else if (is_knee)
-            {
-                controller_id = (uint8_t)config_defs::knee_controllers::perturbation;
-            }
-            else if (is_ankle)
-            {
-                controller_id = (uint8_t)config_defs::ankle_controllers::perturbation;
-            }
-
-            // Send message over UART
-            UARTHandler* uart_handler = UARTHandler::get_instance();
-            UART_msg_t tx_msg;
-            tx_msg.command = UART_command_names::update_controller_param;
-            tx_msg.joint_id = used_joints[rand_idx];
-            tx_msg.data[(uint8_t)UART_command_enums::controller_param::CONTROLLER_ID] = controller_id;
-            tx_msg.data[(uint8_t)UART_command_enums::controller_param::PARAM_INDEX] = (uint8_t)controller_defs::perturbation::perturb_idx;
-            tx_msg.data[(uint8_t)UART_command_enums::controller_param::PARAM_VALUE] = (uint8_t)1;
-            tx_msg.len = 4;
-            uart_handler->UART_msg(tx_msg);
-            delayMicroseconds(10);
-        }
-        */
-    }
+ 
 
 }
 

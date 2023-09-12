@@ -323,7 +323,6 @@ namespace UART_command_handlers
             //  rx_msg.data[6] = exo_data->right_leg.ankle.controller.ff_setpoint; //toe_fsr; //ankle.joint_position;
             //  rx_msg.data[7] = exo_data->left_leg.ankle.controller.ff_setpoint; //toe_fsr;
 
-                // Chance Plot
                 rx_msg.data[0] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
                 rx_msg.data[1] = exo_data->right_leg.toe_stance;
                 rx_msg.data[2] = exo_data->right_leg.ankle.controller.ff_setpoint;
@@ -432,6 +431,7 @@ namespace UART_command_handlers
         #else
         handler->UART_msg(rx_msg);
         #endif
+
         // logger::println("UART_command_handlers::get_real_time_data->sent real time data");   Uncomment if you want to test to see what data is being sent
         // UART_msg_t_utils::print_msg(rx_msg);
     }

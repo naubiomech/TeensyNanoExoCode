@@ -11,6 +11,7 @@
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41) 
 #include <math.h>
 #include <random>
+#include <cmath>
 
 _Controller::_Controller(config_defs::joint_id id, ExoData* exo_data)
 {
@@ -757,6 +758,7 @@ float ProportionalJointMoment::calc_motor_cmd()
 		Serial.print("Right cmd: ");
 		Serial.print(_controller_data->filtered_cmd);
 	} */
+
 	if (!_leg_data->do_calibration_toe_fsr) {
     return _controller_data->filtered_cmd;
 	}
@@ -967,798 +969,6 @@ float HeelToe::calc_motor_cmd()
     return cmd;
 };
 
-//****************************************************
-
-
-ExtensionAngle::ExtensionAngle(config_defs::joint_id id, ExoData* exo_data)
-: _Controller(id, exo_data)
-{
-    #ifdef CONTROLLER_DEBUG
-        logger::println("ExtensionAngle::Constructor");
-    #endif
-    _state = 0; // extension mode originally 
-    
-    _reset_angles();
-    
-    
-}
-
-float ExtensionAngle::calc_motor_cmd()
-{
-    // check if the angle range should be reset
-    if (_controller_data->parameters[controller_defs::extension_angle::clear_angle_idx])
-    {
-        _reset_angles();
-    }
-    
-    float angle = _leg_data->hip.position;
-    // check the angle range
-    _max_angle = max(angle, _max_angle);
-    _min_angle = min(angle, _min_angle);
-    
-    
-    float normalized_angle = 0;
-    // calculate the normalized angle
-    if (angle >= 0)
-    {
-        normalized_angle = angle / _max_angle;
-    }
-    else
-    {
-        normalized_angle = angle / _min_angle;
-        
-    }
-
-    // int print_time_ms = 100;
-    // static int last_timestamp = millis();
-    // int timestamp = millis();
-    // if ((timestamp-last_timestamp)>print_time_ms)
-    // {
-    //     logger::print(utils::radians_to_degrees(angle));
-    //     logger::print(" ");
-    //     logger::print(utils::radians_to_degrees(_max_angle));
-    //     logger::print(" ");
-    //     logger::print(utils::radians_to_degrees(_min_angle));
-    //     logger::print(" ");
-    //     logger::print(100);
-    //     logger::print(" ");
-    //     logger::print(-100);
-    //     logger::print(" ");
-    //     logger::print(normalized_angle*100);
-    //     logger::print("\n");
-    // }
-    
-    _update_state(angle);
-    
-    float cmd_ff = 0;
-    // calculate torque based on state
-    switch (_state)
-    {
-        case 0 :  // extension
-            cmd_ff = _controller_data->parameters[controller_defs::extension_angle::extension_setpoint_idx] * normalized_angle;
-            break;
-        case 1 :  // flexion
-            cmd_ff = _controller_data->parameters[controller_defs::extension_angle::flexion_setpoint_idx];
-            break;
-    }
-    
-    // add the PID contribution to the feed forward command
-    float cmd = cmd_ff + (_controller_data->parameters[controller_defs::extension_angle::use_pid_idx] 
-                ? _pid(cmd_ff, _joint_data->torque_reading,_controller_data->parameters[controller_defs::extension_angle::p_gain_idx], _controller_data->parameters[controller_defs::extension_angle::i_gain_idx], _controller_data->parameters[controller_defs::extension_angle::d_gain_idx]) 
-                : 0);
-    
-    return cmd;
-}
-
-
-void ExtensionAngle::_reset_angles()
-{
-    _max_angle = _initial_max_angle;
-    _min_angle = _initial_min_angle;
-}
-
-
-void ExtensionAngle::_update_state(float angle)
-{
-    switch (_state)
-    {
-        case 0 :  // extension assistance
-            if (angle <= _controller_data->parameters[controller_defs::extension_angle::angle_threshold_idx])           //If the angle of the hip is less than 5 degrees (currently what angle_threshold is set to), then switch to flexion assistance
-            {
-                _state = 1;
-            }
-            break;
-        case 1 :  // flexion assistance 
-            
-            if ((angle > (_controller_data->parameters[controller_defs::extension_angle::target_flexion_percent_max_idx] * _max_angle / 100))           //If the angle exceeds 80% (currently what flexion_percent_max is set to) of the max angle, switch to extension angle
-                || ((angle > _controller_data->parameters[controller_defs::extension_angle::angle_threshold_idx]+utils::degrees_to_radians(5))          //Or if the angle is greater than 10 degrees (angle_threshold currently set to 5 degrees), switch to extension 
-                    && (_leg_data->hip.velocity <= _controller_data->parameters[controller_defs::extension_angle::velocity_threshold_idx])))            //or if the angular velocity is less than or equal to -0.175rad/s (currenlty what velocity_threshold is set to), switch to extension 
-            {
-                _state = 0;
-            }
-            break;
-         
-        
-    }
-    // int print_time_ms = 100;
-    // static int last_timestamp = millis();
-    // int timestamp = millis();
-    // if ((timestamp-last_timestamp)>print_time_ms)
-    // {
-        // logger::print(angle);
-        // logger::print(" ");
-        // logger::print(_controller_data->parameters[controller_defs::extension_angle::target_flexion_percent_max_idx] * _max_angle/100);
-        // logger::print("\n");
-    // }
-}
-
-
-//****************************************************
-
-
-BangBang::BangBang(config_defs::joint_id id, ExoData* exo_data)
-: _Controller(id, exo_data)
-{
-    #ifdef CONTROLLER_DEBUG
-        logger::println("BangBang::Constructor");
-    #endif
-    _state = 0; // extension mode originally 
-    
-    _reset_angles();
-    
-}
-
-float BangBang::calc_motor_cmd()
-{
-    // check if the angle range should be reset
-    if (_controller_data->parameters[controller_defs::bang_bang::clear_angle_idx])
-    {
-        _reset_angles();
-    }
-    
-    float angle = _leg_data->hip.position;
-    // check the angle range
-    _max_angle = max(angle, _max_angle);
-    _min_angle = min(angle, _min_angle);
-    
-    
-    // float normalized_angle = 0;
-    // // calculate the normalized angle
-    // if (angle >= 0)
-    // {
-        // normalized_angle = angle / _max_angle;
-    // }
-    // else
-    // {
-        // normalized_angle = angle / _min_angle;
-        
-    // }
-
-    // int print_time_ms = 100;
-    // static int last_timestamp = millis();
-    // int timestamp = millis();
-    // if ((timestamp-last_timestamp)>print_time_ms)
-    // {
-    //     logger::print(utils::radians_to_degrees(angle));
-    //     logger::print(" ");
-    //     logger::print(utils::radians_to_degrees(_max_angle));
-    //     logger::print(" ");
-    //     logger::print(utils::radians_to_degrees(_min_angle));
-    //     logger::print(" ");
-    //     logger::print(100);
-    //     logger::print(" ");
-    //     logger::print(-100);
-    //     logger::print(" ");
-    //     logger::print(normalized_angle*100);
-    //     logger::print("\n");
-    // }
-    
-    _update_state(angle);
-    
-    float cmd_ff = 0;
-    // calculate torque based on state
-    switch (_state)
-    {
-        case 0 :  // extension
-            cmd_ff = _controller_data->parameters[controller_defs::bang_bang::extension_setpoint_idx];
-            break;
-        case 1 :  // flexion
-            cmd_ff = _controller_data->parameters[controller_defs::bang_bang::flexion_setpoint_idx];
-            break;
-    }
-    
-    
-    // add the PID contribution to the feed forward command
-    float cmd = cmd_ff + (_controller_data->parameters[controller_defs::bang_bang::use_pid_idx] 
-                ? _pid(cmd_ff, _joint_data->torque_reading,_controller_data->parameters[controller_defs::bang_bang::p_gain_idx], _controller_data->parameters[controller_defs::bang_bang::i_gain_idx], _controller_data->parameters[controller_defs::bang_bang::d_gain_idx]) 
-                : 0);
-    
-    return ((_controller_data->parameters[controller_defs::bang_bang::is_assitance_idx] ? 1:-1) * cmd);
-}
-
-
-void BangBang::_reset_angles()
-{
-    _max_angle = _initial_max_angle;
-    _min_angle = _initial_min_angle;
-}
-
-
-
-void BangBang::_update_state(float angle)
-{
-    switch (_state)
-    {
-    case 0:  // extension assistance
-        if (angle <= _controller_data->parameters[controller_defs::bang_bang::angle_threshold_idx])
-        {
-            _state = 1;
-        }
-        break;
-    case 1:  // flexion assistance 
-
-        if ((angle > (_controller_data->parameters[controller_defs::bang_bang::target_flexion_percent_max_idx] * _max_angle / 100))
-            || ((angle > _controller_data->parameters[controller_defs::bang_bang::angle_threshold_idx] + utils::degrees_to_radians(5))
-                && (_leg_data->hip.velocity <= _controller_data->parameters[controller_defs::bang_bang::velocity_threshold_idx])))
-        {
-            _state = 0;
-        }
-        break;
-
-
-    }
-    // int print_time_ms = 100;
-    // static int last_timestamp = millis();
-    // int timestamp = millis();
-    // if ((timestamp-last_timestamp)>print_time_ms)
-    // {
-        // logger::print(angle);
-        // logger::print(" ");
-        // logger::print(_controller_data->parameters[controller_defs::extension_angle::target_flexion_percent_max_idx] * _max_angle/100);
-        // logger::print("\n");
-    // }
-}
-
-
-//****************************************************
-
-
-LateStance::LateStance(config_defs::joint_id id, ExoData* exo_data)
-    : _Controller(id, exo_data)
-{
-#ifdef CONTROLLER_DEBUG
-    logger::println("LateStance::Constructor");
-#endif
-    _state = 0; // extension mode originally 
-
-    _reset_angles();
-
-}
-
-float LateStance::calc_motor_cmd()
-{
-    // check if the angle range should be reset
-    if (_controller_data->parameters[controller_defs::late_stance::clear_angle_idx])
-    {
-        _reset_angles();
-    }
-
-    float angle = _leg_data->hip.position;
-    // check the angle range
-    _max_angle = max(angle, _max_angle);
-    _min_angle = min(angle, _min_angle);
-
-    _update_state(angle);
-
-    float cmd_ff = 0;
-    // calculate torque based on state
-    switch (_state)
-    {
-    case 0:  // extension
-        cmd_ff = 0;
-        break;
-    case 1:  // flexion
-        cmd_ff = _controller_data->parameters[controller_defs::late_stance::resistance_setpoint_idx];
-        break;
-    }
-
-
-    float cmd = cmd_ff + (_controller_data->parameters[controller_defs::late_stance::use_pid_idx]
-        ? _pid(cmd_ff, _joint_data->torque_reading, _controller_data->parameters[controller_defs::late_stance::p_gain_idx], _controller_data->parameters[controller_defs::late_stance::i_gain_idx], _controller_data->parameters[controller_defs::late_stance::d_gain_idx])
-        : 0);
-
-    return cmd;
-}
-
-/*
- * Used to reset the range of motion to the starting values.
- * There is no reset for the flag so the user must turn this off manually.
- */
-void LateStance::_reset_angles()
-{
-    _max_angle = _initial_max_angle;
-    _min_angle = _initial_min_angle;
-}
-
-
-/*
- *
- */
-void LateStance::_update_state(float angle)
-{
-    switch (_state)
-    {
-    case 0:  // No Torque 
-        if (angle <= _controller_data->parameters[controller_defs::late_stance::angle_on_off])
-        {
-            _state = 1;
-        }
-        break;
-    case 1:  // Torque
-
-        if ((angle > (_controller_data->parameters[controller_defs::late_stance::angle_on_off] * _max_angle / 100)))
-        {
-            _state = 0;
-        }
-        break;
-
-
-    }
-}
-
-
-//****************************************************
-
-
-GaitPhase::GaitPhase(config_defs::joint_id id, ExoData* exo_data)
-: _Controller(id, exo_data)
-{
-#ifdef CONTROLLER_DEBUG
-    logger::println("GaitPhase::Constructor");
-#endif
-}
-
-float GaitPhase::calc_motor_cmd()
-{
-
-    const int flexion_torque = _controller_data->parameters[controller_defs::gait_phase::flexion_setpoint_idx];            //Sets the magnitude of the flexion torque applied
-    const int extension_torque = _controller_data->parameters[controller_defs::gait_phase::extension_setpoint_idx];        //Sets the mangitude of the extnesion torque applied
-    
-    if (flexion_torque > 0 && extension_torque < 0)
-    {
-        slope = _controller_data->parameters[controller_defs::gait_phase::slope_idx];                                        //Sets the slope of the line connnecting transition points from the config file
-    }
-    else if(flexion_torque < 0 && extension_torque > 0)
-    {
-        slope = - 1 * _controller_data->parameters[controller_defs::gait_phase::slope_idx];
-    }
-    else
-    {
-        slope = _controller_data->parameters[controller_defs::gait_phase::slope_idx];
-    }
-    float width = (flexion_torque - extension_torque) / slope;                                                                  //Calculates the width of the region during which the transition in torque magnitudes occurs
-    float half_width = width / 2;                                                                                               //Calculates half the width of the region during which the transition in torque magnitudes occurs
-
-    const int flexion_start = _controller_data->parameters[controller_defs::gait_phase::flexion_start_percentage_idx];      //Sets the starting point of when flexion should be applied
-    const int flexion_end = _controller_data->parameters[controller_defs::gait_phase::flexion_end_percentage_idx];          //Sets the ending point of when flexion should be applied
-    const int extension_start = _controller_data->parameters[controller_defs::gait_phase::extension_start_percentage_idx];  //Sets the starting point of when extension should be applied     
-    const int extension_end = _controller_data->parameters[controller_defs::gait_phase::extension_end_percentage_idx];      //Sets the ending point of when flexion should be applied
-
-    // Initializes torque
-    float cmd_ff = 0;
-
-    // Defines % Gait Variable (obtains from Leg.cpp & LegData.cpp)
-    float percent_gait = _leg_data->percent_gait;
-
-    //Print outs if you need to debug Controller parameter issue
-
-        //logger::print("GaitPhase::calc_motor_cmd : Flexion_Start_Percentage : ");
-        //logger::print(_controller_data->parameters[controller_defs::gait_phase::flexion_start_percentage_idx]);
-        //logger::print("\n");
-
-        //logger::print("GaitPhase::calc_motor_cmd : Flexion_End_Percentage : ");
-        //logger::print(_controller_data->parameters[controller_defs::gait_phase::flexion_end_percentage_idx]);
-        //logger::print("\n");
-
-        //logger::print("GaitPhase::calc_motor_cmd : Extension_Start_Percentage : ");
-        //logger::print(_controller_data->parameters[controller_defs::gait_phase::extension_start_percentage_idx]);
-        //logger::print("\n");
-
-        //logger::print("GaitPhase::calc_motor_cmd : Extension_End_Percentage : ");
-        //logger::print(_controller_data->parameters[controller_defs::gait_phase::extension_end_percentage_idx]);
-        //logger::print("\n");
-
-
-    if (-1 != percent_gait) //Only runs if a valid calculation of percent gait is present
-    {
-              
-
-        //If there is no zero torque range between the starting of flexion and extension
-        if (extension_end == flexion_start && flexion_end == extension_start)
-        {
-            state = 0.5;
-
-            if (percent_gait == 0 || percent_gait < extension_end - half_width)
-            {
-                cmd_ff = extension_torque;
-                //logger::print("GaitPhase::calc_motor_cmd : Extension - Early : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if (percent_gait > extension_end - half_width && percent_gait < flexion_start + half_width)
-            {
-                cmd_ff = extension_torque + slope * (percent_gait - extension_end + half_width);
-                //logger::print("GaitPhase::calc_motor_cmd : Transition - Extension to Flexion : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if (percent_gait >= flexion_start + half_width && percent_gait <= flexion_end - half_width)
-            {
-                cmd_ff = flexion_torque;
-                //logger::print("GaitPhase::calc_motor_cmd : Flexion : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if (percent_gait > flexion_end - half_width && percent_gait < flexion_end + half_width)
-            {
-                cmd_ff = flexion_torque - slope * (percent_gait - flexion_end + half_width);
-                //logger::print("GaitPhase::calc_motor_cmd : Transition - Flexion to Extension : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if (percent_gait >= extension_start + half_width && percent_gait <= 100)
-            {
-                cmd_ff = extension_torque;
-                //logger::print("GaitPhase::calc_motor_cmd : Extension - Late : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else
-            {
-                cmd_ff = 0;
-                //logger::print("GaitPhase::calc_motor_cmd : Unknown Condition : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-
-        }
-        else if(extension_end != flexion_start && flexion_end != extension_start)
-        {
-            state = 1;
-
-            if (percent_gait == 0 || percent_gait <= extension_end - half_width)
-            {
-                cmd_ff = extension_torque;
-                //logger::print("GaitPhase::calc_motor_cmd : Extension - Early : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait > extension_end - half_width && percent_gait < extension_end + half_width)
-            {
-                cmd_ff = extension_torque + (slope / 2) * (percent_gait - extension_end + half_width);
-                //logger::print("GaitPhase::calc_motor_cmd : Transition - Extension to Zero Torque : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait >= extension_end + half_width && percent_gait <= flexion_start - half_width)
-            {
-                cmd_ff = 0;
-                //logger::print("GaitPhase::calc_motor_cmd : Zero Torque - Early : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait > flexion_start - half_width && percent_gait < flexion_start + half_width)
-            {
-                cmd_ff = 0 + (slope / 2) * (percent_gait - flexion_start + half_width);
-                //logger::print("GaitPhase::calc_motor_cmd : Transition - Zero Torque to Flexion : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait >= flexion_start + half_width && percent_gait <= flexion_end - half_width)
-            {
-                cmd_ff = flexion_torque;
-                //logger::print("GaitPhase::calc_motor_cmd : Flexion : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait > flexion_end - half_width && percent_gait < flexion_end + half_width)
-            {
-                cmd_ff = flexion_torque - (slope / 2) * (percent_gait - flexion_end + half_width);
-                //logger::print("GaitPhase::calc_motor_cmd : Transition - Flexion to Zero Torque : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait >= flexion_end + half_width && percent_gait <= extension_start - half_width)
-            {
-                cmd_ff = 0;
-                //logger::print("GaitPhase::calc_motor_cmd : Zero Torque - Late : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait > extension_start - half_width && percent_gait < extension_start + half_width)
-            {
-                cmd_ff = 0 - (slope / 2) * (percent_gait - extension_start + half_width);
-                //logger::print("GaitPhase::calc_motor_cmd : Transition - Zero Torque to Extension : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait >= extension_start + half_width && percent_gait <= 100)
-            {
-                cmd_ff = extension_torque;
-                //logger::print("GaitPhase::calc_motor_cmd : Extension - Late : ");
-                //logger::print(percent_gait);
-                //Serail.print("\n");
-            }
-            else
-            {
-                cmd_ff = 0;
-                //logger::print("GaitPhase::calc_motor_cmd : Unknown Condition : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-
-        }
-        else if(extension_end != flexion_start && flexion_end == extension_start)
-        {
-            state = 1.5;
-
-            if (percent_gait == 0 || percent_gait <= extension_end - half_width)
-            {
-                cmd_ff = extension_torque;
-                //logger::print("GaitPhase::calc_motor_cmd : Extension - Early : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait > extension_end - half_width && percent_gait < extension_end + half_width)
-            {
-                cmd_ff = extension_torque + (slope / 2) * (percent_gait - extension_end + half_width);
-                //logger::print("GaitPhase::calc_motor_cmd : Transition - Extension to Zero Torque : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait >= extension_end + half_width && percent_gait <= flexion_start - half_width)
-            {
-                cmd_ff = 0;
-                //logger::print("GaitPhase::calc_motor_cmd : Zero Torque : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait > flexion_start - half_width && percent_gait < flexion_start + half_width)
-            {
-                cmd_ff = 0 + (slope / 2) * (percent_gait - flexion_start + half_width);
-                //logger::print("GaitPhase::calc_motor_cmd : Transition - Zero Torque to Flexion : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait >= flexion_start + half_width && percent_gait <= flexion_end - half_width)
-            {
-                cmd_ff = flexion_torque;
-                //logger::print("GaitPhase::calc_motor_cmd : Flexion : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait > flexion_end - half_width && percent_gait < flexion_end + half_width)
-            {
-                cmd_ff = flexion_torque - slope * (percent_gait - flexion_end + half_width);
-                //logger::print("GaitPhase::calc_motor_cmd : Transition - Flexion to Extension : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait >= extension_start + half_width && percent_gait <= 100)
-            {
-                cmd_ff = extension_torque;
-                //logger::print("GaitPhase::calc_motor_cmd : Extension - Late : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else
-            {
-                cmd_ff = 0;
-                //logger::print("GaitPhase::calc_motor_cmd : Unknown Condition : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-
-        }
-        else if(extension_end == flexion_start && flexion_end != extension_start)
-        {
-            state = 2;
-
-            if (percent_gait == 0 || percent_gait < extension_end)
-            {
-                cmd_ff = extension_torque;
-                //logger::print("GaitPhase::calc_motor_cmd : Extension - Early : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait > extension_end - half_width && percent_gait < flexion_start + half_width)
-            {
-                cmd_ff = extension_torque + slope * (percent_gait - extension_end + half_width);
-                //logger::print("GaitPhase::calc_motor_cmd : Transition - Extension to Flexion : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait >= flexion_start + half_width && percent_gait <= flexion_end - half_width)
-            {
-                cmd_ff = flexion_torque;
-                //logger::print("GaitPhase::calc_motor_cmd : Flexion : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait > flexion_end - half_width && percent_gait < flexion_end + half_width)
-            {
-                cmd_ff = flexion_torque - (slope / 2) * (percent_gait - flexion_end + half_width);
-                //logger::print("GaitPhase::calc_motor_cmd : Transition - Flexion to Zero Torque : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait >= flexion_end + half_width && percent_gait <= extension_start - half_width)
-            {
-                cmd_ff = 0;
-                //logger::print("GaitPhase::calc_motor_cmd : Zero Torque - Late : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait > extension_start - half_width && percent_gait < extension_start + half_width)
-            {
-                cmd_ff = 0 - (slope / 2) * (percent_gait - extension_start + half_width);
-                //logger::print("GaitPhase::calc_motor_cmd : Transition - Zero Torque to Extension : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else if(percent_gait >= extension_start + half_width && percent_gait <= 100)
-            {
-                cmd_ff = extension_torque;
-                //logger::print("GaitPhase::calc_motor_cmd : Extension - Late : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-            else
-            {
-                cmd_ff = 0;
-                //logger::print("GaitPhase::calc_motor_cmd : Unknown Condition : ");
-                //logger::print(percent_gait);
-                //logger::print("\n");
-            }
-
-        }
-        else
-        {
-            state = 0;
-            cmd_ff = 0;
-        }
-
-    }
-
-    if (cmd_ff > flexion_torque)
-    {
-        cmd_ff = flexion_torque;
-    }
-    else if (cmd_ff < extension_torque)
-    {
-        cmd_ff = extension_torque;
-    }
-    else
-    {
-        cmd_ff = cmd_ff;
-    }
-
-
-    // Incorporates PID control if flag is present
-    float cmd = cmd_ff;
-    if (_controller_data->parameters[controller_defs::gait_phase::use_pid_idx])
-    {
-        cmd = _pid(cmd_ff, _joint_data->torque_reading, _controller_data->parameters[controller_defs::gait_phase::p_gain_idx], _controller_data->parameters[controller_defs::gait_phase::i_gain_idx], _controller_data->parameters[controller_defs::gait_phase::d_gain_idx]);
-    }
-    else
-    {
-        cmd = cmd_ff;
-    }
-
-    return cmd;
-}
-
-
-//****************************************************
-
-
-Parabolic::Parabolic(config_defs::joint_id id, ExoData* exo_data)
-    : _Controller(id, exo_data)
-{
-#ifdef CONTROLLER_DEBUG
-    logger::println("Parabolic::Constructor");
-#endif
-}
-
-float Parabolic::calc_motor_cmd()
-{
-
-    const int flexion_torque = _controller_data->parameters[controller_defs::parabolic::flexion_setpoint_idx];            //Sets the magnitude of the flexion torque applied
-    const int extension_torque = _controller_data->parameters[controller_defs::parabolic::extension_setpoint_idx];        //Sets the mangitude of the extnesion torque applied
-
-    const int flexion_start = _controller_data->parameters[controller_defs::parabolic::flexion_start_percentage_idx];      //Sets the starting point of when flexion should be applied
-    const int flexion_end = _controller_data->parameters[controller_defs::parabolic::flexion_end_percentage_idx];          //Sets the ending point of when flexion should be applied
-    const int extension_start = _controller_data->parameters[controller_defs::parabolic::extension_start_percentage_idx];  //Sets the starting point of when extension should be applied     
-    const int extension_end = _controller_data->parameters[controller_defs::parabolic::extension_end_percentage_idx];      //Sets the ending point of when flexion should be applied
-
-    // Initializes torque
-    float cmd_ff = 0;
-
-    // Defines % Gait Variable (obtains from Leg.cpp & LegData.cpp)
-    float percent_gait = _leg_data->percent_gait;
-
-    //Print outs if you need to debug Controller parameter issue
-
-        //logger::print("GaitPhase::calc_motor_cmd : Flexion_Start_Percentage : ");
-        //logger::print(_controller_data->parameters[controller_defs::parabolic::flexion_start_percentage_idx]);
-        //logger::print("\n");
-
-        //logger::print("GaitPhase::calc_motor_cmd : Flexion_End_Percentage : ");
-        //logger::print(_controller_data->parameters[controller_defs::parabolic::flexion_end_percentage_idx]);
-        //logger::print("\n");
-
-        //logger::print("GaitPhase::calc_motor_cmd : Extension_Start_Percentage : ");
-        //logger::print(_controller_data->parameters[controller_defs::parabolic::extension_start_percentage_idx]);
-        //logger::print("\n");
-
-        //logger::print("GaitPhase::calc_motor_cmd : Extension_End_Percentage : ");
-        //logger::print(_controller_data->parameters[controller_defs::parabolic::extension_end_percentage_idx]);
-        //logger::print("\n");
-
-
-    if (-1 != percent_gait) //Only runs if a valid calculation of percent gait is present
-    {
-
-        //Coordinates for the extension curve
-        float x1 = extension_start;
-        float y1 = 0;
-
-        float x2 = extension_start + ((extension_end - extension_start)/2);
-        float y2 = extension_torque;
-
-        float x3 = extension_end;
-        float y3 = 0;
-
-        //Constants for the extension curve
-        float B_one = ((y2 - y3) * ((x2 * x2) - (x1 * x1)) - (y2 - y1) * ((x2 * x2) - (x3 * x3))) / (((x2 - x3) * ((x2 * x2) - (x1 * x1))) - ((x2 - x1) * ((x2 * x2) - (x3 * x3))));
-        float A1 = ((y2 - y1) - (B_one * (x2 - x1))) / ((x2 * x2) - (x1 * x1));
-        float C1 = y1 - (A1 * (x1 * x1)) - (B_one * x1);
-
-        //Coordinates for the flexion curve
-        float x4 = flexion_start;
-        float y4 = 0;
-
-        float x5 = flexion_start + ((flexion_end - flexion_start) / 2);
-        float y5 = flexion_torque;
-
-        float x6 = flexion_end;
-        float y6 = 0;
-
-        //Constants for the flexion curve
-        float B2 = ((y5 - y6) * ((x5 * x5) - (x4 * x4)) - (y5 - y4) * ((x5 * x5) - (x6 * x6))) / (((x5 - x6) * ((x5 * x5) - (x4 * x4))) - ((x5 - x4) * ((x5 * x5) - (x6 * x6))));
-        float A2 = ((y5 - y4) - (B2 * (x5 - x4))) / ((x5 * x5) - (x4 * x4));
-        float C2 = y1 - (A2 * (x4 * x4)) - (B2 * x4);
-
-
-        //Determination of torque
-        if (percent_gait >= extension_start && percent_gait <= extension_end)
-        {
-            cmd_ff = ((A1 * (percent_gait * percent_gait)) + (B_one * percent_gait) + C1);
-        }
-        else if (percent_gait >= flexion_start && percent_gait <= flexion_end)
-        {
-            cmd_ff = ((A2 * (percent_gait * percent_gait)) + (B2 * percent_gait) + C2);
-        }
-        else
-        {
-            cmd_ff = 0;
-        }
-    }
-
-    float cmd = cmd_ff;
-
-    return cmd;
-}
 
 //****************************************************
 
@@ -2070,106 +1280,6 @@ float FranksCollinsHip::_spline_generation(float node1, float node2, float node3
 
     return u;
 }
-
-//****************************************************
-// 
-// 
-// UserDefined::UserDefined(config_defs::joint_id id, ExoData* exo_data)
-// : _Controller(id, exo_data)
-// {
-    // #ifdef CONTROLLER_DEBUG
-        // logger::println("UserDefined::Constructor");
-    // #endif
-    
-    
-    
-    // for(int i = 0; i < controller_defs::user_defined::num_sample_points; i++) 
-    // {
-        // _percent_x[i] = i * _step_size;
-    // } 
-// }
-
-// float UserDefined::calc_motor_cmd()
-// {
-    
-    // int lower_idx = _leg_data->percent_gait/_step_size; //rounds down  
-    // float cmd_ff = 0;
-    // //  yp = y0 + ((y1-y0)/(x1-x0)) * (xp - x0);
-    // if(lower_idx < controller_defs::user_defined::num_sample_points - 1)
-    // {
-        // cmd_ff = _controller_data->parameters[controller_defs::user_defined::curve_start_idx+lower_idx] + ((_controller_data->parameters[controller_defs::user_defined::curve_start_idx+lower_idx+1]-_controller_data->parameters[controller_defs::user_defined::curve_start_idx+lower_idx])/(_percent_x[lower_idx+1]-_percent_x[lower_idx])) * (_leg_data->percent_gait - _percent_x[lower_idx]);
-    // } 
-    // else
-    // {
-        // cmd_ff = _controller_data->parameters[controller_defs::user_defined::curve_start_idx+lower_idx] + ((_controller_data->parameters[0]-_controller_data->parameters[controller_defs::user_defined::curve_start_idx+lower_idx])/(100-_percent_x[lower_idx])) * (_leg_data->percent_gait - _percent_x[lower_idx]);
-    // }
-    // // add the PID contribution to the feed forward command
-    // float cmd = cmd_ff + (_controller_data->parameters[controller_defs::user_defined::use_pid_idx] 
-                // ? _pid(cmd_ff, _joint_data->torque_reading,_controller_data->parameters[controller_defs::user_defined::p_gain_idx], _controller_data->parameters[controller_defs::user_defined::i_gain_idx], _controller_data->parameters[controller_defs::user_defined::d_gain_idx]) 
-                // : 0);
-    
-    // return 0;
-// }
-
-
-//****************************************************
-
-
-Sine::Sine(config_defs::joint_id id, ExoData* exo_data)
-: _Controller(id, exo_data)
-{
-    #ifdef CONTROLLER_DEBUG
-        logger::println("Sine::Constructor");
-    #endif
-}
-
-float Sine::calc_motor_cmd()
-{
-    //  converts period to int so % will work, but is only a float for convenience
-    float cmd_ff = _controller_data->parameters[controller_defs::sine::amplitude_idx] * sin((millis() % (int)_controller_data->parameters[controller_defs::sine::period_idx]) / _controller_data->parameters[controller_defs::sine::period_idx] * 2 * M_PI + _controller_data->parameters[controller_defs::sine::phase_shift_idx]);
-
-    // add the PID contribution to the feed forward command
-    float cmd = cmd_ff + (_controller_data->parameters[controller_defs::sine::use_pid_idx]
-        ? _pid(cmd_ff, _joint_data->torque_reading, _controller_data->parameters[controller_defs::sine::p_gain_idx], _controller_data->parameters[controller_defs::sine::i_gain_idx], _controller_data->parameters[controller_defs::sine::d_gain_idx])
-        : 0);
-    return cmd;
-}
-
-
-//****************************************************
-
-
-Perturbation::Perturbation(config_defs::joint_id id, ExoData* exo_data)
-    : _Controller(id, exo_data)
-{
-    #ifdef CONTROLLER_DEBUG
-        logger::println("Perturbation::Constructor");
-    #endif
-    
-};
-
-float Perturbation::calc_motor_cmd()
-{
-
-    float cmd = 0;     //Creates the cmd variable and initializes it to 0;
-
-    float percent_gait = _leg_data->percent_gait;           //Calculates the percentage of the gait cycle
-
-    if (percent_gait >= _controller_data->parameters[controller_defs::perturbation::threshold_start_idx] && percent_gait <= _controller_data->parameters[controller_defs::perturbation::threshold_end_idx])
-    {
-        if (_controller_data->parameters[controller_defs::perturbation::direction_idx] > 0)
-        {
-            cmd = -1 * _controller_data->parameters[controller_defs::perturbation::amplitude_idx];
-        }
-    }
-    else
-    {
-        cmd = 0;
-    }
- 
-    return -1*cmd;
-};
-
 
 
 //****************************************************
@@ -2715,4 +1825,261 @@ else {
 return cmd;
 	
 }
+
+
+//****************************************************
+
+
+HipResist::HipResist(config_defs::joint_id id, ExoData* exo_data)
+    : _Controller(id, exo_data)
+{
+#ifdef CONTROLLER_DEBUG
+    Serial.println("HipResist::HipResist");
+#endif
+
+    /* Initializes all our variables of interest to zero upon start up. */
+    cmd = 0;
+    angle = 0;
+    previous_angle = 0;
+    angular_change = 0;
+    previous_angular_change = 0;
+    previous_cmd = 0;
+    
+    /* Initializes max and min angles to extremes to allow for proper updating*/
+    max_angle = -100;
+    min_angle = 100;
+
+    /* State default set to zero to prevent motor command without being in proper state. */
+    state = 0;
+
+    flag = 1;
+    initial_angle = 0;
+}
+
+float HipResist::calc_motor_cmd()
+{
+
+    //cmd = _controller_data->parameters[controller_defs::hip_resist::flexion_setpoint_idx];
+
+    //if (_controller_data->parameters[controller_defs::hip_resist::direction_idx] > 0)
+    //{
+    //    cmd = -1 * cmd;
+    //}
+
+    angle = (_leg_data->hip.position) * (180/(M_PI));                  /* Gets the hip postion from the motors. */
+
+    if (flag == 1 || initial_angle == 0)
+    {
+        initial_angle = angle;
+        flag = 0;
+    }
+
+    float current_angle = round(angle - initial_angle);
+
+    angular_change = current_angle - previous_angle;            /* Calculates the change in angle from the previous iteration, use sign to help detect state change. */
+
+    if (current_angle > max_angle)                              /* Updates max angle if current angle exceeds previously detected maximum angle. */
+    {
+        max_angle = current_angle;
+    }
+
+    if (current_angle < min_angle)                              /* Updates min angle if the current angle exceeds previously detected minimum angle. */
+    {
+        min_angle = current_angle;
+    }
+
+    if (current_angle >= 0.90 * max_angle && angular_change < 0 && previous_angular_change >= 0)    /* If we are within 10% of the max angle and detect a change in direction of the angular slope, update state to 1. */
+    {
+        state = 1;
+    }
+    else if (abs(current_angle) >= abs(0.9 * min_angle) && angular_change > 0 && previous_angular_change <= 0)     /* If we are within 10% of the min angle and detect a change in direction of the angular slope, update state to 2. */
+    {
+        state = 2;
+    }
+    else
+    {
+        state = state;
+    }
+
+    if (state == 0)                                                                        /* If the state is stuck in default, don't send a motor command. */
+    {
+        cmd = 0;
+    }
+
+    if (state == 1)                                                                                 /* Sends flexion command if we are extending our hip. */
+    {
+        cmd = _controller_data->parameters[controller_defs::hip_resist::flexion_setpoint_idx];
+    }
+
+    if (state == 2)                                                                                 /* Sends extension command if we are flexing our hip. */
+    {
+        cmd = _controller_data->parameters[controller_defs::hip_resist::extension_setpoint_idx];
+    }
+ 
+    previous_angle = current_angle;                                                                         /* Stores angle from this iteration into the previous angle variable. */
+    previous_angular_change = angular_change;                                                       /* Stores the angular change from this iteration into the previous angular change variable. */
+
+    return cmd;
+
+}
+
+
+//****************************************************
+
+
+Chirp::Chirp(config_defs::joint_id id, ExoData* exo_data)
+    : _Controller(id, exo_data)
+{
+#ifdef CONTROLLER_DEBUG
+    Serial.println("Chirp::Chirp");
+#endif
+
+    start_flag = 1;
+    start_time = 0;
+    current_time = 0;
+    previous_amplitude = 0;
+}
+
+float Chirp::calc_motor_cmd()
+{
+    if (_joint_data->is_left)
+    {
+        float cmd_ff = 0;
+
+        if (start_flag == 1)                    //If this is the first instance of the controller
+        {
+            start_time = millis();              //Record start time
+            start_flag = 0;                     //Disable Flag -> tells us that it is no longer the first instance 
+        }
+
+        current_time = millis();                //Records the current time
+
+        float t = (current_time - start_time) / 1000;    //Measure of the time since the start, converets to seconds. 
+
+        float amplitude = _controller_data->parameters[controller_defs::chirp::amplitude_idx];              //Amplitude of the sine wave
+        float start_frequency = _controller_data->parameters[controller_defs::chirp::start_frequency_idx];  //Start frequency of the sine wave
+        float end_frequency = _controller_data->parameters[controller_defs::chirp::end_frequency_idx];      //End frequency of the sine wave
+        float duration = _controller_data->parameters[controller_defs::chirp::duration_idx];                //Duration of the controller
+        float yshift = _controller_data->parameters[controller_defs::chirp::yshift_idx];                    //Duration of the controller
+
+        if (t <= duration)                                                                                  //If time is less than the set duration
+        {
+            float frequency = start_frequency + ((end_frequency - start_frequency) * (t / duration));       //Frequency, linearly increases with each iteration of the controller.
+            cmd_ff = amplitude * sin(2 * M_PI * frequency * t + (6*M_PI/4)) + yshift;                                    //Torque command as a sine wave
+
+            if (std::isnan(frequency))                  //If it detects Nan, sets the values to 0, prevents the exo from throwing a fit.
+            {
+                frequency = start_frequency;
+                cmd_ff = 0;
+            }
+        }
+
+        if (previous_amplitude == 0 && amplitude != 0)  //Flag to restart sine wave without exiting the controller (switch amplitude to zero and then switch it back to what amplitude you want restarts the wave). 
+        {
+            start_flag = 1;
+        }
+
+        previous_amplitude = amplitude;                 //Stores the amplitude to be used in next iteration of the controller. 
+
+        _controller_data->ff_setpoint = cmd_ff;
+        _controller_data->filtered_torque_reading = _joint_data->torque_reading;
+
+        //PID
+        float cmd = cmd_ff + (_controller_data->parameters[controller_defs::chirp::pid_flag_idx]
+            ? _pid(cmd_ff, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::chirp::p_gain_idx], _controller_data->parameters[controller_defs::chirp::i_gain_idx], _controller_data->parameters[controller_defs::chirp::d_gain_idx])
+            : 0);
+
+        if (_joint_data->is_left)
+        {
+            Serial.print(cmd_ff);
+            Serial.print(',');
+            Serial.print(100);
+            Serial.print(',');
+            Serial.print("\n");
+
+            Serial.print(_controller_data->filtered_torque_reading);
+            Serial.print(',');
+            Serial.print(200);
+            Serial.print(',');
+            Serial.print("\n");
+        }
+
+        return cmd;
+    }
+
+}
+
+
+
+//****************************************************
+
+
+Step::Step(config_defs::joint_id id, ExoData* exo_data)
+    : _Controller(id, exo_data)
+{
+#ifdef CONTROLLER_DEBUG
+    Serial.println("Step::Step");
+#endif
+
+    //Initializes Values
+    n = 1;
+    start_flag = 1;
+    start_time = 0;
+    cmd = 0;
+    end_time = 0;
+
+}
+
+float Step::calc_motor_cmd()
+{
+    
+    float Amplitude = _controller_data->parameters[controller_defs::step::amplitude_idx];           //Magnitude of Step Response
+    float Duration = _controller_data->parameters[controller_defs::step::duration_idx];             //Duration of Step Response
+    int Repetitions = _controller_data->parameters[controller_defs::step::repetitions_idx];         //Number of Step Responses
+    float Spacing = _controller_data->parameters[controller_defs::step::spacing_idx];               //Time Between Each Step Response
+
+    if (n <= Repetitions)                                          //If we are less than the number of desired repetitions
+    {
+        if (start_flag == 1)                                        //If this is the start of this loop
+        {
+            start_time = millis();                                  //Record the start time
+            start_flag = 0;                                         //Set the flag so that we don't continue to record start time
+        }
+
+        float current_time = millis();                              //Measure the current time
+
+        float time = (current_time - start_time) / 1000;            //Determine the time since the begining of the control iteration, converted to seconds
+
+        if (time <= Duration)                                       //If the time is less than the desired duration of the step
+        {
+            cmd = Amplitude;                                        //Apply a torque at the desired magnitude 
+        }
+        else
+        {
+            cmd = 0;                                                //Set the torque to 0
+
+            if (previous_time <= Duration && time > Duration)       //Calculate the time that the amplitude ended
+            {
+                end_time = millis();
+            }
+
+            if (((current_time - end_time)/1000) >= Spacing)        //If the time since ending the step has exceeded our desired spacing
+            {
+                n = n + 1;                                          //Update the iteration count
+                start_flag = 1;                                     //Update the start flag to get a new start time and begin a new cycle
+            }
+        }
+
+        previous_time = time;                                       //Record time to be used as previous time in next loop. 
+
+    }
+    else
+    {
+        cmd = 0;
+    }
+
+    return cmd;
+
+}
+
 #endif

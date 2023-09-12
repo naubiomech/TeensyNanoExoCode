@@ -137,66 +137,66 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, ExoData* ex
     // If it is set return the appropriate pin and increment the counter.
     switch (utils::get_joint_type(id))
     {
-        case (uint8_t)config_defs::joint_id::hip:
-        {
-            if (utils::get_is_left(id) && exo_data->left_leg.hip.is_used)  // check if the left leg is used
-            {
-                if (_Joint::left_torque_sensor_used_count < logic_micro_pins::num_available_joints) // if we still have available pins send the next one and increment the counter.  If we don't send the not connected pin.
-                {
-                    return logic_micro_pins::torque_sensor_left[_Joint::left_torque_sensor_used_count++];
-                }
-                else
-                {
-                    return logic_micro_pins::not_connected_pin;
-                }
-            }
-            else if (!(utils::get_is_left(id)) && exo_data->right_leg.hip.is_used)  // check if the right leg is used
-            {
-                if (_Joint::right_torque_sensor_used_count < logic_micro_pins::num_available_joints) // if we still have available pins send the next one and increment the counter.  If we don't send the not connected pin.
-                {
-                    return logic_micro_pins::torque_sensor_right[_Joint::right_torque_sensor_used_count++];
-                }
-                else
-                {
-                    return logic_micro_pins::not_connected_pin;
-                }
-            }
-            else  // the joint isn't used.  I didn't optimize for the minimal number of logical checks because this should just be used at startup.
-            {
-                return logic_micro_pins::not_connected_pin;
-            }
-            break;
-        }
-        case (uint8_t)config_defs::joint_id::knee:
-        {
-            if (utils::get_is_left(id) && exo_data->left_leg.knee.is_used)  // check if the left leg is used
-            {
-                if (_Joint::left_torque_sensor_used_count < logic_micro_pins::num_available_joints) // if we still have available pins send the next one and increment the counter.  If we don't send the not connected pin.
-                {
-                    return logic_micro_pins::torque_sensor_left[_Joint::left_torque_sensor_used_count++];
-                }
-                else
-                {
-                    return logic_micro_pins::not_connected_pin;
-                }
-            }
-            else if (!(utils::get_is_left(id)) && exo_data->right_leg.knee.is_used)  // check if the right leg is used
-            {
-                if (_Joint::right_torque_sensor_used_count < logic_micro_pins::num_available_joints) // if we still have available pins send the next one and increment the counter.  If we don't send the not connected pin.
-                {
-                    return logic_micro_pins::torque_sensor_right[_Joint::right_torque_sensor_used_count++];
-                }
-                else
-                {
-                    return logic_micro_pins::not_connected_pin;
-                }
-            }
-            else  // the joint isn't used.  I didn't optimize for the minimal number of logical checks because this should just be used at startup.
-            {
-                return logic_micro_pins::not_connected_pin;
-            }
-            break;
-        }
+        //case (uint8_t)config_defs::joint_id::hip:
+        //{
+        //    if (utils::get_is_left(id) && exo_data->left_leg.hip.is_used)  // check if the left leg is used
+        //    {
+        //        if (_Joint::left_torque_sensor_used_count < logic_micro_pins::num_available_joints) // if we still have available pins send the next one and increment the counter.  If we don't send the not connected pin.
+        //        {
+        //            return logic_micro_pins::torque_sensor_left[_Joint::left_torque_sensor_used_count++];
+        //        }
+        //        else
+        //        {
+        //            return logic_micro_pins::not_connected_pin;
+        //        }
+        //    }
+        //    else if (!(utils::get_is_left(id)) && exo_data->right_leg.hip.is_used)  // check if the right leg is used
+        //    {
+        //        if (_Joint::right_torque_sensor_used_count < logic_micro_pins::num_available_joints) // if we still have available pins send the next one and increment the counter.  If we don't send the not connected pin.
+        //        {
+        //            return logic_micro_pins::torque_sensor_right[_Joint::right_torque_sensor_used_count++];
+        //        }
+        //        else
+        //        {
+        //            return logic_micro_pins::not_connected_pin;
+        //        }
+        //    }
+        //    else  // the joint isn't used.  I didn't optimize for the minimal number of logical checks because this should just be used at startup.
+        //    {
+        //        return logic_micro_pins::not_connected_pin;
+        //    }
+        //    break;
+        //}
+        //case (uint8_t)config_defs::joint_id::knee:
+        //{
+        //    if (utils::get_is_left(id) && exo_data->left_leg.knee.is_used)  // check if the left leg is used
+        //    {
+        //        if (_Joint::left_torque_sensor_used_count < logic_micro_pins::num_available_joints) // if we still have available pins send the next one and increment the counter.  If we don't send the not connected pin.
+        //        {
+        //            return logic_micro_pins::torque_sensor_left[_Joint::left_torque_sensor_used_count++];
+        //        }
+        //        else
+        //        {
+        //            return logic_micro_pins::not_connected_pin;
+        //        }
+        //    }
+        //    else if (!(utils::get_is_left(id)) && exo_data->right_leg.knee.is_used)  // check if the right leg is used
+        //    {
+        //        if (_Joint::right_torque_sensor_used_count < logic_micro_pins::num_available_joints) // if we still have available pins send the next one and increment the counter.  If we don't send the not connected pin.
+        //        {
+        //            return logic_micro_pins::torque_sensor_right[_Joint::right_torque_sensor_used_count++];
+        //        }
+        //        else
+        //        {
+        //            return logic_micro_pins::not_connected_pin;
+        //        }
+        //    }
+        //    else  // the joint isn't used.  I didn't optimize for the minimal number of logical checks because this should just be used at startup.
+        //    {
+        //        return logic_micro_pins::not_connected_pin;
+        //    }
+        //    break;
+        //}
         case (uint8_t)config_defs::joint_id::ankle:
         {
             if (utils::get_is_left(id) && exo_data->left_leg.ankle.is_used)  // check if the left leg is used
@@ -354,18 +354,13 @@ HipJoint::HipJoint(config_defs::joint_id id, ExoData* exo_data)
 : _Joint(id, exo_data)  // <-- Initializer list
 , _zero_torque(id, exo_data)
 , _heel_toe(id, exo_data)
-, _extension_angle(id, exo_data)
-, _bang_bang(id, exo_data)
-, _late_stance(id, exo_data)
-, _gait_phase(id, exo_data)
 , _franks_collins_hip(id, exo_data)
-// , _user_defined(id, exo_data)
-, _sine(id, exo_data)
 , _stasis(id, exo_data)
-, _perturbation(id, exo_data)
-, _parabolic(id, exo_data)
 , _constant_torque(id, exo_data)
 , _ptb_general(id, exo_data)
+, _hip_resist(id, exo_data)
+, _chirp(id, exo_data)
+, _step(id, exo_data)
 {
     #ifdef JOINT_DEBUG
         logger::print(_is_left ? "Left " : "Right ");
@@ -540,41 +535,26 @@ void HipJoint::set_controller(uint8_t controller_id)
         case (uint8_t)config_defs::hip_controllers::heel_toe :
             _controller = &_heel_toe;
             break;
-        case (uint8_t)config_defs::hip_controllers::extension_angle :
-            _controller = &_extension_angle;
-            break;
-        case (uint8_t)config_defs::hip_controllers::bang_bang :
-            _controller = &_bang_bang;
-            break;
-        case (uint8_t)config_defs::hip_controllers::late_stance :
-            _controller = &_late_stance;
-            break;
-        case (uint8_t)config_defs::hip_controllers::gait_phase :
-            _controller = &_gait_phase;
-            break;
         case (uint8_t)config_defs::hip_controllers::franks_collins_hip :
             _controller = &_franks_collins_hip;
             break;
-        // case (uint8_t)config_defs::hip_controllers::user_defined :
-            // _controller = &_user_defined;
-            // break;
-        case (uint8_t)config_defs::hip_controllers::sine :
-            _controller = &_sine;
-            break;
         case (uint8_t)config_defs::hip_controllers::stasis :
             _controller = &_stasis;
-            break;
-        case (uint8_t)config_defs::hip_controllers::perturbation:
-            _controller = &_perturbation;
-            break;
-        case (uint8_t)config_defs::hip_controllers::parabolic:
-            _controller = &_parabolic;
             break;
         case (uint8_t)config_defs::hip_controllers::constant_torque:
             _controller = &_constant_torque;
             break;
         case (uint8_t)config_defs::hip_controllers::ptb_general:
             _controller = &_ptb_general;
+            break;
+        case (uint8_t)config_defs::hip_controllers::hip_resist:
+            _controller = &_hip_resist;
+            break;
+        case (uint8_t)config_defs::hip_controllers::chirp:
+            _controller = &_chirp;
+            break;
+        case (uint8_t)config_defs::hip_controllers::step:
+            _controller = &_step;
             break;
         default :
             logger::print("Unkown Controller!\n", LogLevel::Error);
@@ -591,12 +571,11 @@ void HipJoint::set_controller(uint8_t controller_id)
 KneeJoint::KneeJoint(config_defs::joint_id id, ExoData* exo_data)
 : _Joint(id, exo_data) // <-- Initializer list
 , _zero_torque(id, exo_data)
-// , _user_defined(id, exo_data)
-, _sine(id, exo_data)
 , _stasis(id, exo_data)
-, _perturbation(id, exo_data)
 , _constant_torque(id, exo_data)
 , _elbow_min_max(id, exo_data)
+, _chirp(id, exo_data)
+, _step(id, exo_data)
 {
     #ifdef JOINT_DEBUG
         logger::print(_is_left ? "Left " : "Right ");
@@ -767,23 +746,20 @@ void KneeJoint::set_controller(uint8_t controller_id)  // changes the high level
         case (uint8_t)config_defs::knee_controllers::zero_torque :
             _controller = &_zero_torque;
             break;
-        // case (uint8_t)config_defs::knee_controllers::user_defined :
-            // _controller = &_user_defined;
-            // break;
-        case (uint8_t)config_defs::knee_controllers::sine :
-            _controller = &_sine;
-            break;
         case (uint8_t)config_defs::knee_controllers::stasis :
             _controller = &_stasis;
-            break;
-        case (uint8_t)config_defs::knee_controllers::perturbation:
-            _controller = &_perturbation;
             break;
         case (uint8_t)config_defs::knee_controllers::constant_torque:
             _controller = &_constant_torque;
             break;
         case (uint8_t)config_defs::knee_controllers::elbow_min_max:
             _controller = &_elbow_min_max;
+            break;
+        case (uint8_t)config_defs::knee_controllers::chirp:
+            _controller = &_chirp;
+            break;
+        case (uint8_t)config_defs::knee_controllers::step:
+            _controller = &_step;
             break;
         default :
             logger::print("Unkown Controller!\n", LogLevel::Error);
@@ -799,15 +775,14 @@ AnkleJoint::AnkleJoint(config_defs::joint_id id, ExoData* exo_data)
 , _zero_torque(id, exo_data)
 , _proportional_joint_moment(id, exo_data)
 , _zhang_collins(id, exo_data)
-// , _user_defined(id, exo_data)
-, _sine(id, exo_data)
 , _stasis(id, exo_data)
-, _perturbation(id, exo_data)
 , _constant_torque(id, exo_data)
 , _ptb_general(id, exo_data)
 , _propulsive_assistive(id, exo_data)
 , _elbow_min_max(id, exo_data)
 , _calibr_manager(id, exo_data)
+, _chirp(id, exo_data)
+, _step(id, exo_data)
 {
     #ifdef JOINT_DEBUG
         logger::print(_is_left ? "Left " : "Right ");
@@ -1031,17 +1006,8 @@ void AnkleJoint::set_controller(uint8_t controller_id)  // changes the high leve
         case (uint8_t)config_defs::ankle_controllers::zhang_collins :
             _controller = &_zhang_collins;
             break;
-        // case (uint8_t)config_defs::ankle_controllers::user_defined :
-            // _controller = &_user_defined;
-            // break;
-        case (uint8_t)config_defs::ankle_controllers::sine :
-            _controller = &_sine;
-            break;
         case (uint8_t)config_defs::ankle_controllers::stasis :
             _controller = &_stasis;
-            break;
-        case (uint8_t)config_defs::ankle_controllers::perturbation:
-            _controller = &_perturbation;
             break;
         case (uint8_t)config_defs::ankle_controllers::constant_torque:
             _controller = &_constant_torque;
@@ -1057,6 +1023,12 @@ void AnkleJoint::set_controller(uint8_t controller_id)  // changes the high leve
             break;
 		case (uint8_t)config_defs::ankle_controllers::calibr_manager:
             _controller = &_calibr_manager;
+            break;
+        case (uint8_t)config_defs::ankle_controllers::chirp:
+            _controller = &_chirp;
+            break;
+        case (uint8_t)config_defs::ankle_controllers::step:
+            _controller = &_step;
             break;
         default :
             logger::print("Unkown Controller!\n", LogLevel::Error);

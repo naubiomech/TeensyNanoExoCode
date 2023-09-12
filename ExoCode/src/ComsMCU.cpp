@@ -282,9 +282,6 @@ void ComsMCU::_process_complete_gui_command(BleMessage* msg)
     case ble_names::new_trq:
         ble_handlers::new_trq(_data, msg);
         break;
-    case ble_names::perturb:
-        ble_handlers::perturb(_data, msg);
-        break;
     case ble_names::update_param:
         ble_handlers::update_param(_data, msg);
         break;
