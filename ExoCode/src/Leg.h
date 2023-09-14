@@ -76,8 +76,6 @@ class Leg
          * 
          */
         void disable_motors();
-
-        float get_Kt_for_joint(uint8_t id);
         
 	private:
         /**

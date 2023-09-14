@@ -79,6 +79,14 @@ class JointData {
         std::queue<float> torque_data_window; /**< queue to store torque sensor values. */
         int torque_failure_count = 0; /**< number of successive samples outside of error bounds. */
 
+        // Transmission efficiency check
+        const float transmission_efficiency_threshold = 0.001;
+        const float motor_torque_smoothing = 0.1;
+        const float torque_error_smoothing = 1;
+        float smoothed_motor_torque = 0;
+        const float close_to_zero_tolerance = 0.1;
+        float torque_error = 0;
+
 };
 
 
