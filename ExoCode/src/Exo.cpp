@@ -73,6 +73,16 @@ bool Exo::run()
         // check the estop
         data->estop = digitalRead(logic_micro_pins::motor_stop_pin);
 
+        // if the estop is low disable all of the motors
+        if (data->estop)
+        {
+            data->for_each_joint(
+                    [](JointData* j_data, float* args)
+                    {
+                        j_data->motor.enabled = false;
+                    }
+                );
+        }
 
         // Record the leg data and send new commands to the motors.
         left_leg.run_leg();
