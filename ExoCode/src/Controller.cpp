@@ -1989,22 +1989,26 @@ float Chirp::calc_motor_cmd()
             ? _pid(cmd_ff, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::chirp::p_gain_idx], _controller_data->parameters[controller_defs::chirp::i_gain_idx], _controller_data->parameters[controller_defs::chirp::d_gain_idx])
             : 0);
 
-        if (_joint_data->is_left)
-        {
-            Serial.print(cmd_ff);
-            Serial.print(',');
-            Serial.print(100);
-            Serial.print(',');
-            Serial.print("\n");
+        //if (_joint_data->is_left)
+        //{
+        //    Serial.print(cmd_ff);
+        //    Serial.print(',');
+        //    Serial.print(100);
+        //    Serial.print(',');
+        //    Serial.print("\n");
 
-            Serial.print(_controller_data->filtered_torque_reading);
-            Serial.print(',');
-            Serial.print(200);
-            Serial.print(',');
-            Serial.print("\n");
-        }
+        //    Serial.print(_controller_data->filtered_torque_reading);
+        //    Serial.print(',');
+        //    Serial.print(200);
+        //    Serial.print(',');
+        //    Serial.print("\n");
+        //}
 
         return cmd;
+    }
+    else
+    {
+        return 0;
     }
 
 }

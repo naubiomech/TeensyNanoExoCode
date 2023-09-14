@@ -75,10 +75,10 @@ public:
         _data->torque_error = utils::ewma(torque_error,
                         _data->torque_error, _data->torque_error_smoothing);
 
-        Serial.print(_id);
-        Serial.print(":");
-        Serial.print(torque_error);
-        Serial.print(_id < 60 ? "\t" : "\n");
+        //Serial.print(_id);
+        //Serial.print(":");
+        //Serial.print(torque_error);
+        //Serial.print(_id < 60 ? "\t" : "\n");
 
         return abs(torque_error) > 100*(1 - _data->transmission_efficiency_threshold);
     }

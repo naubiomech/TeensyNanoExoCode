@@ -163,7 +163,7 @@ namespace ble_handlers
             }
         );
 
-        logger::print("\n\n=============================== Started ==========================\n\n");
+        //logger::print("\n\n=============================== Started ==========================\n\n");
 
         // Set the data status to running
         data->set_status(status_defs::messages::trial_on);
@@ -343,12 +343,12 @@ namespace ble_handlers
     }
     inline static void new_trq(ExoData* data, BleMessage* msg)
     {
-        // logger::print("Ankle ID: "); logger::println((uint8_t)data->left_leg.ankle.id);
-        // logger::println("Got New Trq:");
-        // logger::print(msg->data[0]); logger::print("\t");
-        // logger::print(msg->data[1]); logger::print("\t");
-        // logger::print(msg->data[2]); logger::print("\t");
-        // logger::print(msg->data[3]); logger::print("\t\r\n");
+         //logger::print("Ankle ID: "); logger::println((uint8_t)data->left_leg.ankle.id);
+         //logger::println("Got New Trq:");
+         //logger::print(msg->data[0]); logger::print("\t");
+         //logger::print(msg->data[1]); logger::print("\t");
+         //logger::print(msg->data[2]); logger::print("\t");
+         //logger::print(msg->data[3]); logger::print("\t\r\n");
         // (LSP, LDSP, RSP, RDSP) Unpack message data
         config_defs::joint_id joint_id = (config_defs::joint_id)msg->data[0];
         uint8_t controller_id = (uint8_t)msg->data[1];
@@ -380,7 +380,7 @@ namespace ble_handlers
             cont_data = &data->right_leg.hip.controller;
         }
         if (cont_data == NULL) {
-            //logger::println("cont_data is NULL!");
+            logger::println("cont_data is NULL!", LogLevel::Warn);
         }
         if (cont_data != NULL) {
             cont_data->controller = controller_id;

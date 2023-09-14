@@ -246,6 +246,7 @@ void ComsMCU::_process_complete_gui_command(BleMessage* msg)
 {
     #if COMSMCU_DEBUG
     logger::println("ComsMCU::_process_complete_gui_command->Start");
+    BleMessage::print(*msg);
     #endif
     switch (msg->command)
     {

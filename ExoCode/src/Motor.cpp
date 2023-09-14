@@ -151,14 +151,14 @@ void _CANMotor::read_data()
                 _motor_data->v = direction_modifier * _uint_to_float(v_int, -_V_MAX, _V_MAX, 12);
                 _motor_data->i = direction_modifier * _uint_to_float(i_int, -_I_MAX, _I_MAX, 12);
 
-                if (_motor_data->is_left)
-                { 
-                    Serial.print(_motor_data->i);
-                    Serial.print(',');
-                    Serial.print(300);
-                    Serial.print(',');
-                    Serial.print("\n");
-                }
+                //if (_motor_data->is_left)
+                //{ 
+                //    Serial.print(_motor_data->i);
+                //    Serial.print(',');
+                //    Serial.print(300);
+                //    Serial.print(',');
+                //    Serial.print("\n");
+                //}
 
                 #ifdef MOTOR_DEBUG
                     logger::print("_CANMotor::read_data():Got data-");
@@ -388,7 +388,7 @@ void _CANMotor::set_Kt(float Kt)
 
 void _CANMotor::_handle_read_failure()
 {
-    logger::println("Read failure");
+    logger::println("CAN Motor - Handle Read Failure", LogLevel::Error);
     _motor_data->timeout_count++;
 };
 

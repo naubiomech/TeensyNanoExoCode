@@ -5,7 +5,7 @@
 #include "Logger.h"
 #include <Wire.h>
 
-#define RT_I2C_DEBUG 1
+//#define RT_I2C_DEBUG 1
 
 #define FIXED_POINT_FACTOR 100
 

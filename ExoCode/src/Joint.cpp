@@ -951,9 +951,9 @@ void AnkleJoint::run_joint()
 
     if (_is_left)
     {
-        logger::print("Left Ankle: ");
-        // print the motor command
-        logger::println(_joint_data->controller.setpoint);
+        //logger::print("Left Ankle: ");
+        //// print the motor command
+        //logger::println(_joint_data->controller.setpoint);
     }
 
     // Send the new command to the motor.

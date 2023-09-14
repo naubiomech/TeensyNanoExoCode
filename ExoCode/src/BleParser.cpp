@@ -166,7 +166,7 @@ void BleParser::_handle_command(char command)
         // Didnt find command in list
         _working_message.clear();
         logger::print("BleParser::_handle_command: Command is not in list: ", LogLevel::Error);
-        logger::print(command, LogLevel::Error);
+        logger::println(command, LogLevel::Error);
     }
     else
     {

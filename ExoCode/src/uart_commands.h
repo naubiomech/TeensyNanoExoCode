@@ -152,8 +152,8 @@ namespace UART_command_handlers
     inline static void update_controller_params(UARTHandler *handler, ExoData *exo_data, UART_msg_t msg)
     {
         // TODO: Error checking (valid controller for joint, and matching param length)
-        // logger::println("UART_command_handlers::update_controller_params->Got new params with msg: ");
-        // UART_msg_t_utils::print_msg(msg);
+         logger::println("UART_command_handlers::update_controller_params->Got new params with msg: ");
+         UART_msg_t_utils::print_msg(msg);
 
         JointData *j_data = exo_data->get_joint_with(msg.joint_id);
         if (j_data == NULL)
@@ -651,8 +651,8 @@ namespace UART_command_utils
             return;
         }
 
-        logger::println("UART_command_utils::handle_message->got message: ");
-        UART_msg_t_utils::print_msg(msg);
+        //logger::println("UART_command_utils::handle_message->got message: ");
+        //UART_msg_t_utils::print_msg(msg);
 
         switch (msg.command)
         {
