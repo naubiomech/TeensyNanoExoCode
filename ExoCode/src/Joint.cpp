@@ -105,6 +105,7 @@ void _Joint::read_data()
     
     _joint_data->position = _joint_data->motor.p / _joint_data->motor.gearing;
     _joint_data->velocity = _joint_data->motor.v / _joint_data->motor.gearing;
+
 };
 
 

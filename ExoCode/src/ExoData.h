@@ -103,9 +103,15 @@ class ExoData
 
         /**
          * @brief Set the default controller parameters for the current controller. These are the first row in the controller csv file
-         * 
+         *
          */
         void set_default_parameters();
+        
+        /**
+         * @brief Set the default controller parameters for the current controller. These are the first row in the controller csv file
+         * 
+         */
+        void set_default_parameters(uint8_t id);
 
         /**
          * @brief Start the pretrial calibration process

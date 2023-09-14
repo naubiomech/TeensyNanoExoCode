@@ -102,14 +102,32 @@ uint16_t ExoData::get_status(void)
 
 void ExoData::set_default_parameters()
 {
-    #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41)
-    this->for_each_joint([this](JointData* j_data, float* args) 
-    {
-        if (j_data->is_used)
+#if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41)
+    this->for_each_joint([this](JointData* j_data, float* args)
         {
-            set_controller_params((uint8_t)j_data->id, j_data->controller.controller, 0, this);
+            if (j_data->is_used)
+            {
+                set_controller_params((uint8_t)j_data->id, j_data->controller.controller, 0, this);
+            }
         }
-    });
+    );
+#endif
+}
+
+void ExoData::set_default_parameters(uint8_t id)
+{
+    #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41)
+    float f_id = static_cast<float>(id);
+    this->for_each_joint(
+        [this](JointData* j_data, float* args) 
+        {
+            if (j_data->is_used && (uint8_t)j_data->id == static_cast<uint8_t>(args[0]))
+            {
+                set_controller_params((uint8_t)j_data->id, j_data->controller.controller, 0, this);
+            }
+        },
+        &f_id
+    );
     #endif
 }
 
