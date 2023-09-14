@@ -4,11 +4,11 @@
 
 namespace rt_data 
 {
-    static int BILATERAL_HIP_ANKLE_RT_LEN = 8;
+    static int BILATERAL_HIP_ANKLE_RT_LEN = 10;
     static int BILATERAL_ANKLE_RT_LEN = 10;
-    static int BILATERAL_HIP_RT_LEN = 8;
-    static int RIGHT_KNEE = 8;
-    static const uint8_t len = BILATERAL_ANKLE_RT_LEN;
+    static int BILATERAL_HIP_RT_LEN = 10;
+    static int RIGHT_KNEE = 10;
+    static const uint8_t len = BILATERAL_HIP_ANKLE_RT_LEN;
     static float* float_values = new float(len);
 
     static bool new_rt_msg = false;

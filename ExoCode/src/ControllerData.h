@@ -61,100 +61,6 @@ namespace controller_defs /**< stores the parameter indexes for different contro
         const uint8_t d_gain_idx = 5;
         const uint8_t num_parameter = 6;
     }
-    
-    namespace extension_angle
-    {
-        // parameters for maximum exo extension and flexion torque.
-        const uint8_t flexion_setpoint_idx = 0;
-        const uint8_t extension_setpoint_idx = 1;
-        // Parameter for fraction of peak flexion angle where mode will switch to extension angle.
-        const uint8_t target_flexion_percent_max_idx = 2;
-        // Parameter for flag to reset the the peak range of motion angles.
-        const uint8_t clear_angle_idx = 3;
-        // angle where the system will switch from extension assistance to flexion assistance
-        const uint8_t angle_threshold_idx = 4;
-        // Velocity where the system will switch from flexion assistance to extension assistance, if velocity inverts before the target_flexion_percent_max
-        // !! Value should be NEGATIVE !!
-        const uint8_t velocity_threshold_idx = 5; 
-        const uint8_t use_pid_idx = 6;
-        const uint8_t p_gain_idx = 7;
-        const uint8_t i_gain_idx = 8;
-        const uint8_t d_gain_idx = 9;
-        const uint8_t num_parameter = 10;
-    }
-    
-    namespace bang_bang
-    {
-        // parameters for maximum exo extension and flexion torque.
-        const uint8_t flexion_setpoint_idx = 0;
-        const uint8_t extension_setpoint_idx = 1;
-        // Parameter for fraction of peak flexion angle where mode will switch to extension angle.
-        const uint8_t is_assitance_idx = 2;
-        // Parameter for fraction of peak flexion angle where mode will switch to extension angle.
-        const uint8_t target_flexion_percent_max_idx = 3;
-        // Parameter for flag to reset the the peak range of motion angles.
-        const uint8_t clear_angle_idx = 4;
-        // angle where the system will switch from extension assistance to flexion assistance
-        const uint8_t angle_threshold_idx = 5;
-        // Velocity where the system will switch from flexion assistance to extension assistance, if velocity inverts before the target_flexion_percent_max
-        // !! Value should be NEGATIVE !!
-        const uint8_t velocity_threshold_idx = 6; 
-        const uint8_t use_pid_idx = 7;
-        const uint8_t p_gain_idx = 8;
-        const uint8_t i_gain_idx = 9;
-        const uint8_t d_gain_idx = 10;
-        const uint8_t num_parameter = 11;
-    }
-
-    namespace late_stance
-    {
-        // parameters for late stance torque.
-        const uint8_t resistance_setpoint_idx = 0;
-        // Parameter for fraction of peak flexion angle where mode will switch to extension angle.
-        const uint8_t angle_on_off = 1;
-        // Parameter for flag to reset the the peak range of motion angles.
-        const uint8_t clear_angle_idx = 2;
-        // Velocity where the system will switch from on to off,
-        // !! Value should be NEGATIVE !!
-        const uint8_t velocity_threshold_idx = 3;
-        const uint8_t use_pid_idx = 4;
-        const uint8_t p_gain_idx = 5;
-        const uint8_t i_gain_idx = 6;
-        const uint8_t d_gain_idx = 7;
-        const uint8_t num_parameter = 8;
-    }
-
-    namespace gait_phase
-    {
-        // parameters for gait phase torque.
-        const uint8_t flexion_setpoint_idx = 0;
-        const uint8_t extension_setpoint_idx = 1;
-        // Parameter for fraction of peak flexion angle where mode will switch to extension angle.
-        const uint8_t flexion_start_percentage_idx = 2;
-        const uint8_t flexion_end_percentage_idx = 3;
-        const uint8_t extension_start_percentage_idx = 4;
-        const uint8_t extension_end_percentage_idx = 5;
-        //Parameter to set slope of line between each point (for "smoothing" purposes) 
-        const uint8_t slope_idx = 6;
-        //Flag for PID contorl and associated gains
-        const uint8_t use_pid_idx = 7;
-        const uint8_t p_gain_idx = 8;
-        const uint8_t i_gain_idx = 9;
-        const uint8_t d_gain_idx = 10;
-        const uint8_t num_parameter = 11;
-    }
-
-    namespace parabolic
-    {
-        // parameters for gait phase torque.
-        const uint8_t flexion_setpoint_idx = 0;
-        const uint8_t extension_setpoint_idx = 1;
-        const uint8_t flexion_start_percentage_idx = 2;
-        const uint8_t flexion_end_percentage_idx = 3;
-        const uint8_t extension_start_percentage_idx = 4;
-        const uint8_t extension_end_percentage_idx = 5;
-        const uint8_t num_parameter = 6;
-    }
 
     namespace zhang_collins
     {
@@ -189,42 +95,6 @@ namespace controller_defs /**< stores the parameter indexes for different contro
         const uint8_t d_gain_idx = 13;                          //Value of D Gain for PID control 
         const uint8_t num_parameter = 14;                   
     }
-    
-    // namespace user_defined
-    // {
-        // const uint8_t num_sample_points = 50;  // not an index
-        
-        // const uint8_t mass_idx = 0; 
-        // const uint8_t use_pid_idx = 1;
-        // const uint8_t p_gain_idx = 2;
-        // const uint8_t i_gain_idx = 3;
-        // const uint8_t d_gain_idx = 4;
-        // const uint8_t curve_start_idx = 5;
-        // const uint8_t curve_stop_idx = curve_start_idx+num_sample_points;
-        // const uint8_t num_parameter = curve_stop_idx+1;
-    // }
-    
-    namespace sine
-    {
-        const uint8_t amplitude_idx = 0;    // amplitude in Nm
-        const uint8_t period_idx = 1;       // period in ms
-        const uint8_t phase_shift_idx = 2;  // phase shift in rad
-        const uint8_t use_pid_idx = 3;
-        const uint8_t p_gain_idx = 4;
-        const uint8_t i_gain_idx = 5;
-        const uint8_t d_gain_idx = 6;
-        const uint8_t num_parameter = 7;
-    }
-
-    namespace perturbation
-    {
-        const uint8_t amplitude_idx = 0;            // amplitude in Nm
-        const uint8_t threshold_start_idx = 1;      // percent gait start
-        const uint8_t threshold_end_idx = 2;        // percent gait end
-        const uint8_t direction_idx = 3;            // direction (0 = plantarflexion, 1 = dorsiflexion)
-        const uint8_t num_parameter = 4;
-            ;
-    }
 
     namespace constant_torque
     {
@@ -236,13 +106,6 @@ namespace controller_defs /**< stores the parameter indexes for different contro
         const uint8_t num_parameter = 3;
         ;
     }
-    /*
-     * Add phase delayed controller for hip
-     * peak and trough magnitude defined.
-     * Delay based on percent gait.
-     *
-     */
-    
 
     namespace elbow_min_max
     {
@@ -253,7 +116,6 @@ namespace controller_defs /**< stores the parameter indexes for different contro
         
         
     }
-
 
     namespace ptb_general 
     {
@@ -290,6 +152,40 @@ namespace controller_defs /**< stores the parameter indexes for different contro
 		const uint8_t calibr_cmd = 0;
 		const uint8_t num_parameter = 1;
 	}
+
+    namespace hip_resist
+    {
+        // parameters for maximum exo extension and flexion torque.
+        const uint8_t flexion_setpoint_idx = 0;
+        const uint8_t extension_setpoint_idx = 1;
+        const uint8_t direction_idx = 2;
+        const uint8_t num_parameter = 3;
+    }
+
+    namespace chirp
+    {
+        // Parameters for Sine Wave Used in Chirp Testing
+        const uint8_t amplitude_idx = 0;
+        const uint8_t start_frequency_idx = 1;
+        const uint8_t end_frequency_idx = 2;
+        const uint8_t duration_idx = 3;
+        const uint8_t yshift_idx = 4;
+        const uint8_t pid_flag_idx = 5;
+        const uint8_t p_gain_idx = 6;
+        const uint8_t i_gain_idx = 7;
+        const uint8_t d_gain_idx = 8;
+        const uint8_t num_parameter = 9;
+    }
+
+    namespace step
+    {
+        // Parameters for step torque used in max torque capacity testing
+        const uint8_t amplitude_idx = 0;
+        const uint8_t duration_idx = 1;
+        const uint8_t repetitions_idx = 2;
+        const uint8_t spacing_idx = 3;
+        const uint8_t num_parameter = 4;
+    }
 
     const uint8_t max_parameters = franks_collins_hip::num_parameter;//user_defined::num_parameter;  // this should be the largest of all the num_parameters
 }

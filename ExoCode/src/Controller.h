@@ -238,176 +238,6 @@ class HeelToe: public _Controller
 };
 
 /**
- * @brief Extension Angle Controller
- * This controller is for the hip joint 
- * Applies torque based on the angle of the hip while extending, 
- * then a const torque while flexing
- * 
- * 2022-02 : This controller was conceptualized by Z. Lerner and written by P. Stegall
- * 
- * see ControllerData.h for details on the parameters used.
- */
-class ExtensionAngle: public _Controller
-{
-    public:
-        ExtensionAngle(config_defs::joint_id id, ExoData* exo_data);
-        ~ExtensionAngle(){};
-        
-        float calc_motor_cmd();
-    private:
-       /**
-        * @brief calculates the largest angle that the joint has experienced and updates the _max_angle and _min_angle members.
-        * 
-        * @param current angle for the joint
-        */
-        void _update_max_angle(float angle);
-        
-        /**
-        * @brief updates the state for if we are doing the hip or the swing phase control
-        * 
-        * @param current angle for the joint
-        */
-        void _update_state(float angle);
-        
-        /**
-        * @brief Resets the _max_angle and _min_angle members to the default values. 
-        */
-        void _reset_angles();
-        
-        // the initial angles used for tracking the extent of the range of motions 
-        const float _initial_max_angle = utils::degrees_to_radians(10); /**< Initial value to set the max angle to, should be a physiologically feasible value that a person is likely to exceed but won't cause the controller to act strange. */
-        const float _initial_min_angle = utils::degrees_to_radians(-5); /**< Initial value to set the min angle to, should be a physiologically feasible value that a person is likely to exceed but won't cause the controller to act strange. */
-        
-        // Used to track the range of motion, angles are in rad.
-        float _max_angle; /**< The max angle the joint has experienced */
-        float _min_angle; /**< The max angle the joint has experienced */
-        
-        uint8_t _state; /**< Used to track the state 0 is extension mode, 1 is flexion mode. */
-      
-};
-
-/**
- * @brief BangBang Controller
- * This controller is for the hip joint, but can potentially be applied to other joints 
- * Applies const torque while extending, 
- * then a const torque while flexing
- * 
- * 2022-04 : Based on extension angle controller written by P. Stegall
- * 
- * see ControllerData.h for details on the parameters used.
- */
-class BangBang: public _Controller
-{
-    public:
-        BangBang(config_defs::joint_id id, ExoData* exo_data);
-        ~BangBang(){};
-        
-        float calc_motor_cmd();
-    private:
-        /**
-        * @brief calculates the largest angle that the joint has experienced and updates the _max_angle and _min_angle members.
-        * 
-        * @param current angle for the joint
-        */
-        void _update_max_angle(float angle);
-        
-        /**
-        * @brief updates the state for if we are doing the hip or the swing phase control
-        * 
-        * @param current angle for the joint
-        */
-        void _update_state(float angle);
-        
-        /**
-        * @brief Resets the _max_angle and _min_angle members to the default values. 
-        */
-        void _reset_angles();
-        
-        // the initial angles used for tracking the extent of the range of motions 
-        const float _initial_max_angle = utils::degrees_to_radians(20); /**< Initial value to set the max angle to, should be a physiologically feasible value that a person is likely to exceed but won't cause the controller to act strange. */
-        const float _initial_min_angle = utils::degrees_to_radians(-5); /**< Initial value to set the min angle to, should be a physiologically feasible value that a person is likely to exceed but won't cause the controller to act strange. */
-        
-        // Used to track the range of motion, angles are in rad.
-        float _max_angle; /**< The max angle the joint has experienced */
-        float _min_angle; /**< The max angle the joint has experienced */
-        
-        uint8_t _state; /**< Used to track the state 0 is extension mode, 1 is flexion mode. */
-      
-};
-
-/*
- * LateStance Controller
- * This controller is for the hip joint
- * Applies const torque during late stance
- *
- * see ControllerData.h for details on the parameters used.
- */
-class LateStance : public _Controller
-{
-public:
-    LateStance(config_defs::joint_id id, ExoData* exo_data);
-    ~LateStance(){};
-
-    float calc_motor_cmd();
-private:
-    void _update_max_angle(float angle);
-    void _update_state(float angle);
-    void _reset_angles();
-
-    // the initial angles used for tracking the extent of the range of motions 
-    const float _initial_max_angle = utils::degrees_to_radians(20);
-    const float _initial_min_angle = utils::degrees_to_radians(-5);
-
-    // Used to track the range of motion, angles are in rad.
-    float _max_angle;
-    float _min_angle;
-
-    // Used to track the state 0 is extension mode, 1 is flexion mode.
-    uint8_t _state;
-
-};
-
-/*
- * GaitPhase Controller
- * This controller is for the hip joint
- * Applies flexion or extension torque as a function of the gait phase (needs heel and toe FSRs)
- *
- * see ControllerData.h for details on the parameters used.
- * 
- * This controller is still in development, this is just meant to be a framework for the controller that will be filled out with time
- */
-class GaitPhase : public _Controller
-{
-    public:
-        GaitPhase(config_defs::joint_id id, ExoData* exo_data);
-        ~GaitPhase(){};
-
-        float calc_motor_cmd();
-
-        float slope;
-        float state;
-
-};
-
-/*
- * Parabolic Controller
- * This controller is for the hip joint
- * Applies flexion or extension torque as a function of the gait phase (needs heel and toe FSRs)
- *
- * see ControllerData.h for details on the parameters used.
- *
- * This controller is still in development, this is just meant to be a framework for the controller that will be filled out with time
- */
-class Parabolic : public _Controller
-{
-public:
-    Parabolic(config_defs::joint_id id, ExoData* exo_data);
-    ~Parabolic() {};
-
-    float calc_motor_cmd();
-};
-
-/**
  * @brief Zhang Collins Controller
  * This controller is for the ankle joint 
  * Applies ramp between t0 and t1 to (t1, ts).
@@ -470,71 +300,6 @@ class FranksCollinsHip: public _Controller
        
 };
 
-/**
- * @brief UserDefined Controller
- * This controller uses a simple lookup table with interpolation between values.
- * Assumes table is evenly spaced across percent gait, 0 to 100 where f(0) = f(100)
- * ex. controller_data
- * 
- * 2022-05 : by P. Stegall
- * 
- * see ControllerData.h for details on the parameters used.
- */
-// class UserDefined: public _Controller
-// {
-    // public:
-        // UserDefined(config_defs::joint_id id, ExoData* exo_data);
-        // ~UserDefined(){};
-        
-        // float calc_motor_cmd();
-    // private:
-        // float _percent_x[controller_defs::user_defined::num_sample_points];
-        // const float _step_size = 100/controller_defs::user_defined::num_sample_points;
-        
-        
-// };
-
-/**
- * @brief Sine Controller
- * This controller plays a sine wave with a defined amplitude, period, and phase shift
- * returns amp * sine (frac_of_period * 2 * pi + phase_shift)
- * where frac_of_period is (time % period)/period
- * 
- * 2022-05 : by P. Stegall
- * 
- * see ControllerData.h for details on the parameters used.
- */
-class Sine: public _Controller
-{
-    public:
-        Sine(config_defs::joint_id id, ExoData* exo_data);
-        ~Sine(){};
-        
-        float calc_motor_cmd();
-    private:
-        
-        
-};
-
-/**
- * @brief Perturbation Controller
- * This controller is meant to work with both the hip and ankle exoskeletons
- * It can apply a torque with a defined amplitude for a user defined duration of time in a user defined direciton (PF/DF)
- *
- * 2022-11 : by J. Williams
- *
- * see ControllerData.h for details on the parameters used.
- */
-
-class Perturbation : public _Controller
-{
-public:
-    Perturbation(config_defs::joint_id id, ExoData* exo_data);
-    ~Perturbation() {};
-
-    float calc_motor_cmd();
-};
-
 class ConstantTorque : public _Controller
 {
 public:
@@ -573,6 +338,63 @@ public:
     ~CalibrManager() {};
 
     float calc_motor_cmd();
+};
+
+class HipResist : public _Controller
+{
+public:
+    HipResist(config_defs::joint_id id, ExoData* exo_data);
+    ~HipResist() {};
+
+    float cmd;                      /* Stores the command to be sent to the motors. */
+    float angle;                    /* Stores the angle reading from the motors. */
+    float previous_angle;           /* Stores the angle reading from the last iteration. */
+    float previous_cmd;             /* Stores the command from the last iteration. */
+
+    float angular_change;           /* Finds the difference between the current angle and the previous angle. */
+    float previous_angular_change;  /* Stores the angular change from the previous iteration. */
+
+    float max_angle;                /* Stores the maximum angle. */
+    float min_angle;                /* Stores the minimum angle. */
+
+    int state;                      /* Flag used to determine which motor command to use. */
+
+    int flag; 
+    float initial_angle;
+
+    float calc_motor_cmd();         /* Function that calculates the motor command. */
+};
+
+class Chirp : public _Controller
+{
+public:
+    Chirp(config_defs::joint_id id, ExoData* exo_data);
+    ~Chirp() {};
+
+    float start_flag;               /* Flag that triggers recording of the initial start time of the controller upon usage. */
+    float start_time;               /* Variable that stores the start time of the controller. */
+    float current_time;             /* Variable that stores the current time of the controller. */
+    float previous_amplitude;       /* Variable that stores the previous amplitude, used as a switch to restart the controller if needed. (Set amplitude to 0 and then set to desired amplitude). */
+
+    float calc_motor_cmd();         /* Function that calculates the motor command. */
+
+};
+
+class Step : public _Controller
+{
+public:
+    Step(config_defs::joint_id id, ExoData* exo_data);
+    ~Step() {};
+
+    int n;                          /* Keeps track of how many steps have been performed. */
+    int start_flag;                 /* Flag that triggers the recording of the time that the step is first applied. */
+    float start_time;               /* Time that the step was first applied. */
+    float cmd;                      /* Motor command. */
+    float previous_time;            /* Stores time from previous iteration. */
+    float end_time;                 /* Records time that step ended. */
+
+    float calc_motor_cmd();         /* Function that calculates the motor command. */
+
 };
 
 #endif

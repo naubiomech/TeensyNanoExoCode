@@ -134,10 +134,10 @@ void _CANMotor::read_data()
         {
             int direction_modifier = _motor_data->flip_direction ? -1 : 1;
 
-            if (!_motor_data->is_left)
-            {
-                direction_modifier *= -1;
-            }
+            //if (!_motor_data->is_left)
+            //{
+            //    direction_modifier *= -1;
+            //}
 
             CAN_message_t msg = can->read();
             if (msg.buf[0] == uint32_t(_motor_data->id))
@@ -150,6 +150,15 @@ void _CANMotor::read_data()
                 _motor_data->p = direction_modifier * _uint_to_float(p_int, -_P_MAX, _P_MAX, 16);
                 _motor_data->v = direction_modifier * _uint_to_float(v_int, -_V_MAX, _V_MAX, 12);
                 _motor_data->i = direction_modifier * _uint_to_float(i_int, -_I_MAX, _I_MAX, 12);
+
+                if (_motor_data->is_left)
+                { 
+                    Serial.print(_motor_data->i);
+                    Serial.print(',');
+                    Serial.print(300);
+                    Serial.print(',');
+                    Serial.print("\n");
+                }
 
                 #ifdef MOTOR_DEBUG
                     logger::print("_CANMotor::read_data():Got data-");
@@ -182,10 +191,10 @@ void _CANMotor::send_data(float torque)
 
     int direction_modifier = _motor_data->flip_direction ? -1 : 1;
 
-    if (!_motor_data->is_left)
-    {
-        direction_modifier *= -1;
-    }
+    //if (!_motor_data->is_left)
+    //{
+    //    direction_modifier *= -1;
+    //}
 
     _motor_data->t_ff = torque;
     const float current = torque / get_Kt();

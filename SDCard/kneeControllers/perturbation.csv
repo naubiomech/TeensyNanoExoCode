@@ -1,6 +1,0 @@
-5,"header Size, the first N rows will be ignored, except for this first cells in the first two rows",,
-4,"parameter number, the number of parameters to read per line",,
-,Parameter list for the  Sine controller,,
-,Parameter order:,,
-Ampitude(Nm),Gait Start (% Gait Cycle),Gait End (% Gait Cycle),"Direction (0 =  PF, 1 = DF)"
-0,0,0,0

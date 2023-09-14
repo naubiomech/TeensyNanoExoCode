@@ -9,6 +9,16 @@ has style guides and C++ development help. Your code should be commented in the
 [Doxygen](https://www.doxygen.nl/manual/docblocks.html) format. For help with this
 and for help with generating the Doxygen output see [DOXY_HELP](/Documentation/DOXY_HELP.md).
 
+## Ideal Development Workflow
+This section will detail a step-by-step guide to making changes to the codebase. 
+1. Create a new branch for your bug-fix or change with a descriptive name. See [Branch Management](#branch-management) for more
+details.
+2. Being sure to write code that will not impact the workflow of others, make your changes. Remember
+to commit frequently and test as you go. See [debugging](/Documentation/Debugging.md) for more details. 
+3. Validate that your changes function as expected on all applicable systems and supported board versions. 
+Remember to profile your code, this ensures that you dont harm the codebases timing. See [profiling](/Documentation/Profiling.md) for more details. 
+4. Once everything has been validated, merge your feature branch into main.
+
 ## Suggested Dev Tools
 I (Chancelor Cuddeback) use VSCode for much of my programming, but you can use whatever 
 tool you prefer. VSCode is nice because is has a couple of extensions that make
@@ -24,7 +34,8 @@ VSCode can be overwhelming at first but you can very quickly become productive. 
 going to be using it to program a lot, I suggest taking the time to learn how to best
 use it [here](https://code.visualstudio.com/learn/get-started/basics)
 
-## Branch Managment
+## Branch Management
+### Branch Strategy
 All changes to main require a pull request to be reviewed by another person. Please follow the Github Flow Branch Strategy, detailed [here](https://www.gitkraken.com/learn/git/best-practices/git-branch-strategy#github-flow-branch-strategy).
 In this branch strategy the main branch is protected from frequent pushes and should at
 all times be deployable. New features are added in what are called feature branches.
@@ -32,8 +43,13 @@ Feature branches should be created frequently for every small change, there shou
 direct changes to main! You can and should push changes to feature branches very
 frequently. Once you have THOROUGHLY tested your feature branch, you may submit a pull
 request to main. The feature branch should have a descriptive name. For example, if
-you're working on implementing a new hip controller the branch name would be
+you're working on implementing a new hip controller the branch name could be
 'controllername-hip-controller'.
+
+### Branch Deletion
+Once a branch is not needed, meaning that it has been merged and validated, it could be deleted. This is up to the creator of the branch or someone
+cleaning up old branches. Its best to keep a branch around in the even that its changes need to be debugged, but if it's properly validated there 
+should be no need to debug the branch. 
 
 
 ## Libraries

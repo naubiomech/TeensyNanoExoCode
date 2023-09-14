@@ -171,18 +171,13 @@ class HipJoint : public _Joint
 
         ZeroTorque _zero_torque; /**< zero torque controller */
         HeelToe _heel_toe; /**< heel toe controller, not currently configured */
-        ExtensionAngle _extension_angle; /**< extension angle controller */
-        BangBang _bang_bang; /**< bang bang controller */
-        LateStance _late_stance; /**<late stance controller */
-        GaitPhase _gait_phase; /**<gait phase controller */
         FranksCollinsHip _franks_collins_hip; /**< Franks Collins Hip controller */
-        // UserDefined _user_defined; /**< user defined controller*/
-        Sine _sine; /**< sine wave controller */
         Stasis _stasis; /**< stasis controller */
-        Perturbation _perturbation;    /**< perturbation controller */
-        Parabolic _parabolic;    /**< parabolic controller */
         ConstantTorque _constant_torque; /**< constant torque controller*/
         PtbGeneral _ptb_general; /**< Generalized Perturbation Controller>*/
+        HipResist _hip_resist; /**< Generalized Perturbation Controller>*/
+        Chirp _chirp;
+        Step _step;
 };
 
 /**
@@ -210,12 +205,11 @@ class KneeJoint : public _Joint
     protected:
         // Objects for joint specific controllers	
         ZeroTorque _zero_torque; /**< zero torque controller */
-        // UserDefined _user_defined; /**< user defined controller*/
-        Sine _sine; /**< sine wave controller */
         Stasis _stasis; /**< stasis controller */
-        Perturbation _perturbation;    /**< perturbation controller */
         ConstantTorque _constant_torque; /**< constant torque controller*/
         ElbowMinMax _elbow_min_max;
+        Chirp _chirp;
+        Step _step;
 };
 
 /**
@@ -249,15 +243,14 @@ class AnkleJoint : public _Joint
         ZeroTorque _zero_torque;  /**< zero torque controller */
         ProportionalJointMoment _proportional_joint_moment;/**< Proportional joint moment controller */
         ZhangCollins _zhang_collins;/**< Zhang Collins controller */
-        // UserDefined _user_defined; /**< user defined controller*/
-        Sine _sine; /**< sine wave controller */
         Stasis _stasis; /**< stasis controller */
-        Perturbation _perturbation;    /**< perturbation controller */
         ConstantTorque _constant_torque; /**< constant torque controller*/
         PtbGeneral _ptb_general; /**< Generalized Perturbation Controller>*/
         PropulsiveAssistive _propulsive_assistive; /**< Propulsive Assistive */
 		ElbowMinMax _elbow_min_max; /**< Arm exo controller */
 		CalibrManager _calibr_manager; /**< Calibration Manager "Controller" */
+        Chirp _chirp;
+        Step _step;
         
 };
 

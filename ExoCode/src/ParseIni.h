@@ -127,30 +127,24 @@ namespace config_defs
         disabled = 1,
         zero_torque = 2,
         heel_toe = 3,
-        extension_angle = 4,
-        franks_collins_hip = 5,
-        bang_bang = 6,
-        late_stance = 7,
-        gait_phase = 8,
-        user_defined = 9,
-        sine = 10,
-        stasis = 11,
-        perturbation = 12,
-        parabolic = 13,
-        constant_torque = 14,
-        ptb_general = 15,
+        franks_collins_hip = 4,
+        stasis = 5,
+        constant_torque = 6,
+        ptb_general = 7,
+        hip_resist = 8,
+        chirp = 9,
+        step = 10,
     };
     
     enum class knee_controllers : uint8_t
     {
         disabled = 1,
         zero_torque = 2,
-        user_defined = 3,
-        sine = 4,
-        stasis = 5,
-        perturbation = 6,
-        constant_torque = 7,
-        elbow_min_max = 8,
+        stasis = 3,
+        constant_torque = 4,
+        elbow_min_max = 5,
+        chirp = 6,
+        step = 7,
     };
         
     enum class ankle_controllers : uint8_t
@@ -159,15 +153,14 @@ namespace config_defs
         zero_torque = 2, 
         pjmc = 3,
         zhang_collins = 4,
-        user_defined = 5,
-        sine = 6,
-        stasis = 7,
-        perturbation = 8,
-        constant_torque = 9,
-        ptb_general = 10,
-        gasp = 11,
-		elbow_min_max = 12,
-		calibr_manager = 13,
+        stasis = 5,
+        constant_torque = 6,
+        ptb_general = 7,
+        gasp = 8,
+		elbow_min_max = 9,
+		calibr_manager = 10,
+        chirp = 11,
+        step = 12,
     };
     
     enum class flip_dir : uint8_t
@@ -362,30 +355,24 @@ namespace config_defs
             {"0", (uint8_t)config_defs::hip_controllers::disabled}, 
             {"zeroTorque", (uint8_t)config_defs::hip_controllers::zero_torque}, 
             {"heelToe", (uint8_t)config_defs::hip_controllers::heel_toe},
-            {"extensionAngle", (uint8_t)config_defs::hip_controllers::extension_angle},
             {"franksCollinsHip", (uint8_t)config_defs::hip_controllers::franks_collins_hip},
-            {"bangBang", (uint8_t)config_defs::hip_controllers::bang_bang},
-            {"lateStance", (uint8_t)config_defs::hip_controllers::late_stance},
-            {"gaitPhase", (uint8_t)config_defs::hip_controllers::gait_phase},
-            {"userDefined", (uint8_t)config_defs::hip_controllers::user_defined},
-            {"sine", (uint8_t)config_defs::hip_controllers::sine},
             {"stasis", (uint8_t)config_defs::hip_controllers::stasis},
-            {"perturbation", (uint8_t)config_defs::hip_controllers::perturbation},
-            {"parabolic", (uint8_t)config_defs::hip_controllers::parabolic},
             {"constantTorque", (uint8_t)config_defs::hip_controllers::constant_torque},
             {"ptbGeneral", (uint8_t)config_defs::hip_controllers::ptb_general},
+            {"hipResist", (uint8_t)config_defs::hip_controllers::hip_resist},
+            {"chirp", (uint8_t)config_defs::hip_controllers::chirp},
+            {"step", (uint8_t)config_defs::hip_controllers::step},
         };
         
         const IniKeyCode knee_controllers 
         { 
             {"0", (uint8_t)config_defs::knee_controllers::disabled}, 
             {"zeroTorque", (uint8_t)config_defs::knee_controllers::zero_torque}, 
-            {"userDefined", (uint8_t)config_defs::knee_controllers::user_defined},
-            {"sine", (uint8_t)config_defs::knee_controllers::sine},
             {"stasis", (uint8_t)config_defs::knee_controllers::stasis},
-            {"perturbation", (uint8_t)config_defs::knee_controllers::perturbation},
             {"constantTorque", (uint8_t)config_defs::knee_controllers::constant_torque},
             {"elbowMinMax", (uint8_t)config_defs::knee_controllers::elbow_min_max},
+            {"chirp", (uint8_t)config_defs::knee_controllers::chirp},
+            {"step", (uint8_t)config_defs::knee_controllers::step},
         };
         
         const IniKeyCode ankle_controllers 
@@ -394,15 +381,14 @@ namespace config_defs
             {"zeroTorque", (uint8_t)config_defs::ankle_controllers::zero_torque}, 
             {"PJMC", (uint8_t)config_defs::ankle_controllers::pjmc},
             {"zhangCollins", (uint8_t)config_defs::ankle_controllers::zhang_collins},
-            {"userDefined", (uint8_t)config_defs::ankle_controllers::user_defined},
-            {"sine", (uint8_t)config_defs::ankle_controllers::sine},
             {"stasis", (uint8_t)config_defs::ankle_controllers::stasis},
-            {"perturbation", (uint8_t)config_defs::ankle_controllers::perturbation},
             {"constantTorque", (uint8_t)config_defs::ankle_controllers::constant_torque},
             {"ptbGeneral", (uint8_t)config_defs::ankle_controllers::ptb_general},
             {"GAsP", (uint8_t)config_defs::ankle_controllers::gasp},
 			{"elbowMinMax", (uint8_t)config_defs::ankle_controllers::elbow_min_max},
 			{"calibrManager", (uint8_t)config_defs::ankle_controllers::calibr_manager},
+            {"chirp", (uint8_t)config_defs::ankle_controllers::chirp},
+            {"step", (uint8_t)config_defs::ankle_controllers::step},
         };  
         
         const IniKeyCode flip_dir 

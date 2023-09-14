@@ -1,6 +1,0 @@
-5,"header Size, the first N rows will be ignored, except for this first cells in the first two rows",,,,,,,,,
-11,"parameter number, the number of parameters to read per line",,,,,,,,,
-,Parameter list for the BangBang controller,,,,,,,,,
-,Parameter order:,,,,,,,,,
-Flex Setpoint (Nm),Extension Setpoint  (Nm) Should be Negative,Assistance (1)/Resistance(0),Target Flexion Percent Max,clear angle,angle threshold,velocity threshold should be negative,use_pid,p_gain,i_gain,d_gain
-2,-8,1,80,0,0.0872,-0.175,0,0,0,0
