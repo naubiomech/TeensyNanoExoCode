@@ -1772,6 +1772,10 @@ float CalibrManager::calc_motor_cmd()
 		cmd = 3.5;
 		Serial.print("  |  Left cmd: ");
 		Serial.print(cmd);
+		Serial.print("  |  Left toe FSR: ");
+		Serial.print(_leg_data->toe_fsr);
+		Serial.print("  |  Left heel FSR: ");
+		Serial.print(_leg_data->heel_fsr);
 	}
 	else {
 		Serial.print("  |  Right angle: ");
@@ -1781,6 +1785,10 @@ float CalibrManager::calc_motor_cmd()
 		cmd = 3.5;
 		Serial.print("  |  Right cmd: ");
 		Serial.print(cmd);
+		Serial.print("  |  Right toe FSR: ");
+		Serial.print(_leg_data->toe_fsr);
+		Serial.print("  |  Right heel FSR: ");
+		Serial.print(_leg_data->heel_fsr);
 		Serial.print("  |  doToeRefinement: ");
 		Serial.print(String(_leg_data->do_calibration_refinement_toe_fsr));
 		Serial.print("  |  Exo status: ");

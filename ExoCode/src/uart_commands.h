@@ -332,44 +332,44 @@ namespace UART_command_handlers
                 rx_msg.data[6] = exo_data->right_leg.toe_fsr;
                 rx_msg.data[7] = exo_data->left_leg.toe_fsr;
 				
-				////TREC Plot
-				////Right Torque
-				////rx_msg.data[0] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
-				//rx_msg.data[0] = exo_data->left_leg.ankle.controller.filtered_torque_reading;
-				////rx_msg.data[0] = exo_data->right_leg.ankle.controller.setpoint;
-				////Right State. Only integer values will be plotted for rx_msg.data[1]
-    //            rx_msg.data[1] = exo_data->right_leg.toe_stance;
-				////Right Set
-    //            //rx_msg.data[2] = exo_data->right_leg.ankle.controller.filtered_squelched_supportive_term;
-				////rx_msg.data[2] = exo_data->right_leg.ankle.torque_reading;
-				////rx_msg.data[2] = exo_data->right_leg.ankle.controller.ff_setpoint;
-				////rx_msg.data[2] = exo_data->right_leg.ankle.controller.setpoint;
-				////rx_msg.data[2] = exo_data->right_leg.ankle.controller.previousMaxCmdCache;
-				//rx_msg.data[2] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
-				////rx_msg.data[2] = exo_data->right_leg.ankle.controller.numBelow500;
-				////Left Torque
-    //            //rx_msg.data[3] = exo_data->left_leg.ankle.controller.filtered_torque_reading;
-				//rx_msg.data[3] = exo_data->left_leg.ankle.joint_position;
-				////Left State. Only integer values will be plotted for rx_msg.data[1]
-    //            rx_msg.data[4] = exo_data->left_leg.toe_stance;
-				////Left Set
-    //            //rx_msg.data[5] = exo_data->left_leg.ankle.controller.filtered_squelched_supportive_term;
-				////rx_msg.data[5] = exo_data->left_leg.ankle.torque_reading;
-				////rx_msg.data[5] = exo_data->left_leg.ankle.controller.ff_setpoint;
-				////rx_msg.data[5] = exo_data->left_leg.ankle.controller.setpoint;
-				////rx_msg.data[5] = exo_data->left_leg.ankle.controller.previousMaxCmdCache;
-				////rx_msg.data[5] = exo_data->left_leg.ankle.controller.numBelow500;
-				//rx_msg.data[5] = exo_data->right_leg.ankle.joint_position;
-				////Right FSR
-    //            //rx_msg.data[6] = exo_data->right_leg.toe_fsr;
-				////rx_msg.data[6] =exo_data->right_leg.ankle.joint_position;
-				////rx_msg.data[6] =exo_data->right_leg.ankle.controller.stateless_pjmc_term;
-				//rx_msg.data[6] = exo_data->right_leg.heel_fsr;
-				////Left FSR
-    //            //rx_msg.data[7] = exo_data->left_leg.toe_fsr;
-				////rx_msg.data[7] = exo_data->left_leg.ankle.joint_position;
-				////rx_msg.data[7] =exo_data->left_leg.ankle.controller.stateless_pjmc_term;
-				//rx_msg.data[7] = exo_data->left_leg.heel_fsr;
+				//TREC Plot
+				//Right Torque
+				//rx_msg.data[0] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
+				rx_msg.data[0] = exo_data->left_leg.ankle.controller.filtered_torque_reading;
+				//rx_msg.data[0] = exo_data->right_leg.ankle.controller.setpoint;
+				//Right State. Only integer values will be plotted for rx_msg.data[1]
+               rx_msg.data[1] = exo_data->right_leg.toe_stance;
+				//Right Set
+               //rx_msg.data[2] = exo_data->right_leg.ankle.controller.filtered_squelched_supportive_term;
+				//rx_msg.data[2] = exo_data->right_leg.ankle.torque_reading;
+				//rx_msg.data[2] = exo_data->right_leg.ankle.controller.ff_setpoint;
+				//rx_msg.data[2] = exo_data->right_leg.ankle.controller.setpoint;
+				//rx_msg.data[2] = exo_data->right_leg.ankle.controller.previousMaxCmdCache;
+				rx_msg.data[2] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
+				//rx_msg.data[2] = exo_data->right_leg.ankle.controller.numBelow500;
+				//Left Torque
+               //rx_msg.data[3] = exo_data->left_leg.ankle.controller.filtered_torque_reading;
+				rx_msg.data[3] = exo_data->left_leg.ankle.joint_position;
+				//Left State. Only integer values will be plotted for rx_msg.data[1]
+               rx_msg.data[4] = exo_data->left_leg.toe_stance;
+				//Left Set
+               //rx_msg.data[5] = exo_data->left_leg.ankle.controller.filtered_squelched_supportive_term;
+				//rx_msg.data[5] = exo_data->left_leg.ankle.torque_reading;
+				//rx_msg.data[5] = exo_data->left_leg.ankle.controller.ff_setpoint;
+				//rx_msg.data[5] = exo_data->left_leg.ankle.controller.setpoint;
+				//rx_msg.data[5] = exo_data->left_leg.ankle.controller.previousMaxCmdCache;
+				//rx_msg.data[5] = exo_data->left_leg.ankle.controller.numBelow500;
+				rx_msg.data[5] = exo_data->right_leg.ankle.joint_position;
+				//Right FSR
+               //rx_msg.data[6] = exo_data->right_leg.toe_fsr;
+				//rx_msg.data[6] =exo_data->right_leg.ankle.joint_position;
+				//rx_msg.data[6] =exo_data->right_leg.ankle.controller.stateless_pjmc_term;
+				rx_msg.data[6] = exo_data->right_leg.heel_fsr;
+				//Left FSR
+               //rx_msg.data[7] = exo_data->left_leg.toe_fsr;
+				//rx_msg.data[7] = exo_data->left_leg.ankle.joint_position;
+				//rx_msg.data[7] =exo_data->left_leg.ankle.controller.stateless_pjmc_term;
+				rx_msg.data[7] = exo_data->left_leg.heel_fsr;
                 break;
 
         case (uint8_t)config_defs::exo_name::bilateral_hip:
