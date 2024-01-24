@@ -105,6 +105,9 @@ void _Joint::read_data()
     
     _joint_data->position = _joint_data->motor.p / _joint_data->motor.gearing;
     _joint_data->velocity = _joint_data->motor.v / _joint_data->motor.gearing;
+	
+	_joint_data->torque_offset_reading = _torque_sensor.readOffset();
+	_joint_data->torque_reading_microSD = (_joint_data->flip_direction ? -1.0 : 1.0) * _torque_sensor.read_microSD(_joint_data->torque_offset / 100);
 
 };
 
@@ -909,11 +912,20 @@ void AnkleJoint::run_joint()
 	else {
 		Serial.print("  |  Left joint_position: " + String(_joint_data->joint_position) + "flip? " + String(_joint_data->do_flip_angle));
 	} */
+	
 
     // Serial.print(_is_left ? "Left " : "Right ");
     // Serial.print("Ankle Angle: ");
     // Serial.print(_joint_data->joint_position);
     // Serial.print("\n");
+	
+	// Calculate torque values using the offset stored on the SD card
+	/* if (_is_left) {
+	Serial.print("\nLeft torque_offset: " + String(_joint_data->torque_offset_reading) );
+	}
+	else {
+		Serial.print("  |  Right torque_offset: " + String(_joint_data->torque_offset_reading) );
+	} */
 
     // make sure the correct controller is running.
     set_controller(_joint_data->controller.controller);

@@ -299,6 +299,58 @@
 		get_section_key(ini, temp_exo_name, "ankleFlipAngleDir", buffer, buffer_len);
         data.ankle_flip_angle_dir = buffer;
         config_to_send[config_defs::ankle_flip_angle_dir_idx] = config_map::flip_dir[data.ankle_flip_angle_dir];
+		
+		get_section_key(ini, temp_exo_name, "leftHipTorqueOffset", buffer, buffer_len);
+        data.left_hip_torque_offset = atof(buffer);
+        config_to_send[config_defs::left_hip_torque_offset_idx] =  data.left_hip_torque_offset;
+		
+		get_section_key(ini, temp_exo_name, "rightHipTorqueOffset", buffer, buffer_len);
+        data.right_hip_torque_offset = atof(buffer);
+        config_to_send[config_defs::right_hip_torque_offset_idx] =  data.right_hip_torque_offset;
+		
+		get_section_key(ini, temp_exo_name, "leftKneeTorqueOffset", buffer, buffer_len);
+        data.left_knee_torque_offset = atof(buffer);
+        config_to_send[config_defs::left_knee_torque_offset_idx] =  data.left_knee_torque_offset;
+		
+		get_section_key(ini, temp_exo_name, "rightKneeTorqueOffset", buffer, buffer_len);
+        data.right_knee_torque_offset = atof(buffer);
+        config_to_send[config_defs::right_knee_torque_offset_idx] =  data.right_knee_torque_offset;
+		
+		get_section_key(ini, temp_exo_name, "leftAnkleTorqueOffset", buffer, buffer_len);
+        data.left_ankle_torque_offset = atof(buffer);
+        config_to_send[config_defs::left_ankle_torque_offset_idx] =  data.left_ankle_torque_offset;
+		
+		get_section_key(ini, temp_exo_name, "rightAnkleTorqueOffset", buffer, buffer_len);
+        data.right_ankle_torque_offset = atof(buffer);
+        config_to_send[config_defs::right_ankle_torque_offset_idx] =  data.right_ankle_torque_offset;
+		
+		get_section_key(ini, temp_exo_name, "motorPosSafetyFactor", buffer, buffer_len);
+        data.motor_pos_safety_factor = atof(buffer);
+        config_to_send[config_defs::motor_pos_safety_factor_idx] =  data.motor_pos_safety_factor;
+		
+		get_section_key(ini, temp_exo_name, "leftHipMotorRoM", buffer, buffer_len);
+        data.left_hip_motor_RoM = atof(buffer);
+        config_to_send[config_defs::left_hip_motor_RoM_idx] =  data.left_hip_motor_RoM;
+		
+		get_section_key(ini, temp_exo_name, "rightHipMotorRoM", buffer, buffer_len);
+        data.right_hip_motor_RoM = atof(buffer);
+        config_to_send[config_defs::right_hip_motor_RoM_idx] =  data.right_hip_motor_RoM;
+		
+		get_section_key(ini, temp_exo_name, "leftKneeMotorRoM", buffer, buffer_len);
+        data.left_knee_motor_RoM = atof(buffer);
+        config_to_send[config_defs::left_knee_motor_RoM_idx] =  data.left_knee_motor_RoM;
+		
+		get_section_key(ini, temp_exo_name, "rightKneeMotorRoM", buffer, buffer_len);
+        data.right_knee_motor_RoM = atof(buffer);
+        config_to_send[config_defs::right_knee_motor_RoM_idx] =  data.right_knee_motor_RoM;
+		
+		get_section_key(ini, temp_exo_name, "leftAnkleMotorRoM", buffer, buffer_len);
+        data.left_ankle_motor_RoM = atof(buffer);
+        config_to_send[config_defs::left_ankle_motor_RoM_idx] =  data.left_ankle_motor_RoM;
+		
+		get_section_key(ini, temp_exo_name, "rightAnkleMotorRoM", buffer, buffer_len);
+        data.right_ankle_motor_RoM = atof(buffer);
+        config_to_send[config_defs::right_ankle_motor_RoM_idx] =  data.right_ankle_motor_RoM;
     }
 
     /*

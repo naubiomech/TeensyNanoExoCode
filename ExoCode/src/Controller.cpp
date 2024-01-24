@@ -550,7 +550,7 @@ float PropulsiveAssistive::calc_motor_cmd()
     const float cmd_ff = -(_controller_data->filtered_squelched_supportive_term+generic+squelched_propulsive_term);//According to the new motor command direction definitions, at the ankle, positive for dorsi, and negative for plantar.
 
     // low pass filter on torque_reading
-    const float torque = _joint_data->torque_reading;
+    const float torque = _joint_data->torque_reading_microSD;
     const float alpha = 0.5;
     _controller_data->filtered_torque_reading = utils::ewma(torque, 
             _controller_data->filtered_torque_reading, alpha);
@@ -564,6 +564,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 
 	cmd = min(cmd, cmd_ff + 35);
 	cmd = max(cmd, cmd_ff - 35);
+	cmd = max(cmd, -60);
 	
 	
 	/* if (!_leg_data->is_left) {
@@ -604,6 +605,70 @@ float PropulsiveAssistive::calc_motor_cmd()
 	/* if (!_leg_data->is_left) {
 	Serial.print("\ncmd_ff: " + String(cmd_ff) + ", raw torque reading: " + String(_controller_data->filtered_torque_reading) + " cmd: " + String(cmd)); 
 	} */
+	
+	//motor RoM test start
+	/* uint16_t exo_status = _data->get_status();
+    bool active_trial = (exo_status == status_defs::messages::trial_on) || 
+        (exo_status == status_defs::messages::fsr_calibration) ||
+        (exo_status == status_defs::messages::fsr_refinement);
+		
+		if (_joint_data->motor_pos_first_run && _joint_data->motor.enabled) {
+			_joint_data->motor_pos_max = _joint_data->motor.p;
+			_joint_data->motor_pos_min = _joint_data->motor.p;
+			_joint_data->motor_pos_first_run = false;
+		}
+		_joint_data->motor_pos_max = max(_joint_data->motor_pos_max, _joint_data->motor.p);
+		_joint_data->motor_pos_min = min(_joint_data->motor_pos_min, _joint_data->motor.p);
+		
+		if (_joint_data->is_left) {
+		Serial.print("\nLeft angle: ");
+		Serial.print(_leg_data->ankle.joint_position);
+		Serial.print("  |  Left torque: ");
+		Serial.print(_joint_data->torque_reading);
+		//cmd = _controller_data->parameters[controller_defs::calibr_manager::calibr_cmd];
+		//cmd = 0;
+		Serial.print("  |  Left cmd: ");
+		Serial.print(cmd);
+		Serial.print("  |  Left toe FSR: ");
+		Serial.print(_leg_data->toe_fsr);
+		Serial.print("  |  Left heel FSR: ");
+		Serial.print(_leg_data->heel_fsr);
+		Serial.print("  |  Left motor RoM: ");
+		Serial.print(_joint_data->motor_pos_max - _joint_data->motor_pos_min);
+		Serial.print("  |  Left torque offset: ");
+		Serial.print(_joint_data->torque_offset_reading);
+		Serial.print("  |  Left microSD torque offset: ");
+		Serial.print(_joint_data->torque_offset / 100);
+		Serial.print("  |  Left torque reading (microSD): ");
+		Serial.print(_joint_data->torque_reading_microSD);
+	}
+	else {
+		Serial.print("  |  Right angle: ");
+		Serial.print(_leg_data->ankle.joint_position);
+		Serial.print("  |  Right torque: ");
+		Serial.print(_joint_data->torque_reading);
+		//cmd = 0;
+		Serial.print("  |  Right cmd: ");
+		Serial.print(cmd);
+		Serial.print("  |  Right toe FSR: ");
+		Serial.print(_leg_data->toe_fsr);
+		Serial.print("  |  Right heel FSR: ");
+		Serial.print(_leg_data->heel_fsr);
+		Serial.print("  |  Right motor RoM: ");
+		Serial.print(_joint_data->motor_pos_max - _joint_data->motor_pos_min);
+		Serial.print("  |  Right torque offset: ");
+		Serial.print(_joint_data->torque_offset_reading);
+		Serial.print("  |  Right microSD torque offset: ");
+		Serial.print(_joint_data->torque_offset / 100);
+		Serial.print("  |  Right torque reading (microSD): ");
+		Serial.print(_joint_data->torque_reading_microSD);
+		Serial.print("  |  doToeRefinement: ");
+		Serial.print(String(_leg_data->do_calibration_refinement_toe_fsr));
+		Serial.print("  |  Exo status: ");
+		uint16_t exo_status = _data->get_status();
+		Serial.print(String(exo_status));
+	} */
+	//motor RoM test end
     return cmd;
 }
 
@@ -1763,32 +1828,62 @@ float CalibrManager::calc_motor_cmd()
         (exo_status == status_defs::messages::fsr_calibration) ||
         (exo_status == status_defs::messages::fsr_refinement);
 		
+		if (_joint_data->motor_pos_first_run && _joint_data->motor.enabled) {
+			_joint_data->motor_pos_max = _joint_data->motor.p;
+			_joint_data->motor_pos_min = _joint_data->motor.p;
+			_joint_data->motor_pos_first_run = false;
+		}
+		_joint_data->motor_pos_max = max(_joint_data->motor_pos_max, _joint_data->motor.p);
+		_joint_data->motor_pos_min = min(_joint_data->motor_pos_min, _joint_data->motor.p);
+		
 		if (_joint_data->is_left) {
 		Serial.print("\nLeft angle: ");
 		Serial.print(_leg_data->ankle.joint_position);
 		Serial.print("  |  Left torque: ");
 		Serial.print(_joint_data->torque_reading);
 		cmd = _controller_data->parameters[controller_defs::calibr_manager::calibr_cmd];
-		cmd = 3.5;
+		cmd = 0;
 		Serial.print("  |  Left cmd: ");
 		Serial.print(cmd);
 		Serial.print("  |  Left toe FSR: ");
 		Serial.print(_leg_data->toe_fsr);
 		Serial.print("  |  Left heel FSR: ");
 		Serial.print(_leg_data->heel_fsr);
+		Serial.print("  |  Left motor RoM: ");
+		Serial.print(_joint_data->motor_pos_max - _joint_data->motor_pos_min);
+		Serial.print("  |  Left torque offset: ");
+		Serial.print(_joint_data->torque_offset_reading);
+		Serial.print("  |  Left microSD torque offset: ");
+		Serial.print(_joint_data->torque_offset / 100);
+		Serial.print("  |  Left torque reading (microSD): ");
+		Serial.print(_joint_data->torque_reading_microSD);
+		Serial.print("  |  Left motor RoM (SD): ");
+		Serial.print(_joint_data->motor_RoM);
 	}
 	else {
 		Serial.print("  |  Right angle: ");
 		Serial.print(_leg_data->ankle.joint_position);
 		Serial.print("  |  Right torque: ");
 		Serial.print(_joint_data->torque_reading);
-		cmd = 3.5;
+		cmd = 0;
 		Serial.print("  |  Right cmd: ");
 		Serial.print(cmd);
 		Serial.print("  |  Right toe FSR: ");
 		Serial.print(_leg_data->toe_fsr);
 		Serial.print("  |  Right heel FSR: ");
 		Serial.print(_leg_data->heel_fsr);
+		Serial.print("  |  Right motor RoM: ");
+		Serial.print(_joint_data->motor_pos_max - _joint_data->motor_pos_min);
+		Serial.print("  |  Right torque offset: ");
+		Serial.print(_joint_data->torque_offset_reading);
+		Serial.print("  |  Right microSD torque offset: ");
+		Serial.print(_joint_data->torque_offset / 100);
+		Serial.print("  |  Right torque reading (microSD): ");
+		Serial.print(_joint_data->torque_reading_microSD);
+		Serial.print("  |  Motor pos safety factor: ");
+		Serial.print(_joint_data->motor_pos_safety_factor);
+		Serial.print("  |  Right motor RoM (SD): ");
+		Serial.print(_joint_data->motor_RoM);
 		Serial.print("  |  doToeRefinement: ");
 		Serial.print(String(_leg_data->do_calibration_refinement_toe_fsr));
 		Serial.print("  |  Exo status: ");

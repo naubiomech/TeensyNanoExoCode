@@ -44,6 +44,8 @@ class TorqueSensor
         float read();
 	    //MOVE BACK TO PRIVATE WHEN USING APP
         int _raw_reading; /**< Raw pin reading */
+		float readOffset();
+		float read_microSD(float _calibration_microSD);
 		
 	private:
 		int _pin; /**< Pin to read for the sensor */
@@ -52,6 +54,7 @@ class TorqueSensor
         float _calibration;   /**< Stores the value used for calibration. This is a zero torque offset*/
         //int _raw_reading; /**< Raw pin reading */
 		float _calibrated_reading; /**< Torque value with offset applied */
+		float _calibrated_reading_microSD;
         
         const uint16_t _cal_time = 1000; /**< The time to do the initial calibration in ms*/  
         uint16_t _start_time; /**< time the calibration starts. */   

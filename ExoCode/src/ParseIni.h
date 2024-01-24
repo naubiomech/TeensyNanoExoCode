@@ -213,6 +213,21 @@ namespace config_defs
 	static const int right_knee_RoM_idx = 29;
 	static const int left_ankle_RoM_idx = 30;
 	static const int right_ankle_RoM_idx = 31;
+	
+	static const int left_hip_torque_offset_idx = 32;
+	static const int right_hip_torque_offset_idx = 33;
+	static const int left_knee_torque_offset_idx = 34;
+	static const int right_knee_torque_offset_idx = 35;
+	static const int left_ankle_torque_offset_idx = 36;
+	static const int right_ankle_torque_offset_idx = 37;
+	
+	static const int motor_pos_safety_factor_idx = 38;
+	static const int left_hip_motor_RoM_idx = 39;
+	static const int right_hip_motor_RoM_idx = 40;
+	static const int left_knee_motor_RoM_idx = 41;
+	static const int right_knee_motor_RoM_idx = 42;
+	static const int left_ankle_motor_RoM_idx = 43;
+	static const int right_ankle_motor_RoM_idx = 44;
 }
 
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41) 
@@ -451,6 +466,21 @@ namespace config_defs
 		float right_knee_RoM;
 		float left_ankle_RoM;
 		float right_ankle_RoM;
+		
+		float left_hip_torque_offset;
+		float right_hip_torque_offset;
+		float left_knee_torque_offset;
+		float right_knee_torque_offset;
+		float left_ankle_torque_offset;
+		float right_ankle_torque_offset;
+		
+		float motor_pos_safety_factor;
+		float left_hip_motor_RoM;
+		float right_hip_motor_RoM;
+		float left_knee_motor_RoM;
+		float right_knee_motor_RoM;		
+		float left_ankle_motor_RoM;
+		float right_ankle_motor_RoM;
 		
     };
 #endif

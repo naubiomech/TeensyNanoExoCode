@@ -7,17 +7,21 @@
  * Stores the id, torque sensor reading, if it is on the left side (for convenience), and if the joint is used.
  * Uses an initializer list for the motor and controller data. 
  */
-JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send, float joint_RoM, bool do_flip_angle)
+JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send, float joint_RoM, bool do_flip_angle, float torque_offset, float motor_pos_safety_factor, float motor_RoM)
 : motor(id, config_to_send)
 , controller(id, config_to_send)
 , joint_RoM(joint_RoM)
 , do_flip_angle(do_flip_angle)
+, torque_offset(torque_offset)
+, motor_pos_safety_factor(motor_pos_safety_factor)
+, motor_RoM(motor_RoM)
 {
     
     // set all the data based on the id and configuration
     this->id = id;
     
     this->torque_reading = 0;
+	this->torque_reading_microSD = 0;
     this->is_left = ((uint8_t)this->id & (uint8_t)config_defs::joint_id::left) == (uint8_t)config_defs::joint_id::left;
     
     this->position = 0;

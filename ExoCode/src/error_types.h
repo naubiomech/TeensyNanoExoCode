@@ -81,7 +81,76 @@ public:
         //Serial.print(_id < 60 ? "\t" : "\n");
 
         //return abs(torque_error) > 100*(1 - _data->transmission_efficiency_threshold);
-		return false;
+		_data->torque_error_max = max(abs(_data->torque_error), abs(_data->torque_error_max));
+		
+		
+		
+		
+		
+		
+		
+		#if USE_ANGLE_SENSORS
+		//Serial.println("USE_ANGLE_SENSORS");
+		if (_data->do_calc_motor_pos_offset) {
+			//Calculate "true" motor position
+			_data->motor_pos_0 = _data->motor_RoM * (1 - (_data->joint_position / _data->joint_RoM));
+			_data->motor_pos_offset = _data->motor.p - _data->motor_pos_0;
+			_data->do_calc_motor_pos_offset = false;
+		}
+		//_data->motor_pos_0 = (_data->joint_position * 7.25) / 100;
+		/* if (!_data->is_left) {
+			Serial.print("\n_data->motor_pos_0 (Relative): " + String(_data->motor_pos_0));
+			Serial.print(" | _data->motor.p: " + String(_data->motor.p) + " | _data->motor_pos_offset: " + String(_data->motor_pos_offset));
+
+		} */
+		//return ((_data->motor.p > (7.25 + _data->motor_pos_offset - (-0.25))) || (_data->motor.p < _data->motor_pos_offset + (-0.25)));
+		#endif
+		
+		
+		
+		
+		//Transmission efficiency alternative
+		_data->motor_diff_1 = _data->motor_diff_2;
+		_data->motor_pos_1 = _data->motor_pos_2;
+		_data->motor_pos_2 = utils::ewma(_data->motor.p, _data->motor_pos_2, 0.01);
+		_data->motor_diff_2 = _data->motor_pos_2 - _data->motor_pos_1;
+		if (_data->motor_diff_1 * _data->motor_diff_2 < 0) {
+			_data->motor_ref_pos = _data->motor_pos_2;
+		}
+		
+		
+		
+		
+		/* if (!_data->is_left) {
+			Serial.print("\n_data->motor_ref_pos: " + String(_data->motor_ref_pos));
+			Serial.print(" | _data->motor_pos_1: " + String(_data->motor_pos_1) + " | _data->motor_pos_2: " + String(_data->motor_pos_2));
+			Serial.print(" | Right motor position change: ");
+			Serial.print((_data->motor_pos_2 - _data->motor_ref_pos));
+		} */
+		
+		/* if (!_data->is_left) {
+			Serial.print("\nRight side _data->motor_pos_safety_factor: " + String(_data->motor_pos_safety_factor));
+			Serial.print(" | Right side _data->motor_RoM: " + String(_data->motor_RoM) );
+		}
+		else {
+			Serial.print("Left side _data->motor_pos_safety_factor: " + String(_data->motor_pos_safety_factor));
+			Serial.print(" | Left side _data->motor_RoM: " + String(_data->motor_RoM) );
+		} */
+		
+		//return false;
+		if (_data->motor_RoM == 0) {
+			//Serial.print("\nMotor pos error handler DISABLED.");
+			return false;
+		}
+		#if USE_ANGLE_SENSORS
+		//return ((_data->motor.p > (7.5 + _data->motor_pos_offset - (-0.2))) || (_data->motor.p < _data->motor_pos_offset + (-0.2))) || (abs(_data->motor_pos_2 - _data->motor_ref_pos) > 9);
+		return ((_data->motor.p > (_data->motor_RoM + _data->motor_pos_offset + _data->motor_RoM * (_data->motor_pos_safety_factor - 1))) || (_data->motor.p < _data->motor_pos_offset - _data->motor_RoM * (_data->motor_pos_safety_factor - 1)));
+		#else
+		return abs(_data->motor_pos_2 - _data->motor_ref_pos) > _data->motor_RoM * _data->motor_pos_safety_factor;
+		#endif
+		
+		
+		//return abs(torque_error) > 150;
     }
     void handle(JointData* _data)
     {

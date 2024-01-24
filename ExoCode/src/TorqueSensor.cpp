@@ -22,6 +22,7 @@ TorqueSensor::TorqueSensor(unsigned int pin)
     this->_last_do_calibrate = false; 
     this->_zero_sum = 0; 
     this->_num_calibration_samples = 0;  
+	this->_calibrated_reading_microSD = 0;
 
         
     // logger::print("TorqueSensor::TorqueSensor : pin = ");
@@ -157,5 +158,16 @@ float TorqueSensor::read()
     return _calibrated_reading;
 };
 
+float TorqueSensor::readOffset()
+{
+    return _calibration;
+}
+
+float TorqueSensor::read_microSD(float _calibration_microSD)
+{
+	_raw_reading = analogRead(_pin);
+    _calibrated_reading_microSD = (((float)_raw_reading*torque_calibration::AI_CNT_TO_V) - _calibration_microSD) * torque_calibration::TRQ_V_TO_NM;
+    return _calibrated_reading_microSD;
+}
 
 #endif
