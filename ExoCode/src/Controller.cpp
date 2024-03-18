@@ -490,6 +490,7 @@ float PropulsiveAssistive::calc_motor_cmd()
     #ifdef CONTROLLER_DEBUG
     logger::println("PropulsiveAssistive::calc_motor_cmd : start");
     #endif
+	//Serial.print("TREC is running...\n");
     static const float sigmoid_exp_scalar{50.0f};
 
     // Calculate Generic Contribution
@@ -550,21 +551,28 @@ float PropulsiveAssistive::calc_motor_cmd()
     const float cmd_ff = -(_controller_data->filtered_squelched_supportive_term+generic+squelched_propulsive_term);//According to the new motor command direction definitions, at the ankle, positive for dorsi, and negative for plantar.
 
     // low pass filter on torque_reading
-    const float torque = _joint_data->torque_reading_microSD;
+    const float torque = _joint_data->torque_reading;
+	//const float torque = _joint_data->torque_reading_microSD;
     const float alpha = 0.5;
     _controller_data->filtered_torque_reading = utils::ewma(torque, 
             _controller_data->filtered_torque_reading, alpha);
-
+	
     // close the loop
     float cmd = _pid(cmd_ff, _controller_data->filtered_torque_reading,
             _controller_data->parameters[controller_defs::propulsive_assistive::kp],
             0, 
             _controller_data->parameters[controller_defs::propulsive_assistive::kd]);
-			
-
-	cmd = min(cmd, cmd_ff + 35);
+	
+	//Maxon testing	
+	cmd = _pid(0, _controller_data->filtered_torque_reading,
+            _controller_data->parameters[controller_defs::propulsive_assistive::kp],
+            0, 
+            _controller_data->parameters[controller_defs::propulsive_assistive::kd]);
+	
+	
+	/* cmd = min(cmd, cmd_ff + 35);
 	cmd = max(cmd, cmd_ff - 35);
-	cmd = max(cmd, -60);
+	cmd = max(cmd, -60); */
 	
 	
 	/* if (!_leg_data->is_left) {
@@ -669,6 +677,21 @@ float PropulsiveAssistive::calc_motor_cmd()
 		Serial.print(String(exo_status));
 	} */
 	//motor RoM test end
+	
+	//
+	if (_leg_data->is_left) {
+	digitalWrite(33,HIGH);
+	analogWriteResolution(12);
+	Serial.print("\nFiltered torque: ");
+	Serial.print(_controller_data->filtered_torque_reading);
+	Serial.print("  |  Pre-map cmd: ");
+	Serial.print(cmd);	
+	cmd = map(cmd,-60,60,0,4096);
+	analogWrite(A8,cmd);
+	Serial.print("  |  Post-map cmd: ");
+	Serial.print(cmd);
+	}
+	
     return cmd;
 }
 

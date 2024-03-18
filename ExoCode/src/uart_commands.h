@@ -335,18 +335,18 @@ namespace UART_command_handlers
 				//TREC Plot
 				//Right Torque
 				//rx_msg.data[0] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
-				rx_msg.data[0] = exo_data->left_leg.ankle.controller.filtered_torque_reading;
+				rx_msg.data[0] = exo_data->left_leg.ankle.torque_reading;
 				//rx_msg.data[0] = exo_data->right_leg.ankle.controller.setpoint;
 				//Right State. Only integer values will be plotted for rx_msg.data[1]
                //rx_msg.data[1] = exo_data->right_leg.toe_stance;
 			   rx_msg.data[1] = 100 * exo_data->right_leg.toe_fsr;
 				//Right Set
                //rx_msg.data[2] = exo_data->right_leg.ankle.controller.filtered_squelched_supportive_term;
-				//rx_msg.data[2] = exo_data->right_leg.ankle.torque_reading;
+				rx_msg.data[2] = exo_data->right_leg.ankle.torque_reading;
 				//rx_msg.data[2] = exo_data->right_leg.ankle.controller.ff_setpoint;
 				//rx_msg.data[2] = exo_data->right_leg.ankle.controller.setpoint;
 				//rx_msg.data[2] = exo_data->right_leg.ankle.controller.previousMaxCmdCache;
-				rx_msg.data[2] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
+				//rx_msg.data[2] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
 				//rx_msg.data[2] = exo_data->right_leg.ankle.controller.numBelow500;
 				//Left Torque
                //rx_msg.data[3] = exo_data->left_leg.ankle.controller.filtered_torque_reading;
@@ -358,12 +358,12 @@ namespace UART_command_handlers
 			   rx_msg.data[4] = 100 * exo_data->left_leg.toe_fsr;
 				//Left Set
                //rx_msg.data[5] = exo_data->left_leg.ankle.controller.filtered_squelched_supportive_term;
-				//rx_msg.data[5] = exo_data->left_leg.ankle.torque_reading;
+				rx_msg.data[5] = exo_data->left_leg.ankle.torque_reading;
 				//rx_msg.data[5] = exo_data->left_leg.ankle.controller.ff_setpoint;
 				//rx_msg.data[5] = exo_data->left_leg.ankle.controller.setpoint;
 				//rx_msg.data[5] = exo_data->left_leg.ankle.controller.previousMaxCmdCache;
 				//rx_msg.data[5] = exo_data->left_leg.ankle.controller.numBelow500;
-				rx_msg.data[5] = exo_data->right_leg.ankle.joint_position;
+				//rx_msg.data[5] = exo_data->right_leg.ankle.joint_position;
 				//rx_msg.data[5] = abs(exo_data->right_leg.ankle.torque_error_max/10);
 				//rx_msg.data[5] = exo_data->right_leg.ankle.motor.p;
 				//Right FSR
@@ -376,6 +376,9 @@ namespace UART_command_handlers
 				//rx_msg.data[7] = exo_data->left_leg.ankle.joint_position;
 				//rx_msg.data[7] =exo_data->left_leg.ankle.controller.stateless_pjmc_term;
 				rx_msg.data[7] = 100 * exo_data->left_leg.heel_fsr;
+				
+				
+				Serial.print("uart_commands.h is running...\n");
                 break;
 
         case (uint8_t)config_defs::exo_name::bilateral_hip:
