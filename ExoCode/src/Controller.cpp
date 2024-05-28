@@ -256,7 +256,26 @@ float _Controller::_pid(float cmd, float measurement, float p_gain, float i_gain
     float dt = (now - _prev_pid_time) * 1000000;
 
     float error_val = cmd - measurement;  
-    //_integral_val += error_val / LOOP_FREQ_HZ;     
+    //_integral_val += error_val / LOOP_FREQ_HZ; 
+
+    if (i_gain != 0)
+    {
+        _pid_error_sum += error_val / LOOP_FREQ_HZ;
+    }
+    else
+    {
+        _pid_error_sum = 0;
+    }
+
+
+    uint16_t exo_status = _data->get_status();
+    bool active_trial = (exo_status == status_defs::messages::trial_on) || (exo_status == status_defs::messages::fsr_calibration) || (exo_status == status_defs::messages::fsr_refinement);
+
+    if (_data->user_paused || !active_trial)
+    {
+        _pid_error_sum = 0;
+    }
+
     float de_dt = 0;
     if (time_good)
     {
@@ -273,8 +292,12 @@ float _Controller::_pid(float cmd, float measurement, float p_gain, float i_gain
     _prev_input = measurement;
 
     float p = p_gain * error_val;  
-    //float i = i_gain * _integral_val;  // resetting _integral_val was crashing the system 
+    float i = i_gain * _pid_error_sum; //float i = i_gain * _integral_val;  // resetting _integral_val was crashing the system 
     float d = d_gain * de_dt; 
+
+    //Serial.print("I = ");
+    //Serial.print(i);
+    //Serial.print("\n");
     
 	//float pNd = min(p + d, 25);
 	//pNd = max(p + d, -25);
@@ -617,6 +640,7 @@ ProportionalJointMoment::ProportionalJointMoment(config_defs::joint_id id, ExoDa
         logger::println("ProportionalJointMoment::Constructor");
     #endif
 
+    /* Set FSR thresholds to engage controller -> Tells it foot is on the ground*/
     _stance_thresholds_left.first = exo_data->left_leg.toe_fsr_lower_threshold;
     _stance_thresholds_left.second = exo_data->left_leg.toe_fsr_upper_threshold;
     _stance_thresholds_right.first = exo_data->right_leg.toe_fsr_lower_threshold;
@@ -626,103 +650,86 @@ ProportionalJointMoment::ProportionalJointMoment(config_defs::joint_id id, ExoDa
 float ProportionalJointMoment::calc_motor_cmd()
 {
 	
-/* 		uint16_t exo_status = _data->get_status();
-		Serial.print("\nNot started yet. Exo status: ");
-		Serial.print(String(exo_status));
-		//return 0; */
-	
     #ifdef CONTROLLER_DEBUG
         logger::println("ProportionalJointMoment::calc_motor_cmd : start");
     #endif
 
     float cmd_ff = 0;
-    // don't calculate command when fsr is calibrating.
-    if (!_leg_data->do_calibration_toe_fsr)
-    {
-        
 
-        // calculate the feed forward command
-        if (_leg_data->toe_stance) 
-        {
-            // scale the fsr values so the controller outputs zero feed forward when the FSR value is at the threshold
-            float threshold = _leg_data->toe_fsr_upper_threshold;
-            float scaling = threshold/(1-threshold);
-            float correction = scaling-(scaling*_leg_data->toe_fsr);
-
-            // saturate the fsr value
-            float fsr = min(_leg_data->toe_fsr, 1.2);
-
-            // calculate the feed forward command
-            cmd_ff = (fsr) * _controller_data->parameters[controller_defs::proportional_joint_moment::stance_max_idx];          
-            
-            // saturate and account for assistance
-            cmd_ff = max(0, cmd_ff);
-            //cmd_ff = min(max(0, cmd_ff), _controller_data->parameters[controller_defs::proportional_joint_moment::stance_max_idx]);
-            cmd_ff = -1 * cmd_ff * (_controller_data->parameters[controller_defs::proportional_joint_moment::is_assitance_idx] ? 1 : -1);
-        }
-        else
-        {
-            cmd_ff = _controller_data->parameters[controller_defs::proportional_joint_moment::swing_max_idx];
-        }
-    }
-
-    // low pass filter on torque_reading
-    // const float torque = _joint_data->torque_reading * (_leg_data->is_left ? 1 : -1);
-	const float torque = _joint_data->torque_reading;
-    const float alpha = (_controller_data->parameters[controller_defs::proportional_joint_moment::torque_alpha_idx] != 0) ? 
-            _controller_data->parameters[controller_defs::proportional_joint_moment::torque_alpha_idx] : 0.5;
-    _controller_data->filtered_torque_reading = utils::ewma(torque, 
-            _controller_data->filtered_torque_reading, alpha);
-
-    // find max measured and max setpoint during stance
+    /* If the toe is on the ground, calculate the feed-forward command */
     if (_leg_data->toe_stance) 
     {
-       /*  const float new_torque = _controller_data->filtered_torque_reading < 0 ? _controller_data->filtered_torque_reading*(-1) : _controller_data->filtered_torque_reading;
-        const float new_ff = cmd_ff < 0 ? cmd_ff*(-1) : cmd_ff; */
+        /* Scale the fsr values so the controller outputs zero feed forward when the FSR value is at the threshold */ 
+        float threshold = _leg_data->toe_fsr_upper_threshold;       /* Get the upper threshold for the FSR to be considered in stance */
+        float fsr = min(_leg_data->toe_fsr, 1.2);                   /* Stores a saturated FSR signal from the device, saturates in order to avoid producing a large torque. */
+        float scaled_fsr = (fsr - threshold) / (1 - threshold);     /* Re-scales FSR signal */
+
+        /* Calculate FeedForward Command */
+        cmd_ff = (scaled_fsr) * _controller_data->parameters[controller_defs::proportional_joint_moment::stance_max_idx];          
+            
+        /* Saturates Command so that it never is opposite of intent (e.g., going into resistance when wanting assistance) */
+        cmd_ff = max(0, cmd_ff);
+        
+        /* Sets to Assistance or Resistance Based on Controller Parameter Flag */
+        cmd_ff = -1 * cmd_ff * (_controller_data->parameters[controller_defs::proportional_joint_moment::is_assitance_idx] ? 1 : -1);
+    }
+    else /* If the foot is not on the ground, calculate the swing phase command. */
+    {
+        /* Sets the Assistance to a Constant, user defined torque. */
+        cmd_ff = _controller_data->parameters[controller_defs::proportional_joint_moment::swing_max_idx];
+    }
+
+    /* Low-Pass Filter Measured Torque */
+	const float torque = _joint_data->torque_reading;
+    const float alpha = (_controller_data->parameters[controller_defs::proportional_joint_moment::torque_alpha_idx] != 0) ? _controller_data->parameters[controller_defs::proportional_joint_moment::torque_alpha_idx] : 0.5;
+    _controller_data->filtered_torque_reading = utils::ewma(torque, _controller_data->filtered_torque_reading, 1); //NOTE: Currently hard coded to not filer, can do so by replacing 1 with alpha
+
+    /* Find the maximum measured torque and maximum setpoint during stance */
+    if (_leg_data->toe_stance) 
+    {
+        /* Store the current command and measured torque into set variables */
 		const float new_torque = _controller_data->filtered_torque_reading;
 		const float new_ff = cmd_ff;
 		
-
+        /* Compares to previous maxiums during this step and overwrights those variables if current is larger. */
         _controller_data->max_measured = (_controller_data->max_measured < new_torque) ? new_torque : _controller_data->max_measured;
-        //_controller_data->max_measured = max(abs(_controller_data->max_measured), abs(_controller_data->filtered_torque_reading));
         _controller_data->max_setpoint = (_controller_data->max_setpoint < new_ff) ? new_ff : _controller_data->max_setpoint;
-        //_controller_data->max_setpoint = max(abs(_controller_data->max_setpoint), abs(cmd_ff));
     }
 
-    // Set previous max values on rising edge
-    if (_leg_data->ground_strike)
+    /* Set previous max values on rising edge */
+    if (_leg_data->ground_strike) /* If a ground strike is detected */
     {
+        /* Set the previous maximums to the max measured from the previous step, reset those variables to zero. */
         _controller_data->prev_max_measured = _controller_data->max_measured;
         _controller_data->prev_max_setpoint = _controller_data->max_setpoint;
         _controller_data->max_measured = 0;
         _controller_data->max_setpoint = 0;
 
-        // Calculate this steps Kf
-        if ((_controller_data->prev_max_measured > 0.0f) && (_controller_data->parameters[controller_defs::proportional_joint_moment::stance_max_idx] != 0.0f))
+        /* Caluculate the Kf (velocity feed-forward gain) for this step */
+        if ((_controller_data->prev_max_measured > 0.0f) && (_controller_data->parameters[controller_defs::proportional_joint_moment::stance_max_idx] != 0.0f)) /* If the previous maximum was not zero and the controller maximum is not zero. */
         {
-            //leg->KF = leg->KF - (leg->Max_Measured_Torque - (leg->MaxPropSetpoint)) / (leg->MaxPropSetpoint)*0.6;
+            /* Kf is the last set Kf + the ratio of the previous steps max setpoint to the previous steps max measured normalized by direction. */
             _controller_data->kf = _controller_data->kf + ((_controller_data->prev_max_setpoint/_controller_data->prev_max_measured) - 1);
-            // Constrain kf
+
+            /* Contrains the Kf to be within 0.75 - 1.25 */
             _controller_data->kf = min(1.25, _controller_data->kf);
             _controller_data->kf = max(0.75, _controller_data->kf);
         }
     }
 
-    _controller_data->filtered_setpoint = utils::ewma(cmd_ff, _controller_data->filtered_setpoint, 0.1);
+    /* Filters the Setpoint */
+    _controller_data->filtered_setpoint = utils::ewma(cmd_ff, _controller_data->filtered_setpoint, 1);
     _controller_data->ff_setpoint = _controller_data->filtered_setpoint;
 
-    // add the PID contribution to the feed forward command
+    /* Add the PID contribution to the feed forward command */
     float cmd = 0;
     float kf_cmd = (_leg_data->toe_stance) ? (_controller_data->kf * _controller_data->filtered_setpoint) : _controller_data->filtered_setpoint;
-    // if (!_leg_data->is_left)
-    // {
-    //     kf_cmd *= -1;
-    // }
 
+    /* If the PID flag is enalbed, do PID control, otherwise just send feed-forward command. */
     if (_controller_data->parameters[controller_defs::proportional_joint_moment::use_pid_idx])
     {
 
-		cmd = _pid(cmd_ff, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::proportional_joint_moment::p_gain_idx], _controller_data->parameters[controller_defs::proportional_joint_moment::i_gain_idx], _controller_data->parameters[controller_defs::proportional_joint_moment::d_gain_idx]);
+		cmd = cmd_ff + _pid(cmd_ff, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::proportional_joint_moment::p_gain_idx], _controller_data->parameters[controller_defs::proportional_joint_moment::i_gain_idx], _controller_data->parameters[controller_defs::proportional_joint_moment::d_gain_idx]);
 
 	}
     else
@@ -730,41 +737,11 @@ float ProportionalJointMoment::calc_motor_cmd()
         cmd = cmd_ff;
     }
     
+    /* Filter the commnad being sent to the motor. */
     _controller_data->filtered_cmd = utils::ewma(cmd, _controller_data->filtered_cmd, 1);
 
-    // print controller parameters
-    // static float cnt = 0;
-    // cnt++;
-    // if (cnt > 1000)
-    // {
-    //     Serial.print("ID:" + String(_leg_data->is_left) + "\t");
-    //     Serial.print("CID:"+String(_controller_data->controller)+"\t");
-    //     for (int i=0; i<controller_defs::propulsive_assistive::num_parameter; i++)
-    //     {
-    //         Serial.print(String(i) + ":" + String(_controller_data->parameters[i]) + "\t");
-    //     }
-    //     Serial.print("\n");
-    //     cnt = 0;
-    // }
-
-    #ifdef CONTROLLER_DEBUG
-        logger::println("ProportionalJointMoment::calc_motor_cmd : end");
-    #endif
-	if (_joint_data->is_left) {
-		Serial.print("\nLeft torque: ");
-		Serial.print(_controller_data->filtered_torque_reading);
-	}
-/* 	else {
-		Serial.print("Right cmd: ");
-		Serial.print(_controller_data->filtered_cmd);
-	} */
-
-	if (!_leg_data->do_calibration_toe_fsr) {
+    /* Send the motor the command. */
     return _controller_data->filtered_cmd;
-	}
-	else {
-		return 0;
-	}
 }
 
 
@@ -1173,7 +1150,7 @@ float FranksCollinsHip::calc_motor_cmd()
     float extension_torque_peak = _controller_data->parameters[controller_defs::franks_collins_hip::trough_normalized_torque_Nm_kg_idx];
     float flexion_torque_peak = _controller_data->parameters[controller_defs::franks_collins_hip::peak_normalized_torque_Nm_kg_idx];
 
-    float extension_torque_magnitude_Nm = extension_torque_peak;
+    float extension_torque_magnitude_Nm = -1 * extension_torque_peak;
     float flexion_torque_magnitude_Nm = flexion_torque_peak;
 
     float mid_time_percent_gait = _controller_data->parameters[controller_defs::franks_collins_hip::mid_time_idx];
@@ -1202,10 +1179,15 @@ float FranksCollinsHip::calc_motor_cmd()
     float extension_node1 = extension_peak_percent_gait - extension_rise_percent_gait;
     float extension_node2 = extension_peak_percent_gait;
     float extension_node3 = extension_peak_percent_gait + extension_fall_percent_gait;
+    //float extension_node3 = 100 - (mid_duration_percent_gait / 2); // extension_peak_percent_gait + extension_fall_percent_gait;
 
     float flexion_node1 = flexion_peak_percent_gait - flexion_rise_percent_gait - (100 - start_percent_gait);
     float flexion_node2 = flexion_peak_percent_gait - (100 - start_percent_gait);
     float flexion_node3 = flexion_peak_percent_gait + flexion_fall_percent_gait - (100 - start_percent_gait); //(100 - flexion_fall_percent_gait - flexion_peak_percent_gait);
+
+    //float flexion_node1 = (mid_duration_percent_gait / 2); // flexion_peak_percent_gait - flexion_rise_percent_gait - (100 - start_percent_gait);
+    //float flexion_node2 = flexion_peak_percent_gait; // flexion_peak_percent_gait - (100 - start_percent_gait);
+    //float flexion_node3 = flexion_peak_percent_gait + flexion_fall_percent_gait; //flexion_peak_percent_gait + flexion_fall_percent_gait - (100 - start_percent_gait); //(100 - flexion_fall_percent_gait - flexion_peak_percent_gait);
 
      //logger::print("Franks::calc_motor_cmd : node1 = ");
      //logger::print(flexion_node1);
@@ -1221,6 +1203,8 @@ float FranksCollinsHip::calc_motor_cmd()
 
     torque_cmd = _spline_generation(extension_node1, extension_node2, extension_node3, extension_torque_magnitude_Nm, shifted_percent_gait) + _spline_generation(flexion_node1, flexion_node2, flexion_node3, flexion_torque_magnitude_Nm, percent_gait);
 
+    //torque_cmd = _spline_generation(extension_node1, extension_node2, extension_node3, extension_torque_magnitude_Nm, shifted_percent_gait) + _spline_generation(flexion_node1, flexion_node2, flexion_node3, flexion_torque_magnitude_Nm, shifted_percent_gait);
+
     //if (shifted_percent_gait >= extension_node1 && shifted_percent_gait <= extension_node3)
     //{
     //    torque_cmd = _spline_generation(extension_node1, extension_node2, extension_node3, extension_torque_magnitude_Nm, shifted_percent_gait);
@@ -1234,10 +1218,47 @@ float FranksCollinsHip::calc_motor_cmd()
     //    torque_cmd = 0;
     //}
 
-    // add the PID contribution to the feed forward command
-    float cmd = torque_cmd + (_controller_data->parameters[controller_defs::franks_collins_hip::use_pid_idx]
-        ? _pid(torque_cmd, _joint_data->torque_reading, _controller_data->parameters[controller_defs::franks_collins_hip::p_gain_idx], _controller_data->parameters[controller_defs::franks_collins_hip::i_gain_idx], _controller_data->parameters[controller_defs::franks_collins_hip::d_gain_idx])
-        : 0);
+
+    //Filter Torque Reading
+    _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, 1);
+
+    //Define the Setpoint
+    _controller_data->ff_setpoint = torque_cmd;
+
+    float cmd = 0;
+
+    //Determine if it should be open or closed loop control
+    if (_controller_data->parameters[controller_defs::franks_collins_hip::use_pid_idx] > 0)
+    {
+        cmd = torque_cmd + _pid(torque_cmd, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::franks_collins_hip::p_gain_idx], 0, _controller_data->parameters[controller_defs::franks_collins_hip::d_gain_idx]);
+    }
+    else
+    {
+        cmd = torque_cmd;
+    }
+    ////Filter Feed-Foward Setpoint
+    //_controller_data->filtered_setpoint = utils::ewma(torque_cmd, _controller_data->filtered_setpoint, 0.1);
+    //_controller_data->ff_setpoint = torque_cmd; // _controller_data->filtered_setpoint;
+
+    ////Add PID Contribution to the Feed Forward Command
+    //float cmd = 0;
+
+    //if (_controller_data->parameters[controller_defs::franks_collins_hip::use_pid_idx] > 0)
+    //{
+    //    cmd = _pid(torque_cmd, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::franks_collins_hip::p_gain_idx], _controller_data->parameters[controller_defs::franks_collins_hip::i_gain_idx], _controller_data->parameters[controller_defs::franks_collins_hip::d_gain_idx]);
+    //}
+    //else
+    //{
+    //    cmd = torque_cmd;
+    //}
+
+    
+
+    //float cmd = torque_cmd;
+
+    //float cmd = torque_cmd + (_controller_data->parameters[controller_defs::franks_collins_hip::use_pid_idx]
+    //    ? _pid(torque_cmd, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::franks_collins_hip::p_gain_idx], _controller_data->parameters[controller_defs::franks_collins_hip::i_gain_idx], _controller_data->parameters[controller_defs::franks_collins_hip::d_gain_idx])
+    //    : 0);
 
     return cmd;
 }
@@ -1252,7 +1273,8 @@ float FranksCollinsHip::_spline_generation(float node1, float node2, float node3
     float h[2] = { (x[1] - x[0]), (x[2] - x[1]) };
     float delta[2] = { ((y[1] - y[0]) / h[0]), ((y[2] - y[1]) / h[1]) };
 
-    float dy[3] = { 0, 0, ((3 * delta[1]) / 2) };
+    //float dy[3] = { 0, 0, ((3 * delta[1]) / 2) };
+    float dy[3] = { 0, 0, 0};
 
     if (shifted_percent_gait < x[0] || shifted_percent_gait > x[2])
     {
@@ -1292,62 +1314,99 @@ ConstantTorque::ConstantTorque(config_defs::joint_id id, ExoData* exo_data)
     logger::println("ConstantTorque::Constructor");
 #endif
 
-    //current_torque = _controller_data->parameters[controller_defs::constant_torque::upper_idx];
-    //counter = 0;
+    //Initializes variables upon startup
+    previous_torque_reading = 0;
+    previous_command = 0;
+    flag = 0;
+    difference = 0;
 
 }
 
 float ConstantTorque::calc_motor_cmd()
 {
-    //if (counter < _controller_data->parameters[controller_defs::constant_torque::iterations_idx])
-    //{
-    //    counter++;
-    //}
-    //else
-    //{ 
-    //    if (current_torque == _controller_data->parameters[controller_defs::constant_torque::upper_idx])
-    //    {
-    //        current_torque = _controller_data->parameters[controller_defs::constant_torque::lower_idx];
-    //    }
-    //    else if (current_torque == _controller_data->parameters[controller_defs::constant_torque::lower_idx])
-    //    {
-    //        current_torque = _controller_data->parameters[controller_defs::constant_torque::upper_idx];
-    //    }
-    //    else
-    //    {
-    //        current_torque = current_torque;
-    //    }
 
-    //    counter = 0;
-    //}
+    if ((_joint_data->is_left))
+    {
 
-    //float cmd = current_torque;
+        float cmd_ff = 0;     //Creates the cmd variable and initializes it to 0;
 
-    float cmd = 0;     //Creates the cmd variable and initializes it to 0;
-
-        if (_leg_data->do_calibration_toe_fsr)// || _leg_data->toe_stance == 1)                      //If the FSRs are being calibrated or if the toe fsr is 0, send a command of zero
+        if (_leg_data->do_calibration_toe_fsr)                      //If the FSRs are being calibrated or if the toe fsr is 0, send a command of zero
         {
-            cmd = 0;    
+            cmd_ff = 0;
         }
         else
         {
-            cmd = _controller_data->parameters[controller_defs::constant_torque::amplitude_idx];
+            cmd_ff = _controller_data->parameters[controller_defs::constant_torque::amplitude_idx];         //Send a command at the specified amplitude
 
             if (_controller_data->parameters[controller_defs::constant_torque::direction_idx] == 0)                            //If the user wants to send a PF/Flexion torque
             {
-                cmd = 1 * cmd;
+                cmd_ff = 1 * cmd_ff;
             }
             else if (_controller_data->parameters[controller_defs::constant_torque::direction_idx] == 1)                       //If the user wants to send a DF/Extension torque
             {
-                cmd = -1 * cmd;
+                cmd_ff = -1 * cmd_ff;
             }
             else
             {
-                cmd = cmd;                                                                                                  //If the direction flag is something other than 0 or 1, do nothing to the motor command
+                cmd_ff = cmd_ff;                                                                                                  //If the direction flag is something other than 0 or 1, do nothing to the motor command
             }
         }
-    
-    return cmd;
+
+        //If the command changes
+        if (cmd_ff != previous_command)
+        {
+            flag = 1;                                   //Set the filter flag to 1
+            difference = cmd_ff - previous_command;    //Determine the sign of the change in command 
+        }
+
+        //If the command is to send a larger torque
+        if (difference > 0)
+        {
+            if (flag == 1 && previous_torque_reading >= cmd_ff)   //Set the flag to 0 when the measured torque reaches the desired setpoint
+            {
+                flag = 0;
+            }
+        }
+
+        //If the command is to send a smaller torque 
+        if (difference < 0)
+        {
+            if (flag == 1 && previous_torque_reading <= cmd_ff)   //Set the flag to 0 when the measured torque reaches the desired setpoint 
+            {
+                flag = 0;
+            }
+        }
+
+        if (flag == 0)   //If the torque is not changing to meet a new prescribed torque, filter the data
+        {
+            _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, (_controller_data->parameters[controller_defs::constant_torque::alpha_idx]) / 100);
+        }
+        else        //If the torque is changing to meet a new prescribed torque, filter the data
+        {
+            _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, 1);
+        }
+
+        //_controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, (_controller_data->parameters[controller_defs::constant_torque::alpha_idx]) / 100);
+
+        _controller_data->ff_setpoint = cmd_ff;
+
+        float cmd = 0;
+
+        if (_controller_data->parameters[controller_defs::constant_torque::use_pid_idx] > 0)
+        {
+            cmd = cmd_ff + _pid(cmd_ff, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::constant_torque::p_gain_idx], _controller_data->parameters[controller_defs::constant_torque::i_gain_idx], _controller_data->parameters[controller_defs::constant_torque::d_gain_idx]);
+        }
+        else
+        {
+            cmd = cmd_ff;
+        }
+
+        previous_command = cmd_ff;
+
+        previous_torque_reading = _controller_data->filtered_torque_reading;
+
+        return cmd;
+    }
 }
 
 //****************************************************
@@ -1954,18 +2013,22 @@ float Chirp::calc_motor_cmd()
 
         current_time = millis();                //Records the current time
 
-        float t = (current_time - start_time) / 1000;    //Measure of the time since the start, converets to seconds. 
+        float t = (current_time - start_time) / 1000;    //Measure of the time since the start, converts to seconds. 
 
         float amplitude = _controller_data->parameters[controller_defs::chirp::amplitude_idx];              //Amplitude of the sine wave
         float start_frequency = _controller_data->parameters[controller_defs::chirp::start_frequency_idx];  //Start frequency of the sine wave
         float end_frequency = _controller_data->parameters[controller_defs::chirp::end_frequency_idx];      //End frequency of the sine wave
         float duration = _controller_data->parameters[controller_defs::chirp::duration_idx];                //Duration of the controller
-        float yshift = _controller_data->parameters[controller_defs::chirp::yshift_idx];                    //Duration of the controller
+        float yshift = _controller_data->parameters[controller_defs::chirp::yshift_idx];                    //Shifts the center of the sine wave
+
+        float phi = (0 * M_PI / 2);
+
+        float frequency = 0;
 
         if (t <= duration)                                                                                  //If time is less than the set duration
         {
-            float frequency = start_frequency + ((end_frequency - start_frequency) * (t / duration));       //Frequency, linearly increases with each iteration of the controller.
-            cmd_ff = amplitude * sin(2 * M_PI * frequency * t + (6*M_PI/4)) + yshift;                                    //Torque command as a sine wave
+            frequency = start_frequency + ((end_frequency - start_frequency) * (t / duration));       //Frequency, linearly increases with each iteration of the controller.
+            cmd_ff = amplitude * sin(2 * M_PI * frequency * t + phi) + yshift;                                    //Torque command as a sine wave
 
             if (std::isnan(frequency))                  //If it detects Nan, sets the values to 0, prevents the exo from throwing a fit.
             {
@@ -1982,26 +2045,44 @@ float Chirp::calc_motor_cmd()
         previous_amplitude = amplitude;                 //Stores the amplitude to be used in next iteration of the controller. 
 
         _controller_data->ff_setpoint = cmd_ff;
-        _controller_data->filtered_torque_reading = _joint_data->torque_reading;
+        _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, 1);
 
         //PID
-        float cmd = cmd_ff + (_controller_data->parameters[controller_defs::chirp::pid_flag_idx]
-            ? _pid(cmd_ff, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::chirp::p_gain_idx], _controller_data->parameters[controller_defs::chirp::i_gain_idx], _controller_data->parameters[controller_defs::chirp::d_gain_idx])
-            : 0);
+        float cmd = cmd_ff +(_controller_data->parameters[controller_defs::chirp::pid_flag_idx]
+           ? _pid(cmd_ff, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::chirp::p_gain_idx], _controller_data->parameters[controller_defs::chirp::i_gain_idx], _controller_data->parameters[controller_defs::chirp::d_gain_idx])
+           : 0);
 
-        //if (_joint_data->is_left)
+        //uint16_t exo_status = _data->get_status();
+
+        //bool active_trial = (exo_status == status_defs::messages::trial_on) || (exo_status == status_defs::messages::fsr_calibration) || (exo_status == status_defs::messages::fsr_refinement);
+
+        //if (active_trial)
         //{
-        //    Serial.print(cmd_ff);
-        //    Serial.print(',');
-        //    Serial.print(100);
-        //    Serial.print(',');
-        //    Serial.print("\n");
 
-        //    Serial.print(_controller_data->filtered_torque_reading);
-        //    Serial.print(',');
-        //    Serial.print(200);
-        //    Serial.print(',');
-        //    Serial.print("\n");
+        //    if (_joint_data->is_left)
+        //    {
+
+        //        Serial.print(_controller_data->ff_setpoint);
+        //        Serial.print(',');
+        //        Serial.print(100);
+        //        Serial.print("\n");
+
+        //        Serial.print(_controller_data->filtered_torque_reading);
+        //        Serial.print(',');
+        //        Serial.print(200);
+        //        Serial.print("\n");
+
+        //        Serial.print(t * 1000);
+        //        Serial.print(',');
+        //        Serial.print(300);
+        //        Serial.print("\n");
+
+        //        Serial.print(frequency);
+        //        Serial.print(',');
+        //        Serial.print(400);
+        //        Serial.print("\n");
+
+        //    }
         //}
 
         return cmd;
@@ -2029,8 +2110,16 @@ Step::Step(config_defs::joint_id id, ExoData* exo_data)
     n = 1;
     start_flag = 1;
     start_time = 0;
-    cmd = 0;
+    cmd_ff = 0;
     end_time = 0;
+
+    previous_command = 0;
+    previous_torque_reading = 0;
+    flag = 0;
+    difference = 0;
+    turn = 0;
+    flag_time = 0;
+    change_time = 0;
 
 }
 
@@ -2042,6 +2131,8 @@ float Step::calc_motor_cmd()
     int Repetitions = _controller_data->parameters[controller_defs::step::repetitions_idx];         //Number of Step Responses
     float Spacing = _controller_data->parameters[controller_defs::step::spacing_idx];               //Time Between Each Step Response
 
+    float tt = 0;
+
     if (n <= Repetitions)                                          //If we are less than the number of desired repetitions
     {
         if (start_flag == 1)                                        //If this is the start of this loop
@@ -2052,17 +2143,17 @@ float Step::calc_motor_cmd()
 
         float current_time = millis();                              //Measure the current time
 
-        float time = (current_time - start_time) / 1000;            //Determine the time since the begining of the control iteration, converted to seconds
+        tt = (current_time - start_time) / 1000;            //Determine the time since the begining of the control iteration, converted to seconds
 
-        if (time <= Duration)                                       //If the time is less than the desired duration of the step
+        if (tt <= Duration)                                       //If the time is less than the desired duration of the step
         {
-            cmd = Amplitude;                                        //Apply a torque at the desired magnitude 
+            cmd_ff = Amplitude;                                        //Apply a torque at the desired magnitude 
         }
         else
         {
-            cmd = 0;                                                //Set the torque to 0
+            cmd_ff = 0;                                                //Set the torque to 0
 
-            if (previous_time <= Duration && time > Duration)       //Calculate the time that the amplitude ended
+            if (previous_time <= Duration && tt > Duration)       //Calculate the time that the amplitude ended
             {
                 end_time = millis();
             }
@@ -2074,12 +2165,93 @@ float Step::calc_motor_cmd()
             }
         }
 
-        previous_time = time;                                       //Record time to be used as previous time in next loop. 
+        previous_time = tt;                                       //Record time to be used as previous time in next loop. 
 
     }
     else
     {
-        cmd = 0;
+        cmd_ff = 0;
+    }
+
+    //if (cmd_ff != previous_command)
+    //{
+    //    flag = 1;
+    //    difference = cmd_ff - previous_command;
+    //    turn = millis();;
+    //}
+
+    //if (difference > 0)
+    //{
+    //    if (flag == 1 && (previous_torque_reading >=  0.9 * cmd_ff))
+    //    {
+    //        flag = 0;
+    //    }
+    //}
+
+    //if (difference < 0)
+    //{
+    //    //if (flag == 1 && (previous_torque_reading <= (1 - 0.9) * cmd_ff))
+    //    //{
+    //    //    flag = 0;
+    //    //}
+    //}
+
+    //if (flag == 0)
+    //{
+    //    _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, (_controller_data->parameters[controller_defs::step::alpha_idx] / 100));
+    //}
+    //else
+    //{
+    //    _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, 1);
+    //}
+
+
+    _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, (_controller_data->parameters[controller_defs::step::alpha_idx]/100));
+
+    _controller_data->ff_setpoint = cmd_ff;
+
+    float cmd = cmd_ff;
+
+    if (_controller_data->parameters[controller_defs::step::pid_flag_idx] > 0)
+    {
+        cmd = cmd_ff + _pid(cmd_ff, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::step::p_gain_idx], _controller_data->parameters[controller_defs::step::i_gain_idx], _controller_data->parameters[controller_defs::step::d_gain_idx]);
+    }
+    else
+    {
+        cmd = cmd_ff;
+    }
+
+    previous_command = cmd_ff;
+
+    previous_torque_reading = _controller_data->filtered_torque_reading;
+
+    uint16_t exo_status = _data->get_status();
+    
+    bool active_trial = (exo_status == status_defs::messages::trial_on) || (exo_status == status_defs::messages::fsr_calibration) || (exo_status == status_defs::messages::fsr_refinement);
+
+    if (active_trial)
+    {
+
+        if (_joint_data->is_left)
+        {
+
+            Serial.print(_controller_data->ff_setpoint);
+            Serial.print(',');
+            Serial.print(100);
+            Serial.print("\n");
+
+            Serial.print(_controller_data->filtered_torque_reading);
+            Serial.print(',');
+            Serial.print(200);
+            Serial.print("\n");
+
+            Serial.print(tt*1000);
+            Serial.print(',');
+            Serial.print(300);
+            Serial.print("\n");
+
+        }
+
     }
 
     return cmd;

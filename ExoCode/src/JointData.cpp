@@ -38,7 +38,7 @@ JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send, float jo
                 || (((uint8_t)config_defs::exo_side::right == config_to_send[config_defs::exo_side_idx]) && !this->is_left));
             // logger::print("Hip\n");
             // check if the direction should be flipped
-            if ((config_to_send[config_defs::hip_flip_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::hip_flip_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::hip_flip_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            if ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
             {
                 this->flip_direction = 1;
             }
@@ -131,7 +131,7 @@ void JointData::reconfigure(uint8_t* config_to_send)
                 || (((uint8_t)config_defs::exo_side::right == config_to_send[config_defs::exo_side_idx]) && !this->is_left));
             // logger::print("Hip\n");
             // check if the direction should be flipped
-            if ((config_to_send[config_defs::hip_flip_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::hip_flip_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::hip_flip_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            if ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
             {
                 this->flip_direction = 1;
             }

@@ -416,13 +416,13 @@ namespace ble_handlers
 
     inline static void update_param(ExoData* data, BleMessage* msg)
     {
-         //Send UART message to update parameter
-         //logger::println("ble_handlers::update_param() - Got update param message");
-         //logger::print("ble_handlers::update_param() - Joint ID: "); logger::println((uint8_t)msg->data[0]);
-         //logger::print("ble_handlers::update_param() - Controller ID: "); logger::println((uint8_t)msg->data[1]);
-         //logger::print("ble_handlers::update_param() - Param Index: "); logger::println((uint8_t)msg->data[2]);
-         //logger::print("ble_handlers::update_param() - Param Value: "); logger::println((uint8_t)msg->data[3]);
-        logger::print("New message\n");
+        //Send UART message to update parameter
+        //logger::println("ble_handlers::update_param() - Got update param message");
+        //logger::print("ble_handlers::update_param() - Joint ID: "); logger::println((uint8_t)msg->data[0]);
+        //logger::print("ble_handlers::update_param() - Controller ID: "); logger::println((uint8_t)msg->data[1]);
+        //logger::print("ble_handlers::update_param() - Param Index: "); logger::println((uint8_t)msg->data[2]);
+        //logger::print("ble_handlers::update_param() - Param Value: "); logger::println((uint8_t)msg->data[3]);
+        //logger::print("New message\n");
         UARTHandler* uart_handler = UARTHandler::get_instance();
         UART_msg_t tx_msg;
         tx_msg.command = UART_command_names::update_controller_param;

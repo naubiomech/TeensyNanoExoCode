@@ -130,9 +130,9 @@ namespace UART_command_handlers
         JointData *j_data = exo_data->get_joint_with(msg.joint_id);
         if (j_data == NULL)
         {
-            logger::println("UART_command_handlers::get_controller_params->No joint with id =  ");
-            logger::print(msg.joint_id);
-            logger::println(" found");
+            //logger::println("UART_command_handlers::get_controller_params->No joint with id =  ");
+            //logger::print(msg.joint_id);
+            //logger::println(" found");
             return;
         }
 
@@ -331,6 +331,8 @@ namespace UART_command_handlers
                 rx_msg.data[5] = exo_data->left_leg.ankle.controller.ff_setpoint;
                 rx_msg.data[6] = exo_data->right_leg.toe_fsr;
                 rx_msg.data[7] = exo_data->left_leg.toe_fsr;
+                rx_msg.data[8] = exo_data->right_leg.percent_gait / 100;
+                rx_msg.data[9] = exo_data->left_leg.percent_gait / 100;
 				
 				////TREC Plot
 				////Right Torque
@@ -374,14 +376,14 @@ namespace UART_command_handlers
 
         case (uint8_t)config_defs::exo_name::bilateral_hip:
             rx_msg.len = (uint8_t)rt_data::BILATERAL_HIP_RT_LEN;
-            rx_msg.data[0] = exo_data->right_leg.percent_gait / 100;
+            rx_msg.data[0] = exo_data->right_leg.hip.controller.filtered_torque_reading; //exo_data->right_leg.percent_gait / 100; //exo_data->right_leg.hip.controller.filtered_torque_reading;
             rx_msg.data[1] = exo_data->right_leg.toe_stance;
-            rx_msg.data[2] = exo_data->right_leg.hip.motor.i; // hip.controller.setpoint; //filtered_cmd
-            rx_msg.data[3] = exo_data->left_leg.percent_gait / 100;
+            rx_msg.data[2] = exo_data->right_leg.hip.controller.ff_setpoint; //filtered_cmd
+            rx_msg.data[3] = exo_data->left_leg.hip.controller.filtered_torque_reading; //exo_data->left_leg.percent_gait / 100; //exo_data->left_leg.hip.controller.filtered_torque_reading;
             rx_msg.data[4] = exo_data->left_leg.toe_stance;
-            rx_msg.data[5] = exo_data->left_leg.hip.motor.i; // hip.controller.setpoint; //filtered_cmd
-            rx_msg.data[6] = exo_data->right_leg.toe_fsr;
-            rx_msg.data[7] = exo_data->left_leg.toe_fsr;
+            rx_msg.data[5] = exo_data->left_leg.hip.controller.ff_setpoint; //filtered_cmd
+            rx_msg.data[6] = exo_data->right_leg.percent_gait / 100;//exo_data->right_leg.heel_fsr;
+            rx_msg.data[7] = exo_data->left_leg.percent_gait / 100; //exo_data->left_leg.heel_fsr;
             break;
 
         case (uint8_t)config_defs::exo_name::bilateral_hip_ankle:
@@ -393,8 +395,8 @@ namespace UART_command_handlers
             // TODO: Implement Mark Feature
             rx_msg.data[4] = exo_data->left_leg.hip.controller.setpoint;      // rx_msg.data[4] = exo_data->left_leg.toe_stance;  //Purple State
             rx_msg.data[5] = exo_data->left_leg.ankle.controller.ff_setpoint; // Red Torque
-            rx_msg.data[6] = exo_data->right_leg.toe_fsr;                     // Red State
-            rx_msg.data[7] = exo_data->left_leg.toe_fsr;                      // Red State
+            rx_msg.data[6] = exo_data->right_leg.heel_fsr;                     // Red State
+            rx_msg.data[7] = exo_data->left_leg.heel_fsr;                      // Red State
             break;
 
         case (uint8_t)config_defs::exo_name::right_knee:
@@ -432,8 +434,12 @@ namespace UART_command_handlers
         handler->UART_msg(rx_msg);
         #endif
 
-        // logger::println("UART_command_handlers::get_real_time_data->sent real time data");   Uncomment if you want to test to see what data is being sent
-        // UART_msg_t_utils::print_msg(rx_msg);
+        //Serial.print("RX_Message: ");
+        //UART_msg_t_utils::print_msg(rx_msg);
+        //Serial.print("\n");
+
+         //logger::println("UART_command_handlers::get_real_time_data->sent real time data");   //Uncomment if you want to test to see what data is being sent
+         //UART_msg_t_utils::print_msg(rx_msg);
     }
 
     // Overload for no config
@@ -473,9 +479,9 @@ namespace UART_command_handlers
         JointData *j_data = exo_data->get_joint_with(msg.joint_id);
         if (j_data == NULL)
         {
-            logger::println("UART_command_handlers::update_controller_param->No joint with id =  ");
-            logger::print(msg.joint_id);
-            logger::println(" found");
+            //logger::println("UART_command_handlers::update_controller_param->No joint with id =  ");
+            //logger::print(msg.joint_id);
+            //logger::println(" found");
             return;
         }
 
@@ -657,7 +663,7 @@ namespace UART_command_utils
         switch (msg.command)
         {
         case UART_command_names::empty_msg:
-            logger::println("UART_command_utils::handle_message->Empty Message!");
+            //logger::println("UART_command_utils::handle_message->Empty Message!");
             break;
 
         case UART_command_names::get_controller_params:

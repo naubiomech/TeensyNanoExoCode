@@ -33,7 +33,7 @@
 
     namespace logging
     {
-        const LogLevel level = LogLevel::Release;
+        const LogLevel level = LogLevel::Release; //Release or Debug
         const int baud_rate = 115200;
     }
     
@@ -68,7 +68,7 @@
     namespace torque_calibration
     {
         const float AI_CNT_TO_V = 3.3 / 4096; // conversion from count to voltage
-        const float TRQ_V_TO_NM = 53.70; // conversion from voltage to Nm (Negative do to mismatch in torque sensor and motor torque directions)
+        const float TRQ_V_TO_NM = 53.70; // 42.2; // 53.70; // conversion from voltage to Nm (Negative do to mismatch in torque sensor and motor torque directions) S12:(Left) = 39.8, S05 (Right) = 44.6
     }
 
     namespace BLE_times

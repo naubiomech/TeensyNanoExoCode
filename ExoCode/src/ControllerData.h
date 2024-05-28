@@ -99,12 +99,14 @@ namespace controller_defs /**< stores the parameter indexes for different contro
     namespace constant_torque
     {
         const uint8_t amplitude_idx = 0;
-        const uint8_t direction_idx = 0;
-        //const uint8_t upper_idx = 0;    // amplitude in Nm
-        //const uint8_t lower_idx = 1;
-        //const uint8_t iterations_idx = 2;
-        const uint8_t num_parameter = 3;
-        ;
+        const uint8_t direction_idx = 1;
+        const uint8_t alpha_idx = 2;
+        const uint8_t use_pid_idx = 3;
+        const uint8_t p_gain_idx = 4;
+        const uint8_t i_gain_idx = 5;
+        const uint8_t d_gain_idx = 6;
+        const uint8_t num_parameter = 7;
+
     }
 
     namespace elbow_min_max
@@ -184,7 +186,12 @@ namespace controller_defs /**< stores the parameter indexes for different contro
         const uint8_t duration_idx = 1;
         const uint8_t repetitions_idx = 2;
         const uint8_t spacing_idx = 3;
-        const uint8_t num_parameter = 4;
+        const uint8_t pid_flag_idx = 4;
+        const uint8_t p_gain_idx = 5;
+        const uint8_t i_gain_idx = 6;
+        const uint8_t d_gain_idx = 7;
+        const uint8_t alpha_idx = 8;
+        const uint8_t num_parameter = 9;
     }
 
     const uint8_t max_parameters = franks_collins_hip::num_parameter;//user_defined::num_parameter;  // this should be the largest of all the num_parameters

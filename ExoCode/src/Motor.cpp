@@ -450,7 +450,7 @@ _CANMotor(id, exo_data, enable_pin)
     _I_MAX = 13.5f;
     _V_MAX = 23.04f;
 
-    float kt = 1/0.37775;
+    float kt = 0.1725 * 6; // //0.113 * 6; //1.36; // 1 / 0.37775; ***NOTE: IF OPEN LOOP, SET KT to 0.1725 * 6 (This has been validated mulitple ways)
     set_Kt(kt);
     exo_data->get_joint_with(static_cast<uint8_t>(id))->motor.kt = kt;
 

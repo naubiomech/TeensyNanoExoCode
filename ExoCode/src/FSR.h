@@ -85,7 +85,7 @@ class FSR
         bool _calc_ground_contact();  
 
         // Stores the sensor readings
-        uint16_t _raw_reading;  /**< Current raw sensor reading */
+        float _raw_reading;  /**< Current raw sensor reading */
 		float _calibrated_reading; /**< Sensor reading with calibration applied */
         
         int _pin; /**< The pin the sensor is connected to. */
@@ -94,8 +94,8 @@ class FSR
         const uint16_t _cal_time = 5000; /**< this is time to do the initial calibration */
         uint16_t _start_time;  /**< Stores the time we started the calibration */
         bool _last_do_calibrate; /**< Used to find rising edge for calibration*/
-        uint16_t _calibration_min;  /**< Minimum value during the time period */
-        uint16_t _calibration_max;  /**< Maximum value during the time period */
+        float _calibration_min;  /**< Minimum value during the time period */
+        float _calibration_max;  /**< Maximum value during the time period */
         
         // used for calibration refinement
         const uint8_t _num_steps = 7; /**< this is the number of steps to do the calibration_refinement */

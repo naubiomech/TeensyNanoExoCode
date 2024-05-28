@@ -264,6 +264,7 @@ void ble_rx::on_rx_recieved(BLEDevice central, BLECharacteristic characteristic)
     msg = parser->handle_raw_data(data, len);
     if (msg->is_complete)
     {
+
 #if EXOBLE_DEBUG
         logger::print("on_rx_recieved->Command: ");
         BleMessage::print(*msg);

@@ -79,6 +79,7 @@ class _Controller
 
         // Values for the PID controller
         float _integral_val; /**< sum of the error integral */
+        float _pid_error_sum = 0;
         float _prev_input;   /**< prev error term for calculating derivative */
         float _prev_de_dt;   /**< prev error derivative used if the timestep is not good*/
         float _prev_pid_time; /**< prev time the PID was called */
@@ -308,8 +309,11 @@ public:
 
     float calc_motor_cmd();
 
-    float current_torque;
-    int counter;
+    float previous_command;         /* Stores Previous Loop's Torque Command */
+    float previous_torque_reading;  /* Stores Previous Loop's Measured Torque */
+    int flag;                       /* Flag that Determines Filter Status */
+    float difference;               /* Stores Difference in Command when Changed */
+
 };
 
 class ElbowMinMax : public _Controller
@@ -389,9 +393,17 @@ public:
     int n;                          /* Keeps track of how many steps have been performed. */
     int start_flag;                 /* Flag that triggers the recording of the time that the step is first applied. */
     float start_time;               /* Time that the step was first applied. */
-    float cmd;                      /* Motor command. */
+    float cmd_ff;                      /* Motor command. */
     float previous_time;            /* Stores time from previous iteration. */
     float end_time;                 /* Records time that step ended. */
+
+    float previous_command;
+    float previous_torque_reading;
+    int flag;
+    float difference;
+    float turn;
+    float flag_time;
+    float change_time;
 
     float calc_motor_cmd();         /* Function that calculates the motor command. */
 

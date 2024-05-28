@@ -263,6 +263,14 @@
 		get_section_key(ini, temp_exo_name, "ankleFlipTorqueDir", buffer, buffer_len);
         data.ankle_flip_torque_dir = buffer;
         config_to_send[config_defs::ankle_flip_torque_dir_idx] = config_map::flip_dir[data.ankle_flip_torque_dir];
+
+        get_section_key(ini, temp_exo_name, "hipFlipMotorDir", buffer, buffer_len);
+        data.hip_flip_motor_dir = buffer;
+        config_to_send[config_defs::hip_flip_motor_dir_idx] = config_map::flip_dir[data.hip_flip_motor_dir];
+
+        get_section_key(ini, temp_exo_name, "hipFlipTorqueDir", buffer, buffer_len);
+        data.hip_flip_torque_dir = buffer;
+        config_to_send[config_defs::hip_flip_torque_dir_idx] = config_map::flip_dir[data.hip_flip_torque_dir];
 		
 		get_section_key(ini, temp_exo_name, "leftHipRoM", buffer, buffer_len);
         data.left_hip_RoM = atof(buffer);

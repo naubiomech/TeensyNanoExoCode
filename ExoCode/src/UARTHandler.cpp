@@ -9,7 +9,7 @@
 #define FIXED_POINT_FACTOR 100
 
 // set to 1 to enable debug prints
-#define DEBUG_UART_HANDLER 0 
+#define DEBUG_UART_HANDLER 0
 
 typedef enum 
 {

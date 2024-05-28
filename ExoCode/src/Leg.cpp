@@ -122,7 +122,7 @@ void Leg::read_data()
     _toe_fsr.get_contact_thresholds(_leg_data->toe_fsr_lower_threshold, _leg_data->toe_fsr_upper_threshold);
     //if (!_is_left) {Serial.println("Checking with angle: " + String(_leg_data->ankle.joint_position));}
     _leg_data->inclination = inclination_detector->check(_leg_data->toe_stance, 
-        _leg_data->do_calibration_refinement_toe_fsr, _leg_data->ankle.joint_position);
+    _leg_data->do_calibration_refinement_toe_fsr, _leg_data->ankle.joint_position);
     //if (!_is_left) {logger::print("Got incline: ", LogLevel::Debug); logger::println((uint8_t)_leg_data->inclination, LogLevel::Debug);}
     
     // Check the joint sensors if the joint is used.

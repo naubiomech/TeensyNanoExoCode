@@ -118,7 +118,7 @@ void ComsMCU::update_UART()
         UART_msg_t msg = handler->poll(UART_times::COMS_MCU_TIMEOUT);
         if (msg.command)
         {
-            // UART_msg_t_utils::print_msg(msg);
+            //UART_msg_t_utils::print_msg(msg);
             UART_command_utils::handle_msg(handler, _data, msg);
         }
         del_t = 0;

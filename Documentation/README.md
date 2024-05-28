@@ -1386,3 +1386,11 @@ This would be done if new features need to be configured.
 ### Println()
 There has been a reoccuring issue within the codebase when using Serial.println(). For some reason this can casue the code to crash at 
 runtime. However, using Serial.print("\n") works just fine. 
+
+When utilizing an Arduino Nano BLE rev2, you need to download an additional library "Arduino_BMI270_BMM150.h" directly into Arduino for the code to work.
+
+The FSR regression equation for Ankle Control alters accuracy of percent gait estimate which disrupts timing of franksCollins Hip Control.
+
+Method for handling torque sensor identification does not allow for simultaneous hip and ankle usage if only one joint actually uses torque sensors
+(i.e., if only the ankle has torque sensors but we use hip and ankle configuration, the ankle torque sensors will be assigned to the Hip, current work around
+involves commenting out hip torque sensor id code).  
