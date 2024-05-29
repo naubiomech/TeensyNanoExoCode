@@ -322,6 +322,11 @@ public:
     ElbowMinMax(config_defs::joint_id id, ExoData* exo_data);
     ~ElbowMinMax() {};
 
+    float alpha0;
+    float alpha1;
+    float alpha2;
+    float alpha3;
+
     float calc_motor_cmd();
     
 };

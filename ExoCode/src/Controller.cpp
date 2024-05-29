@@ -1418,181 +1418,277 @@ ElbowMinMax::ElbowMinMax(config_defs::joint_id id, ExoData* exo_data)
 #ifdef CONTROLLER_DEBUG
     Serial.println("ElbowMinMax::Constructor");
 #endif
-
+    alpha0 = 0.125; // Initial FSR Smoothing before searchinng for new max/min - smooths FSR sensor signal noise - only used when doing a manual calibration
+    alpha1 = 0.2; // FSR Sensor Smoothing to Finilize input signal - smooths FSR sensor signal noise
+    alpha2 = 0.2; // Torque Sensor Smoothing before entering PID - smooths torque sensor signal noise
+    alpha3 = 0.03; // Setpoint smoothing to reduce abrupt / jerky applications of torque - lower numbers produce a slower response in torque rise time but increase comfort
 }
 
 float ElbowMinMax::calc_motor_cmd()
 {
-	// Serial.print("\n ElbowMinMax selected... ");
-	// Serial.print("  |  1st Level Toe fsr: ");
-	// Serial.print(_leg_data->toe_fsr);
-	// Serial.print("  |  2nd Level Heel fsr: ");
-	// Serial.print(_leg_data->heel_fsr);
-    float cmd = 0;     //Creates the cmd variable and initializes it to 0;
-    // float cmd_toe_elbow = 0;
-    // float cmd_heel_elbow = 0;
-	
-	if ((_leg_data->toe_fsr > _leg_data->heel_fsr) && (_leg_data->toe_fsr > 0.1*_controller_data->parameters[controller_defs::elbow_min_max::fsr_threshold_idx])) {
-		cmd = _controller_data->parameters[controller_defs::elbow_min_max::amplitude_idx];
-	}
-	else if ((_leg_data->heel_fsr > _leg_data->toe_fsr) && (_leg_data->heel_fsr > 0.1*_controller_data->parameters[controller_defs::elbow_min_max::fsr_threshold1_idx])) {
-		cmd = -1*_controller_data->parameters[controller_defs::elbow_min_max::amplitude_idx];
-	}
-	else {
-		cmd = 0;
-	}
-	if (!_joint_data->is_left) {
-		Serial.print("\nToe fsr: ");
-		Serial.print(_leg_data->toe_fsr);
-		Serial.print("  |  Heel fsr: ");
-		Serial.print(_leg_data->heel_fsr);
-		Serial.print("  |  cmd is set to: ");
-		Serial.print(cmd);
-	}
-	
-    /* float fsr_toe_current_elbow = _leg_data->toe_fsr;
-    float fsr_heel_current_elbow = _leg_data->heel_fsr;
-    // float fsr_toe_current_elbow = 0.8;
-    // float fsr_heel_current_elbow = 2;
-    if (_controller_data->is_first_fsr_reading_elbow) {
-        //fsr_toe_current_elbow = utils::ewma(_leg_data->toe_fsr, _leg_data->toe_fsr, 0.5);
-        //fsr_heel_current_elbow = utils::ewma(_leg_data->heel_fsr, _leg_data->heel_fsr, 0.5);
-        _controller_data->fsr_toe_previous_elbow = _leg_data->toe_fsr;
-        _controller_data->fsr_heel_previous_elbow = _leg_data->heel_fsr;
-        _controller_data->is_first_fsr_reading_elbow = false;
-        Serial.println("First fsr read");
-    }
-    else {
-        //fsr_toe_current_elbow = utils::ewma(_leg_data->toe_fsr, _controller_data->fsr_toe_previous_elbow, 0.5);
-        //fsr_heel_current_elbow = utils::ewma(_leg_data->heel_fsr, _controller_data->fsr_heel_previous_elbow, 0.5);
-        _controller_data->fsr_toe_previous_elbow = fsr_toe_current_elbow;
-        _controller_data->fsr_heel_previous_elbow = fsr_heel_current_elbow;
-    }
-    
 
-    _controller_data->fsr_toe_array_elbow[_controller_data->i_elbow] = fsr_toe_current_elbow;
-    _controller_data->fsr_heel_array_elbow[_controller_data->i_elbow] = fsr_heel_current_elbow;
-    
-    if (_controller_data->is_first_run_elbow) {
-        if (_controller_data->i_elbow == 50) {
-            _controller_data->i_elbow = 0;
-            _controller_data->is_first_run_elbow = false;
+    alpha3 = _controller_data->parameters[controller_defs::elbow_min_max::FiltStrength_idx] * 0.01;
+    float cmd;
+    float Sig_Flex = _leg_data->toe_fsr;    //analogRead(A2);  //analogRead(A2); //_leg_data->heel_fsr; (Sensor 1)
+    float Sig_Ext = _leg_data->heel_fsr;    //analogRead(A3); // //analogRead(A3); //_leg_data->toe_fsr; //not working (Sensor 2)
+
+    // Filter the incoming FSR signals
+    _leg_data->Smoothed_Sig_Flex = ((alpha0 * Sig_Flex) + ((1 - alpha0) * _leg_data->Smoothed_Sig_Flex));
+    _leg_data->Smoothed_Sig_Ext = ((alpha0 * Sig_Ext) + ((1 - alpha0) * _leg_data->Smoothed_Sig_Ext));
+
+
+    // ============================================ Start Manual Calibration Loop: FSR & Angle Sensing ============================================ //
+
+    if ((_controller_data->parameters[controller_defs::elbow_min_max::CaliRequest_idx] == 1) || (_controller_data->parameters[controller_defs::elbow_min_max::CaliRequest_idx] == 2)) {
+
+        // Initialization loop - This loop includes initialization parameters and should only run once when a manual calibration is requested (i.e. the CaliRequest_idx = 1)
+        if (_controller_data->parameters[controller_defs::elbow_min_max::CaliRequest_idx] == 1) {
+
+            //Initialize Calibration Start Time
+            _leg_data->starttime = millis();
+
+            //Initialize Manual Calibration Parameters    
+            _leg_data->Smoothed_Sig_Flex = 0;
+            _leg_data->Smoothed_Sig_Ext = 0;
+            _leg_data->Smoothed_Flex_Max = 0.2;
+            _leg_data->Smoothed_Ext_Max = 0.2;
+            _leg_data->Smoothed_Flex_Min = 0.1;
+            _leg_data->Smoothed_Ext_Min = 0.1;
+
+            // Flag that calibration has been inialized and plotting FSR signals can begin
+            _leg_data->check = 1;
         }
+
+        //Update Calibration Timer
+        float timer = millis() - _leg_data->starttime;
+
+        //Check if calibration timer is past 10 seconds, stop is so.
+        if (timer > 10000) {
+            // Disable this calibration loop, which ensures it get's skipped in the following loop iterations
+            _controller_data->parameters[controller_defs::elbow_min_max::CaliRequest_idx] = 0;
+
+
+
+        }
+
+        // MIN/MAX Loop - If still in calibration time window (10 seconds), look for new max and min sensor readings
+        else if (timer <= 10000) {
+
+            // Set new EMG/FSR Sensor Max/Min when found
+            _leg_data->Smoothed_Flex_Max = max(_leg_data->Smoothed_Sig_Flex, _leg_data->Smoothed_Flex_Max);
+            _leg_data->Smoothed_Flex_Min = min(_leg_data->Smoothed_Sig_Flex, _leg_data->Smoothed_Flex_Min);
+            _leg_data->Smoothed_Ext_Max = max(_leg_data->Smoothed_Sig_Ext, _leg_data->Smoothed_Ext_Max);
+            _leg_data->Smoothed_Ext_Min = min(_leg_data->Smoothed_Sig_Ext, _leg_data->Smoothed_Ext_Min);
+
+
+            // Set new Joint Angle Sensor Max/Min when found
+            _leg_data->Angle_Max = max(_leg_data->ankle.position, _leg_data->Angle_Max);
+            _leg_data->Angle_Min = min(_leg_data->ankle.position, _leg_data->Angle_Min);
+
+            // Switches the next calibration iteration loop to exclude the initialation loop, which ensures it get's skipped in the following loop iterations
+            _controller_data->parameters[controller_defs::elbow_min_max::CaliRequest_idx] = 2;
+        }
+
+    }
+
+    // -------------------------------------------- End Manual Calibration Loop: FSR & Angle Sensing --------------------------------------------- //
+
+
+
+    // ========================================= Start Automatic Calibration Loop: FSR & Angle Sensing =========================================== //
+
+        // With the default setup (CaliRequest = 3), the program will enter this loop once during startup to determine FSR Min/Max calibration parameters
+
+    else if (_controller_data->parameters[controller_defs::elbow_min_max::CaliRequest_idx] == 3) {
+
+
+        // Right Glove Predefined Calibration Min & Max Parameters
+        if (!_joint_data->is_left) {
+            _leg_data->Smoothed_Flex_Max = 4.1;
+            _leg_data->Smoothed_Ext_Max = 3.9;
+            _leg_data->Smoothed_Flex_Min = 0.1;
+            _leg_data->Smoothed_Ext_Min = 0.1;
+
+            // old
+            /*_leg_data->Smoothed_Flex_Max = 10;
+            _leg_data->Smoothed_Ext_Max = 6.5;
+            _leg_data->Smoothed_Flex_Min = 0.1;
+            _leg_data->Smoothed_Ext_Min = 0.1;*/
+        }
+
+        // Left Glove Predefined Calibration Min & Max Parameters
+        if (_joint_data->is_left) {
+            _leg_data->Smoothed_Flex_Max = 4;
+            _leg_data->Smoothed_Ext_Max = 2.2;
+            _leg_data->Smoothed_Flex_Min = 0.1;
+            _leg_data->Smoothed_Ext_Min = 0.1;
+
+            /* old
+            _leg_data->Smoothed_Flex_Max = 6;
+            _leg_data->Smoothed_Ext_Max = 2;
+            _leg_data->Smoothed_Flex_Min = 0.1;
+            _leg_data->Smoothed_Ext_Min = 0.1;*/
+        }
+
+        // Disable this calibration loop, which ensures it get's skipped in the following loop iterations
+        _controller_data->parameters[controller_defs::elbow_min_max::CaliRequest_idx] = 0;
+
+        // Flag that calibration has been completed
+        _leg_data->check = 1;
+
+    }
+
+    // ----------------------------------------- End - Automatic Calibration Loop: FSR & Angle Sensing ------------------------------------------------ //
+
+
+    // ================================================== FSR and ANGLE Normalization ============================================================== //
+        //  creating signals between 0 and 100% or 0 amd 1.
+        // If calibration check has been completed and flagged
+    if (_leg_data->check == 1) {
+
+        // Normalize FSR/EMG data -
+        _leg_data->FlexSense = (_leg_data->Smoothed_Sig_Flex - _leg_data->Smoothed_Flex_Min) / (_leg_data->Smoothed_Flex_Max - _leg_data->Smoothed_Flex_Min);
+        _leg_data->ExtenseSense = (_leg_data->Smoothed_Sig_Ext - _leg_data->Smoothed_Ext_Min) / (_leg_data->Smoothed_Ext_Max - _leg_data->Smoothed_Ext_Min);
+
+        // Smooth the signal with an EMA filter
+        //_leg_data->FlexSense = ((alpha1 * _leg_data->Smoothed_Sig_Flex) + ((1 - alpha1) * _leg_data->FlexSense));
+        //_leg_data->ExtenseSense = ((alpha1 * _leg_data->Smoothed_Sig_Ext) + ((1 - alpha1) * _leg_data->ExtenseSense));
+
+        // Normalize Angle Sensor Data
+        _leg_data->Angle = (_leg_data->ankle.position - _leg_data->Angle_Min) / (_leg_data->Angle_Max - _leg_data->Angle_Min);
+    }
+
+    // If calibration has not been completed - just filter the reading without normalization
+    else {
+        _leg_data->Smoothed_Sig_Flex = ((alpha1 * Sig_Flex) + ((1 - alpha1) * _leg_data->Smoothed_Sig_Flex));
+        _leg_data->Smoothed_Sig_Ext = ((alpha1 * Sig_Ext) + ((1 - alpha1) * _leg_data->Smoothed_Sig_Ext));
+
+    }
+
+
+
+    // =========================================================== Start: State Detection ======================================================================= //
+
+    // Flexion Condition
+    if (_leg_data->FlexSense > (0.05 * _controller_data->parameters[controller_defs::elbow_min_max::DigitFSR_threshold_idx]) && _leg_data->FlexSense > _leg_data->ExtenseSense) {
+
+        _leg_data->setpoint = _controller_data->parameters[controller_defs::elbow_min_max::FLEXamplitude_idx];
+
+        // Update State booleens for torque modifier loop
+        _leg_data->flexState = 1;
+        _leg_data->extState = 0;
+        _leg_data->nullState = 0;
+
+    }
+
+    // Extension Condition
+    else if (_leg_data->ExtenseSense > (0.05 * _controller_data->parameters[controller_defs::elbow_min_max::PalmFSR_threshold_idx])) { //&& _leg_data->ExtenseSense > _leg_data->FlexSense) {
+
+        _leg_data->setpoint = -1 * _controller_data->parameters[controller_defs::elbow_min_max::EXTamplitude_idx];
+
+        // Update State booleens for torque modifier loop
+        _leg_data->flexState = 0;
+        _leg_data->extState = 1;
+        _leg_data->nullState = 0;
+    }
+
+
+    // Zero Torque Condition
+    else if (_leg_data->FlexSense < (0.05 * _controller_data->parameters[controller_defs::elbow_min_max::DigitFSR_LOWthreshold_idx]) && _leg_data->ExtenseSense < (0.05 * _controller_data->parameters[controller_defs::elbow_min_max::PalmFSR_LOWthreshold_idx])) {
+
+        _leg_data->setpoint = 0;    //_controller_data->parameters[controller_defs::elbow_min_max::amplitude_idx];
+
+        // Update State booleens for torque modifier loop
+        _leg_data->flexState = 0;
+        _leg_data->extState = 0;
+        _leg_data->nullState = 1;
+    }
+
+    // Just incase condition
+    else {
+
+        _leg_data->setpoint = _controller_data->previous_setpoint;
+    }
+
+    // Update previous setpoint for the "Just incase condition"
+    _controller_data->previous_setpoint = _leg_data->setpoint;
+
+
+    // --------------------------------------------------------------- End: State Detection ----------------------------------------------------------------------------- //
+
+
+
+    // =========================================================== Start: Torque Profile Modifier ======================================================================= //
+
+      // Setpoint modification - Spring Torque Profile
+    if (_controller_data->parameters[controller_defs::elbow_min_max::TrqProfile_idx] == 1) {
+
+        // Flexion Modifier
+        if (_leg_data->flexState) {
+
+            // This equation came from a polyfit in excel that maps the desired increase in torque with respect to the normalized angle - specifically for flexion          
+            _controller_data->SpringEffect = ((3.1702 * pow(_leg_data->Angle, 3)) - (4.6572 * pow(_leg_data->Angle, 2)) + (0.49 * _leg_data->Angle) + 1.0006) * _controller_data->parameters[controller_defs::elbow_min_max::SpringPkTorque_idx];
+
+            // This sums the selected setpoint (12 Nm) with the torque modifier, to determine the desired setpoint
+            _leg_data->setpoint = _controller_data->SpringEffect + _leg_data->setpoint;
+
+        }
+
+        // Extension Modifier
+        else if (_leg_data->extState) {
+
+            // This equation came from a polyfit in excel that maps the desired increase in torque with respect to the normalized angle - specifically for extension
+            _controller_data->SpringEffect = ((-3.1702 * pow(_leg_data->Angle, 3)) + (4.8521 * pow(_leg_data->Angle, 2)) - (0.6858 * _leg_data->Angle) + (0.0034)) * _controller_data->parameters[controller_defs::elbow_min_max::SpringPkTorque_idx];
+
+            // This sums the selected setpoint (12 Nm) with the torque modifier, to determine the desired setpoint
+            _leg_data->setpoint = -1 * _controller_data->SpringEffect + _leg_data->setpoint;
+
+        }
+
         else {
-              _controller_data->fsr_toe_sum_elbow += fsr_toe_current_elbow;
-              _controller_data->fsr_heel_sum_elbow += fsr_heel_current_elbow;
-              if (fsr_toe_current_elbow > _controller_data->fsr_toe_max_elbow) {
-                     _controller_data->fsr_toe_max_elbow = fsr_toe_current_elbow;
-              }
-              else if (fsr_toe_current_elbow < _controller_data->fsr_toe_min_elbow) {
-                     _controller_data->fsr_toe_min_elbow = fsr_toe_current_elbow;
-                 }
-              if (fsr_heel_current_elbow > _controller_data->fsr_heel_max_elbow) {
-                     _controller_data->fsr_heel_max_elbow = fsr_heel_current_elbow;
-                 }
-              else if (fsr_heel_current_elbow < _controller_data->fsr_heel_min_elbow) {
-                     _controller_data->fsr_heel_min_elbow = fsr_heel_current_elbow;
-                 }
+            _leg_data->setpoint = 0;
         }
+    }
+    // ================================================================== End: Torque Profile Modifier ======================================================================= //
+
+
+        // EXAMPLE: Serial Printing (Inside main Loop) for the left side
+
+    if (_joint_data->is_left) {
+        Serial.print("Left Digits:: ");
+        Serial.print(_leg_data->FlexSense);
+        Serial.print(", ");
+        Serial.print("Left Palm:: ");
+        Serial.print(_leg_data->ExtenseSense);
+    }
+    if (!_joint_data->is_left) {
+        Serial.print("Right Digits:: ");
+        Serial.print(_leg_data->FlexSense);
+        Serial.print(", ");
+        Serial.print("Right Palm:: ");
+        Serial.println(_leg_data->ExtenseSense);
     }
 
 
-    else {
-        if (_controller_data->i_elbow == 50){
-        _controller_data->i_elbow = 0;
-            Serial.println("50 iterations done.");            
-        }
 
-        _controller_data->fsr_toe_sum_elbow -= _controller_data->fsr_toe_array_elbow[0];
-        _controller_data->fsr_toe_sum_elbow += fsr_toe_current_elbow;
-        _controller_data->fsr_heel_sum_elbow -= _controller_data->fsr_heel_array_elbow[0];
-        _controller_data->fsr_heel_sum_elbow += fsr_heel_current_elbow;
-        _controller_data->fsr_toe_array_elbow[_controller_data->i_elbow] = fsr_toe_current_elbow;
-        _controller_data->fsr_heel_array_elbow[_controller_data->i_elbow] = fsr_heel_current_elbow;
+    // Get Filtered torque reading, and setpoint for PID input
+    _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, alpha2);
+    _leg_data->setpoint_filtered = utils::ewma(_leg_data->setpoint, _leg_data->setpoint_filtered, alpha3);   // Was 0.01 for most trials
 
+    // Saftey Feature - Saturate Torque Setpoint at the max if the modifier gets a wild angle reading (Max Torque Limit)
+    if (_leg_data->setpoint_filtered < -1 * _controller_data->parameters[controller_defs::elbow_min_max::TorqueLimit_idx]) {
+        _leg_data->setpoint_filtered = -1 * _controller_data->parameters[controller_defs::elbow_min_max::TorqueLimit_idx];
+    }
+    if (_leg_data->setpoint_filtered > _controller_data->parameters[controller_defs::elbow_min_max::TorqueLimit_idx]) {
+        _leg_data->setpoint_filtered = _controller_data->parameters[controller_defs::elbow_min_max::TorqueLimit_idx];
     }
 
-    
-    for (int i = 0; i < 50; i++) {
-        if (_controller_data->fsr_toe_array_elbow[_controller_data->i_elbow] > _controller_data->fsr_toe_max_elbow) {
-            _controller_data->fsr_toe_max_elbow = _controller_data->fsr_toe_array_elbow[_controller_data->i_elbow];
-        }
-        else if (_controller_data->fsr_toe_array_elbow[_controller_data->i_elbow] < _controller_data->fsr_toe_min_elbow) {
-            _controller_data->fsr_toe_min_elbow = _controller_data->fsr_toe_array_elbow[_controller_data->i_elbow];
-        }
-        if (_controller_data->fsr_heel_array_elbow[_controller_data->i_elbow] > _controller_data->fsr_heel_max_elbow) {
-            _controller_data->fsr_heel_max_elbow = _controller_data->fsr_heel_array_elbow[_controller_data->i_elbow];
-        }
-        else if (_controller_data->fsr_heel_array_elbow[_controller_data->i_elbow] < _controller_data->fsr_heel_min_elbow) {
-            _controller_data->fsr_heel_min_elbow = _controller_data->fsr_heel_array_elbow[_controller_data->i_elbow];
-        }
-    } 
-    
+    // Get motor command based on PID
+    cmd = _leg_data->setpoint_filtered + _pid(_leg_data->setpoint_filtered, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::elbow_min_max::P_gain_idx], _controller_data->parameters[controller_defs::elbow_min_max::I_gain_idx], _controller_data->parameters[controller_defs::elbow_min_max::D_gain_idx]);       //originally, (10, 0, 200)
 
-    _controller_data->i_elbow++;
-
-    // output_limit_elbow = _controller_data->parameters[controller_defs::elbow_min_max::output_limit_elbow];
-    if (_controller_data->fsr_toe_min_elbow != _controller_data->fsr_toe_max_elbow) {
-        _controller_data->fsr_min_max_elbow = (fsr_toe_current_elbow - _controller_data->fsr_toe_min_elbow)/(_controller_data->fsr_toe_max_elbow - _controller_data->fsr_toe_min_elbow);
-        cmd_toe_elbow = _controller_data->output_limit_elbow * _controller_data->fsr_min_max_elbow;      
-        // Serial.print("Toe: Current filtered FSR ");
-        // Serial.print(fsr_toe_current_elbow, 2);
-        // Serial.print(" |Current raw FSR ");
-        // Serial.print(_leg_data->toe_fsr, 2);
-        // Serial.print(" |Min ");
-        // Serial.print(_controller_data->fsr_toe_min_elbow,2);
-        // Serial.print("  |Max ");
-        // Serial.print(_controller_data->fsr_toe_max_elbow,2);
-        // Serial.print(" |Constant ");
-        // Serial.print(_controller_data->output_limit_elbow);
-        // Serial.print(" |Current ratio ");
-        // Serial.print(_controller_data->fsr_min_max_elbow);
-        // Serial.print("\n");
-    }
-    else {
-        cmd_toe_elbow = 0;
-        // Serial.print("Toe fsr readings equal.\n");
-    }
-    if (_controller_data->fsr_heel_min_elbow != _controller_data->fsr_heel_max_elbow) {
-        _controller_data->fsr_min_max_elbow = (fsr_heel_current_elbow - _controller_data->fsr_heel_min_elbow)/(_controller_data->fsr_heel_max_elbow - _controller_data->fsr_heel_min_elbow);
-        cmd_heel_elbow = _controller_data->output_limit_elbow * _controller_data->fsr_min_max_elbow;      
-        // Serial.print("Heel: Min ");
-        // Serial.print(_controller_data->fsr_heel_min_elbow,2);
-        // Serial.print(" Max ");
-        // Serial.print(_controller_data->fsr_heel_max_elbow,2);
-        // Serial.print(" Constant ");
-        // Serial.print(_controller_data->output_limit_elbow);
-        // Serial.print(" Current ratio ");
-        // Serial.print(_controller_data->fsr_min_max_elbow);
-        // Serial.print("\n");
-    }
-    else {
-        cmd_heel_elbow = 0;
-        // Serial.println("Heel fsr readings equal.\n");
-    }
-
-    cmd = cmd_toe_elbow;
-	cmd = 0;
-    // Serial.print("cmd is ");
-    // Serial.print(cmd, 2);
-    // Serial.print("\n"); */
-	
-	// low pass filter on torque_reading
-    /* const float torque = _joint_data->torque_reading * (_leg_data->is_left ? 1 : -1); */
-
-    _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, 0.5);
-	
-	
-	
-	// Serial.print("\n Pre PID cmd: ");
-	// Serial.print(cmd);
-	
-	cmd = _pid(cmd, _joint_data->torque_reading,10,0,200);
-/* 	Serial.print("  |  Post PID cmd: ");
-	Serial.print(cmd); */
-	_controller_data->elbow_cmd = cmd;
     return cmd;
 }
+
 //****************************************************
 
 

@@ -84,6 +84,33 @@ class LegData {
         Inclination inclination;
 
         float PHJM_state;   /**< state for the PHJM controller, else should be set to 0 (here so it can be plotted) */
+
+        //Elbow Variables
+        float elbow_cmd;                      //motor command
+        float Smoothed_Sig_Flex = 0;
+        float Smoothed_Sig_Ext = 0;
+        float FlexSense = 0;
+        float ExtenseSense = 0;
+        float Smoothed_Flex_Max = 0.2;
+        float Smoothed_Flex_Min = 0.1;
+        float Smoothed_Ext_Max = 0.2;
+        float Smoothed_Ext_Min = 0.1;
+        float starttime = 0;
+        float check = 0;
+        float t_0 = 0;
+        float t_1 = 0.001;
+        float V_0 = 0;
+        float V_1 = 0;
+        float Angle_Max = 0;
+        float Angle_Min = 0;
+        float Angle = 0;
+
+        float setpoint = 0;
+        float setpoint_filtered = 0;
+        bool flexState = 0;
+        bool extState = 0;
+        bool nullState = 1;
+        float flexcount = 0;
 };
 
 #endif

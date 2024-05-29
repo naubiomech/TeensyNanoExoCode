@@ -50,17 +50,17 @@ bool FSR::calibrate(bool do_calibrate)
         /* Set the Max & Min Values */
         
         /* If You Want Raw FSR Signal, Uncomment this and Comment out Regression Section Below */
-        //_calibration_max = analogRead(_pin);
-        //_calibration_min = _calibration_max;
+        _calibration_max = analogRead(_pin);
+        _calibration_min = _calibration_max;
 
         /* Regression Equation FSR to Make Proportional to Ankle Moment*/
-        double p[4] = { 0.0787, -0.8471, 20.599, -22.670 };
-        float Vo = 10 * 3.3 * analogRead(_pin) / 4095;                      //Note: 10* is to scale the output
-        Vo = (Vo) / (87.43 * pow((Vo), (-0.6721)) - 7.883);                 //Apply interlink conversion
-        Vo = p[0] * Vo * Vo * Vo + p[1] * Vo * Vo + p[2] * Vo + p[3];       //Apply amplification polynomial
-        Vo = (Vo < 0.2) ? (0) : (Vo);                                       //If the value is less than 0.2, set it to zero
-        _calibration_max = Vo;
-        _calibration_min = _calibration_max;
+        //double p[4] = { 0.0787, -0.8471, 20.599, -22.670 };
+        //float Vo = 10 * 3.3 * analogRead(_pin) / 4095;                      //Note: 10* is to scale the output
+        //Vo = (Vo) / (87.43 * pow((Vo), (-0.6721)) - 7.883);                 //Apply interlink conversion
+        //Vo = p[0] * Vo * Vo * Vo + p[1] * Vo * Vo + p[2] * Vo + p[3];       //Apply amplification polynomial
+        //Vo = (Vo < 0.2) ? (0) : (Vo);                                       //If the value is less than 0.2, set it to zero
+        //_calibration_max = Vo;
+        //_calibration_min = _calibration_max;
 
 
     }
@@ -75,15 +75,15 @@ bool FSR::calibrate(bool do_calibrate)
         // logger::println(_pin);
 
         /* If You Want Raw FSR Signal, Uncomment this and Comment out Regression Section Below */
-        //uint16_t current_reading = analogRead(_pin);
+        uint16_t current_reading = analogRead(_pin);
 
         /* Regression Equation FSR to Make Proportional to Ankle Moment*/
-        double p[4] = { 0.0787, -0.8471, 20.599, -22.670 };
-        float Vo = 10 * 3.3 * analogRead(_pin) / 4095;                      //ZL Added in the 10* to scale the output
-        Vo = (Vo) / (87.43 * pow((Vo), (-0.6721)) - 7.883);                 //Apply interlink conversion
-        Vo = p[0] * Vo * Vo * Vo + p[1] * Vo * Vo + p[2] * Vo + p[3];       //Apply amplification polynomial
-        Vo = (Vo < 0.2) ? (0) : (Vo);                                       //If the value is less than 0.2, set it to zero
-        float current_reading = Vo;
+        //double p[4] = { 0.0787, -0.8471, 20.599, -22.670 };
+        //float Vo = 10 * 3.3 * analogRead(_pin) / 4095;                      //ZL Added in the 10* to scale the output
+        //Vo = (Vo) / (87.43 * pow((Vo), (-0.6721)) - 7.883);                 //Apply interlink conversion
+        //Vo = p[0] * Vo * Vo * Vo + p[1] * Vo * Vo + p[2] * Vo + p[3];       //Apply amplification polynomial
+        //Vo = (Vo < 0.2) ? (0) : (Vo);                                       //If the value is less than 0.2, set it to zero
+        //float current_reading = Vo;
 
         // Track the min and max.
         _calibration_max = max(_calibration_max, current_reading);
@@ -127,15 +127,15 @@ bool FSR::refine_calibration(bool do_refinement)
         if (_step_count < _num_steps)
         {
             /* If You Want Raw FSR Signal, Uncomment this and Comment out Regression Section Below */
-            //uint16_t current_reading = analogRead(_pin);
+            uint16_t current_reading = analogRead(_pin);
 
             /* Regression Equation FSR to Make Proportional to Ankle Moment*/
-            double p[4] = { 0.0787, -0.8471, 20.599, -22.670 };
-            float Vo = 10 * 3.3 * analogRead(_pin) / 4095;                      //ZL Added in the 10* to scale the output
-            Vo = (Vo) / (87.43 * pow((Vo), (-0.6721)) - 7.883);                 //Apply interlink conversion
-            Vo = p[0] * Vo * Vo * Vo + p[1] * Vo * Vo + p[2] * Vo + p[3];       //Apply amplification polynomial
-            Vo = (Vo < 0.2) ? (0) : (Vo);                                       //If the value is less than 0.2, set it to zero
-            float current_reading = Vo;
+            //double p[4] = { 0.0787, -0.8471, 20.599, -22.670 };
+            //float Vo = 10 * 3.3 * analogRead(_pin) / 4095;                      //ZL Added in the 10* to scale the output
+            //Vo = (Vo) / (87.43 * pow((Vo), (-0.6721)) - 7.883);                 //Apply interlink conversion
+            //Vo = p[0] * Vo * Vo * Vo + p[1] * Vo * Vo + p[2] * Vo + p[3];       //Apply amplification polynomial
+            //Vo = (Vo < 0.2) ? (0) : (Vo);                                       //If the value is less than 0.2, set it to zero
+            //float current_reading = Vo;
 
             // For each step find max and min for every step
             // keep a running record of the max and min for the step.
@@ -181,15 +181,15 @@ bool FSR::refine_calibration(bool do_refinement)
 float FSR::read()
 {
     /* If You Want Raw FSR Signal, Uncomment this and Comment out Regression Section Below */
-    //_raw_reading = analogRead(_pin);
+    _raw_reading = analogRead(_pin);
 
     /* Regression Equation FSR to Make Proportional to Ankle Moment*/
-    double p[4] = { 0.0787, -0.8471, 20.599, -22.670 };
-    float Vo = 10 * 3.3 * analogRead(_pin) / 4095;                      //ZL Added in the 10* to scale the output
-    Vo = (Vo) / (87.43 * pow((Vo), (-0.6721)) - 7.883);                 //Apply interlink conversion
-    Vo = p[0] * Vo * Vo * Vo + p[1] * Vo * Vo + p[2] * Vo + p[3];       //Apply amplification polynomial
-    Vo = (Vo < 0.2) ? (0) : (Vo);                                       //If the value is less than 0.2, set it to zero
-    float _raw_reading = Vo;
+    //double p[4] = { 0.0787, -0.8471, 20.599, -22.670 };
+    //float Vo = 10 * 3.3 * analogRead(_pin) / 4095;                      //ZL Added in the 10* to scale the output
+    //Vo = (Vo) / (87.43 * pow((Vo), (-0.6721)) - 7.883);                 //Apply interlink conversion
+    //Vo = p[0] * Vo * Vo * Vo + p[1] * Vo * Vo + p[2] * Vo + p[3];       //Apply amplification polynomial
+    //Vo = (Vo < 0.2) ? (0) : (Vo);                                       //If the value is less than 0.2, set it to zero
+    //float _raw_reading = Vo;
 
 
     // Return the value using the calibrated refinement if it is done.

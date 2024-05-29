@@ -313,6 +313,28 @@ namespace UART_command_handlers
         case (uint8_t)config_defs::exo_name::bilateral_ankle:
             rx_msg.len = (uint8_t)rt_data::BILATERAL_ANKLE_RT_LEN;
 
+            //Plotting & Saved Data Order Guide
+            //0 = Right Torque [Blue Line]
+            //1 = Right State [Blue Line]
+            //2 = Right Torque [Red Line]
+            //3 = Left Torque [Blue Line]
+            //4 = Left State [Blue Line]
+            //5 = Left Torque [Red Line]
+            //6 = Right State [Red Line]
+            //7 = Left State [Red Line]
+            //8 = Not Plotted, Will Save
+            //9 = Not Plotted, Will Save
+
+            //Elbow Plot
+            rx_msg.data[0] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
+            rx_msg.data[1] = exo_data->right_leg.toe_fsr; //exo_data->right_leg.FlexSense;
+            rx_msg.data[2] = exo_data->right_leg.setpoint_filtered;
+            rx_msg.data[3] = exo_data->left_leg.ankle.controller.filtered_torque_reading;
+            rx_msg.data[4] = exo_data->left_leg.toe_fsr; // exo_data->left_leg.FlexSense;
+            rx_msg.data[5] = exo_data->left_leg.setpoint_filtered;
+            rx_msg.data[6] = exo_data->right_leg.heel_fsr; // exo_data->right_leg.ExtenseSense;
+            rx_msg.data[7] = exo_data->left_leg.heel_fsr; // exo_data->left_leg.ExtenseSense;
+
             // Jack Plot
             //  rx_msg.data[0] = exo_data->right_leg.percent_stance / 100; // ankle.controller.filtered_torque_reading; //motor.i; //filtered_torque_reading *-1;
             //  rx_msg.data[1] = exo_data->right_leg.ankle.controller.filtered_torque_reading;//exo_data->right_leg.ankle.motor.i;
@@ -323,16 +345,16 @@ namespace UART_command_handlers
             //  rx_msg.data[6] = exo_data->right_leg.ankle.controller.ff_setpoint; //toe_fsr; //ankle.joint_position;
             //  rx_msg.data[7] = exo_data->left_leg.ankle.controller.ff_setpoint; //toe_fsr;
 
-                rx_msg.data[0] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
-                rx_msg.data[1] = exo_data->right_leg.toe_stance;
-                rx_msg.data[2] = exo_data->right_leg.ankle.controller.ff_setpoint;
-                rx_msg.data[3] = exo_data->left_leg.ankle.controller.filtered_torque_reading;
-                rx_msg.data[4] = exo_data->left_leg.toe_stance;
-                rx_msg.data[5] = exo_data->left_leg.ankle.controller.ff_setpoint;
-                rx_msg.data[6] = exo_data->right_leg.toe_fsr;
-                rx_msg.data[7] = exo_data->left_leg.toe_fsr;
-                rx_msg.data[8] = exo_data->right_leg.percent_gait / 100;
-                rx_msg.data[9] = exo_data->left_leg.percent_gait / 100;
+                //rx_msg.data[0] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
+                //rx_msg.data[1] = exo_data->right_leg.toe_stance;
+                //rx_msg.data[2] = exo_data->right_leg.ankle.controller.ff_setpoint;
+                //rx_msg.data[3] = exo_data->left_leg.ankle.controller.filtered_torque_reading;
+                //rx_msg.data[4] = exo_data->left_leg.toe_stance;
+                //rx_msg.data[5] = exo_data->left_leg.ankle.controller.ff_setpoint;
+                //rx_msg.data[6] = exo_data->right_leg.toe_fsr;
+                //rx_msg.data[7] = exo_data->left_leg.toe_fsr;
+                //rx_msg.data[8] = exo_data->right_leg.percent_gait / 100;
+                //rx_msg.data[9] = exo_data->left_leg.percent_gait / 100;
 				
 				////TREC Plot
 				////Right Torque

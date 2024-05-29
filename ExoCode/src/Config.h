@@ -84,7 +84,7 @@
     {
         const String FirmwareVersion = String(TOSTRING(FIRMWARE_VERSION)); // string to add to firmware char
         const String PCBVersion = String(TOSTRING(BOARD_VERSION)); // string to add to pcb char
-        const String DeviceName = String("T800_by_DiamondCity"); // string to add to device char, if you would like the system to set it use "NULL"
+        const String DeviceName = String("Exo"); // string to add to device char, if you would like the system to set it use "NULL"
     }
 
     namespace UART_times

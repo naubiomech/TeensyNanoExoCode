@@ -111,12 +111,21 @@ namespace controller_defs /**< stores the parameter indexes for different contro
 
     namespace elbow_min_max
     {
-        const uint8_t amplitude_idx = 0;    // amplitude in Nm
-        const uint8_t fsr_threshold_idx = 1;  
-		const uint8_t fsr_threshold1_idx = 2;
-        const uint8_t num_parameter = 3;
-        
-        
+        const uint8_t FLEXamplitude_idx = 0;            // Flexion Torque setpoint in Nm
+        const uint8_t DigitFSR_threshold_idx = 1;       // Grip Upper Threshhold
+        const uint8_t PalmFSR_threshold_idx = 2;        // Palm Upper Threshold
+        const uint8_t DigitFSR_LOWthreshold_idx = 3;    // Grip lower Threshhold
+        const uint8_t PalmFSR_LOWthreshold_idx = 4;     // Palm lower Threshold
+        const uint8_t CaliRequest_idx = 5;              // Calibration Request - 1 = factory recalibrate
+        const uint8_t TrqProfile_idx = 6;               // Toggles between torque profiles, 1 = spring torque, 0 = constant torque
+        const uint8_t P_gain_idx = 7;                   // Proportion gain for closed loop torque control
+        const uint8_t I_gain_idx = 8;                   // Integral gain
+        const uint8_t D_gain_idx = 9;                   // Differntial gain
+        const uint8_t TorqueLimit_idx = 10;             // Setpoint Limiter - max pos/neg amplitude - default 16
+        const uint8_t SpringPkTorque_idx = 11;          // Sets the maximum spring torque (Nm)
+        const uint8_t EXTamplitude_idx = 12;           // Extension Torque Setpoint in Nm
+        const uint8_t FiltStrength_idx = 13;             // Setpoint Filter Strength
+        const uint8_t num_parameter = 14;               // Number of unique commands      
     }
 
     namespace ptb_general 
@@ -276,6 +285,7 @@ class ControllerData {
 		
 
         // Variables for the ElbowMinMax Controller
+        float previous_setpoint = 0;
         float fsr_toe_min_elbow = 0;
         float fsr_toe_max_elbow = 0;
         float fsr_heel_min_elbow = 0;
@@ -283,15 +293,17 @@ class ControllerData {
         float fsr_toe_sum_elbow = 0;
         float fsr_heel_sum_elbow = 0;
         int i_elbow = 0;
-        int fsr_toe_array_elbow [50] = {0};
-        int fsr_heel_array_elbow [50] = {0};
+        int fsr_toe_array_elbow[50] = { 0 };
+        int fsr_heel_array_elbow[50] = { 0 };
         bool is_first_run_elbow = true;
         float output_limit_elbow = 5;
         float fsr_min_max_elbow = 0;
         bool is_first_fsr_reading_elbow = true;
         float fsr_toe_previous_elbow = 0;
         float fsr_heel_previous_elbow = 0;
-		float elbow_cmd = 0;
+        float elbow_cmd = 0;
+
+        float SpringEffect = 0;
 
         // Variables for the Generalizable Perturbation Controller (ptbGeneral)
         bool isPerturbing = false;
