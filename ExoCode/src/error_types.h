@@ -84,7 +84,7 @@ public:
     }
     void handle(JointData* _data)
     {
-        _data->motor.enabled = false;
+        //_data->motor.enabled = false;
         logger::println("Transmission Efficiency Error", LogLevel::Error);
     }
 };
@@ -100,7 +100,7 @@ public:
     }
     void handle(JointData* _data)
     {
-        _data->motor.enabled = false;
+        //_data->motor.enabled = false;
         logger::println("Torque Out of Bounds Error", LogLevel::Error);
     }
 };
@@ -132,7 +132,7 @@ public:
     }
     void handle(JointData* _data)
     {
-        _data->motor.enabled = false;
+        //_data->motor.enabled = false;
         logger::println("Torque Variance Error", LogLevel::Error);
     }
 };
@@ -183,7 +183,7 @@ public:
     }
     void handle(JointData* _data)
     {
-        _data->motor.enabled = false;
+        //_data->motor.enabled = false;
         logger::println("Motor Timeout Error", LogLevel::Error);
     }
 };

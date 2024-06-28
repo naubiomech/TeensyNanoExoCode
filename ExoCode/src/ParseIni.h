@@ -362,6 +362,7 @@ namespace config_defs
             {"hipResist", (uint8_t)config_defs::hip_controllers::hip_resist},
             {"chirp", (uint8_t)config_defs::hip_controllers::chirp},
             {"step", (uint8_t)config_defs::hip_controllers::step},
+
         };
         
         const IniKeyCode knee_controllers 

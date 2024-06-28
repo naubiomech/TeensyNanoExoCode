@@ -47,7 +47,7 @@
 ## Background
 The code is written in Arduino and C++.
 This background section is intended to give you and understanding about the different things you may see in the code and how to interpret them.
-More detailed information can be found on the internet, I like [tutorialspoint](https://www.tutorialspoint.com/cplusplus/index.htm) and [w3schools](https://www.w3schools.com/cpp/default.asp) but there are other resources that are good.
+More detailed information can be found on the internet, [tutorialspoint](https://www.tutorialspoint.com/cplusplus/index.htm) and [w3schools](https://www.w3schools.com/cpp/default.asp) are good but there are other resources that are as well.
 
 ### Bits and Bytes
 A bit is the smallest unit of information that a computer can work with and store. It is represented by one of two states, either a 0 or a 1.
@@ -141,7 +141,7 @@ cout << !(dogs_are_cute && cats_are_nice);	//Would output true
 ```
 
 #### Char
-The Char type can store a one character. The character should be surrounded by single quotes (e.g., 'P','u','p','p','y').
+The Char type can store one character. The character should be surrounded by single quotes (e.g., 'P','u','p','p','y').
 
 **ex.** [BleMessage.h](/ExoCode/src/BleMessage.h)
 ```
@@ -349,7 +349,7 @@ int y = 42;
 
 if (x < y)
 {
-	cout << "The dog is good.";
+	cout << "The dog is really really good.";
 }
 else if (x > y)
 {
@@ -357,7 +357,7 @@ else if (x > y)
 }
 else
 {
-	cout << "The dog is really really good."
+	cout << "The dog is good."
 }
 ```
 
@@ -372,7 +372,7 @@ This formulation is commonly used throughout our code.
 int x = 20;
 int y = 42;
 
-string result = (x < y) ? "The dog is good." : "The dog is really good."
+string result = (x < y) ? "The dog is really really good." : "The dog is really good."
 cout << result;
 ```
 
@@ -391,7 +391,7 @@ float ZeroTorque::calc_motor_cmd()
 };
 ```
 
-In the above example, the condition being evaluated is whether or not we are using PID controll and if it is true then it augments the feed forward command appropriately. 
+In the above example, the condition being evaluated is whether or not we are using PID control and if it is true then it augments the feed forward command appropriately. 
 
 #### Switch Statements
 Switch statements are valuable when there are several different blocks of code that could be run depending on if an expression is true.
@@ -645,10 +645,10 @@ class Dogs
 
 int main()
 {
-	Dogs dog1; 							//Creates an object of Dogs
-	dog1.name = "Mr.Pebbles";			//Assigns a value to the name attribute 
-	dog1.breed = "Golden Retriever";	//Assigns a value to the breed attribute
-	dog1.age = 4;						//Assigns a value to the age attribute 
+	Dogs dog1;		//Creates an object of Dogs
+	dog1.name = "Mr.Pebbles";		//Assigns a value to the name attribute 
+	dog1.breed = "Golden Retriever";		//Assigns a value to the breed attribute
+	dog1.age = 4;		//Assigns a value to the age attribute 
 	
 	dog1.dog_information();		//Utilizes the class's method to output "Mr. Pebbles is a 4 year old Golden Retriever"
 }	

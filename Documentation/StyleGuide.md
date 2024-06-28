@@ -2,7 +2,6 @@
 Based on https://github.com/isocpp/CppCoreGuidelines
 and https://www.python.org/dev/peps/pep-0008/
 
-[TODO] add examples with links and explanations
 ## General 
 - Avoid extra whitespace
 - 4 space tab

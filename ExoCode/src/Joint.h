@@ -178,6 +178,7 @@ class HipJoint : public _Joint
         HipResist _hip_resist; /**< Generalized Perturbation Controller>*/
         Chirp _chirp;
         Step _step;
+        
 };
 
 /**

@@ -50,7 +50,7 @@ namespace controller_defs /**< stores the parameter indexes for different contro
         const uint8_t torque_alpha_idx = 7;
         const uint8_t num_parameter = 8;
     }
-    
+
     namespace heel_toe
     {
         const uint8_t flexion_torque_setpoint_idx = 0;

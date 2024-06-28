@@ -325,7 +325,7 @@ namespace UART_command_handlers
             //8 = Not Plotted, Will Save
             //9 = Not Plotted, Will Save
 
-            //Elbow Plot
+            ////Elbow Plot
             rx_msg.data[0] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
             rx_msg.data[1] = exo_data->right_leg.toe_fsr; //exo_data->right_leg.FlexSense;
             rx_msg.data[2] = exo_data->right_leg.setpoint_filtered;
@@ -335,15 +335,15 @@ namespace UART_command_handlers
             rx_msg.data[6] = exo_data->right_leg.heel_fsr; // exo_data->right_leg.ExtenseSense;
             rx_msg.data[7] = exo_data->left_leg.heel_fsr; // exo_data->left_leg.ExtenseSense;
 
-            // Jack Plot
-            //  rx_msg.data[0] = exo_data->right_leg.percent_stance / 100; // ankle.controller.filtered_torque_reading; //motor.i; //filtered_torque_reading *-1;
-            //  rx_msg.data[1] = exo_data->right_leg.ankle.controller.filtered_torque_reading;//exo_data->right_leg.ankle.motor.i;
-            //  rx_msg.data[2] = exo_data->right_leg.toe_fsr; // ankle.controller.ff_setpoint;
-            //  rx_msg.data[3] = exo_data->left_leg.percent_stance / 100; // ankle.controller.filtered_torque_reading; // filtered_torque_reading; //rx_msg.data[3] = exo_data->right_leg.ankle.motor.i
-            //  rx_msg.data[4] = exo_data->left_leg.ankle.controller.filtered_torque_reading;//toe_stance; //(uint8_t) exo_data->right_leg.inclination; //exo_data->left_leg.toe_stance; //exo_data->left_leg.ankle.motor.i;
-            //  rx_msg.data[5] = exo_data->left_leg.toe_fsr; // ankle.controller.ff_setpoint;
-            //  rx_msg.data[6] = exo_data->right_leg.ankle.controller.ff_setpoint; //toe_fsr; //ankle.joint_position;
-            //  rx_msg.data[7] = exo_data->left_leg.ankle.controller.ff_setpoint; //toe_fsr;
+             //Jack Plot
+              //rx_msg.data[0] = exo_data->right_leg.percent_stance / 100; // ankle.controller.filtered_torque_reading; //motor.i; //filtered_torque_reading *-1;
+              //rx_msg.data[1] = exo_data->right_leg.ankle.controller.filtered_torque_reading;//exo_data->right_leg.ankle.motor.i;
+              //rx_msg.data[2] = exo_data->right_leg.toe_fsr; // ankle.controller.ff_setpoint;
+              //rx_msg.data[3] = exo_data->left_leg.percent_stance / 100; // ankle.controller.filtered_torque_reading; // filtered_torque_reading; //rx_msg.data[3] = exo_data->right_leg.ankle.motor.i
+              //rx_msg.data[4] = exo_data->left_leg.ankle.controller.filtered_torque_reading;//toe_stance; //(uint8_t) exo_data->right_leg.inclination; //exo_data->left_leg.toe_stance; //exo_data->left_leg.ankle.motor.i;
+              //rx_msg.data[5] = exo_data->left_leg.toe_fsr; // ankle.controller.ff_setpoint;
+              //rx_msg.data[6] = exo_data->right_leg.ankle.controller.ff_setpoint; //toe_fsr; //ankle.joint_position;
+              //rx_msg.data[7] = exo_data->left_leg.ankle.controller.ff_setpoint; //toe_fsr;
 
                 //rx_msg.data[0] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
                 //rx_msg.data[1] = exo_data->right_leg.toe_stance;
