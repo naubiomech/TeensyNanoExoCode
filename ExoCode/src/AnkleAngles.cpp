@@ -30,7 +30,7 @@ float AnkleAngles::get(bool return_normalized)
         return 0;
     }
     
-    // Convert ADC counts to ratio
+    //Convert ADC counts to ratio
     const int adc_counts = _left ? analogRead(_left_pin):analogRead(_right_pin);
     const float ratio = adc_counts / 4095.0f;
     if (!return_normalized) {
@@ -45,10 +45,11 @@ float AnkleAngles::_update_population_statistics(const float new_value)
 {
     _mean = utils::ewma(new_value, _mean, _ema_alpha);
 
-    // Slowly bring the max min back to the mean
+    //Slowly bring the max min back to the mean
     _max_average -= _max_min_delta;
     _min_average += _max_min_delta;
-    // Check for new peaks
+
+    //Check for new peaks
     if (new_value > _max_average) {
         _max_average = new_value;
     } else if (new_value < _min_average) {

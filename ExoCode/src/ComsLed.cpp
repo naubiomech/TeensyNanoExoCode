@@ -5,11 +5,12 @@
 
 ComsLed::ComsLed()
 {
-    // set the rgb pins to output
+    //Set the rgb pins to output
     pinMode(coms_micro_pins::red, OUTPUT);
     pinMode(coms_micro_pins::green, OUTPUT);
     pinMode(coms_micro_pins::blue, OUTPUT);
-    // set the initial color to 0
+    
+    //Set the initial color to 0
     this->r = 0;
     this->g = 0;
     this->b = 0;
@@ -47,7 +48,8 @@ void ComsLed::life_pulse()
     if (life_pulse_counter > life_pulse_frequency)
     {
         life_pulse_counter = 0;
-        // flip the state of the green and blue pins
+        
+        //Flip the state of the green and blue pins
         digitalWrite(coms_micro_pins::green, !digitalRead(coms_micro_pins::green));
         digitalWrite(coms_micro_pins::blue, !digitalRead(coms_micro_pins::blue));
     }

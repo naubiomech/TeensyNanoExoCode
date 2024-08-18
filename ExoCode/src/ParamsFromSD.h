@@ -7,7 +7,6 @@
  * @date Jan. 2022
 */
 
-
 #ifndef ParamsFromSD_h
 #define ParamsFromSD_h
 
@@ -20,22 +19,22 @@
 #include <map>
 #include <string>
 
-
-// Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
+//Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41)
     #ifndef SD_SELECT
         #define SD_SELECT BUILTIN_SDCARD
     #endif
     
     typedef std::map<uint8_t, std::string> ParamFilenameKey;
+    
     /**
      * @brief types of errors when reading the SD card
      */
     namespace param_error
     {
-        const uint8_t num_joint_ids = 3; /**< Number of bits the joint type ids need */
-        const uint8_t SD_not_found_idx = num_joint_ids; /**< Error when SD card isn't present */
-        const uint8_t file_not_found_idx = SD_not_found_idx + 1; /**< Error when file is not found on the SD card */
+        const uint8_t num_joint_ids = 3;                            /**< Number of bits the joint type ids need */
+        const uint8_t SD_not_found_idx = num_joint_ids;             /**< Error when SD card isn't present */
+        const uint8_t file_not_found_idx = SD_not_found_idx + 1;    /**< Error when file is not found on the SD card */
     }
     
     /**
@@ -45,7 +44,6 @@
     {
         const ParamFilenameKey hip
         {
-            // for disabled clear the parameters, may not want to use this if this is just a temp pause.  Same for zeroTorque
             {(uint8_t)config_defs::hip_controllers::disabled,"hipControllers/zeroTorque.csv"},
             {(uint8_t)config_defs::hip_controllers::zero_torque,"hipControllers/zeroTorque.csv"},
             {(uint8_t)config_defs::hip_controllers::heel_toe,"hipControllers/heelToe.csv"},

@@ -1,13 +1,12 @@
 /*
- * 
  * P. Stegall Jan. 2022
 */
 
 #include "Controller.h"
 #include "Logger.h"
-//#define CONTROLLER_DEBUG
+//#define CONTROLLER_DEBUG          //Uncomment to enable debug statements to be printed to the serial monitor
 
-// Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
+//Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41) 
 #include <math.h>
 #include <random>
@@ -22,8 +21,9 @@ _Controller::_Controller(config_defs::joint_id id, ExoData* exo_data)
     _t_helper_context = _t_helper->generate_new_context();
     _t_helper_delta_t = 0;
     
-    // we just need to know the side to point at the right data location so it is only for the constructor
+    // We just need to know the side to point at the right data location so it is only for the constructor
     bool is_left = utils::get_is_left(_id);
+    
     #ifdef CONTROLLER_DEBUG
         logger::print(is_left ? "Left " : "Right ");
     #endif 
@@ -32,7 +32,7 @@ _Controller::_Controller(config_defs::joint_id id, ExoData* exo_data)
     _prev_input = 0; 
     _prev_de_dt = 0;
         
-    // set _controller_data to point to the data specific to the controller.
+    //Set _controller_data to point to the data specific to the controller.
     switch (utils::get_joint_type(_id))
     {
         case (uint8_t)config_defs::joint_id::hip:
@@ -83,10 +83,12 @@ _Controller::_Controller(config_defs::joint_id id, ExoData* exo_data)
             }
             break;
     }
+
     #ifdef CONTROLLER_DEBUG
         logger::print("Controller : \n\t_controller_data set \n\t_joint_data set");
     #endif
-    // added a pointer to the leg data as most controllers will need to access info specific to their leg.
+
+    //Added a pointer to the leg data as most controllers will need to access info specific to their leg.
     if (is_left)
     {
         _leg_data = &(exo_data->left_leg);
@@ -95,11 +97,12 @@ _Controller::_Controller(config_defs::joint_id id, ExoData* exo_data)
     {
         _leg_data = &(exo_data->right_leg);
     } 
+
     #ifdef CONTROLLER_DEBUG
         logger::println("\n\t_leg_data set");
     #endif
     
-    // Set the parameters for cf mfac
+    //Set the parameters for cf mfac
     measurements.first = -1;
     measurements.second = 1;
     outputs.first = 0;
@@ -116,24 +119,24 @@ _Controller::_Controller(config_defs::joint_id id, ExoData* exo_data)
 
 float _Controller::_cf_mfac(float reference, float current_measurement)
 {
-    // calculate k-1 (k_0) delta
+    //Calculate k-1 (k_0) delta
     const float du_k0 = outputs.second - outputs.first;
 
-    // prime the state
+    //Prime the state
     measurements.first = measurements.second;
     outputs.first = outputs.second;
     phi.first = phi.second;
     measurements.second = current_measurement;
 
-    // calculate k delta
+    //Calculate k delta
     const float dy_k = measurements.second - measurements.first;
 
-    // calculate the new psuedo partial derivative
+    //Calculate the new psuedo partial derivative
     const float phi_numerator = etta * du_k0 * (dy_k - (phi.first*du_k0));
     const float phi_denominator = mu + (du_k0*du_k0);
     phi.second = phi.first + (phi_numerator/phi_denominator);
 
-    // calculate the new output
+    //Calculate the new output
     const float error = reference - measurements.second;
     const float u_numerator = rho * phi.second * error;
     const float u_denominator = lamda + (abs(phi.second) * abs(phi.second));

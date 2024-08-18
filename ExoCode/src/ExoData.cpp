@@ -7,11 +7,10 @@
  * Constructor for the exo data.
  * Takes the array from the INI parser.
  * Stores the exo status, and the sync LED state.
- * TODO: decide if we want to change the sync LED state to a pointer. Or bring the whole sync LED object into the exo.
  * Uses an initializer list for the leg data. 
  */
 ExoData::ExoData(uint8_t* config_to_send) 
-: left_leg(true, config_to_send)  // using initializer list for member objects.
+: left_leg(true, config_to_send)            //Using initializer list for member objects.
 , right_leg(false, config_to_send)
 {
     this->_status = status_defs::messages::trial_off;
@@ -87,7 +86,7 @@ JointData* ExoData::get_joint_with(uint8_t id)
 
 void ExoData::set_status(uint16_t status_to_set)
 {
-    // If the status is already error, don't change it
+    //If the status is already error, don't change it
     if (this->_status == status_defs::messages::error)
     {
         return;
@@ -133,7 +132,7 @@ void ExoData::set_default_parameters(uint8_t id)
 
 void ExoData::start_pretrial_cal()
 {
-    // Calibrate the Torque Sensors
+    //Calibrate the Torque Sensors
     this->for_each_joint([](JointData* j_data, float* args) {j_data->calibrate_torque_sensor = j_data->is_used;});
 }
 
@@ -154,13 +153,6 @@ void ExoData::print()
         logger::println(left_leg.do_calibration_refinement_toe_fsr);
         logger::print("\tLeft :: Percent Gait : ");
         logger::println(left_leg.percent_gait);
-        // logger::print("\tLeft :: Percent Gait Bytes: ");
-        // for (unsigned int i = 0; i < sizeof(SPI_DATA_TYPE); i++)
-        // {
-            // logger::print(_peripheral_message[running_idx_cnt + spi_data_idx::leg::percent_gait-spi_data_idx::leg::idx_cnt+i],HEX);
-            // logger::print("\t");
-        // }
-        // logger::print("\n");
         logger::print("\tLeft :: Heel FSR : ");
         logger::println(left_leg.heel_fsr);
         logger::print("\tLeft :: Toe FSR : ");
@@ -247,7 +239,7 @@ void ExoData::print()
         }
     }
     
-    if (left_leg.is_used)
+    if (right_leg.is_used)
     {
         logger::print("\tRight :: FSR Calibration : ");
         logger::print(right_leg.do_calibration_heel_fsr);
@@ -262,7 +254,7 @@ void ExoData::print()
         logger::print("\tLeft :: Toe FSR : ");
         logger::println(right_leg.toe_fsr);
         
-        if(left_leg.hip.is_used)
+        if(right_leg.hip.is_used)
         {
             logger::println("\tRight :: Hip");
             logger::print("\t\tcalibrate_torque_sensor : ");
@@ -290,7 +282,7 @@ void ExoData::print()
             
         }
         
-        if(left_leg.knee.is_used)
+        if(right_leg.knee.is_used)
         {
             logger::println("\tRight :: Knee");
             logger::print("\t\tcalibrate_torque_sensor : ");
@@ -317,7 +309,7 @@ void ExoData::print()
             logger::println(right_leg.knee.controller.parameter_set);
         }
         
-        if(left_leg.ankle.is_used)
+        if(right_leg.ankle.is_used)
         {
             logger::println("\tRight :: Ankle");
             logger::print("\t\tcalibrate_torque_sensor : ");

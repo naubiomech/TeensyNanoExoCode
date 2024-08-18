@@ -13,13 +13,14 @@ LegData::LegData(bool is_left, uint8_t* config_to_send)
 {
     this->is_left = is_left;
     
-    this->percent_gait = -1; // likely want to do fixed point
+    //Set to initial levels, negative and false because we want to have as >= 0 or true when actually set and operating
+    this->percent_gait = -1; 
     this->percent_stance = -1;
     this->percent_swing = -1;
     this->expected_step_duration = -1; 
     this->expected_swing_duration = -1;
     this->expected_stance_duration = -1;
-    this->heel_fsr = -1; // set to -1 since should always be positive once set.
+    this->heel_fsr = -1; 
     this->toe_fsr = -1;
     this->do_calibration_toe_fsr = false; 
     this->do_calibration_refinement_toe_fsr = false; 
@@ -38,7 +39,7 @@ LegData::LegData(bool is_left, uint8_t* config_to_send)
 
     this->PHJM_state = 0;
 
-    // check if the leg is used from the config.
+    //Check if the leg is used from the config
     if ((static_cast<uint8_t>(config_defs::exo_side::bilateral) == config_to_send[config_defs::exo_side_idx]) 
         || (((uint8_t)config_defs::exo_side::left == config_to_send[config_defs::exo_side_idx]) & this->is_left)
         || (((uint8_t)config_defs::exo_side::right == config_to_send[config_defs::exo_side_idx]) & !this->is_left)
@@ -67,7 +68,7 @@ void LegData::reconfigure(uint8_t* config_to_send)
         this->is_used = false;
     }
     
-    // reconfigure the joints
+    //Reconfigure the joints
     hip.reconfigure(config_to_send);
     knee.reconfigure(config_to_send);
     ankle.reconfigure(config_to_send);

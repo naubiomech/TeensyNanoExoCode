@@ -3,7 +3,6 @@
 #include <Arduino.h>
 
 /* Public */
-
 Time_Helper::Time_Helper(bool use_micros)
 {
     _k_use_micros = use_micros;
@@ -20,7 +19,8 @@ float Time_Helper::peek(float context)
     float new_time = ((_k_use_micros) ? (micros()):(millis()));
     
     ticker_t* ticker = _ticker_from_context(context);
-    // The context does not exist or this is the tickers first tick
+    
+    //The context does not exist or this is the tickers first tick
     if (ticker->k_index < 0 || ticker->old_time < 0) {
         return 0;
     }
@@ -41,7 +41,8 @@ float Time_Helper::tick(float context)
     }
     
     ticker_t* ticker = _ticker_from_context(context);
-    // The context does not exist or this is the tickers first tick
+    
+    //The context does not exist or this is the tickers first tick
     if (ticker->k_index < 0 || ticker->old_time < 0) {
         return 0;
     }
@@ -66,7 +67,7 @@ float Time_Helper::generate_new_context()
         }
     }
 
-    // Track new ticker instance
+    //Track new ticker instance
     ticker_t* new_ticker = new ticker_t;
     new_ticker->context = found;
     new_ticker->old_time = 0;
@@ -80,12 +81,11 @@ float Time_Helper::generate_new_context()
 void Time_Helper::destroy_context(float context)
 {
     ticker_t* ticker_to_destroy = _ticker_from_context(context);
-    tickers.erase(tickers.begin()+(ticker_to_destroy->k_index-1)); // TODO: check off by one error
+    tickers.erase(tickers.begin()+(ticker_to_destroy->k_index-1));
     ticker_count--;
 }
 
 /* Private */
-
 bool Time_Helper::_context_conflicts(float context)
 {
     for (int i=0; i < tickers.size(); i++) {

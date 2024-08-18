@@ -11,7 +11,7 @@
 #ifndef ParseIni_h
 #define ParseIni_h
 
-// used for uint8_t
+//Used for uint8_t
 #include <stdint.h>
 
 /**
@@ -20,16 +20,13 @@
 namespace ini_config
 {
     const int buffer_length = 500;  /**< length of the buffer for reading the file. */
-    const int key_length = 25; /**< Max length of the key name */
-    const int section_length = 10; /**< Max length of the section name */
-    const int number_of_keys = 17; /**< Number of keys to be parsed. */
-    //const char *config_filename = "/config.ini";  // this line creates an "Error compiling for board Teensy 3.6." so I am just hard coding it.
+    const int key_length = 25;      /**< Max length of the key name */
+    const int section_length = 10;  /**< Max length of the section name */
+    const int number_of_keys = 17;  /**< Number of keys to be parsed. */
 }
 
-// Includes for reading the ini file from the SD card.
-// 1 is the lowest value to confirm that data is present for sending over SPI
-
-// TODO: Add Bluetooth name.
+//Includes for reading the ini file from the SD card.
+//1 is the lowest value to confirm that data is present for sending over SPI
 
 /**
  * @brief Namespace that defines numeric coding for different keys values. These are used throughout the code.
@@ -220,27 +217,19 @@ namespace config_defs
     #include <SPI.h>
     #include "IniFile.h"
 
-    
-
-    // Need to install ArduinoSTL in the library manager to use map
+    //Need to install ArduinoSTL in the library manager to use map
     #include <map>
     #include <string>
 
-
-
-    // The select pin used for the SD card
+    //The select pin used for the SD card
     #ifndef SD_SELECT
         #define SD_SELECT BUILTIN_SDCARD
     #endif
 
-    
-
-
-
     /**
      * @brief Parses the config.ini file in the root folder of the SD card and puts the parsed data to the provided array
      * 
-     * @param pointer to the uint8_t array to be updated with the encoded parameter info.  Array should be ini_config::number_of_keys in length
+     * @param pointer to the uint8_t array to be updated with the encoded parameter info. Array should be ini_config::number_of_keys in length
      */
     void ini_parser(uint8_t* config_to_send); // uses default filename
     
@@ -248,10 +237,9 @@ namespace config_defs
      * @brief Parses the specified filename from the SD card and puts the parsed data to the array provided
      * 
      * @param pointer to the character array that contains a nonstandard filename to parse.
-     * @param pointer to the uint8_t array to be updated with the encoded parameter info.  Array should be ini_config::number_of_keys in length
+     * @param pointer to the uint8_t array to be updated with the encoded parameter info. Array should be ini_config::number_of_keys in length
      */
     void ini_parser(char* filename, uint8_t* config_to_send); //uses sent filename
-    // TODO: create non-verbose version of get section keys.
     
     /**
      * @brief retrieve the key values and get the print the output
@@ -263,14 +251,6 @@ namespace config_defs
      */
     void get_section_key(IniFile ini, const char* section, const char* key, char* buffer, size_t buffer_len);  
     
-    /*
-     * ini_print_error_message(uint8_t e, bool eol = true)
-     * 
-     * Prints the error messages of IniFile object.
-     * e is the error message, and eol true means a println will be used at the end.
-     * 
-     * Requires that Serial is defined.
-     */
     /**
      * @brief Prints the error messages of IniFile object.
      * e is the error message, and eol true means a println will be used at the end.
@@ -281,7 +261,6 @@ namespace config_defs
      */
     void ini_print_error_message(uint8_t e, bool eol = true); 
 
-
     /**
      * @brief Mappings of config names to uint8_t that will be sent to the nano
      * "0" is mapped to one to help with debug as we should never send all zeros in the bytes.
@@ -290,23 +269,21 @@ namespace config_defs
     namespace config_map
     {  
         
-
-
-        // define our own type so we don't have to type so much
+        //Define our own type so we don't have to type so much
         typedef std::map<std::string, uint8_t> IniKeyCode;
         
         const IniKeyCode board_name = {{"AK_Board", (uint8_t)config_defs::board_name::AK_board},};
         const IniKeyCode board_version = 
         { 
-                    {"0.1", (uint8_t)config_defs::board_version::zero_one},
-                    {"0.3", (uint8_t)config_defs::board_version::zero_three},
-                    {"0.5.1", (uint8_t)config_defs::board_version::zero_five_one},
+            {"0.1", (uint8_t)config_defs::board_version::zero_one},
+            {"0.3", (uint8_t)config_defs::board_version::zero_three},
+            {"0.5.1", (uint8_t)config_defs::board_version::zero_five_one},
         };
         
         const IniKeyCode battery = 
         { 
-                    {"smart", (uint8_t)config_defs::battery::smart},
-                    {"dumb", (uint8_t)config_defs::battery::dumb},        
+            {"smart", (uint8_t)config_defs::battery::smart},
+            {"dumb", (uint8_t)config_defs::battery::dumb},        
         };
 
         const IniKeyCode exo_name 
@@ -401,9 +378,6 @@ namespace config_defs
             
         }; 
     };
-
-
-
 
     /**
      * @brief Holds the raw key value strings from the ini file

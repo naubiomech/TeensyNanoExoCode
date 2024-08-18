@@ -22,7 +22,6 @@ class ComsLed
      */
     static ComsLed* get_instance();
 
-
     /**
      * @brief Set the LED to a specific color
      * 
@@ -59,7 +58,6 @@ class ComsLed
      * @return uint8_t The value to write to the pin
      */
     uint8_t _handle_active_low(uint8_t value);
-
 
     /**
      * @brief The red value

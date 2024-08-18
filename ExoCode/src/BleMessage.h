@@ -33,17 +33,20 @@ public:
      */
     void copy(BleMessage *n);
 
-    // GUI command
+    //GUI command
     char command = 0;
-    // Number of parameters to expect with the command
+
+    //Number of parameters to expect with the command
     int expecting = 0;
-    // Variable to indicate the message has all of its data
+
+    //Variable to indicate the message has all of its data
     bool is_complete = false;
-    // Array to hold the message parameters
+
+    //Array to hold the message parameters
     float data[_max_size] = {0};
 
     /**
-     * @brief Print the message values to the Serial monitor
+     * @brief Print the message values to the serial monitor
      *
      * @param msg Message to print
      */
@@ -59,7 +62,7 @@ public:
     static int matching(BleMessage msg1, BleMessage msg2);
 
 private:
-    // Current index of the data array
+    //Current index of the data array
     int _size = 0;
 };
 

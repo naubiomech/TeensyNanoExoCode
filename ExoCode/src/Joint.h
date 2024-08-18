@@ -11,7 +11,7 @@
 #ifndef Joint_h
 #define Joint_h
 
-// Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
+//Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41)
 
 #include "Arduino.h"
@@ -35,7 +35,7 @@
 
 /**
  * @brief Abstract class used to define the interface for the other joints.
- * all joints should have a:
+ * All joints should have a:
  * void run_joint()
  * void read_data()
  * check_calibration()
@@ -45,16 +45,12 @@
  */
 class _Joint
 {
-	static uint8_t left_torque_sensor_used_count; /**< Used to record how many sensors are already set */
-    static uint8_t right_torque_sensor_used_count;/**< Used to record how many sensors are already set */
+	static uint8_t left_torque_sensor_used_count;   /**< Used to record how many sensors are already set */
+    static uint8_t right_torque_sensor_used_count;  /**< Used to record how many sensors are already set */
     
-    static uint8_t left_motor_used_count;/**< Used to record how many motors are already set for torque sensor pin assignment */
-    static uint8_t right_motor_used_count;/**< Used to record how many motors are already set for torque sensor pin assignment */
+    static uint8_t left_motor_used_count;           /**< Used to record how many motors are already set for torque sensor pin assignment */
+    static uint8_t right_motor_used_count;          /**< Used to record how many motors are already set for torque sensor pin assignment */
     
-    
-    // TODO: create object for each type of controller (joint type specific) and pointer to current controller.
-    // TODO: Create object for specific motor used based on config.
-    // TODO: Create joint base class that can then be used for each joint so that hip, knee, and ankle can each have joint specific controllers.
     public:
 		/**
          * @brief Constructor 
@@ -62,7 +58,7 @@ class _Joint
          * @param id of the joint being used
          * @param pointer to the full ExoData instance
          */
-        _Joint(config_defs::joint_id id, ExoData* exo_data);  // constructor:  
+        _Joint(config_defs::joint_id id, ExoData* exo_data);  //Constructor:  
 		virtual ~_Joint(){};
         
         /**
@@ -89,13 +85,11 @@ class _Joint
         virtual void set_controller(uint8_t) = 0;  
 		
         /**
-         * @brief Sets the motor to use.  Not strictly needed since everything stays internal.
+         * @brief Sets the motor to use. Not strictly needed since everything stays internal.
          *
          * @param pointer to motor instance
          */
         void set_motor(_Motor* new_motor);
-        
-        // create some static member functions we can use for the initializer list.
         
         /**
          * @brief Takes in the joint id and exo data, and checks if the current joint is used.
@@ -122,26 +116,20 @@ class _Joint
         static unsigned int get_motor_enable_pin(config_defs::joint_id, ExoData*);
 
         /** MOVE THESE BACK TO PROTECTED WHEN APP IS READY*/
-        _Motor* _motor; /**< pointer to the base _Motor class so we can use any motor type.*/
-        TorqueSensor _torque_sensor; /**< Torque sensor for the joint*/
-        _Controller* _controller; /**< Pointer to the current controller.  Using pointer so we just need to change the object we are pointing to when the controller changes.*/
+        _Motor* _motor;                 /**< Pointer to the base _Motor class so we can use any motor type.*/
+        TorqueSensor _torque_sensor;    /**< Torque sensor for the joint*/
+        _Controller* _controller;       /**< Pointer to the current controller. Using pointer so we just need to change the object we are pointing to when the controller changes.*/
 
         
     protected:
-        // give access to the larger data object and the joint specific data 
-        ExoData* _data;/**< pointer to the full data instance*/
-        JointData* _joint_data;/**< pointer to this joints data */
-        ErrorManager _error_manager; /**< Error manager for the joint */
+        //Give access to the larger data object and the joint specific data 
+        ExoData* _data;                 /**< Pointer to the full data instance*/
+        JointData* _joint_data;         /**< Pointer to this joints data */
+        ErrorManager _error_manager;    /**< Error manager for the joint */
         
-
-        // IO objects for the joint
-        //_Motor* _motor; /**< pointer to the base _Motor class so we can use any motor type.*/
-		//TorqueSensor _torque_sensor; /**< Torque sensor for the joint*/
-		//_Controller* _controller; /**< Pointer to the current controller.  Using pointer so we just need to change the object we are pointing to when the controller changes.*/
-        
-        // joint info
-        config_defs::joint_id _id; /**< joint id */
-        bool _is_left; /**< if the joint is on the left side so we don't have to keep calculating it*/
+        //Joint info
+        config_defs::joint_id _id;      /**< Joint id */
+        bool _is_left;                  /**< If the joint is on the left side so we don't have to keep calculating it */
     
 };
 
@@ -158,26 +146,26 @@ class HipJoint : public _Joint
          * @brief reads the sensors for the joint and sends a torque command, See _Joint
          */
         void run_joint();  
-        //void read_data(); // See _Joint 
         
         /**
          * @brief sets the controller that is to be used, See _Joint
          *
          * @param controller id.
          */
-        void set_controller(uint8_t);  
-    protected:
-        // Objects for joint specific controllers
+        void set_controller(uint8_t); 
 
-        ZeroTorque _zero_torque; /**< zero torque controller */
-        HeelToe _heel_toe; /**< heel toe controller, not currently configured */
-        FranksCollinsHip _franks_collins_hip; /**< Franks Collins Hip controller */
-        Stasis _stasis; /**< stasis controller */
-        ConstantTorque _constant_torque; /**< constant torque controller*/
-        PtbGeneral _ptb_general; /**< Generalized Perturbation Controller>*/
-        HipResist _hip_resist; /**< Generalized Perturbation Controller>*/
-        Chirp _chirp;
-        Step _step;
+    protected:
+        
+        //Objects for joint specific controllers
+        ZeroTorque _zero_torque;                /**< Zero torque controller */
+        HeelToe _heel_toe;                      /**< Heel toe controller, not currently configured */
+        FranksCollinsHip _franks_collins_hip;   /**< Franks Collins Hip controller */
+        Stasis _stasis;                         /**< Stasis controller */
+        ConstantTorque _constant_torque;        /**< Constant torque controller */
+        PtbGeneral _ptb_general;                /**< Generalized Perturbation Controller */
+        HipResist _hip_resist;                  /**< Hip Resistance Controller */
+        Chirp _chirp;                           /**< Chirp Controller for Device Characterization */                    
+        Step _step;                             /**< Step Controller for Device Characterization */
         
 };
 
@@ -193,24 +181,24 @@ class KneeJoint : public _Joint
         /**
          * @brief reads the sensors for the joint and sends a torque command, See _Joint
          */
-        void run_joint();  // See _Joint
-        //void read_data(); // See _Joint
+        void run_joint();
         
         /**
          * @brief sets the controller that is to be used, See _Joint
          *
          * @param controller id.
          */
-        void set_controller(uint8_t);  // See _Joint
+        void set_controller(uint8_t);
 	
     protected:
-        // Objects for joint specific controllers	
-        ZeroTorque _zero_torque; /**< zero torque controller */
-        Stasis _stasis; /**< stasis controller */
-        ConstantTorque _constant_torque; /**< constant torque controller*/
-        ElbowMinMax _elbow_min_max;
-        Chirp _chirp;
-        Step _step;
+        
+        //Objects for joint specific controllers	
+        ZeroTorque _zero_torque;                /**< Zero torque controller */
+        Stasis _stasis;                         /**< Stasis controller */
+        ConstantTorque _constant_torque;        /**< Constant torque controller */
+        ElbowMinMax _elbow_min_max;             /**< Elbow Flexion/Extension Controller for Lifting */
+        Chirp _chirp;                           /**< Chirp Controller for Device Characterization */ 
+        Step _step;                             /**< Step Controller for Device Characterization */
 };
 
 /**
@@ -225,33 +213,37 @@ class AnkleJoint : public _Joint
         /**
          * @brief reads the sensors for the joint and sends a torque command, See _Joint
          */
-        void run_joint();  // See _Joint
-        //void read_data(); // See _Joint
+        void run_joint();
         
         /**
          * @brief sets the controller that is to be used, See _Joint
          *
          * @param controller id.
          */
-        void set_controller(uint8_t);  // See _Joint
+        void set_controller(uint8_t);
 		
     protected:
+        
+        //Ankle IMU Information
         AnkleIMU _imu;
         const float _imu_sample_rate_us{15000.0f};
         float _previous_sample_us{0.0f};
+
+        //Ankle Angle Infromation
         AnkleAngles _ankle_angle;
-        // Objects for joint specific controllers
-        ZeroTorque _zero_torque;  /**< zero torque controller */
-        ProportionalJointMoment _proportional_joint_moment;/**< Proportional joint moment controller */
-        ZhangCollins _zhang_collins;/**< Zhang Collins controller */
-        Stasis _stasis; /**< stasis controller */
-        ConstantTorque _constant_torque; /**< constant torque controller*/
-        PtbGeneral _ptb_general; /**< Generalized Perturbation Controller>*/
-        PropulsiveAssistive _propulsive_assistive; /**< Propulsive Assistive */
-		ElbowMinMax _elbow_min_max; /**< Arm exo controller */
-		CalibrManager _calibr_manager; /**< Calibration Manager "Controller" */
-        Chirp _chirp;
-        Step _step;
+
+        //Objects for joint specific controllers
+        ZeroTorque _zero_torque;                                /**< Zero torque controller */
+        ProportionalJointMoment _proportional_joint_moment;     /**< Proportional joint moment controller */
+        ZhangCollins _zhang_collins;                            /**< Zhang Collins controller */
+        Stasis _stasis;                                         /**< Stasis controller */
+        ConstantTorque _constant_torque;                        /**< Constant torque controller*/
+        PtbGeneral _ptb_general;                                /**< Generalized Perturbation Controller>*/
+        PropulsiveAssistive _propulsive_assistive;              /**< Propulsive Assistive */
+		ElbowMinMax _elbow_min_max;                             /**< Elbow Flexion/Extension Controller for Lifting */
+		CalibrManager _calibr_manager;                          /**< Calibration Manager "Controller" */
+        Chirp _chirp;                                           /**< Chirp Controller for Device Characterization */
+        Step _step;                                             /**< Step Controller for Device Characterization */
         
 };
 

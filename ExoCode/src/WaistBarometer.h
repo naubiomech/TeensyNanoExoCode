@@ -22,7 +22,6 @@ typedef enum
     pressure_unit_LENGTH
 } pressure_unit_t;
 
-
 class WaistBarometer
 {
     public:
@@ -46,8 +45,6 @@ class WaistBarometer
          * 
          */
         pressure_unit_t _unit;
-
-
 };
 
 #endif // ARDUINO_ARDUINO_NANO33BLE

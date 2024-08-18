@@ -4,9 +4,9 @@
 #if defined(ARDUINO_TEENSY36) || defined(ARDUINO_TEENSY41)
 /*
 #if defineds(ARDUINO_TEENSY36)
-#define MY_WIRE Wire1
+    #define MY_WIRE Wire1
 #elif defined(ARDUINO_TEENSY41)
-#define MY_WIRE Wire
+    #define MY_WIRE Wire
 #endif
 
 class ThIMU
@@ -25,11 +25,11 @@ class ThIMU
 
 #include "Config.h"
 
-// TODO: Integrate with Board.h
+//TODO: Integrate with Board.h
 #if BOARD_VERSION == AK_Board_V0_3
-#define MY_WIRE Wire1
+    #define MY_WIRE Wire1
 #else 
-#define MY_WIRE Wire
+    #define MY_WIRE Wire
 #endif
 
 ThIMU::ThIMU(bool is_left)
@@ -42,14 +42,16 @@ bool ThIMU::init(float timeout)
 {
     MY_WIRE.begin();
 
-    // Handshake
+    //Handshake
     float start_time = millis();
-    while (!_handshake()) {
+    while (!_handshake()) 
+    {
         float delta_time = millis() - start_time;
         
         //logger::print("Handshake failed: ");
         //logger::println(delta_time);
-        if (delta_time > timeout) {
+        if (delta_time > timeout) 
+        {
             return false;
         }
     }
@@ -58,7 +60,8 @@ bool ThIMU::init(float timeout)
 
 float ThIMU::read_data()
 {
-    if (!_is_initialized) {
+    if (!_is_initialized) 
+    {
         return 0;
     }
 
@@ -93,9 +96,11 @@ bool ThIMU::_handshake()
     //logger::print("Handshake value: ");
     //logger::println(val);
 
-    if (val == 0x01) {
+    if (val == 0x01) 
+    {
         return true;
-    } else {
+    } else 
+    {
         return false;
     }
     

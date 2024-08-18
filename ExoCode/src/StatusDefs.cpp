@@ -1,7 +1,6 @@
 #include "StatusDefs.h"
 #include "Logger.h"
 
-
 void print_status_message(uint16_t message)
 {
     switch (message)

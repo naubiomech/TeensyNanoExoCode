@@ -14,8 +14,8 @@
 #include "ParseIni.h"
 #include "Arduino.h"
 #include <stdint.h>
-#include <utility> // std::pair
-#include <queue> // std::queue
+#include <utility>  //std::pair
+#include <queue>    //std::queue
 
 /**
  * @brief contains general utility functions for the exo
@@ -154,20 +154,17 @@ namespace utils
 
     /**
      * @brief Searches str for 'rmv characters and deletes them all, returns new string
-     * todo: Chance update comments
      */
     String remove_all_chars(String str, char rmv);
     String remove_all_chars(char* arr, int len, char rmv);
 
     /**
      * @brief given and integer, return the number of characters in it
-     * todo: Chance update comments
      */
     int get_char_length(int ofInt);
     
     /**
      * @brief Checks if all elements of the array are equal. Arrays must be the same length and type
-     * todo: Chance update comments
      */
     template <typename T>
     int elements_are_equal(T arr1, T arr2, int length)
@@ -184,7 +181,6 @@ namespace utils
 
     /**
      * @brief Sets arr2 elements equal to arr1 elements. Arrays must be the same length and type
-     * todo: Chance update comments
      */
     template <typename T>
     void set_elements_equal(T arr1, T arr2, int length)
@@ -196,8 +192,7 @@ namespace utils
     };
     
     /**
-     * @brief Class used to check the loop speed without serial prints, by toggling a pin
-     * after initialized, toggle will need to be called each loop
+     * @brief Class used to check the loop speed without serial prints, by toggling a pin after initialized, toggle will need to be called each loop
      */
     class SpeedCheck
     {
@@ -210,8 +205,8 @@ namespace utils
             void toggle();
             
         private:
-            int _pin; /**< pin to use for the check */
-            bool _state; /**< state of the pin */
+            int _pin;       /**< Pin to use for the check */
+            bool _state;    /**< State of the pin */
     };
     
     /**
@@ -305,6 +300,5 @@ namespace utils
      */
     bool is_outside_range(float val, float min, float max);
 }
-
 
 #endif

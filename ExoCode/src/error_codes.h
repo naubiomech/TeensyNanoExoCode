@@ -10,7 +10,7 @@
 
 enum ErrorCodes : int
 {
-    NO_ERROR = 0, // This must be the first element
+    NO_ERROR = 0, //This must be the first element
     TEST_ERROR,
     POOR_STATE_VARIANCE_ERROR,
     POOR_TRANSMISSION_EFFICIENCY_ERROR,
@@ -20,7 +20,7 @@ enum ErrorCodes : int
     TRACKING_ERROR,
     MOTOR_TIMEOUT_ERROR,
 
-    ERROR_CODE_LENGTH // This must be the last element
+    ERROR_CODE_LENGTH //This must be the last element
 };
 
-#endif // ERROR_CODES_H
+#endif //ERROR_CODES_H

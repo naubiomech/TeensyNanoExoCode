@@ -11,7 +11,7 @@
 #ifndef Motor_h
 #define Motor_h
 
-// Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
+//Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
 #if defined(ARDUINO_TEENSY36) || defined(ARDUINO_TEENSY41)
 
 #include "Arduino.h"
@@ -21,10 +21,7 @@
 #include "Board.h"
 #include "Utilities.h"
 
-
 #include <stdint.h>
-
-// TODO: Create base motor class with interface read_data(), send_cmd(), motor_on_off(bool), get_is_left()
 
 /**
  * @brief Abstract class to define the interface for all motors.
@@ -65,7 +62,6 @@ class _Motor
          * @param motor torque command in Nm
          */
         virtual void transaction(float torque) = 0;
-        //void set_controller(int controller); // Changes the low level controller for an individual joint
 		
         /**
          * @brief Powers on or off the motors depending on the is_on value in motor data 
@@ -86,8 +82,7 @@ class _Motor
         /**
          * @brief set position to zero
          */
-        virtual void zero() = 0; 
-		 
+        virtual void zero() = 0;  
         
         /**
          * @brief lets you know if it is a left or right leg.
@@ -103,12 +98,12 @@ class _Motor
          */
         virtual config_defs::joint_id get_id();
 
-        virtual float get_Kt() = 0; /**< Torque constant of the motor, at the motor output. [Nm/A] */
+        virtual float get_Kt() = 0;                 /**< Torque constant of the motor, at the motor output. [Nm/A] */
 
-        virtual void set_error() = 0; /**< Sets the error flag for the motor. */
+        virtual void set_error() = 0;               /**< Sets the error flag for the motor. */
 		
 	protected:
-        config_defs::joint_id _id; //motor id 
+        config_defs::joint_id _id;                  /**< Motor ID */
 		bool _is_left;
         ExoData* _data;
 		MotorData* _motor_data;
@@ -116,7 +111,7 @@ class _Motor
         bool _prev_motor_enabled; 
         bool _prev_on_state;
         bool _error = false;
-        float _Kt; // Torque constant of the motor, at the motor output. [Nm/A]   
+        float _Kt;                                  /**< Torque constant of the motor, at the motor output. [Nm/A] */  
 };
 
 /**
@@ -171,7 +166,6 @@ class _CANMotor : public _Motor
          *
          * @return Should return a uint that has been scaled to a position between x_min and x_max.  Currently returns a float, but it seems to work.
          */
-        //TODO Chance : change the return to uint and check that stuff still works
         float _float_to_uint(float x, float x_min, float x_max, int bits);
         
         /**
@@ -192,19 +186,19 @@ class _CANMotor : public _Motor
          */
         void _handle_read_failure();
         
-        float _KP_MIN; /**< Lower limit of the P gain for the motor */
-        float _KP_MAX; /**< Upper limit of the P gain for the motor */
-        float _KD_MIN; /**< Lower limit of the D gain for the motor */
-        float _KD_MAX; /**< Upper limit of the D gain for the motor */
-        float _P_MAX; /**< Max angle of the motor */
-        float _I_MAX; /**< Max current of the motor */
-        float _V_MAX; /**< Max velocity of the motor */
-        bool _enable_response; /**< True if the motor responded to an enable command */
-        const uint32_t _timeout = 500;  /**< Time to wait for response from the motor in micro-seconds */
+        float _KP_MIN;                              /**< Lower limit of the P gain for the motor */
+        float _KP_MAX;                              /**< Upper limit of the P gain for the motor */
+        float _KD_MIN;                              /**< Lower limit of the D gain for the motor */
+        float _KD_MAX;                              /**< Upper limit of the D gain for the motor */
+        float _P_MAX;                               /**< Max angle of the motor */
+        float _I_MAX;                               /**< Max current of the motor */
+        float _V_MAX;                               /**< Max velocity of the motor */
+        bool _enable_response;                      /**< True if the motor responded to an enable command */
+        const uint32_t _timeout = 500;              /**< Time to wait for response from the motor in micro-seconds */
 
-        std::queue<float> _measured_current; /**< Queue of the measured current values */
-        const int _current_queue_size = 25; /**< Size of the queue of measured current values */
-        const float _variance_threshold = 0.01; /**< Threshold for the variance of the measured current values */
+        std::queue<float> _measured_current;        /**< Queue of the measured current values */
+        const int _current_queue_size = 25;         /**< Size of the queue of measured current values */
+        const float _variance_threshold = 0.01;     /**< Threshold for the variance of the measured current values */
 };
 
 /**
@@ -213,7 +207,7 @@ class _CANMotor : public _Motor
 class AK60 : public _CANMotor
 {
     public:
-        AK60(config_defs::joint_id id, ExoData* exo_data, int enable_pin); // constructor: type is the motor type
+        AK60(config_defs::joint_id id, ExoData* exo_data, int enable_pin); //Constructor: type is the motor type
 		~AK60(){};
 };
 
@@ -223,7 +217,7 @@ class AK60 : public _CANMotor
 class AK60_v1_1 : public _CANMotor
 {
     public:
-        AK60_v1_1(config_defs::joint_id id, ExoData* exo_data, int enable_pin); // constructor: type is the motor type
+        AK60_v1_1(config_defs::joint_id id, ExoData* exo_data, int enable_pin); //Constructor: type is the motor type
 		~AK60_v1_1(){};
 };
 
@@ -233,7 +227,7 @@ class AK60_v1_1 : public _CANMotor
 class AK60_v1_1_T : public _CANMotor
 {
 public:
-    AK60_v1_1_T(config_defs::joint_id id, ExoData* exo_data, int enable_pin); // constructor: type is the motor type
+    AK60_v1_1_T(config_defs::joint_id id, ExoData* exo_data, int enable_pin); //Constructor: type is the motor type
     ~AK60_v1_1_T() {};
 };
 
@@ -243,14 +237,14 @@ public:
 class AK80 : public _CANMotor
 {
     public:
-        AK80(config_defs::joint_id id, ExoData* exo_data, int enable_pin); // constructor: type is the motor type
+        AK80(config_defs::joint_id id, ExoData* exo_data, int enable_pin); //Constructor: type is the motor type
 		~AK80(){};   
 };
 
 class AK70 : public _CANMotor
 {
     public:
-        AK70(config_defs::joint_id id, ExoData* exo_data, int enable_pin); // constructor: type is the motor type
+        AK70(config_defs::joint_id id, ExoData* exo_data, int enable_pin); //Constructor: type is the motor type
         ~AK70(){};
 };
 

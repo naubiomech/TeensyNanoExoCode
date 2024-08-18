@@ -25,9 +25,9 @@
  * Just thought you might be wondering about the weirdness.
  */
 
-// moved status values to StatusDefs.h
+//Status values are in StatusDefs.h
 
-// Type used for the for each joint method, the function should take JointData as input and return void
+//Type used for the for each joint method, the function should take JointData as input and return void
 typedef void (*for_each_joint_function_t) (JointData*, float*); 
 
 
@@ -37,7 +37,7 @@ typedef void (*for_each_joint_function_t) (JointData*, float*);
 class ExoData 
 {
 	public:
-        ExoData(uint8_t* config_to_send); // constructor
+        ExoData(uint8_t* config_to_send); //Constructor
         
         /**
          * @brief reconfigures the the exo data if the configuration changes after constructor called.
@@ -72,7 +72,7 @@ class ExoData
                 func(&right_leg.ankle, args);
         }
 
-        // Returns a list of all of the joint IDs that are currently being used
+        //Returns a list of all of the joint IDs that are currently being used
         uint8_t get_used_joints(uint8_t* used_joints);
 
         /**
@@ -121,23 +121,23 @@ class ExoData
 
         
         
-        bool sync_led_state; /**< state of the sync led */
-        bool estop;/**< state of the estop */
-        float battery_value; /**<Could be Voltage or SOC, depending on the battery type*/
-        LegData left_leg;/**< data for the left leg */
-        LegData right_leg;/**< data for the right leg */
+        bool sync_led_state;    /**< State of the sync led */
+        bool estop;             /**< State of the estop */
+        float battery_value;    /**< Could be Voltage or SOC, depending on the battery type*/
+        LegData left_leg;       /**< Data for the left leg */
+        LegData right_leg;      /**< Data for the right leg */
 
-        uint32_t mark; /**< used for timing, currently only used by the nano */
+        uint32_t mark;          /**< Used for timing, currently only used by the nano */
 
-        uint8_t* config; /**< pointer to the configuration array */
-        uint8_t config_len; /**< len of the configuration array */
+        uint8_t* config;        /**< Pointer to the configuration array */
+        uint8_t config_len;     /**< Length of the configuration array */
 
-        int error_code; /**< current error code for the system */
+        int error_code;         /**< Current error code for the system */
         int error_joint_id;
-        bool user_paused; /**< if the user has paused the system */
+        bool user_paused;       /**< If the user has paused the system */
 
         private:
-        uint16_t _status; /**< status of the system*/
+        uint16_t _status;       /**< Status of the system*/
 };
 
 #endif

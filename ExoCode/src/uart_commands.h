@@ -5,7 +5,7 @@
 #include "UARTHandler.h"
 #include "UART_msg_t.h"
 
-#include "ParseIni.h" // for config info
+#include "ParseIni.h"
 #include "ExoData.h"
 #include "JointData.h"
 #include "ParamsFromSD.h"
@@ -19,7 +19,7 @@
 
 namespace UART_command_names
 {
-    /* update_x must be get_x + 1 */
+    /* Update_x must be get_x + 1 */
     static const uint8_t empty_msg = 0x00;
     static const uint8_t get_controller_params = 0x01;
     static const uint8_t update_controller_params = 0x02;
@@ -151,7 +151,6 @@ namespace UART_command_handlers
     }
     inline static void update_controller_params(UARTHandler *handler, ExoData *exo_data, UART_msg_t msg)
     {
-        // TODO: Error checking (valid controller for joint, and matching param length)
          logger::println("UART_command_handlers::update_controller_params->Got new params with msg: ");
          UART_msg_t_utils::print_msg(msg);
 
@@ -165,8 +164,7 @@ namespace UART_command_handlers
 #if defined(ARDUINO_TEENSY36) || defined(ARDUINO_TEENSY41)
         j_data->controller.controller = (uint8_t)msg.data[(uint8_t)UART_command_enums::controller_params::CONTROLLER_ID];
         set_controller_params(msg.joint_id, (uint8_t)msg.data[(uint8_t)UART_command_enums::controller_params::CONTROLLER_ID], (uint8_t)msg.data[(uint8_t)UART_command_enums::controller_params::PARAM_START], exo_data);
-
-// Serial.println("Updating Controller Params: " + String(msg.joint_id) + ", " + String((uint8_t)msg.data[(uint8_t)UART_command_enums::controller_params::PARAM_START]) + ", " + String(j_data->controller.controller));
+        //Serial.println("Updating Controller Params: " + String(msg.joint_id) + ", " + String((uint8_t)msg.data[(uint8_t)UART_command_enums::controller_params::PARAM_START]) + ", " + String(j_data->controller.controller));
 #endif
     }
 
@@ -189,7 +187,7 @@ namespace UART_command_handlers
 #if defined(ARDUINO_TEENSY36) || defined(ARDUINO_TEENSY41)
         if (msg.data[(uint8_t)UART_command_enums::status::STATUS] == status_defs::messages::trial_on)
         {
-            // Set default parameters for each used joint
+            //Set default parameters for each used joint
             exo_data->set_default_parameters();
         }
 #endif
@@ -271,7 +269,6 @@ namespace UART_command_handlers
     }
     inline static void update_refine_fsr(UARTHandler *handler, ExoData *exo_data, UART_msg_t msg)
     {
-        // TODO: only calibrate if the fsr is used
         // logger::println("UART_command_handlers::update_refine_fsr->Got msg");
         exo_data->right_leg.do_calibration_refinement_toe_fsr = 1;
         exo_data->right_leg.do_calibration_refinement_heel_fsr = 1;
@@ -303,7 +300,7 @@ namespace UART_command_handlers
         UART_msg_t rx_msg;
         rx_msg.command = UART_command_names::update_real_time_data;
         rx_msg.joint_id = 0;
-        rx_msg.len = (uint8_t)rt_data::BILATERAL_ANKLE_RT_LEN; // TODO: Set based on config
+        rx_msg.len = (uint8_t)rt_data::BILATERAL_ANKLE_RT_LEN; //TO DO: Set based on config
 
         // logger::println("config[config_defs::exo_name_idx] :: "); //Uncomment if you want to check that system is receiving correct config info
         // logger::println(config[config_defs::exo_name_idx]);
@@ -414,11 +411,10 @@ namespace UART_command_handlers
             rx_msg.data[1] = exo_data->right_leg.hip.controller.setpoint;                  // Purple State
             rx_msg.data[2] = exo_data->right_leg.ankle.controller.ff_setpoint;             // Red Torque
             rx_msg.data[3] = exo_data->left_leg.ankle.controller.filtered_torque_reading;  // rx_msg.data[3] = exo_data->right_leg.ankle.motor.i; //Purple Torque
-            // TODO: Implement Mark Feature
             rx_msg.data[4] = exo_data->left_leg.hip.controller.setpoint;      // rx_msg.data[4] = exo_data->left_leg.toe_stance;  //Purple State
-            rx_msg.data[5] = exo_data->left_leg.ankle.controller.ff_setpoint; // Red Torque
-            rx_msg.data[6] = exo_data->right_leg.heel_fsr;                     // Red State
-            rx_msg.data[7] = exo_data->left_leg.heel_fsr;                      // Red State
+            rx_msg.data[5] = exo_data->left_leg.ankle.controller.ff_setpoint; 
+            rx_msg.data[6] = exo_data->right_leg.heel_fsr;                     
+            rx_msg.data[7] = exo_data->left_leg.heel_fsr;                      
             break;
 
         case (uint8_t)config_defs::exo_name::right_knee:
@@ -427,13 +423,10 @@ namespace UART_command_handlers
             rx_msg.data[1] = exo_data->right_leg.knee.motor.i; // exo_data->right_leg.toe_stance;
             rx_msg.data[2] = exo_data->right_leg.knee.controller.setpoint;
             rx_msg.data[3] = exo_data->left_leg.knee.controller.filtered_torque_reading; // rx_msg.data[3] = exo_data->right_leg.ankle.motor.i;
-            // TODO: Implement Mark Feature
             rx_msg.data[4] = exo_data->left_leg.knee.motor.i; // exo_data->left_leg.toe_stance; //rx_msg.data[4] = exo_data->left_leg.toe_stance;
             rx_msg.data[5] = exo_data->left_leg.knee.controller.setpoint;
-            // rx_msg.data[6] = exo_data->right_leg.thigh_angle / 100;
-            // rx_msg.data[7] = exo_data->left_leg.thigh_angle / 100;
             rx_msg.data[6] = exo_data->right_leg.toe_fsr;
-            rx_msg.data[7] = exo_data->left_leg.toe_fsr; // Red State
+            rx_msg.data[7] = exo_data->left_leg.toe_fsr; 
             break;
 
         default:
@@ -442,7 +435,6 @@ namespace UART_command_handlers
             rx_msg.data[1] = exo_data->right_leg.toe_stance;
             rx_msg.data[2] = exo_data->right_leg.ankle.controller.ff_setpoint;
             rx_msg.data[3] = exo_data->left_leg.ankle.controller.filtered_torque_reading;
-            // TODO: Implement Mark Feature
             rx_msg.data[4] = exo_data->left_leg.toe_stance;
             rx_msg.data[5] = exo_data->left_leg.ankle.controller.ff_setpoint;
             rx_msg.data[6] = exo_data->right_leg.toe_fsr;
@@ -464,7 +456,7 @@ namespace UART_command_handlers
          //UART_msg_t_utils::print_msg(rx_msg);
     }
 
-    // Overload for no config
+    //Overload for no config
     inline static void get_real_time_data(UARTHandler *handler, ExoData *exo_data, UART_msg_t msg)
     {
         uint8_t empty_config[ini_config::number_of_keys] = {0};
@@ -473,11 +465,11 @@ namespace UART_command_handlers
 
     inline static void update_real_time_data(UARTHandler *handler, ExoData *exo_data, UART_msg_t msg)
     {
-// logger::println("UART_command_handlers::update_real_time_data->got message: ");
-// UART_msg_t_utils::print_msg(msg);
-#if REAL_TIME_I2C
-        return;
-#endif
+        // logger::println("UART_command_handlers::update_real_time_data->got message: ");
+        // UART_msg_t_utils::print_msg(msg);
+        #if REAL_TIME_I2C
+                return;
+        #endif
         if (rt_data::len != msg.len)
         {
             return;
@@ -487,17 +479,11 @@ namespace UART_command_handlers
             rt_data::float_values[i] = msg.data[i];
         }
         rt_data::new_rt_msg = true;
-        // exo_data->right_leg.ankle.torque_reading = msg.data[0];
-        // exo_data->right_leg.ankle.controller.setpoint = msg.data[2];
-        // exo_data->left_leg.ankle.torque_reading = msg.data[3];
-        // exo_data->left_leg.ankle.controller.setpoint = msg.data[5];
-        // exo_data->right_leg.toe_fsr = msg.data[6];
-        // exo_data->left_leg.toe_fsr = msg.data[7];
     }
 
     inline static void update_controller_param(UARTHandler *handler, ExoData *exo_data, UART_msg_t msg)
     {
-        // Get the joint
+        //Get the joint
         JointData *j_data = exo_data->get_joint_with(msg.joint_id);
         if (j_data == NULL)
         {
@@ -507,14 +493,14 @@ namespace UART_command_handlers
             return;
         }
 
-        // Set the controller
+        //Set the controller
         if (msg.data[(uint8_t)UART_command_enums::controller_params::CONTROLLER_ID] != j_data->controller.controller)
         {
             j_data->controller.controller = (uint8_t)msg.data[(uint8_t)UART_command_enums::controller_params::CONTROLLER_ID];
             exo_data->set_default_parameters((uint8_t)j_data->id);
         }
 
-        // Set the parameter
+        //Set the parameter
         j_data->controller.parameters[(uint8_t)msg.data[(uint8_t)UART_command_enums::controller_param::PARAM_INDEX]] = msg.data[(uint8_t)UART_command_enums::controller_param::PARAM_VALUE];
         // Serial.println("Updating Controller Params: " + String(msg.joint_id) + ", "
         // + String((uint8_t)msg.data[(uint8_t)UART_command_enums::controller_param::CONTROLLER_ID]) + ", "
@@ -527,7 +513,7 @@ namespace UART_command_handlers
         //logger::println("UART_command_handlers::update_error_code->got message: ");
         //UART_msg_t_utils::print_msg(msg);
         
-        // Set the error code
+        //Set the error code
         exo_data->error_code = msg.data[(uint8_t)UART_command_enums::get_error_code::ERROR_CODE];
         exo_data->error_joint_id = msg.joint_id;
     }
@@ -588,7 +574,7 @@ namespace UART_command_utils
             delay(500);
             rx_msg = handler->poll(200000);
             searching = (rx_msg.command != (msg.command + 1));
-            // TODO add timeout
+
             if (millis() - start_time > timeout)
             {
                 // logger::println("UART_command_utils::call_and_response->timed out");
@@ -616,22 +602,22 @@ namespace UART_command_utils
                 return 1;
             }
 
-            // the length of the message needs to be equal to the config length
+            //The length of the message needs to be equal to the config length
             if (msg.len != ini_config::number_of_keys)
             {
                 logger::println("UART_command_utils::get_config->msg.len != number_of_keys");
-                // keep trying to get config
+                //Keep trying to get config
                 continue;
             }
             for (int i = 0; i < msg.len; i++)
             {
-                // a valid config will not contain a zero
+                //A valid config will not contain a zero
                 if (!msg.data[i])
                 {
                     logger::print("UART_command_utils::get_config->Config contained a zero at index ");
                     logger::println(i);
 
-                    // keep trying to get config
+                    //Keep trying to get config
                     continue;
                 }
             }
@@ -639,7 +625,7 @@ namespace UART_command_utils
             break;
         }
 
-        // pack config
+        //Pack config
         for (int i = 0; i < msg.len; i++)
         {
             config[i] = msg.data[i];

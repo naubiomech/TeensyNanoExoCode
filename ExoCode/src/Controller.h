@@ -8,11 +8,10 @@
  * @date Jan. 2022
 */
 
-
 #ifndef Controller_h
 #define Controller_h
 
-// Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
+//Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41)
 
 #include <Arduino.h>
@@ -48,7 +47,6 @@ class _Controller
          * @brief Virtual destructor is needed to make sure the correct destructor is called when the derived class is deleted.
          */
         virtual ~_Controller(){};
-		//virtual void set_controller(int joint, int controller) = 0; // Changes the controller for an individual joint
         
         /**
          * @brief Virtual function so that each controller must create a function that will calculate the motor command
@@ -64,25 +62,23 @@ class _Controller
         
     protected:
         
-        ExoData* _data; /**< pointer to the full data instance*/
-        ControllerData* _controller_data; /**< Pointer to the data associated with this controller */
-        LegData* _leg_data; /**< pointer for the leg data the controller is associated with */
-        JointData* _joint_data; /**< pointer to the joint data the controller is associated with */
+        ExoData* _data;                     /**< Pointer to the full data instance*/
+        ControllerData* _controller_data;   /**< Pointer to the data associated with this controller */
+        LegData* _leg_data;                 /**< Pointer for the leg data the controller is associated with */
+        JointData* _joint_data;             /**< Pointer to the joint data the controller is associated with */
          
-        config_defs::joint_id _id;  /**< id of the joint this controller is attached to. */
+        config_defs::joint_id _id;          /**< Id of the joint this controller is attached to. */
         
-        Time_Helper* _t_helper;  /**< instance of the time helper to track when things happen used to check if we have a set time for the PID */
-        float _t_helper_context; /**< store the context for the timer helper */
-        float _t_helper_delta_t; /**< time time since the last event */
+        Time_Helper* _t_helper;             /**< Instance of the time helper to track when things happen used to check if we have a set time for the PID */
+        float _t_helper_context;            /**< Store the context for the timer helper */
+        float _t_helper_delta_t;            /**< Time time since the last event */
 
-
-
-        // Values for the PID controller
-        float _integral_val; /**< sum of the error integral */
+        //Values for the PID controller
+        float _integral_val;                /**< Sum of the error integral */
         float _pid_error_sum = 0;
-        float _prev_input;   /**< prev error term for calculating derivative */
-        float _prev_de_dt;   /**< prev error derivative used if the timestep is not good*/
-        float _prev_pid_time; /**< prev time the PID was called */
+        float _prev_input;                  /**< Prev error term for calculating derivative */
+        float _prev_de_dt;                  /**< Prev error derivative used if the timestep is not good*/
+        float _prev_pid_time;               /**< Prev time the PID was called */
 		bool _is_first_frame = 1;
 		bool _do_start_timer = 0;
 		float _start_time;
@@ -100,16 +96,16 @@ class _Controller
          */
         float _pid(float cmd, float measurement, float p_gain, float i_gain, float d_gain);
         
-        // Values for the Compact Form Model Free Adaptive Controller
+        //Values for the Compact Form Model Free Adaptive Controller
         std::pair<float, float> measurements;
         std::pair<float, float> outputs;
-        std::pair<float, float> phi; /**< psuedo partial derivative */
-        float rho; /**< penalty factor (0,1) */
-        float lamda; /**< weighting factor limits delta u */
-        float etta; /**< step size constant (0, 1] */
-        float mu; /**< weighting factor that limits the variance of u */
-        float upsilon; /**< a sufficiently small integer ~10^-5 */
-        float phi_1; /**< initial/reset condition for estimation of psuedo partial derivitave */
+        std::pair<float, float> phi;            /**< Psuedo partial derivative */
+        float rho;                              /**< Penalty factor (0,1) */
+        float lamda;                            /**< Weighting factor limits delta u */
+        float etta;                             /**< Step size constant (0, 1] */
+        float mu;                               /**< Weighting factor that limits the variance of u */
+        float upsilon;                          /**< A sufficiently small integer ~10^-5 */
+        float phi_1;                            /**< Initial/reset condition for estimation of psuedo partial derivitave */
         
         float _cf_mfac(float reference, float current_measurement);
 };
@@ -133,9 +129,7 @@ class PropulsiveAssistive : public _Controller
  * This controller is for the ankle joint 
  * Applies a plantar torque based on the normalized magnitude of the toe FSR
  *
- * 2022-02 : This controller has been around the lab for a while I don't know the original origin -P.Stegall
- *
- * see ControllerData.h for details on the parameters used.
+ * See ControllerData.h for details on the parameters used.
  */
 class ProportionalJointMoment : public _Controller
 {
@@ -156,7 +150,7 @@ class ProportionalJointMoment : public _Controller
  * This controller is for the any joint
  * Simply applies zero torque
  * 
- * see ControllerData.h for details on the parameters used.
+ * See ControllerData.h for details on the parameters used.
  */
 class ZeroTorque : public _Controller
 {
@@ -172,7 +166,7 @@ class ZeroTorque : public _Controller
  * This controller is for the any joint
  * Simply applies zero torque cmd to motor
  * 
- * see ControllerData.h for details on the parameters used.
+ * See ControllerData.h for details on the parameters used.
  */
 class Stasis : public _Controller
 {
@@ -251,7 +245,7 @@ class HeelToe: public _Controller
  * (2017). Human-in-the-loop optimization of exoskeleton assistance during walking. Science, 356(6344), 1280-1284.
  * and written by P. Stegall
  * 
- * see ControllerData.h for details on the parameters used.
+ * See ControllerData.h for details on the parameters used.
  */
 class ZhangCollins: public _Controller
 {
@@ -284,7 +278,7 @@ class ZhangCollins: public _Controller
  * (2021). Comparing optimized exoskeleton assistance of the hip, knee, and ankle in single and multi-joint configurations. Wearable Technologies, 2.
  * and written by P. Stegall
  *
- * see ControllerData.h for details on the parameters used.
+ * See ControllerData.h for details on the parameters used.
  */
 class FranksCollinsHip: public _Controller
 {
@@ -398,7 +392,7 @@ public:
     int n;                          /* Keeps track of how many steps have been performed. */
     int start_flag;                 /* Flag that triggers the recording of the time that the step is first applied. */
     float start_time;               /* Time that the step was first applied. */
-    float cmd_ff;                      /* Motor command. */
+    float cmd_ff;                   /* Motor command. */
     float previous_time;            /* Stores time from previous iteration. */
     float end_time;                 /* Records time that step ended. */
 

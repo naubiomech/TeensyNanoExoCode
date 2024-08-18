@@ -20,7 +20,7 @@ float WaistBarometer::getPressure()
     {
         pressure *= 1000;
     }
-    // TODO: Conversion for other units
+    //TODO: Conversion for other units
     return pressure;
 }
 

@@ -11,7 +11,7 @@
 #ifndef Exo_h
 #define Exo_h
 
-// Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
+//Arduino compiles everything in the src folder even if not included so it causes an error for the nano if this is not included
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41)
 
 #include "Arduino.h"
@@ -29,7 +29,7 @@
 class Exo
 {
     public:
-		Exo(ExoData* exo_data); // constructor: uses initializer list for the Leg objects.
+		Exo(ExoData* exo_data); //Constructor: uses initializer list for the Leg objects.
 		
         /**
          * @brief reads motor data from each motor used in the leg and stores the values
@@ -39,16 +39,16 @@ class Exo
          */
         bool run();  
 		
-        ExoData *data;  /**< pointer to ExoData that is getting updated by the coms mcu so they share format.*/
-        Leg left_leg; /**< right leg object that contains all the joints and sensors for that leg */
-        Leg right_leg; /**< right leg object that contains all the joints and sensors for that leg */
+        ExoData *data;  /**< Pointer to ExoData that is getting updated by the coms mcu so they share format.*/
+        Leg left_leg;   /**< Light leg object that contains all the joints and sensors for that leg */
+        Leg right_leg;  /**< Right leg object that contains all the joints and sensors for that leg */
         
         #ifdef USE_SPEED_CHECK
             utils::SpeedCheck speed_check; /**< Used to check the speed of the loop without needing prints */
         #endif
         
-        SyncLed sync_led; /**< used to syncronize data with a motion capture system */
-        StatusLed status_led; /**< used to display the system status */
+        SyncLed sync_led;       /**< Used to syncronize data with a motion capture system */
+        StatusLed status_led;   /**< Used to display the system status */
 			
 	private:
 		

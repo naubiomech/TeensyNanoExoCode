@@ -13,7 +13,7 @@
 #include "Utilities.h"
 #include "Logger.h"
 
-// create abstract class for error types
+//Create abstract class for error types
 class ErrorType
 {
 public:
@@ -62,25 +62,18 @@ public:
 
     bool check(JointData* _data)
     {
-        // Calcualate motor torque
+        //Calcualate motor torque
         const float motor_torque = _data->motor.i * _data->motor.kt;
-        // Low pass motor torque
-        _data->smoothed_motor_torque = utils::ewma(motor_torque, 
-                        _data->smoothed_motor_torque, _data->motor_torque_smoothing);
-        // If average motor torque is not close to 0, calculate the transmission efficiency
-        const float torque_error = 
-            utils::is_close_to(_data->smoothed_motor_torque, 0, _data->close_to_zero_tolerance) ?
-                (0) : abs((float(_data->smoothed_motor_torque) - float(_data->torque_reading)) / float(_data->smoothed_motor_torque));
+
+        //Low pass motor torque
+        _data->smoothed_motor_torque = utils::ewma(motor_torque, _data->smoothed_motor_torque, _data->motor_torque_smoothing);
+        
+        //If average motor torque is not close to 0, calculate the transmission efficiency
+        const float torque_error = utils::is_close_to(_data->smoothed_motor_torque, 0, _data->close_to_zero_tolerance) ? (0) : abs((float(_data->smoothed_motor_torque) - float(_data->torque_reading)) / float(_data->smoothed_motor_torque));
         const uint8_t _id = static_cast<uint8_t>(_data->id);
-        _data->torque_error = utils::ewma(torque_error,
-                        _data->torque_error, _data->torque_error_smoothing);
+        _data->torque_error = utils::ewma(torque_error, _data->torque_error, _data->torque_error_smoothing);
 
-        //Serial.print(_id);
-        //Serial.print(":");
-        //Serial.print(torque_error);
-        //Serial.print(_id < 60 ? "\t" : "\n");
-
-        return false;  //abs(torque_error) > 100 * (1 - _data->transmission_efficiency_threshold);
+        return false;  //abs(torque_error) > 100 * (1 - _data->transmission_efficiency_threshold); //This should be the normal method for handling this error but we encountered issues so currently set to do nothing
     }
     void handle(JointData* _data)
     {
@@ -112,22 +105,25 @@ public:
 
     bool check(JointData* _data)
     {
-        // Append new torque reading to the window
+        //Append new torque reading to the window
         _data->torque_data_window.push(_data->torque_reading);
-        // If the window is larger than the max size, pop the oldest value
+
+        //If the window is larger than the max size, pop the oldest value
         if (_data->torque_data_window.size() > _data->torque_data_window_max_size)
         {
             _data->torque_data_window.pop();
-            // Calculate the standard deviation of the window
+            
+            //Calculate the standard deviation of the window
             std::pair<float, float> pop_vals = utils::online_std_dev(_data->torque_data_window);
-            // Generate symmetric bounds around the mean
-            std::pair<float, float> bounds = std::make_pair(
-                pop_vals.first - _data->torque_std_dev_multiple*pop_vals.second,
-                pop_vals.first + _data->torque_std_dev_multiple*pop_vals.second);
-            // Increment the failure count if the current torque reading is outside the bounds
+
+            //Generate symmetric bounds around the mean
+            std::pair<float, float> bounds = std::make_pair(pop_vals.first - _data->torque_std_dev_multiple*pop_vals.second, pop_vals.first + _data->torque_std_dev_multiple*pop_vals.second);
+            
+            //Increment the failure count if the current torque reading is outside the bounds
             _data->torque_failure_count += (int)utils::is_outside_range(_data->torque_reading, bounds.first, bounds.second);
         }
-        // If the failure count is greater than the max, return true
+
+        //If the failure count is greater than the max, return true
         return _data->torque_failure_count >= _data->torque_failure_count_max;
     }
     void handle(JointData* _data)

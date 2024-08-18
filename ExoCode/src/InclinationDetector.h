@@ -26,6 +26,7 @@ class InclinationDetector
      * @param threshold 
      */
     void set_decline_angle(float threshold);
+    
     /**
      * @brief Set the incline angle threshold
      * 
@@ -79,6 +80,7 @@ class InclinationDetector
      * @return Edge 
      */
     Edge _check_for_edge(const bool is_stance);
+    
     /**
      * @brief Update the stance phase estimation and return a current estimate.
      * 
@@ -87,11 +89,13 @@ class InclinationDetector
      * @return float Zero if in swing, stance phase percent if in stance (0-100)
      */
     float _update_stance_phase(const Edge edge, const bool is_stance);
+    
     /**
      * @brief Updates the internal thresholds based on angle data at specific time during the gait event
      * 
      */
     void _calculate_gait_features();
+    
     /**
      * @brief Store gait feature data for calculation in _calculate_gait_features()
      * 
@@ -99,6 +103,7 @@ class InclinationDetector
      * @param norm_angle 
      */
     void _update_gait_features(const Edge edge, const float norm_angle);
+    
     /**
      * @brief Assuming that there is a rising edge, check if the angle is lower 
      * than the threshold
@@ -108,6 +113,7 @@ class InclinationDetector
      * @return false Not Incline
      */
     bool _incline_check(const float norm_angle);
+    
     /**
      * @brief Assuming that the stance phase percentage is correct, check if the range 
      * lower than the threshold
@@ -117,6 +123,7 @@ class InclinationDetector
      * @return false Not Decline
      */
     bool _decline_check(const float norm_angle);
+    
     /**
      * @brief If the Inclination detector should calibrate
      * 

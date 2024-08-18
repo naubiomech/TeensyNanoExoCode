@@ -1,9 +1,9 @@
 #include "TorqueSensor.h"
 #include "Logger.h"
-//#define TORQUE_DEBUG 1
+//#define TORQUE_DEBUG 1        //Uncomment if you want to print debug statments to serial monitor. 
 
 
-// Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
+//Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41) 
 /*
  * Constructor for the TorqueSensor
@@ -22,16 +22,15 @@ TorqueSensor::TorqueSensor(unsigned int pin)
     this->_last_do_calibrate = false; 
     this->_zero_sum = 0; 
     this->_num_calibration_samples = 0;  
-
         
     // logger::print("TorqueSensor::TorqueSensor : pin = ");
     // logger::print(pin);
     // logger::print("\n");
     
-    // Configure pin if it is used
+    //Configure pin if it is used
     if (this->_is_used)
     {
-        pinMode(this->_pin, INPUT);  // Not required but I like to be explicit
+        pinMode(this->_pin, INPUT);
     }
     
     #ifdef TORQUE_DEBUG
@@ -48,12 +47,14 @@ bool TorqueSensor::calibrate(bool do_calibrate)
         // logger::print(do_calibrate);
         // logger::print("\n");
     #endif
+
     if (_is_used)
     {
         #ifdef TORQUE_DEBUG
-        // logger::print("TorqueSensor::calibrate : _is_used\n");
+            // logger::print("TorqueSensor::calibrate : _is_used\n");
         #endif
-        // check for rising edge of do_calibrate, and reset the values
+
+        //Check for rising edge of do_calibrate, and reset the values
         if (do_calibrate > _last_do_calibrate)
         {
             _start_time = millis();
@@ -67,7 +68,8 @@ bool TorqueSensor::calibrate(bool do_calibrate)
                 logger::println(_start_time);
             #endif
         }
-        // check if we are within the time window and need to do the calibration
+
+        //Check if we are within the time window and need to do the calibration
         uint16_t delta = millis()-_start_time;
         if((_cal_time >= (delta)) && do_calibrate)
         {
@@ -86,53 +88,54 @@ bool TorqueSensor::calibrate(bool do_calibrate)
                 logger::println(_num_calibration_samples);
             #endif
         }
-        // The time window ran out so we are done, and should average the values and set the _calibration value.
+
+        //The time window ran out so we are done, and should average the values and set the _calibration value.
         else if (do_calibrate)
         {
             if (_num_calibration_samples>0)
             {
                 _calibration = _zero_sum/(float)_num_calibration_samples;
             }
+
             #ifdef TORQUE_DEBUG
-            logger::print("TorqueSensor::calibrate : Torque Cal Done with Calibration = ");
-            logger::println(_calibration);
+                logger::print("TorqueSensor::calibrate : Torque Cal Done with Calibration = ");
+                logger::println(_calibration);
             #endif
+
             // logger::print("TorqueSensor::calibrate : Torque Cal Done with cal - ");
             // logger::print(_pin);
             // logger::print("\t");
             // logger::println(_calibration);
+
             do_calibrate = false;
         }
         else 
         {
             #ifdef TORQUE_DEBUG
-            // logger::print("TorqueSensor::calibrate : Torque Cal Not Done\n");
+                // logger::print("TorqueSensor::calibrate : Torque Cal Not Done\n");
             #endif
         }
         
-        // find the min and max over the time interval
-        
-        // offset by min and normalize by (max-min), (val-avg_min)/(avg_max-avg_min)
-        
-        // check if we are done with the calibration 
+        //Find the min and max over the time interval, offset by min and normalize by (max-min), (val-avg_min)/(avg_max-avg_min), check if we are done with the calibration 
         _last_do_calibrate = do_calibrate;
     }
     else
     {
         #ifdef TORQUE_DEBUG
-        logger::print("TorqueSensor::calibrate : Not _is_used\n");
+            logger::print("TorqueSensor::calibrate : Not _is_used\n");
         #endif
+
         do_calibrate = false;
     }
     return do_calibrate;
 };
 
-// TODO: Implement Calibration check, ie if read doesnt return a zero value directly after calibration, recalibrate
-
 float TorqueSensor::read()
 {
+    //Reads the raw value from the torque sensor
     _raw_reading = analogRead(_pin);
 
+    //Adjusts the torque sensor value based on the reading obtained during calibration
     _calibrated_reading = (((float)_raw_reading * torque_calibration::AI_CNT_TO_V) - _calibration) * torque_calibration::TRQ_V_TO_NM;
 
     #ifdef TORQUE_DEBUG

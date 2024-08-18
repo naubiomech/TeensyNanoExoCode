@@ -12,13 +12,11 @@
 #define EXOBLE_H
 #if defined(ARDUINO_ARDUINO_NANO33BLE) | defined(ARDUINO_NANO_RP2040_CONNECT)
 
-//#define EXOBLE_DEBUG
+//#define EXOBLE_DEBUG      //Uncomment if you want to print debug statements to the serial monitor
 #define MAX_PARSER_CHARACTERS       8
 #define NAME_PREAMBLE               "EXOBLE_"
 #define MAC_ADDRESS_TOTAL_LENGTH    17
 #define MAC_ADDRESS_NAME_LENGTH     6
-
-
 
 #include <Arduino.h>
 #include <ArduinoBLE.h>
@@ -32,11 +30,12 @@ class ExoBLE
 {
     public:
         /**
-         * @brief Construct a new Exo B L E object
+         * @brief Construct a new Exo BLE object
          * 
          * @param data A reference to the ExoData object
          */
         ExoBLE();
+        
         /**
          * @brief Sets GATT DB, device name, and begins advertising. 
          * 
@@ -76,13 +75,13 @@ class ExoBLE
 
     private:
 
-        // BLE connection state
+        //BLE connection state
         int _connected = 0;
         
-        // The Gatt database which defines the services and characteristics
+        //The Gatt database which defines the services and characteristics
         GattDb _gatt_db = GattDb();
 
-        // The parser used to serialize and deserialize the BLE data
+        //The parser used to serialize and deserialize the BLE data
         BleParser _ble_parser = BleParser();
 };
 

@@ -11,7 +11,7 @@
 #ifndef Leg_h
 #define Leg_h
 
-// Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
+//Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41)
 
 #include "Arduino.h"
@@ -36,8 +36,7 @@
 class Leg
 {
     public:
-		//Leg();
-        Leg(bool is_left, ExoData* exo_data); // constructor: 
+        Leg(bool is_left, ExoData* exo_data); //Constructor: 
         
         /**
          * @brief read FSR,  calc percent gait, read joint data, send joint commands
@@ -87,7 +86,7 @@ class Leg
         /**
          * @brief Calculates the percent of gait based on the ground contact reading
          * and an estimate of the step time based on the average time of the last few steps.
-         * returns the percent gait which saturates at 100%
+         * Returns the percent gait which saturates at 100%
          * 
          * @return percent gait from heel strike
          */
@@ -96,18 +95,18 @@ class Leg
         /**
          * @brief Calculates the percent of stance based on the toe contact reading
          * and an estimate of the stance time based on the average time of the last few stance phases.
-         * returns the percent stance which saturates at 100%
+         * Returns the percent stance which saturates at 100%
          *
          * @return percent stance from toe strike
          */
         float _calc_percent_stance();
 
         /**
-         * @brief Calculates the percent of stance based on the toe contact reading
-         * and an estimate of the stance time based on the average time of the last few stance phases.
-         * returns the percent stance which saturates at 100%
+         * @brief Calculates the percent of swing based on the FSR reading
+         * and an estimate of the swing time based on the average time of the last few swing phases.
+         * Returns the percent swing which saturates at 100%
          *
-         * @return percent stance from toe strike
+         * @return percent swing
          */
         float _calc_percent_swing();
         
@@ -115,21 +114,19 @@ class Leg
          * @brief Calculates the expected duration of a step by averaging the time the last N steps took.
          * Should only be called when a ground strike has occurred.
          *
-         * @return expected stance duration in ms 
+         * @return expected duration in ms 
          */
         float _update_expected_duration();
         
         /**
-         * @brief Calculates the expected duration of a step by averaging the time the last N steps took.
-         * Should only be called when a ground strike has occurred.
-         *
+         * @brief Calculates the expected duration of stance by averaging the time the last N stance phases.
+         * 
          * @return expected stance duration in ms
          */
         float _update_expected_stance_duration();
 
         /**
-         * @brief Calculates the expected duration of a step by averaging the time the last N steps took.
-         * Should only be called when a ground strike has occurred.
+         * @brief Calculates the expected duration of the swing phase by averaging the time the last N swing phases.
          *
          * @return expected stance duration in ms
          */
@@ -154,47 +151,46 @@ class Leg
         bool _check_toe_on();
         bool _check_toe_off();
 		
-        // data that can be accessed
-        ExoData* _data;/**< Pointer to the overall exo data */
+        //Data that can be accessed
+        ExoData* _data;     /**< Pointer to the overall exo data */
         LegData* _leg_data; /**< Pointer to the specific leg we are using.*/
         
-        // joint objects for the leg.
-        // The order these are listed are important as it will determine the order their constructors are called in the initializer list.
-        HipJoint _hip; /**< instance of a hip joint */
-        KneeJoint _knee; /**< instance of a knee joint */
-        AnkleJoint _ankle; /**< instance of a ankle joint */
+        //Joint objects for the leg. The order these are listed are important as it will determine the order their constructors are called in the initializer list.
+        HipJoint _hip;      /**< Instance of a hip joint */
+        KneeJoint _knee;    /**< Instance of a knee joint */
+        AnkleJoint _ankle;  /**< Instance of a ankle joint */
         
-        FSR _heel_fsr; /**< heel force sensitive resistor */
+        //FSR objects for the leg. 
+        FSR _heel_fsr;      /**< Heel force sensitive resistor */
+		FSR _toe_fsr;       /**< Toe force sensitive resistor */
 
-		FSR _toe_fsr; /**< toe force sensitive resistor */
-
+        //Inclination object for the leg
         InclinationDetector* inclination_detector;
+        
+        bool _is_left;                              /**< Stores which side the leg is on */
+        
+        bool _prev_heel_contact_state;              /**< Prev heel contact state used for ground strike detection */
+        bool _prev_toe_contact_state;               /**< Prev toe contact state used for ground strike detection */
 
+        bool _prev_toe_contact_state_toe_off;       /**< Prev toe off state used for toe off detection */
+        bool _prev_toe_contact_state_toe_on;        /**< Prev toe off state used for toe off detection */
         
-        bool _is_left; /**< stores which side the leg is on */
-        
-        bool _prev_heel_contact_state; /**< Prev heel contact state used for ground strike detection */
-        bool _prev_toe_contact_state; /**< Prev toe contact state used for ground strike detection */
+        static const uint8_t _num_steps_avg = 3;    /**< Number of prior steps used to estimate the expected duration, used for percent gait calculation */
+        unsigned int _step_times[_num_steps_avg];   /**< Stores the duration of the last N steps, used for percent gait calculation */ 
 
-        bool _prev_toe_contact_state_toe_off; /**< Prev toe off state used for toe off detection */
-        bool _prev_toe_contact_state_toe_on; /**< Prev toe off state used for toe off detection */
+        unsigned int _stance_times[_num_steps_avg]; /**< Stores the duration of the last N stance phases, used for percent stance calculation */ 
+        unsigned int _swing_times[_num_steps_avg];  /**< Stores the duration of the last N swing phases, used for percent swing calculation */ 
         
-        static const uint8_t _num_steps_avg = 3;  /**< the number of prior steps used to estimate the expected duration, used for percent gait calculation */
-        unsigned int _step_times[_num_steps_avg];  /**< stores the duration of the last N steps, used for percent gait calculation */// 
-
-        unsigned int _stance_times[_num_steps_avg];
-        unsigned int _swing_times[_num_steps_avg];
+        unsigned int _ground_strike_timestamp;      /**< Records the time of the ground strike to determine if the next strike is within the expected window. */ 
+        unsigned int _prev_ground_strike_timestamp; /**< Stores the last value to determine the difference in strike times. */ 
+        unsigned int _expected_step_duration;       /**< The expected step duration to calculate the percent gait.*/
         
-        unsigned int _ground_strike_timestamp;   /**< Records the time of the ground strike to determine if the next strike is within the expected window. */ 
-        unsigned int _prev_ground_strike_timestamp;   /**< Stores the last value to determine the difference in strike times. */ 
-        unsigned int _expected_step_duration;   /**< The expected step duration to calculate the percent gait.*/
-        
-        unsigned int _toe_strike_timestamp;
-        unsigned int _prev_toe_strike_timestamp;
-        unsigned int _expected_stance_duration;
-        unsigned int _toe_off_timestamp;
-        unsigned int _prev_toe_off_timestamp;
-        unsigned int _expected_swing_duration;
+        unsigned int _toe_strike_timestamp;         /**< Records the time of the toe's ground strike to determine if the next strike is within the expected window. */ 
+        unsigned int _prev_toe_strike_timestamp;    /**< Stores the last value to determine the difference in strike times. */
+        unsigned int _expected_stance_duration;     /**< The expected stance duration to calculate the percent stance.*/
+        unsigned int _toe_off_timestamp;            /**< Records the time of the toe off to determine if the next is within the expected window. */ 
+        unsigned int _prev_toe_off_timestamp;       /**< Stores the last value to determine the difference in times. */
+        unsigned int _expected_swing_duration;      /**< The expected swing duration to calculate the percent swing.*/
         
 };
 #endif

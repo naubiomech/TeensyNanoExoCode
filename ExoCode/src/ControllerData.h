@@ -18,11 +18,10 @@
 #include "ParseIni.h"
 #include <stdint.h>
 
-// forward declaration
+//Forward declaration
 class ExoData;
 
-
-namespace controller_defs /**< stores the parameter indexes for different controllers */
+namespace controller_defs                   /**< Stores the parameter indexes for different controllers */
 {
     namespace zero_torque
     {
@@ -40,8 +39,8 @@ namespace controller_defs /**< stores the parameter indexes for different contro
     
     namespace proportional_joint_moment
     {
-        const uint8_t stance_max_idx = 0;  // parameter for peak exo torque during stance
-        const uint8_t swing_max_idx = 1;  // parameter for peak exo torque during swing
+        const uint8_t stance_max_idx = 0;                   // Parameter for peak exo torque during stance 
+        const uint8_t swing_max_idx = 1;                    // Parameter for peak exo torque during swing
         const uint8_t is_assitance_idx = 2;
         const uint8_t use_pid_idx = 3;
         const uint8_t p_gain_idx = 4;
@@ -123,8 +122,8 @@ namespace controller_defs /**< stores the parameter indexes for different contro
         const uint8_t D_gain_idx = 9;                   // Differntial gain
         const uint8_t TorqueLimit_idx = 10;             // Setpoint Limiter - max pos/neg amplitude - default 16
         const uint8_t SpringPkTorque_idx = 11;          // Sets the maximum spring torque (Nm)
-        const uint8_t EXTamplitude_idx = 12;           // Extension Torque Setpoint in Nm
-        const uint8_t FiltStrength_idx = 13;             // Setpoint Filter Strength
+        const uint8_t EXTamplitude_idx = 12;            // Extension Torque Setpoint in Nm
+        const uint8_t FiltStrength_idx = 13;            // Setpoint Filter Strength
         const uint8_t num_parameter = 14;               // Number of unique commands      
     }
 
@@ -166,7 +165,7 @@ namespace controller_defs /**< stores the parameter indexes for different contro
 
     namespace hip_resist
     {
-        // parameters for maximum exo extension and flexion torque.
+        //Parameters for maximum exo extension and flexion torque.
         const uint8_t flexion_setpoint_idx = 0;
         const uint8_t extension_setpoint_idx = 1;
         const uint8_t direction_idx = 2;
@@ -175,7 +174,7 @@ namespace controller_defs /**< stores the parameter indexes for different contro
 
     namespace chirp
     {
-        // Parameters for Sine Wave Used in Chirp Testing
+        //Parameters for Sine Wave Used in Chirp Testing
         const uint8_t amplitude_idx = 0;
         const uint8_t start_frequency_idx = 1;
         const uint8_t end_frequency_idx = 2;
@@ -190,7 +189,7 @@ namespace controller_defs /**< stores the parameter indexes for different contro
 
     namespace step
     {
-        // Parameters for step torque used in max torque capacity testing
+        //Parameters for step torque used in max torque capacity testing
         const uint8_t amplitude_idx = 0;
         const uint8_t duration_idx = 1;
         const uint8_t repetitions_idx = 2;
@@ -203,7 +202,7 @@ namespace controller_defs /**< stores the parameter indexes for different contro
         const uint8_t num_parameter = 9;
     }
 
-    const uint8_t max_parameters = franks_collins_hip::num_parameter;//user_defined::num_parameter;  // this should be the largest of all the num_parameters
+    const uint8_t max_parameters = franks_collins_hip::num_parameter;   //This should be the largest of all the num_parameters
 }
 
 /**
@@ -229,26 +228,26 @@ class ControllerData {
         uint8_t get_parameter_length();
         
         
-        uint8_t controller; /**< id of the current controller */
-        config_defs::JointType joint; /**< id of the current joint */
-        // These were made floats to dummy proof the math for people but will double the data needed to be sent over SPI, we double the speed of the SPI if we move to fixed point.
-        float setpoint;  /**< controller setpoint, basically the motor command. */
-        float ff_setpoint; /**< feed forwared setpoint, only updated in closed loop controllers */
+        uint8_t controller;                                 /**< Id of the current controller */
+        config_defs::JointType joint;                       /**< Id of the current joint */
+
+        float setpoint;                                     /**< Controller setpoint, basically the motor command. */
+        float ff_setpoint;                                  /**< Feed forwared setpoint, only updated in closed loop controllers */
         float parameters[controller_defs::max_parameters];  /**< Parameter list for the controller see the controller_defs namespace for the specific controller. */
-        uint8_t parameter_set; /**< temporary value used to store the parameter set while we are pulling from the sd card. */
+        uint8_t parameter_set;                              /**< Temporary value used to store the parameter set while we are pulling from the sd card. */
 
-        float filtered_torque_reading; /**< filtered torque reading, used for filtering torque signal */
-        float filtered_cmd; /**< filtered command, used for filtering motor commands */
-        float filtered_setpoint = 0; /**< filtered setpoint for the controller */
+        float filtered_torque_reading;                      /**< Filtered torque reading, used for filtering torque signal */
+        float filtered_cmd;                                 /**< Filtered command, used for filtering motor commands */
+        float filtered_setpoint = 0;                        /**< Filtered setpoint for the controller */
         
-        // Variables for Auto Kf in the PID Controller
-        float kf = 1; /**< gain for the controller */
-        float prev_max_measured = 0; /**< previous max measured value */
-        float prev_max_setpoint = 0; /**< previous max setpoint value */
-        float max_measured = 0; /**< max measured value */
-        float max_setpoint = 0; /**< max setpoint value */
+        //Variables for Auto Kf in the PID Controller
+        float kf = 1;                                       /**< Gain for the controller */
+        float prev_max_measured = 0;                        /**< Previous max measured value */
+        float prev_max_setpoint = 0;                        /**< Previous max setpoint value */
+        float max_measured = 0;                             /**< Max measured value */
+        float max_setpoint = 0;                             /**< Max setpoint value */
 
-        // Variables for GAsP Controller
+        //Variables for GAsP Controller (MOVE TO Controller.h)
         float reference_angle = 0; /**< reference angle for the spring term */
         float reference_angle_offset = 0; /**< offset for the reference angle */
         bool reference_angle_updated = false; /**< flag to indicate if the reference angle was updated this step */
@@ -281,10 +280,9 @@ class ControllerData {
 		bool wasStance = false;
 		float prevMaxPjmcSpringDamper = 0;
 		float cmd_2nd = 0;
-		float cmd_1st = 0;
-		
+		float cmd_1st = 0;	
 
-        // Variables for the ElbowMinMax Controller
+        //Variables for the ElbowMinMax Controller
         float previous_setpoint = 0;
         float fsr_toe_min_elbow = 0;
         float fsr_toe_max_elbow = 0;
@@ -305,7 +303,7 @@ class ControllerData {
 
         float SpringEffect = 0;
 
-        // Variables for the Generalizable Perturbation Controller (ptbGeneral)
+        //Variables for the Generalizable Perturbation Controller (ptbGeneral)
         bool isPerturbing = false;
         bool ptbDetermined = false;
         float time_current_ptb = 0;
@@ -327,7 +325,7 @@ class ControllerData {
 		uint16_t ptb_setpoint = 0;
 		bool ptb_fsrGotHigh = false;
 		
-		// Variables for the Calibration Manger "Controller"
+		//Variables for the Calibration Manger "Controller"
 		bool calibrComplete = false;
 		uint16_t iCalibr = 0;
 		int PIDMLTPLR = 0;
@@ -335,7 +333,7 @@ class ControllerData {
 		float calibrSum = 0;
 
 		
-		// Variables for the Zhang-Collins Controller
+		//Variables for the Zhang-Collins Controller
 		float previous_cmd = 0;
 };      
 
