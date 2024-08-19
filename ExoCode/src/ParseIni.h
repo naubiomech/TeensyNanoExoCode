@@ -87,8 +87,7 @@ namespace config_defs
         AK60 = 2, 
         AK80 = 3,
         AK60_v1_1 = 4,
-        AK60_v1_1_T = 5,
-        AK70 = 6,
+        AK70 = 5,
     };
     
     enum class gearing : uint8_t
@@ -102,7 +101,7 @@ namespace config_defs
     
     enum class joint_id : uint8_t
     {
-        // byte format : [0, is_left, !is_left, unused_joint, unused_joint, is_ankle, is_knee, is_hip]
+        //Byte format : [0, is_left, !is_left, unused_joint, unused_joint, is_ankle, is_knee, is_hip]
         left = 0b01000000,
         right = 0b00100000,
         
@@ -123,25 +122,20 @@ namespace config_defs
     {
         disabled = 1,
         zero_torque = 2,
-        heel_toe = 3,
-        franks_collins_hip = 4,
-        stasis = 5,
-        constant_torque = 6,
-        ptb_general = 7,
-        hip_resist = 8,
-        chirp = 9,
-        step = 10,
+        franks_collins_hip = 3,
+        constant_torque = 4,
+        chirp = 5,
+        step = 6,
     };
     
     enum class knee_controllers : uint8_t
     {
         disabled = 1,
         zero_torque = 2,
-        stasis = 3,
-        constant_torque = 4,
-        elbow_min_max = 5,
-        chirp = 6,
-        step = 7,
+        constant_torque = 3,
+        elbow_min_max = 4,
+        chirp = 5,
+        step = 6,
     };
         
     enum class ankle_controllers : uint8_t
@@ -150,14 +144,12 @@ namespace config_defs
         zero_torque = 2, 
         pjmc = 3,
         zhang_collins = 4,
-        stasis = 5,
-        constant_torque = 6,
-        ptb_general = 7,
-        gasp = 8,
-		elbow_min_max = 9,
-		calibr_manager = 10,
-        chirp = 11,
-        step = 12,
+        constant_torque = 5,
+        trec = 6,
+		elbow_min_max = 7,
+		calibr_manager = 8,
+        chirp = 9,
+        step = 10,
     };
     
     enum class flip_dir : uint8_t
@@ -314,7 +306,6 @@ namespace config_defs
             {"AK60", (uint8_t)config_defs::motor::AK60}, 
             {"AK80", (uint8_t)config_defs::motor::AK80},
             {"AK60v1.1", (uint8_t)config_defs::motor::AK60_v1_1},
-            {"AK60v1.1T", (uint8_t)config_defs::motor::AK60_v1_1_T},
             {"AK70", (uint8_t)config_defs::motor::AK70},
         };
         
@@ -331,12 +322,8 @@ namespace config_defs
         { 
             {"0", (uint8_t)config_defs::hip_controllers::disabled}, 
             {"zeroTorque", (uint8_t)config_defs::hip_controllers::zero_torque}, 
-            {"heelToe", (uint8_t)config_defs::hip_controllers::heel_toe},
             {"franksCollinsHip", (uint8_t)config_defs::hip_controllers::franks_collins_hip},
-            {"stasis", (uint8_t)config_defs::hip_controllers::stasis},
             {"constantTorque", (uint8_t)config_defs::hip_controllers::constant_torque},
-            {"ptbGeneral", (uint8_t)config_defs::hip_controllers::ptb_general},
-            {"hipResist", (uint8_t)config_defs::hip_controllers::hip_resist},
             {"chirp", (uint8_t)config_defs::hip_controllers::chirp},
             {"step", (uint8_t)config_defs::hip_controllers::step},
 
@@ -346,7 +333,6 @@ namespace config_defs
         { 
             {"0", (uint8_t)config_defs::knee_controllers::disabled}, 
             {"zeroTorque", (uint8_t)config_defs::knee_controllers::zero_torque}, 
-            {"stasis", (uint8_t)config_defs::knee_controllers::stasis},
             {"constantTorque", (uint8_t)config_defs::knee_controllers::constant_torque},
             {"elbowMinMax", (uint8_t)config_defs::knee_controllers::elbow_min_max},
             {"chirp", (uint8_t)config_defs::knee_controllers::chirp},
@@ -359,10 +345,8 @@ namespace config_defs
             {"zeroTorque", (uint8_t)config_defs::ankle_controllers::zero_torque}, 
             {"PJMC", (uint8_t)config_defs::ankle_controllers::pjmc},
             {"zhangCollins", (uint8_t)config_defs::ankle_controllers::zhang_collins},
-            {"stasis", (uint8_t)config_defs::ankle_controllers::stasis},
             {"constantTorque", (uint8_t)config_defs::ankle_controllers::constant_torque},
-            {"ptbGeneral", (uint8_t)config_defs::ankle_controllers::ptb_general},
-            {"GAsP", (uint8_t)config_defs::ankle_controllers::gasp},
+            {"TREC", (uint8_t)config_defs::ankle_controllers::trec},
 			{"elbowMinMax", (uint8_t)config_defs::ankle_controllers::elbow_min_max},
 			{"calibrManager", (uint8_t)config_defs::ankle_controllers::calibr_manager},
             {"chirp", (uint8_t)config_defs::ankle_controllers::chirp},

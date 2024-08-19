@@ -158,12 +158,8 @@ class HipJoint : public _Joint
         
         //Objects for joint specific controllers
         ZeroTorque _zero_torque;                /**< Zero torque controller */
-        HeelToe _heel_toe;                      /**< Heel toe controller, not currently configured */
         FranksCollinsHip _franks_collins_hip;   /**< Franks Collins Hip controller */
-        Stasis _stasis;                         /**< Stasis controller */
         ConstantTorque _constant_torque;        /**< Constant torque controller */
-        PtbGeneral _ptb_general;                /**< Generalized Perturbation Controller */
-        HipResist _hip_resist;                  /**< Hip Resistance Controller */
         Chirp _chirp;                           /**< Chirp Controller for Device Characterization */                    
         Step _step;                             /**< Step Controller for Device Characterization */
         
@@ -194,7 +190,6 @@ class KneeJoint : public _Joint
         
         //Objects for joint specific controllers	
         ZeroTorque _zero_torque;                /**< Zero torque controller */
-        Stasis _stasis;                         /**< Stasis controller */
         ConstantTorque _constant_torque;        /**< Constant torque controller */
         ElbowMinMax _elbow_min_max;             /**< Elbow Flexion/Extension Controller for Lifting */
         Chirp _chirp;                           /**< Chirp Controller for Device Characterization */ 
@@ -236,10 +231,8 @@ class AnkleJoint : public _Joint
         ZeroTorque _zero_torque;                                /**< Zero torque controller */
         ProportionalJointMoment _proportional_joint_moment;     /**< Proportional joint moment controller */
         ZhangCollins _zhang_collins;                            /**< Zhang Collins controller */
-        Stasis _stasis;                                         /**< Stasis controller */
         ConstantTorque _constant_torque;                        /**< Constant torque controller*/
-        PtbGeneral _ptb_general;                                /**< Generalized Perturbation Controller>*/
-        PropulsiveAssistive _propulsive_assistive;              /**< Propulsive Assistive */
+        TREC _trec;                                             /**< TREC */
 		ElbowMinMax _elbow_min_max;                             /**< Elbow Flexion/Extension Controller for Lifting */
 		CalibrManager _calibr_manager;                          /**< Calibration Manager "Controller" */
         Chirp _chirp;                                           /**< Chirp Controller for Device Characterization */

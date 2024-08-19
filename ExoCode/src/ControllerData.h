@@ -32,11 +32,6 @@ namespace controller_defs                   /**< Stores the parameter indexes fo
         const uint8_t num_parameter = 4;
     }
     
-    namespace stasis
-    {
-        const uint8_t num_parameter = 0;
-    }
-    
     namespace proportional_joint_moment
     {
         const uint8_t stance_max_idx = 0;                   // Parameter for peak exo torque during stance 
@@ -48,17 +43,6 @@ namespace controller_defs                   /**< Stores the parameter indexes fo
         const uint8_t d_gain_idx = 6;
         const uint8_t torque_alpha_idx = 7;
         const uint8_t num_parameter = 8;
-    }
-
-    namespace heel_toe
-    {
-        const uint8_t flexion_torque_setpoint_idx = 0;
-        const uint8_t extension_torque_setpoint_idx = 1;
-        const uint8_t use_pid_idx = 2;
-        const uint8_t p_gain_idx = 3;
-        const uint8_t i_gain_idx = 4;
-        const uint8_t d_gain_idx = 5;
-        const uint8_t num_parameter = 6;
     }
 
     namespace zhang_collins
@@ -105,7 +89,6 @@ namespace controller_defs                   /**< Stores the parameter indexes fo
         const uint8_t i_gain_idx = 5;
         const uint8_t d_gain_idx = 6;
         const uint8_t num_parameter = 7;
-
     }
 
     namespace elbow_min_max
@@ -127,22 +110,7 @@ namespace controller_defs                   /**< Stores the parameter indexes fo
         const uint8_t num_parameter = 14;               // Number of unique commands      
     }
 
-    namespace ptb_general 
-    {
-        const uint8_t ptb_mode_idx = 0;
-        const uint8_t ptb_settings_1_idx = 1;
-        const uint8_t ptb_settings_2_idx = 2;
-        const uint8_t ptb_settings_3_idx = 3;
-        const uint8_t ptb_settings_4_idx = 4;
-        const uint8_t use_pid_idx = 5;
-        const uint8_t p_gain_idx = 6;
-        const uint8_t i_gain_idx = 7;
-        const uint8_t d_gain_idx = 8;
-		const uint8_t ptb_settings_9_idx = 9;
-        const uint8_t num_parameter = 10;
-    }
-
-    namespace propulsive_assistive 
+    namespace trec 
     {
         const uint8_t plantar_scaling = 0;
         const uint8_t dorsi_scaling = 1;
@@ -162,15 +130,6 @@ namespace controller_defs                   /**< Stores the parameter indexes fo
 		const uint8_t calibr_cmd = 0;
 		const uint8_t num_parameter = 1;
 	}
-
-    namespace hip_resist
-    {
-        //Parameters for maximum exo extension and flexion torque.
-        const uint8_t flexion_setpoint_idx = 0;
-        const uint8_t extension_setpoint_idx = 1;
-        const uint8_t direction_idx = 2;
-        const uint8_t num_parameter = 3;
-    }
 
     namespace chirp
     {
@@ -247,17 +206,20 @@ class ControllerData {
         float max_measured = 0;                             /**< Max measured value */
         float max_setpoint = 0;                             /**< Max setpoint value */
 
-        //Variables for GAsP Controller (MOVE TO Controller.h)
-        float reference_angle = 0; /**< reference angle for the spring term */
-        float reference_angle_offset = 0; /**< offset for the reference angle */
-        bool reference_angle_updated = false; /**< flag to indicate if the reference angle was updated this step */
-        float filtered_squelched_supportive_term = 0; /**< low pass on final spring output */
-        float neutral_angle = 0.0f; /**< neutral angle for the spring term */
-        bool prev_calibrate_trq_sensor = false; /**< previous value of the calibrate torque sensor flag */
-        const float cal_neutral_angle_alpha = 0.01f; /**< alpha for the low pass on the neutral angle calibration */
-        float level_entrance_angle = 0.0f; /**< level entrance angle for the spring term */
-        bool prev_calibrate_level_entrance = false; /**< previous value of the calibrate level entrance flag */
-        const float cal_level_entrance_angle_alpha = 0.01f; /**< alpha for the low pass on the level entrance calibration */
+
+        /* Controller Specific Variables That You Want To Plot. */
+
+        //Variables for TREC Controller (MOVE TO Controller.h)
+        float reference_angle = 0;                              /**< Reference angle for the spring term */
+        float reference_angle_offset = 0;                       /**< Offset for the reference angle */
+        bool reference_angle_updated = false;                   /**< Flag to indicate if the reference angle was updated this step */
+        float filtered_squelched_supportive_term = 0;           /**< Low pass on final spring output */
+        float neutral_angle = 0.0f;                             /**< Neutral angle for the spring term */
+        bool prev_calibrate_trq_sensor = false;                 /**< Previous value of the calibrate torque sensor flag */
+        const float cal_neutral_angle_alpha = 0.01f;            /**< Alpha for the low pass on the neutral angle calibration */
+        float level_entrance_angle = 0.0f;                      /**< Level entrance angle for the spring term */
+        bool prev_calibrate_level_entrance = false;             /**< Previous value of the calibrate level entrance flag */
+        const float cal_level_entrance_angle_alpha = 0.01f;     /**< Alpha for the low pass on the level entrance calibration */
 		float stateless_pjmc_term = 0;
 		float toeFsrThreshold = 0.2f;
 		bool wait4HiHeelFSR = false;
@@ -302,28 +264,6 @@ class ControllerData {
         float elbow_cmd = 0;
 
         float SpringEffect = 0;
-
-        //Variables for the Generalizable Perturbation Controller (ptbGeneral)
-        bool isPerturbing = false;
-        bool ptbDetermined = false;
-        float time_current_ptb = 0;
-        float time_previous_ptb = 0;
-        //uint8_t ptbHead = 0;
-        //uint8_t ptbTail = 0;
-        //uint8_t iPercentGait= 0;
-        bool ptbApplied = false;
-        bool ptbRandomIsFirstRun = true;
-        //bool ptbWait4ANewStep = true;
-        //uint8_t ptbFrequency = 0;
-        uint16_t ptb_iStep = 0;
-		//uint16_t ptb_totalSteps = 0;
-		bool ptb_newIsSwing = true;
-		bool ptb_oldIsSwing = true;
-		//uint16_t fsrThreshold = 0.3;
-		uint8_t ptb_frequency = 0;
-		uint16_t ptb_iiStep = 0;
-		uint16_t ptb_setpoint = 0;
-		bool ptb_fsrGotHigh = false;
 		
 		//Variables for the Calibration Manger "Controller"
 		bool calibrComplete = false;

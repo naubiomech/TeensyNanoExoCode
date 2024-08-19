@@ -322,12 +322,8 @@ void _Joint::set_motor(_Motor* new_motor)
 HipJoint::HipJoint(config_defs::joint_id id, ExoData* exo_data)
 : _Joint(id, exo_data)  // <-- Initializer list
 , _zero_torque(id, exo_data)
-, _heel_toe(id, exo_data)
 , _franks_collins_hip(id, exo_data)
-, _stasis(id, exo_data)
 , _constant_torque(id, exo_data)
-, _ptb_general(id, exo_data)
-, _hip_resist(id, exo_data)
 , _chirp(id, exo_data)
 , _step(id, exo_data)
 {
@@ -386,12 +382,6 @@ HipJoint::HipJoint(config_defs::joint_id id, ExoData* exo_data)
                     logger::println("AK60 v1.1");
                 #endif
                 HipJoint::set_motor(new AK60_v1_1(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
-                break;
-            case (uint8_t)config_defs::motor::AK60_v1_1_T:
-                #ifdef JOINT_DEBUG
-                    logger::println("AK60 v1.1T");
-                #endif
-                HipJoint::set_motor(new AK60_v1_1_T(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
                 break;
             case (uint8_t)config_defs::motor::AK70:
                 #ifdef JOINT_DEBUG
@@ -486,28 +476,16 @@ void HipJoint::set_controller(uint8_t controller_id)
     {
         case (uint8_t)config_defs::hip_controllers::disabled :
             _joint_data->motor.enabled = false;
-            _controller = &_stasis;
+            _controller = &_zero_torque;
             break;
         case (uint8_t)config_defs::hip_controllers::zero_torque :
             _controller = &_zero_torque;
             break;
-        case (uint8_t)config_defs::hip_controllers::heel_toe :
-            _controller = &_heel_toe;
-            break;
         case (uint8_t)config_defs::hip_controllers::franks_collins_hip :
             _controller = &_franks_collins_hip;
             break;
-        case (uint8_t)config_defs::hip_controllers::stasis :
-            _controller = &_stasis;
-            break;
         case (uint8_t)config_defs::hip_controllers::constant_torque:
             _controller = &_constant_torque;
-            break;
-        case (uint8_t)config_defs::hip_controllers::ptb_general:
-            _controller = &_ptb_general;
-            break;
-        case (uint8_t)config_defs::hip_controllers::hip_resist:
-            _controller = &_hip_resist;
             break;
         case (uint8_t)config_defs::hip_controllers::chirp:
             _controller = &_chirp;
@@ -517,7 +495,7 @@ void HipJoint::set_controller(uint8_t controller_id)
             break;
         default :
             logger::print("Unkown Controller!\n", LogLevel::Error);
-            _controller = &_stasis;
+            _controller = &_zero_torque;
             break;
     }
     #ifdef JOINT_DEBUG
@@ -530,7 +508,6 @@ void HipJoint::set_controller(uint8_t controller_id)
 KneeJoint::KneeJoint(config_defs::joint_id id, ExoData* exo_data)
 : _Joint(id, exo_data) // <-- Initializer list
 , _zero_torque(id, exo_data)
-, _stasis(id, exo_data)
 , _constant_torque(id, exo_data)
 , _elbow_min_max(id, exo_data)
 , _chirp(id, exo_data)
@@ -591,12 +568,6 @@ KneeJoint::KneeJoint(config_defs::joint_id id, ExoData* exo_data)
                     logger::println("AK60 v1.1");
                 #endif
                 KneeJoint::set_motor(new AK60_v1_1(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
-                break;
-            case (uint8_t)config_defs::motor::AK60_v1_1_T:
-                #ifdef JOINT_DEBUG
-                    logger::println("AK60 v1.1T");
-                #endif
-                KneeJoint::set_motor(new AK60_v1_1_T(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
                 break;
             case (uint8_t)config_defs::motor::AK70:
                 #ifdef JOINT_DEBUG
@@ -692,13 +663,10 @@ void KneeJoint::set_controller(uint8_t controller_id)  //Changes the high level 
     {
         case (uint8_t)config_defs::knee_controllers::disabled :
             _joint_data->motor.enabled = false;
-            _controller = &_stasis;
+            _controller = &_zero_torque;
             break;
         case (uint8_t)config_defs::knee_controllers::zero_torque :
             _controller = &_zero_torque;
-            break;
-        case (uint8_t)config_defs::knee_controllers::stasis :
-            _controller = &_stasis;
             break;
         case (uint8_t)config_defs::knee_controllers::constant_torque:
             _controller = &_constant_torque;
@@ -714,7 +682,7 @@ void KneeJoint::set_controller(uint8_t controller_id)  //Changes the high level 
             break;
         default :
             logger::print("Unkown Controller!\n", LogLevel::Error);
-            _controller = &_stasis;
+            _controller = &_zero_torque;
             break;
     } 
 };
@@ -726,10 +694,8 @@ AnkleJoint::AnkleJoint(config_defs::joint_id id, ExoData* exo_data)
 , _zero_torque(id, exo_data)
 , _proportional_joint_moment(id, exo_data)
 , _zhang_collins(id, exo_data)
-, _stasis(id, exo_data)
 , _constant_torque(id, exo_data)
-, _ptb_general(id, exo_data)
-, _propulsive_assistive(id, exo_data)
+, _trec(id, exo_data)
 , _elbow_min_max(id, exo_data)
 , _calibr_manager(id, exo_data)
 , _chirp(id, exo_data)
@@ -789,12 +755,6 @@ AnkleJoint::AnkleJoint(config_defs::joint_id id, ExoData* exo_data)
                     logger::println("AK60 v1.1");
                 #endif
                 AnkleJoint::set_motor(new AK60_v1_1(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
-                break;
-            case (uint8_t)config_defs::motor::AK60_v1_1_T:
-                #ifdef JOINT_DEBUG
-                    logger::println("AK60 v1.1T");
-                #endif
-                AnkleJoint::set_motor(new AK60_v1_1_T(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
                 break;
             case (uint8_t)config_defs::motor::AK70:
                 #ifdef JOINT_DEBUG
@@ -912,7 +872,7 @@ void AnkleJoint::set_controller(uint8_t controller_id)  //Changes the high level
     {
         case (uint8_t)config_defs::ankle_controllers::disabled :
             _joint_data->motor.enabled = false;
-            _controller = &_stasis;
+            _controller = &_zero_torque;
             break;
         case (uint8_t)config_defs::ankle_controllers::zero_torque :
             _controller = &_zero_torque;
@@ -923,17 +883,11 @@ void AnkleJoint::set_controller(uint8_t controller_id)  //Changes the high level
         case (uint8_t)config_defs::ankle_controllers::zhang_collins :
             _controller = &_zhang_collins;
             break;
-        case (uint8_t)config_defs::ankle_controllers::stasis :
-            _controller = &_stasis;
-            break;
         case (uint8_t)config_defs::ankle_controllers::constant_torque:
             _controller = &_constant_torque;
             break;
-        case (uint8_t)config_defs::ankle_controllers::ptb_general:
-            _controller = &_ptb_general;
-            break;
-        case (uint8_t)config_defs::ankle_controllers::gasp:
-            _controller = &_propulsive_assistive;
+        case (uint8_t)config_defs::ankle_controllers::trec:
+            _controller = &_trec;
             break;
 		case (uint8_t)config_defs::ankle_controllers::elbow_min_max:
             _controller = &_elbow_min_max;
@@ -949,7 +903,7 @@ void AnkleJoint::set_controller(uint8_t controller_id)  //Changes the high level
             break;
         default :
             logger::print("Unkown Controller!\n", LogLevel::Error);
-            _controller = &_stasis;
+            _controller = &_zero_torque;
             break;
     } 
    

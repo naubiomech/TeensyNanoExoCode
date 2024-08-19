@@ -1,8 +1,0 @@
-5,"header Size, the first N rows will be ignored, except for this first cells in the first two rows"
-2,"parameter number, the number of parameters to read per line"
-,Parameter list for the FranksCollins controller
-,Parameter order:
-Flexion Torque (Nm),Extension Torque (Nm)
-0,0
-4,-4
-8,-8

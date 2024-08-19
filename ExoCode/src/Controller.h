@@ -74,19 +74,13 @@ class _Controller
         float _t_helper_delta_t;            /**< Time time since the last event */
 
         //Values for the PID controller
-        float _integral_val;                /**< Sum of the error integral */
-        float _pid_error_sum = 0;
+        float _pid_error_sum = 0;           /**< Summed error term for calucating intergral term */
         float _prev_input;                  /**< Prev error term for calculating derivative */
         float _prev_de_dt;                  /**< Prev error derivative used if the timestep is not good*/
         float _prev_pid_time;               /**< Prev time the PID was called */
-		bool _is_first_frame = 1;
-		bool _do_start_timer = 0;
-		float _start_time;
-		bool _pid_on = 0;
         
         /**
          * @brief calculates the current PID contribution to the motor command. 
-         * Currently integral is commented out as resetting _integral_val was crashing the system 
          * 
          * @param controller command 
          * @param measured controlled value
@@ -110,13 +104,22 @@ class _Controller
         float _cf_mfac(float reference, float current_measurement);
 };
 
-class PropulsiveAssistive : public _Controller
+/**
+ * @brief Terrain Responsive Exoskeleton Controller (TREC) 
+ * This controller is for the ankle joint
+ *
+ * For full details see: "Mixed Terrain Ankle Assistance and Modularity in Wearable Robotics" by Chancelor Frank Cuddeback (https://biomech.nau.edu/)
+ *
+ * See ControllerData.h for details on the parameters used.
+ */
+class TREC : public _Controller
 {
     public:
-        PropulsiveAssistive(config_defs::joint_id id, ExoData* exo_data);
-        ~PropulsiveAssistive(){};
+        TREC(config_defs::joint_id id, ExoData* exo_data);
+        ~TREC(){};
 
         float calc_motor_cmd();
+    
     private:
         void _update_reference_angles(LegData* leg_data, ControllerData* controller_data, float percent_grf, float percent_grf_heel);
         void _capture_neutral_angle(LegData* leg_data, ControllerData* controller_data);
@@ -159,77 +162,6 @@ class ZeroTorque : public _Controller
         ~ZeroTorque(){};
         
         float calc_motor_cmd();
-};
-
-/**
- * @brief Stasis Controller 
- * This controller is for the any joint
- * Simply applies zero torque cmd to motor
- * 
- * See ControllerData.h for details on the parameters used.
- */
-class Stasis : public _Controller
-{
-    public:
-        Stasis(config_defs::joint_id id, ExoData* exo_data);
-        ~Stasis(){};
-        
-        float calc_motor_cmd();
-};
-
-/**
- * @brief Heel Toe Controller
- * This controller is for the hip joint 
- * Applies torque based on the heel and toe readings with some adjustments for swing
- *
- * 2022-02 : This controller is based on the work of Safoura Sadegh Pour
- * 
- * 2023-01 : Updated version of the controller implamented by Jack Williams (jack.williams@nau.edu for questions)
- * 
- * see ControllerData.h for details on the parameters used.
- */
-class HeelToe: public _Controller
-{
-    public:
-        HeelToe(config_defs::joint_id id, ExoData* exo_data);
-        ~HeelToe(){};
-        
-        float calc_motor_cmd();
-
-        float cmd_ff;                           /**< Motor Command Calculated within Controller */
-
-        float percent_gait;                      /**< Records what percentage of the gait cycle we are currently in. Function to estimate this can be found in Leg.cpp */
-        float prev_percent_gait;
-
-        float fs;                               /**< Estimation of ground reaction force based on 'Bishe 2021' */
-        float fs_previous;                      /**< Stores previous estimate of fs. Used to determine direciton of the slope of the derivative. */
-
-        int state;                              /**< Stores what state the contoller is in, motor command calculation differs by state. */
-        int prev_state;                         /**< Stores the previous state of the controller. */
-
-        float state_4_start;                    /**< Stores the percent of the gait cycle where the 4th state begins. */
-        float state_4_end;                      /**< Stores the percent of gait cycle where the 4th state ends. */
-        float previous_state_4_duration;        /**< Stores the previous duration, in terms of percent gait, of state 4. */
-        float prev_cmd;                         /**< Variable that stores last torque command */
-        float state_4_start_cmd;                /**< Stores the last command before the start of state 4. */
-
-        float swing_start;                      /**< Stores the starting point of swing, in terms of percent gait. */
-        float swing_duration;                   /**< Stores the duration of swing, in terms of percent gait, which can be determined as soon as the starting point of swing occurs. */
-
-        float m;                                /**< Slope of the line used in State 5. */
-
-        /**< Coordinates for Parabola used in State 4. */
-        float x1;
-        float y1;
-        float x2;
-        float y2;
-        float x3;
-        float y3;
-
-        /**< Constants for Parabola used in State 4. */
-        float A;
-        float B;
-        float C;
 };
 
 /**
@@ -325,15 +257,6 @@ public:
     
 };
 
-class PtbGeneral : public _Controller
-{
-public:
-    PtbGeneral(config_defs::joint_id id, ExoData* exo_data);
-    ~PtbGeneral() {};
-
-    float calc_motor_cmd();
-};
-
 class CalibrManager : public _Controller
 {
 public:
@@ -341,31 +264,6 @@ public:
     ~CalibrManager() {};
 
     float calc_motor_cmd();
-};
-
-class HipResist : public _Controller
-{
-public:
-    HipResist(config_defs::joint_id id, ExoData* exo_data);
-    ~HipResist() {};
-
-    float cmd;                      /* Stores the command to be sent to the motors. */
-    float angle;                    /* Stores the angle reading from the motors. */
-    float previous_angle;           /* Stores the angle reading from the last iteration. */
-    float previous_cmd;             /* Stores the command from the last iteration. */
-
-    float angular_change;           /* Finds the difference between the current angle and the previous angle. */
-    float previous_angular_change;  /* Stores the angular change from the previous iteration. */
-
-    float max_angle;                /* Stores the maximum angle. */
-    float min_angle;                /* Stores the minimum angle. */
-
-    int state;                      /* Flag used to determine which motor command to use. */
-
-    int flag; 
-    float initial_angle;
-
-    float calc_motor_cmd();         /* Function that calculates the motor command. */
 };
 
 class Chirp : public _Controller
