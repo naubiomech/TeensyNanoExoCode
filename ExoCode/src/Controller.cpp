@@ -81,6 +81,21 @@ _Controller::_Controller(config_defs::joint_id id, ExoData* exo_data)
                 _joint_data = &(exo_data->right_leg.ankle);
             }
             break;
+        case (uint8_t)config_defs::joint_id::elbow:
+            #ifdef CONTROLLER_DEBUG
+                        logger::print("ELBOW ");
+            #endif
+            if (is_left)
+            {
+                _controller_data = &(exo_data->left_leg.elbow.controller);
+                _joint_data = &(exo_data->left_leg.elbow);
+            }
+            else
+            {
+                _controller_data = &(exo_data->right_leg.elbow.controller);
+                _joint_data = &(exo_data->right_leg.elbow);
+            }
+            break;
     }
 
     #ifdef CONTROLLER_DEBUG
@@ -237,7 +252,7 @@ float ZeroTorque::calc_motor_cmd()
     //Add the PID contribution to the motor command if desired 
     if (_controller_data->parameters[controller_defs::zero_torque::use_pid_idx])
     {
-        cmd = _pid(cmd_ff, _joint_data->torque_reading, _controller_data->parameters[controller_defs::zero_torque::p_gain_idx], _controller_data->parameters[controller_defs::zero_torque::i_gain_idx], _controller_data->parameters[controller_defs::zero_torque::d_gain_idx]);
+        cmd = cmd_ff + _pid(cmd_ff, _joint_data->torque_reading, _controller_data->parameters[controller_defs::zero_torque::p_gain_idx], _controller_data->parameters[controller_defs::zero_torque::i_gain_idx], _controller_data->parameters[controller_defs::zero_torque::d_gain_idx]);
     }
 
     //Set the feed-forward setpoint to the feed-forward command
@@ -615,7 +630,7 @@ float ZhangCollins::calc_motor_cmd()
     //Sets the feed-forward setpoint to the desired command
     _controller_data->ff_setpoint = torque_cmd;
     
-    //Filters the torue
+    //Filters the torque
     _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, 0.5);
 
     //Adds PID Control if desired 
@@ -1391,6 +1406,10 @@ float Step::calc_motor_cmd()
     int Repetitions = _controller_data->parameters[controller_defs::step::repetitions_idx];         //Number of Step Responses
     float Spacing = _controller_data->parameters[controller_defs::step::spacing_idx];               //Time Between Each Step Response
 
+    Serial.print("Repetitions :: ");
+    Serial.print(Repetitions);
+    Serial.print("\n");
+
     float tt = 0;
 
     if (n <= Repetitions)                                          //If we are less than the number of desired repetitions
@@ -1490,26 +1509,26 @@ float Step::calc_motor_cmd()
     
     bool active_trial = (exo_status == status_defs::messages::trial_on) || (exo_status == status_defs::messages::fsr_calibration) || (exo_status == status_defs::messages::fsr_refinement);
 
-    if (active_trial)
-    {
-        if (!_joint_data->is_left)
-        {
-            Serial.print(_controller_data->ff_setpoint);
-            Serial.print(',');
-            Serial.print(100);
-            Serial.print("\n");
+    //if (active_trial)
+    //{
+    //    if (!_joint_data->is_left)
+    //    {
+    //        Serial.print(_controller_data->ff_setpoint);
+    //        Serial.print(',');
+    //        Serial.print(100);
+    //        Serial.print("\n");
 
-            Serial.print(_controller_data->filtered_torque_reading);
-            Serial.print(',');
-            Serial.print(200);
-            Serial.print("\n");
+    //        Serial.print(_controller_data->filtered_torque_reading);
+    //        Serial.print(',');
+    //        Serial.print(200);
+    //        Serial.print("\n");
 
-            Serial.print(tt*1000);
-            Serial.print(',');
-            Serial.print(300);
-            Serial.print("\n");
-        }
-    }
+    //        Serial.print(tt*1000);
+    //        Serial.print(',');
+    //        Serial.print(300);
+    //        Serial.print("\n");
+    //    }
+    //}
 
     return cmd;
 }

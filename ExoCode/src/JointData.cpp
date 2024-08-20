@@ -120,10 +120,39 @@ JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send, float jo
 			
             break;
         }
+        case (uint8_t)config_defs::joint_id::elbow:
+        {
+            //Check if joint and side is used
+            is_used = (config_to_send[config_defs::elbow_idx] != (uint8_t)config_defs::motor::not_used) && ((static_cast<uint8_t>(config_defs::exo_side::bilateral) == config_to_send[config_defs::exo_side_idx])
+                || (((uint8_t)config_defs::exo_side::left == config_to_send[config_defs::exo_side_idx]) && this->is_left)
+                || (((uint8_t)config_defs::exo_side::right == config_to_send[config_defs::exo_side_idx]) && !this->is_left));
+
+            // logger::print("Elbow\n");
+
+            //Check if the direction should be flipped
+            if ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            {
+                this->flip_direction = 1;
+            }
+            else
+            {
+                this->flip_direction = 0;
+            }
+
+            if ((config_to_send[config_defs::elbow_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::elbow_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::elbow_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            {
+                this->do_flip_angle = 1;
+            }
+            else
+            {
+                this->do_flip_angle = 0;
+            }
+
+            break;
+        }
     }
        
 };
-
 
 void JointData::reconfigure(uint8_t* config_to_send) 
 {
@@ -179,6 +208,26 @@ void JointData::reconfigure(uint8_t* config_to_send)
             
             //Check if the direction should be flipped
             if ((config_to_send[config_defs::ankle_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::ankle_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::ankle_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            {
+                this->flip_direction = 1;
+            }
+            else
+            {
+                this->flip_direction = 0;
+            }
+            break;
+        }
+        case (uint8_t)config_defs::joint_id::elbow:
+        {
+            //Check if joint and side is used
+            is_used = (config_to_send[config_defs::elbow_idx] != (uint8_t)config_defs::motor::not_used) && ((static_cast<uint8_t>(config_defs::exo_side::bilateral) == config_to_send[config_defs::exo_side_idx])
+                || (((uint8_t)config_defs::exo_side::left == config_to_send[config_defs::exo_side_idx]) && this->is_left)
+                || (((uint8_t)config_defs::exo_side::right == config_to_send[config_defs::exo_side_idx]) && !this->is_left));
+            
+            // logger::print("Elbow\n");
+
+            //Check if the direction should be flipped
+            if ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
             {
                 this->flip_direction = 1;
             }

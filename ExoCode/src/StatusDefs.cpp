@@ -52,7 +52,10 @@ void print_status_message(uint16_t message)
             break;
         case status_defs::messages::error_left_ankle_torque_sensor :
             logger::print("Error :: Left Ankle Torque Sensor");
-            break;    
+            break;
+        case status_defs::messages::error_left_elbow_torque_sensor:
+            logger::print("Error :: Left Elbow Torque Sensor");
+            break;
         case status_defs::messages::error_right_hip_torque_sensor :
             logger::print("Error :: Right Hip Torque Sensor");
             break;
@@ -61,6 +64,9 @@ void print_status_message(uint16_t message)
             break;
         case status_defs::messages::error_right_ankle_torque_sensor :
             logger::print("Error :: Right Ankle Torque Sensor");
+            break;
+        case status_defs::messages::error_right_elbow_torque_sensor:
+            logger::print("Error :: Right Elbow Torque Sensor");
             break;
         case status_defs::messages::error_left_hip_motor :
             logger::print("Error :: Left Hip Motor");
@@ -71,6 +77,9 @@ void print_status_message(uint16_t message)
         case status_defs::messages::error_left_ankle_motor :
             logger::print("Error :: Left Ankle Motor");
             break;
+        case status_defs::messages::error_left_elbow_motor:
+            logger::print("Error :: Left Elbow Motor");
+            break;
         case status_defs::messages::error_right_hip_motor :
             logger::print("Error :: Right Hip Motor");
             break;
@@ -79,6 +88,9 @@ void print_status_message(uint16_t message)
             break; 
         case status_defs::messages::error_right_ankle_motor :
             logger::print("Error :: Right Ankle Motor");
+            break;
+        case status_defs::messages::error_right_elbow_motor:
+            logger::print("Error :: Right Elbow Motor");
             break;
         case status_defs::messages::error_left_hip_controller :
             logger::print("Error :: Left Hip Controller");
@@ -89,6 +101,9 @@ void print_status_message(uint16_t message)
         case status_defs::messages::error_left_ankle_controller :
             logger::print("Error :: Left Ankle Controller");
             break;
+        case status_defs::messages::error_left_elbow_controller:
+            logger::print("Error :: Left Elbow Controller");
+            break;
         case status_defs::messages::error_right_hip_controller :
             logger::print("Error :: Right Hip Controller");
             break;    
@@ -97,6 +112,9 @@ void print_status_message(uint16_t message)
             break;
         case status_defs::messages::error_right_ankle_controller :
             logger::print("Error :: Right Ankle Controller");
+            break;
+        case status_defs::messages::error_right_elbow_controller:
+            logger::print("Error :: Right Elbow Controller");
             break;
     }
 };

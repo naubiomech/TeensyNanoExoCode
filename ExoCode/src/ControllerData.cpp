@@ -33,6 +33,12 @@ ControllerData::ControllerData(config_defs::joint_id id, uint8_t* config_to_send
             joint = config_defs::JointType::ankle;
             break;
         }
+        case (uint8_t)config_defs::joint_id::elbow:
+        {
+            controller = config_to_send[config_defs::exo_elbow_default_controller_idx];
+            joint = config_defs::JointType::elbow;
+            break;
+        }
     }
     
     setpoint = 0;
@@ -65,6 +71,11 @@ void ControllerData::reconfigure(uint8_t* config_to_send)
         case (uint8_t)config_defs::joint_id::ankle:
         {
             controller = config_to_send[config_defs::exo_ankle_default_controller_idx];
+            break;
+        }
+        case (uint8_t)config_defs::joint_id::elbow:
+        {
+            controller = config_to_send[config_defs::exo_elbow_default_controller_idx];
             break;
         }
     }

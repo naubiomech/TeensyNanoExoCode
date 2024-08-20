@@ -190,7 +190,6 @@ class ZhangCollins: public _Controller
         float _spline_generation(float node1, float node2, float node3, float torque_magnitude, float percent_gait);
 
         float torque_cmd;
-		
 		float cmd;
 };
 

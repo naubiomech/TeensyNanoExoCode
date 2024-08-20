@@ -206,7 +206,6 @@ class ControllerData {
         float max_measured = 0;                             /**< Max measured value */
         float max_setpoint = 0;                             /**< Max setpoint value */
 
-
         /* Controller Specific Variables That You Want To Plot. */
 
         //Variables for TREC Controller (MOVE TO Controller.h)

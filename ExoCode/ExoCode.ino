@@ -74,10 +74,7 @@ void setup()
           logger::print("Left_ankle_torque_measure, ");
           logger::print("\n");
       #endif
-  
 }
-
-
 
 void loop()
 {       
@@ -136,6 +133,12 @@ void loop()
             logger::print("Superloop :: exo_data.right_leg.ankle.is_used = ");
             logger::print(exo_data.right_leg.ankle.is_used);
             logger::print("\n");
+            logger::print("Superloop :: exo_data.left_leg.elbow.is_used = ");
+            logger::print(exo_data.left_leg.elbow.is_used);
+            logger::print("\n");
+            logger::print("Superloop :: exo_data.right_leg.elbow.is_used = ");
+            logger::print(exo_data.right_leg.elbow.is_used);
+            logger::print("\n");
             logger::print("\n");
         #endif
         
@@ -188,6 +191,58 @@ void loop()
                 //Waits until calibration is done to set actual controller
                 exo_data.right_leg.hip.controller.controller = (uint8_t)config_defs::hip_controllers::zero_torque;  //Start in zero torque
                 exo.right_leg._hip.set_controller(exo_data.right_leg.hip.controller.controller);                    //Then sets to desired controller
+            
+            #endif
+        }
+
+        if (exo_data.left_leg.knee.is_used)
+        {
+            //Turn motor on
+            exo_data.left_leg.knee.motor.is_on = true;
+            
+            //Make sure motor gains are set to 0 so there is no funny business
+            exo_data.left_leg.knee.motor.kp = 0;
+            exo_data.left_leg.knee.motor.kd = 0;
+
+            //Handles desired operations if in headless mode
+            #ifdef HEADLESS
+
+                //Set the controller parameters to thier default
+                set_controller_params((uint8_t) exo_data.left_leg.knee.id, config_info::config_to_send[config_defs::exo_knee_default_controller_idx], 0, &exo_data); //This function is found in ParamsFromSD
+                
+                #ifdef MAIN_DEBUG
+                  logger::print("Superloop :: Left Knee Parameters Set");
+                #endif
+                
+                //Waits until calibration is done to set actual controller
+                exo_data.left_leg.knee.controller.controller = (uint8_t)config_defs::knee_controllers::zero_torque; //Start in zero torque
+                exo.left_leg._knee.set_controller(exo_data.left_leg.knee.controller.controller);                    //Then sets to desired controller                  
+                
+            #endif
+        }
+        
+        if (exo_data.right_leg.knee.is_used)
+        {
+            //Turn motor on 
+            exo_data.right_leg.knee.motor.is_on = true;
+
+            //Make sure motor gains are set to 0 so there is no funny business
+            exo_data.right_leg.knee.motor.kp = 0;
+            exo_data.right_leg.knee.motor.kd = 0;
+
+            //Handles desired operations if in headless mode
+            #ifdef HEADLESS
+=
+                //Set the controller parameters to thier default
+                set_controller_params((uint8_t) exo_data.right_leg.knee.id, config_info::config_to_send[config_defs::exo_knee_default_controller_idx], 0, &exo_data);
+                
+                #ifdef MAIN_DEBUG
+                  logger::print("Superloop :: Right Knee Parameters Set");
+                #endif
+                
+                //Waits until calibration is done to set actual controller
+                exo_data.right_leg.knee.controller.controller = (uint8_t)config_defs::knee_controllers::zero_torque;  //Start in zero torque
+                exo.right_leg._knee.set_controller(exo_data.right_leg.knee.controller.controller);                    //Then sets to desired controller
             
             #endif
         }
@@ -247,6 +302,62 @@ void loop()
                 
             #endif
         }
+
+        if (exo_data.left_leg.elbow.is_used)
+        {
+            #ifdef MAIN_DEBUG
+              logger::print("Superloop :: Left Elbow Used");
+            #endif
+
+            //Turn motor on
+            exo_data.left_leg.elbow.motor.is_on = true;
+
+            //Make sure motor gains are set to 0 so there is no funny business
+            exo_data.left_leg.elbow.motor.kp = 0;
+            exo_data.left_leg.elbow.motor.kd = 0;
+
+            //Handles desired operations if in headless mode
+            #ifdef HEADLESS
+
+                //Set the controller parameters to thier default
+                set_controller_params((uint8_t) exo_data.left_leg.elbow.id, config_info::config_to_send[config_defs::exo_elbow_default_controller_idx], 0, &exo_data);
+                
+                #ifdef MAIN_DEBUG
+                  logger::print("Superloop :: Left Elbow Parameters Set");
+                #endif
+                
+                //Waits until calibration is done to set actual controller
+                exo_data.left_leg.elbow.controller.controller = (uint8_t)config_defs::elbow_controllers::zero_torque;   //Start in zero torque
+                exo.left_leg._elbow.set_controller(exo_data.left_leg.elbow.controller.controller);                      //Then sets to desired controller
+                
+            #endif
+        }
+        
+        if (exo_data.right_leg.elbow.is_used)
+        {
+            //Turn motor on
+            exo_data.right_leg.elbow.motor.is_on = true;
+
+            //Make sure motor gains are set to 0 so there is no funny business
+            exo_data.right_leg.elbow.motor.kp = 0;
+            exo_data.right_leg.elbow.motor.kd = 0;
+
+            //Handles desired operations if in headless mode
+            #ifdef HEADLESS
+
+                //Set the controller parameters to thier default
+                set_controller_params((uint8_t) exo_data.right_leg.elbow.id, config_info::config_to_send[config_defs::exo_elbow_default_controller_idx], 0, &exo_data);
+                
+                #ifdef MAIN_DEBUG
+                  logger::print("Superloop :: Right Elbow Parameters Set");
+                #endif
+                
+                //Waits until calibration is done to set actual controller
+                exo_data.right_leg.elbow.controller.controller = (uint8_t)config_defs::elbow_controllers::zero_torque;  //Start in zero torque
+                exo.right_leg._elbow.set_controller(exo_data.right_leg.elbow.controller.controller);                    //Then sets to desired controller
+                
+            #endif
+        }
         
         //Give the motors time to wake up
         #ifdef MAIN_DEBUG
@@ -297,6 +408,18 @@ void loop()
               exo_data.right_leg.hip.calibrate_torque_sensor = true;
               exo_data.right_leg.hip.motor.enabled = true; 
             }
+
+            if(exo_data.left_leg.knee.is_used)
+            { 
+              exo_data.left_leg.knee.calibrate_torque_sensor = true;
+              exo_data.left_leg.knee.motor.enabled = true;
+            }
+           
+            if(exo_data.right_leg.knee.is_used)
+            {
+              exo_data.right_leg.knee.calibrate_torque_sensor = true;
+              exo_data.right_leg.knee.motor.enabled = true; 
+            }
             
             if(exo_data.left_leg.ankle.is_used)
             {
@@ -308,6 +431,18 @@ void loop()
             {
                 exo_data.right_leg.ankle.calibrate_torque_sensor = true;  
                 exo_data.right_leg.ankle.motor.enabled = true;
+            }
+
+            if(exo_data.left_leg.elbow.is_used)
+            {
+                exo_data.left_leg.elbow.calibrate_torque_sensor = true; 
+                exo_data.left_leg.elbow.motor.enabled = true;
+            }
+           
+            if(exo_data.right_leg.elbow.is_used)
+            {
+                exo_data.right_leg.elbow.calibrate_torque_sensor = true;  
+                exo_data.right_leg.elbow.motor.enabled = true;
             }
         #endif
 
@@ -360,7 +495,6 @@ void loop()
             old_time = new_time;
             
         }
-    
         
         //Calibrate the Torque Sensors
         if ((!static_calibration_done) && (!exo_data.left_leg.ankle.calibrate_torque_sensor && !exo_data.right_leg.ankle.calibrate_torque_sensor))
@@ -400,7 +534,7 @@ void loop()
             pause_between_calibration_done = true;
         }
             
-        //Do the Dynamic Calibrations (FSRs)
+        //When we are done with the dynamic calibrations, set the controllers
         if ((!dynamic_calibration_done) && (pause_between_calibration_done) && (!exo_data.left_leg.do_calibration_toe_fsr && !exo_data.left_leg.do_calibration_refinement_toe_fsr && !exo_data.left_leg.do_calibration_heel_fsr && !exo_data.left_leg.do_calibration_refinement_heel_fsr))
         {
             #ifdef MAIN_DEBUG
@@ -428,6 +562,28 @@ void loop()
                     logger::print("Superloop : Right Hip Controller Set");
                 #endif
             }
+
+            if (exo_data.left_leg.knee.is_used)
+            {
+                //Set the default controller
+                exo_data.left_leg.knee.controller.controller = config_info::config_to_send[config_defs::exo_knee_default_controller_idx];
+                exo.left_leg._knee.set_controller(exo_data.left_leg.knee.controller.controller);
+                
+                #ifdef MAIN_DEBUG
+                    logger::print("Superloop : Left Knee Controller Set");
+                #endif
+            }
+            
+            if (exo_data.right_leg.knee.is_used)
+            {
+                //Set the default controller
+                exo_data.right_leg.knee.controller.controller = config_info::config_to_send[config_defs::exo_knee_default_controller_idx];
+                exo.right_leg._knee.set_controller(exo_data.right_leg.knee.controller.controller); 
+                
+                #ifdef MAIN_DEBUG
+                    logger::print("Superloop : Right Knee Controller Set");
+                #endif
+            }
             
             if (exo_data.left_leg.ankle.is_used)
             {
@@ -448,6 +604,28 @@ void loop()
                 
                 #ifdef MAIN_DEBUG
                     logger::print("Superloop : Right Ankle Controller Set");
+                #endif
+            }
+
+            if (exo_data.left_leg.elbow.is_used)
+            {
+                //Set the default controller
+                exo_data.left_leg.elbow.controller.controller = config_info::config_to_send[config_defs::exo_elbow_default_controller_idx];
+                exo.left_leg._elbow.set_controller(exo_data.left_leg.elbow.controller.controller);
+                
+                #ifdef MAIN_DEBUG
+                    logger::print("Superloop : Left Elbow Controller Set");
+                #endif
+            }
+      
+            if (exo_data.right_leg.elbow.is_used)
+            {
+                //Set the default controller
+                exo_data.right_leg.elbow.controller.controller = config_info::config_to_send[config_defs::exo_elbow_default_controller_idx];
+                exo.right_leg._elbow.set_controller(exo_data.right_leg.elbow.controller.controller);
+                
+                #ifdef MAIN_DEBUG
+                    logger::print("Superloop : Right Elbow Controller Set");
                 #endif
             }
             

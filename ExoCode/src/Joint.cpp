@@ -28,8 +28,7 @@ _Joint::_Joint(config_defs::joint_id id, ExoData* exo_data)
     // logger::print("_Joint::right_torque_sensor_used_count : ");
     // logger::println(_Joint::right_torque_sensor_used_count);
     #ifdef JOINT_DEBUG
-        logger::println("_Joint :: Constructor : entered");
-        
+        logger::println("_Joint :: Constructor : entered"); 
     #endif
 
     _id = id;
@@ -49,6 +48,9 @@ _Joint::_Joint(config_defs::joint_id id, ExoData* exo_data)
                 break;
             case (uint8_t)config_defs::joint_id::ankle:
                 logger::print("Ankle");
+                break;
+            case (uint8_t)config_defs::joint_id::elbow:
+                logger::print("Elbow");
                 break;
             default:
                 break;
@@ -200,6 +202,36 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, ExoData* ex
             }
             break;
         }
+        //case (uint8_t)config_defs::joint_id::elbow:
+        //{
+        //    if (utils::get_is_left(id) && exo_data->left_leg.elbow.is_used)                                 //Check if the left leg is used
+        //    {
+        //        if (_Joint::left_torque_sensor_used_count < logic_micro_pins::num_available_joints)         //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
+        //        {
+        //            return logic_micro_pins::torque_sensor_left[_Joint::left_torque_sensor_used_count++];
+        //        }
+        //        else
+        //        {
+        //            return logic_micro_pins::not_connected_pin;
+        //        }
+        //    }
+        //    else if (!(utils::get_is_left(id)) && exo_data->right_leg.elbow.is_used)                        //Check if the right leg is used
+        //    {
+        //        if (_Joint::right_torque_sensor_used_count < logic_micro_pins::num_available_joints)        //If we still have available pins send the next one and increment the counter.  If we don't send the not connected pin.
+        //        {
+        //            return logic_micro_pins::torque_sensor_right[_Joint::right_torque_sensor_used_count++];
+        //        }
+        //        else
+        //        {
+        //            return logic_micro_pins::not_connected_pin;
+        //        }
+        //    }
+        //    else  //The joint isn't used. I didn't optimize for the minimal number of logical checks because this should just be used at startup.
+        //    {
+        //        return logic_micro_pins::not_connected_pin;
+        //    }
+        //    break;
+        //}
         default :
         {
             return logic_micro_pins::not_connected_pin;
@@ -287,6 +319,36 @@ unsigned int _Joint::get_motor_enable_pin(config_defs::joint_id id, ExoData* exo
                 }
             }
             else if (!(utils::get_is_left(id)) && exo_data->right_leg.ankle.is_used)            //Check if the right leg is used
+            {
+                if (_Joint::right_motor_used_count < logic_micro_pins::num_available_joints)    //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
+                {
+                    return logic_micro_pins::enable_right_pin[_Joint::right_motor_used_count++];
+                }
+                else
+                {
+                    return logic_micro_pins::not_connected_pin;
+                }
+            }
+            else  //The joint isn't used. I didn't optimize for the minimal number of logical checks because this should just be used at startup.
+            {
+                return logic_micro_pins::not_connected_pin;
+            }
+            break;
+        }
+        case (uint8_t)config_defs::joint_id::elbow:
+        {
+            if (utils::get_is_left(id) & exo_data->left_leg.elbow.is_used)                      //Check if the left leg is used
+            {
+                if (_Joint::left_motor_used_count < logic_micro_pins::num_available_joints)     //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
+                {
+                    return logic_micro_pins::enable_left_pin[_Joint::left_motor_used_count++];
+                }
+                else
+                {
+                    return logic_micro_pins::not_connected_pin;
+                }
+            }
+            else if (!(utils::get_is_left(id)) && exo_data->right_leg.elbow.is_used)            //Check if the right leg is used
             {
                 if (_Joint::right_motor_used_count < logic_micro_pins::num_available_joints)    //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -906,6 +968,196 @@ void AnkleJoint::set_controller(uint8_t controller_id)  //Changes the high level
             _controller = &_zero_torque;
             break;
     } 
-   
+};
+
+//=================================================================
+ElbowJoint::ElbowJoint(config_defs::joint_id id, ExoData* exo_data)
+    : _Joint(id, exo_data) // <-- Initializer list
+    , _zero_torque(id, exo_data)
+    , _elbow_min_max(id, exo_data)
+    , _calibr_manager(id, exo_data)
+    , _chirp(id, exo_data)
+    , _step(id, exo_data)
+{
+    #ifdef JOINT_DEBUG
+        logger::print(_is_left ? "Left " : "Right ");
+        logger::println("Elbow : Elbow Constructor");
+    #endif
+
+    //Set _joint_data to point to the data specific to this joint.
+    if (_is_left)
+    {
+        _joint_data = &(exo_data->left_leg.elbow);
+    }
+    else
+    {
+        _joint_data = &(exo_data->right_leg.elbow);
+    }
+
+    #ifdef JOINT_DEBUG
+        logger::print(_is_left ? "Left " : "Right ");
+        logger::println("Elbow : _joint_data set");
+    #endif
+
+    // logger::print(uint8_t(id));
+    // logger::print("\t");
+    // logger::print(_joint_data->is_used);
+    // logger::print("\t");
+
+    //Don't need to check side as we assume symmetry and create both leg data objects. Setup motor from here as it will be easier to check which motor is used
+    if (_joint_data->is_used)
+    {
+        #ifdef JOINT_DEBUG
+                logger::print(_is_left ? "Left " : "Right ");
+                logger::print("Elbow : setting motor to ");
+        #endif
+
+        switch (_data->left_leg.elbow.motor.motor_type)
+        {
+            //Using new so the object of the specific motor type persists.
+            case (uint8_t)config_defs::motor::AK60:
+                #ifdef JOINT_DEBUG
+                            logger::println("AK60");
+                #endif
+                ElbowJoint::set_motor(new AK60(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
+            break;
+            case (uint8_t)config_defs::motor::AK80:
+                #ifdef JOINT_DEBUG
+                            logger::println("AK80");
+                #endif
+                ElbowJoint::set_motor(new AK80(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
+            break;
+            case (uint8_t)config_defs::motor::AK60_v1_1:
+                #ifdef JOINT_DEBUG
+                            logger::println("AK60 v1.1");
+                #endif
+                ElbowJoint::set_motor(new AK60_v1_1(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
+            break;
+            case (uint8_t)config_defs::motor::AK70:
+                #ifdef JOINT_DEBUG
+                            logger::println("AK70");
+                #endif
+                ElbowJoint::set_motor(new AK70(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
+            break;
+            default:
+                #ifdef JOINT_DEBUG
+                            logger::println("NULL");
+                #endif
+                ElbowJoint::set_motor(new NullMotor(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
+            break;
+        }
+
+        delay(5);
+
+        #ifdef JOINT_DEBUG
+                logger::println("_is_left section");
+                logger::print(_is_left ? "Left " : "Right ");
+                logger::println("Elbow : Setting Controller");
+        #endif
+
+        set_controller(exo_data->left_leg.elbow.controller.controller);
+
+        #ifdef JOINT_DEBUG
+                logger::print(_is_left ? "Left " : "Right ");
+                logger::println("Elbow : _controller set");
+        #endif
+    }
+
+};
+
+/*
+ * Reads the data and sends motor commands
+ */
+void ElbowJoint ::run_joint()
+{
+    #ifdef JOINT_DEBUG
+        logger::print("ElbowJoint::run_joint::Start");
+    #endif
+
+    //Make sure the correct controller is running.
+    set_controller(_joint_data->controller.controller);
+
+    //Calculate the motor command
+    _joint_data->controller.setpoint = _controller->calc_motor_cmd();
+
+    //Check for joint errors
+    static float start = micros();
+
+    //Check if the exo is in the correct state to run the error manager (i.e. not in a trial
+    const uint16_t exo_status = _data->get_status();
+    const bool correct_status = (exo_status == status_defs::messages::trial_on) ||
+        (exo_status == status_defs::messages::fsr_calibration) ||
+        (exo_status == status_defs::messages::fsr_refinement);
+    const bool error = correct_status ? _error_manager.run(_joint_data) : false;
+
+    if (error)
+    {
+        _motor->set_error();
+        _motor->on_off();
+        _motor->enable();
+
+        //Send all errors to the other microcontroller
+        for (int i = 0; i < _error_manager.errorQueueSize(); i++)
+        {
+            ErrorReporter::get_instance()->report(
+                _error_manager.popError(),
+                _id
+            );
+        }
+    }
+
+    //Enable or disable the motor.
+    _motor->on_off();
+    _motor->enable();
+
+    //Send the new command to the motor.
+    _motor->transaction(_joint_data->controller.setpoint / _joint_data->motor.gearing);
+
+    #ifdef JOINT_DEBUG
+        logger::print("Elbow::run_joint::Motor Command:: ");
+        logger::print(_controller->calc_motor_cmd());
+        logger::print("\n");
+    #endif
+};
+
+/*
+ * Changes the high level controller in Controller
+ * Each joint has their own version since they have joint specific controllers.
+ */
+void ElbowJoint::set_controller(uint8_t controller_id)  //Changes the high level controller in Controller, and the low level controller in Motor
+{
+    #ifdef JOINT_DEBUG
+        logger::print(_is_left ? "Left " : "Right ");
+        logger::println("Elbow : set_controller : Entered");
+        logger::print("Elbow : set_controller : Controller ID : ");
+        logger::println(controller_id);
+    #endif
+
+    switch (controller_id)
+    {
+        case (uint8_t)config_defs::elbow_controllers::disabled:
+            _joint_data->motor.enabled = false;
+            _controller = &_zero_torque;
+            break;
+        case (uint8_t)config_defs::elbow_controllers::zero_torque:
+            _controller = &_zero_torque;
+            break;
+        case (uint8_t)config_defs::elbow_controllers::elbow_min_max:
+            _controller = &_elbow_min_max;
+            break;
+        case (uint8_t)config_defs::elbow_controllers::calibr_manager:
+            _controller = &_calibr_manager;
+            break;
+        case (uint8_t)config_defs::elbow_controllers::chirp:
+            _controller = &_chirp;
+            break;
+        case (uint8_t)config_defs::elbow_controllers::step:
+            _controller = &_step;
+            break;
+        default:
+            logger::print("Unkown Controller!\n", LogLevel::Error);
+            _controller = &_zero_torque;
+            break;
+    }
 };
 #endif

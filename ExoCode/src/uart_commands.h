@@ -207,15 +207,19 @@ namespace UART_command_handlers
         tx_msg.data[config_defs::hip_idx] = exo_data->config[config_defs::hip_idx];
         tx_msg.data[config_defs::knee_idx] = exo_data->config[config_defs::knee_idx];
         tx_msg.data[config_defs::ankle_idx] = exo_data->config[config_defs::ankle_idx];
+        tx_msg.data[config_defs::elbow_idx] = exo_data->config[config_defs::elbow_idx];
         tx_msg.data[config_defs::hip_gear_idx] = exo_data->config[config_defs::hip_gear_idx];
         tx_msg.data[config_defs::knee_gear_idx] = exo_data->config[config_defs::knee_gear_idx];
         tx_msg.data[config_defs::ankle_gear_idx] = exo_data->config[config_defs::ankle_gear_idx];
+        tx_msg.data[config_defs::elbow_gear_idx] = exo_data->config[config_defs::elbow_gear_idx];
         tx_msg.data[config_defs::exo_hip_default_controller_idx] = exo_data->config[config_defs::exo_hip_default_controller_idx];
         tx_msg.data[config_defs::exo_knee_default_controller_idx] = exo_data->config[config_defs::exo_knee_default_controller_idx];
         tx_msg.data[config_defs::exo_ankle_default_controller_idx] = exo_data->config[config_defs::exo_ankle_default_controller_idx];
+        tx_msg.data[config_defs::exo_elbow_default_controller_idx] = exo_data->config[config_defs::exo_elbow_default_controller_idx];
         tx_msg.data[config_defs::hip_flip_dir_idx] = exo_data->config[config_defs::hip_flip_dir_idx];
         tx_msg.data[config_defs::knee_flip_dir_idx] = exo_data->config[config_defs::knee_flip_dir_idx];
         tx_msg.data[config_defs::ankle_flip_dir_idx] = exo_data->config[config_defs::ankle_flip_dir_idx];
+        tx_msg.data[config_defs::elbow_flip_dir_idx] = exo_data->config[config_defs::elbow_flip_dir_idx];
 
         handler->UART_msg(tx_msg);
         // logger::println("UART_command_handlers::get_config->sent updated config");
@@ -232,15 +236,19 @@ namespace UART_command_handlers
         exo_data->config[config_defs::hip_idx] = msg.data[config_defs::hip_idx];
         exo_data->config[config_defs::knee_idx] = msg.data[config_defs::knee_idx];
         exo_data->config[config_defs::ankle_idx] = msg.data[config_defs::ankle_idx];
+        exo_data->config[config_defs::elbow_idx] = msg.data[config_defs::elbow_idx];
         exo_data->config[config_defs::hip_gear_idx] = msg.data[config_defs::hip_gear_idx];
         exo_data->config[config_defs::knee_gear_idx] = msg.data[config_defs::knee_gear_idx];
         exo_data->config[config_defs::ankle_gear_idx] = msg.data[config_defs::ankle_gear_idx];
+        exo_data->config[config_defs::elbow_gear_idx] = msg.data[config_defs::elbow_gear_idx];
         exo_data->config[config_defs::exo_hip_default_controller_idx] = msg.data[config_defs::exo_hip_default_controller_idx];
         exo_data->config[config_defs::exo_knee_default_controller_idx] = msg.data[config_defs::exo_knee_default_controller_idx];
         exo_data->config[config_defs::exo_ankle_default_controller_idx] = msg.data[config_defs::exo_ankle_default_controller_idx];
+        exo_data->config[config_defs::exo_elbow_default_controller_idx] = msg.data[config_defs::exo_elbow_default_controller_idx];
         exo_data->config[config_defs::hip_flip_dir_idx] = msg.data[config_defs::hip_flip_dir_idx];
         exo_data->config[config_defs::knee_flip_dir_idx] = msg.data[config_defs::knee_flip_dir_idx];
         exo_data->config[config_defs::ankle_flip_dir_idx] = msg.data[config_defs::ankle_flip_dir_idx];
+        exo_data->config[config_defs::elbow_flip_dir_idx] = msg.data[config_defs::elbow_flip_dir_idx];
     }
 
     inline static void get_cal_trq_sensor(UARTHandler *handler, ExoData *exo_data, UART_msg_t msg)
@@ -305,92 +313,30 @@ namespace UART_command_handlers
         // logger::println("config[config_defs::exo_name_idx] :: "); //Uncomment if you want to check that system is receiving correct config info
         // logger::println(config[config_defs::exo_name_idx]);
 
+        //Plotting & Saved Data Order Guide
+        //0 = Right Torque [Blue Line]
+        //1 = Right State [Blue Line]
+        //2 = Right Torque [Red Line]
+        //3 = Left Torque [Blue Line]
+        //4 = Left State [Blue Line]
+        //5 = Left Torque [Red Line]
+        //6 = Right State [Red Line]
+        //7 = Left State [Red Line]
+        //8 = Not Plotted, Will Save
+        //9 = Not Plotted, Will Save
+
         switch (config[config_defs::exo_name_idx])
         {
         case (uint8_t)config_defs::exo_name::bilateral_ankle:
             rx_msg.len = (uint8_t)rt_data::BILATERAL_ANKLE_RT_LEN;
-
-            //Plotting & Saved Data Order Guide
-            //0 = Right Torque [Blue Line]
-            //1 = Right State [Blue Line]
-            //2 = Right Torque [Red Line]
-            //3 = Left Torque [Blue Line]
-            //4 = Left State [Blue Line]
-            //5 = Left Torque [Red Line]
-            //6 = Right State [Red Line]
-            //7 = Left State [Red Line]
-            //8 = Not Plotted, Will Save
-            //9 = Not Plotted, Will Save
-
-            ////Elbow Plot
-            rx_msg.data[0] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
-            rx_msg.data[1] = exo_data->right_leg.toe_fsr; //exo_data->right_leg.FlexSense;
-            rx_msg.data[2] = exo_data->right_leg.setpoint_filtered;
-            rx_msg.data[3] = exo_data->left_leg.ankle.controller.filtered_torque_reading;
-            rx_msg.data[4] = exo_data->left_leg.toe_fsr; // exo_data->left_leg.FlexSense;
-            rx_msg.data[5] = exo_data->left_leg.setpoint_filtered;
-            rx_msg.data[6] = exo_data->right_leg.heel_fsr; // exo_data->right_leg.ExtenseSense;
-            rx_msg.data[7] = exo_data->left_leg.heel_fsr; // exo_data->left_leg.ExtenseSense;
-
-             //Jack Plot
-              //rx_msg.data[0] = exo_data->right_leg.percent_stance / 100; // ankle.controller.filtered_torque_reading; //motor.i; //filtered_torque_reading *-1;
-              //rx_msg.data[1] = exo_data->right_leg.ankle.controller.filtered_torque_reading;//exo_data->right_leg.ankle.motor.i;
-              //rx_msg.data[2] = exo_data->right_leg.toe_fsr; // ankle.controller.ff_setpoint;
-              //rx_msg.data[3] = exo_data->left_leg.percent_stance / 100; // ankle.controller.filtered_torque_reading; // filtered_torque_reading; //rx_msg.data[3] = exo_data->right_leg.ankle.motor.i
-              //rx_msg.data[4] = exo_data->left_leg.ankle.controller.filtered_torque_reading;//toe_stance; //(uint8_t) exo_data->right_leg.inclination; //exo_data->left_leg.toe_stance; //exo_data->left_leg.ankle.motor.i;
-              //rx_msg.data[5] = exo_data->left_leg.toe_fsr; // ankle.controller.ff_setpoint;
-              //rx_msg.data[6] = exo_data->right_leg.ankle.controller.ff_setpoint; //toe_fsr; //ankle.joint_position;
-              //rx_msg.data[7] = exo_data->left_leg.ankle.controller.ff_setpoint; //toe_fsr;
-
-                //rx_msg.data[0] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
-                //rx_msg.data[1] = exo_data->right_leg.toe_stance;
-                //rx_msg.data[2] = exo_data->right_leg.ankle.controller.ff_setpoint;
-                //rx_msg.data[3] = exo_data->left_leg.ankle.controller.filtered_torque_reading;
-                //rx_msg.data[4] = exo_data->left_leg.toe_stance;
-                //rx_msg.data[5] = exo_data->left_leg.ankle.controller.ff_setpoint;
-                //rx_msg.data[6] = exo_data->right_leg.toe_fsr;
-                //rx_msg.data[7] = exo_data->left_leg.toe_fsr;
-                //rx_msg.data[8] = exo_data->right_leg.percent_gait / 100;
-                //rx_msg.data[9] = exo_data->left_leg.percent_gait / 100;
-				
-				////TREC Plot
-				////Right Torque
-				////rx_msg.data[0] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
-				//rx_msg.data[0] = exo_data->left_leg.ankle.controller.filtered_torque_reading;
-				////rx_msg.data[0] = exo_data->right_leg.ankle.controller.setpoint;
-				////Right State. Only integer values will be plotted for rx_msg.data[1]
-    //            rx_msg.data[1] = exo_data->right_leg.toe_stance;
-				////Right Set
-    //            //rx_msg.data[2] = exo_data->right_leg.ankle.controller.filtered_squelched_supportive_term;
-				////rx_msg.data[2] = exo_data->right_leg.ankle.torque_reading;
-				////rx_msg.data[2] = exo_data->right_leg.ankle.controller.ff_setpoint;
-				////rx_msg.data[2] = exo_data->right_leg.ankle.controller.setpoint;
-				////rx_msg.data[2] = exo_data->right_leg.ankle.controller.previousMaxCmdCache;
-				//rx_msg.data[2] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
-				////rx_msg.data[2] = exo_data->right_leg.ankle.controller.numBelow500;
-				////Left Torque
-    //            //rx_msg.data[3] = exo_data->left_leg.ankle.controller.filtered_torque_reading;
-				//rx_msg.data[3] = exo_data->left_leg.ankle.joint_position;
-				////Left State. Only integer values will be plotted for rx_msg.data[1]
-    //            rx_msg.data[4] = exo_data->left_leg.toe_stance;
-				////Left Set
-    //            //rx_msg.data[5] = exo_data->left_leg.ankle.controller.filtered_squelched_supportive_term;
-				////rx_msg.data[5] = exo_data->left_leg.ankle.torque_reading;
-				////rx_msg.data[5] = exo_data->left_leg.ankle.controller.ff_setpoint;
-				////rx_msg.data[5] = exo_data->left_leg.ankle.controller.setpoint;
-				////rx_msg.data[5] = exo_data->left_leg.ankle.controller.previousMaxCmdCache;
-				////rx_msg.data[5] = exo_data->left_leg.ankle.controller.numBelow500;
-				//rx_msg.data[5] = exo_data->right_leg.ankle.joint_position;
-				////Right FSR
-    //            //rx_msg.data[6] = exo_data->right_leg.toe_fsr;
-				////rx_msg.data[6] =exo_data->right_leg.ankle.joint_position;
-				////rx_msg.data[6] =exo_data->right_leg.ankle.controller.stateless_pjmc_term;
-				//rx_msg.data[6] = exo_data->right_leg.heel_fsr;
-				////Left FSR
-    //            //rx_msg.data[7] = exo_data->left_leg.toe_fsr;
-				////rx_msg.data[7] = exo_data->left_leg.ankle.joint_position;
-				////rx_msg.data[7] =exo_data->left_leg.ankle.controller.stateless_pjmc_term;
-				//rx_msg.data[7] = exo_data->left_leg.heel_fsr;
+            rx_msg.data[0] = exo_data->right_leg.percent_stance / 100; // ankle.controller.filtered_torque_reading; //motor.i; //filtered_torque_reading *-1;
+            rx_msg.data[1] = exo_data->right_leg.ankle.controller.filtered_torque_reading;//exo_data->right_leg.ankle.motor.i;
+            rx_msg.data[2] = exo_data->right_leg.toe_fsr; // ankle.controller.ff_setpoint;
+            rx_msg.data[3] = exo_data->left_leg.percent_stance / 100; // ankle.controller.filtered_torque_reading; // filtered_torque_reading; //rx_msg.data[3] = exo_data->right_leg.ankle.motor.i
+            rx_msg.data[4] = exo_data->left_leg.ankle.controller.filtered_torque_reading;//toe_stance; //(uint8_t) exo_data->right_leg.inclination; //exo_data->left_leg.toe_stance; //exo_data->left_leg.ankle.motor.i;
+            rx_msg.data[5] = exo_data->left_leg.toe_fsr; // ankle.controller.ff_setpoint;
+            rx_msg.data[6] = exo_data->right_leg.ankle.controller.ff_setpoint; //toe_fsr; //ankle.joint_position;
+            rx_msg.data[7] = exo_data->left_leg.ankle.controller.ff_setpoint; //toe_fsr;
                 break;
 
         case (uint8_t)config_defs::exo_name::bilateral_hip:
@@ -405,8 +351,30 @@ namespace UART_command_handlers
             rx_msg.data[7] = exo_data->left_leg.percent_gait / 100; //exo_data->left_leg.heel_fsr;
             break;
 
+        case (uint8_t)config_defs::exo_name::bilateral_elbow:
+            rx_msg.len = (uint8_t)rt_data::BILATERAL_ELBOW_RT_LEN;
+            rx_msg.data[0] = exo_data->right_leg.elbow.controller.filtered_torque_reading; //exo_data->right_leg.percent_gait / 100; //exo_data->right_leg.hip.controller.filtered_torque_reading;
+            rx_msg.data[1] = exo_data->right_leg.toe_stance;
+            rx_msg.data[2] = exo_data->right_leg.elbow.controller.ff_setpoint; //filtered_cmd
+            rx_msg.data[3] = exo_data->left_leg.elbow.controller.filtered_torque_reading; //exo_data->left_leg.percent_gait / 100; //exo_data->left_leg.hip.controller.filtered_torque_reading;
+            rx_msg.data[4] = exo_data->left_leg.toe_stance;
+            rx_msg.data[5] = exo_data->left_leg.elbow.controller.ff_setpoint; //filtered_cmd
+            rx_msg.data[6] = exo_data->right_leg.percent_gait / 100;//exo_data->right_leg.heel_fsr;
+            rx_msg.data[7] = exo_data->left_leg.percent_gait / 100; //exo_data->left_leg.heel_fsr;
+
+            //Danny's Elbow
+            //rx_msg.data[0] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
+            //rx_msg.data[1] = exo_data->right_leg.toe_fsr; //exo_data->right_leg.FlexSense;
+            //rx_msg.data[2] = exo_data->right_leg.setpoint_filtered;
+            //rx_msg.data[3] = exo_data->left_leg.ankle.controller.filtered_torque_reading;
+            //rx_msg.data[4] = exo_data->left_leg.toe_fsr; // exo_data->left_leg.FlexSense;
+            //rx_msg.data[5] = exo_data->left_leg.setpoint_filtered;
+            //rx_msg.data[6] = exo_data->right_leg.heel_fsr; // exo_data->right_leg.ExtenseSense;
+            //rx_msg.data[7] = exo_data->left_leg.heel_fsr; // exo_data->left_leg.ExtenseSense;
+            break;
+
         case (uint8_t)config_defs::exo_name::bilateral_hip_ankle:
-            rx_msg.len = (uint8_t)rt_data::BILATERAL_ANKLE_RT_LEN;
+            rx_msg.len = (uint8_t)rt_data::BILATERAL_HIP_ANKLE_RT_LEN;
             rx_msg.data[0] = exo_data->right_leg.ankle.controller.filtered_torque_reading; // Purple Torque
             rx_msg.data[1] = exo_data->right_leg.hip.controller.setpoint;                  // Purple State
             rx_msg.data[2] = exo_data->right_leg.ankle.controller.ff_setpoint;             // Red Torque
@@ -417,8 +385,8 @@ namespace UART_command_handlers
             rx_msg.data[7] = exo_data->left_leg.heel_fsr;                      
             break;
 
-        case (uint8_t)config_defs::exo_name::right_knee:
-            rx_msg.len = (uint8_t)rt_data::RIGHT_KNEE;
+        case (uint8_t)config_defs::exo_name::bilateral_hip_elbow:
+            rx_msg.len = (uint8_t)rt_data::BILATERAL_HIP_ELBOW_RT_LEN;
             rx_msg.data[0] = exo_data->right_leg.knee.controller.filtered_torque_reading;
             rx_msg.data[1] = exo_data->right_leg.knee.motor.i; // exo_data->right_leg.toe_stance;
             rx_msg.data[2] = exo_data->right_leg.knee.controller.setpoint;
@@ -427,6 +395,18 @@ namespace UART_command_handlers
             rx_msg.data[5] = exo_data->left_leg.knee.controller.setpoint;
             rx_msg.data[6] = exo_data->right_leg.toe_fsr;
             rx_msg.data[7] = exo_data->left_leg.toe_fsr; 
+            break;
+
+        case (uint8_t)config_defs::exo_name::bilateral_ankle_elbow:
+            rx_msg.len = (uint8_t)rt_data::BILATERAL_ANKLE_ELBOW_RT_LEN;
+            rx_msg.data[0] = exo_data->right_leg.knee.controller.filtered_torque_reading;
+            rx_msg.data[1] = exo_data->right_leg.knee.motor.i; // exo_data->right_leg.toe_stance;
+            rx_msg.data[2] = exo_data->right_leg.knee.controller.setpoint;
+            rx_msg.data[3] = exo_data->left_leg.knee.controller.filtered_torque_reading; // rx_msg.data[3] = exo_data->right_leg.ankle.motor.i;
+            rx_msg.data[4] = exo_data->left_leg.knee.motor.i; // exo_data->left_leg.toe_stance; //rx_msg.data[4] = exo_data->left_leg.toe_stance;
+            rx_msg.data[5] = exo_data->left_leg.knee.controller.setpoint;
+            rx_msg.data[6] = exo_data->right_leg.toe_fsr;
+            rx_msg.data[7] = exo_data->left_leg.toe_fsr;
             break;
 
         default:
@@ -680,7 +660,6 @@ namespace UART_command_utils
         case UART_command_names::update_controller_params:
             UART_command_handlers::update_controller_params(handler, exo_data, msg);
             break;
-
         case UART_command_names::get_status:
             UART_command_handlers::get_status(handler, exo_data, msg);
             break;

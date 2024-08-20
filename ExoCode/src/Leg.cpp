@@ -14,6 +14,7 @@ Leg::Leg(bool is_left, ExoData* exo_data)
 : _hip((config_defs::joint_id)((uint8_t)(is_left ? config_defs::joint_id::left : config_defs::joint_id::right) | (uint8_t)config_defs::joint_id::hip), exo_data)        //We need to cast to uint8_t to do bitwise or, then we have to cast it back to joint_id
 , _knee((config_defs::joint_id)((uint8_t)(is_left ? config_defs::joint_id::left : config_defs::joint_id::right) | (uint8_t)config_defs::joint_id::knee), exo_data)
 , _ankle((config_defs::joint_id)((uint8_t)(is_left ? config_defs::joint_id::left : config_defs::joint_id::right) | (uint8_t)config_defs::joint_id::ankle), exo_data)
+, _elbow((config_defs::joint_id)((uint8_t)(is_left ? config_defs::joint_id::left : config_defs::joint_id::right) | (uint8_t)config_defs::joint_id::elbow), exo_data)
 , _heel_fsr(is_left ? logic_micro_pins::fsr_sense_left_heel_pin : logic_micro_pins::fsr_sense_right_heel_pin) //Check if it is the left and use the appropriate pin for the side.
 , _toe_fsr(is_left ? logic_micro_pins::fsr_sense_left_toe_pin : logic_micro_pins::fsr_sense_right_toe_pin)
 {
@@ -59,6 +60,7 @@ void Leg::disable_motors()
     _hip._motor->enable(true);
     _knee._motor->enable(true);
     _ankle._motor->enable(true);
+    _elbow._motor->enable(true);
 };
 
 
@@ -149,6 +151,11 @@ void Leg::read_data()
     {
         _ankle.read_data();
     }
+    if (_leg_data->elbow.is_used)
+    {
+        _elbow.read_data();
+    }
+    
 };
 
 void Leg::check_calibration()
@@ -190,6 +197,10 @@ void Leg::check_calibration()
         if (_leg_data->ankle.is_used)
         {
             _ankle.check_calibration();
+        }
+        if (_leg_data->elbow.is_used)
+        {
+            _elbow.check_calibration();
         }
         
     }        
@@ -522,7 +533,6 @@ void Leg::clear_step_time_estimate()
 
 void Leg::update_motor_cmds()
 {
-    //Check the joint sensors if the joint is used.
     if (_leg_data->hip.is_used)
     {
         _hip.run_joint();
@@ -534,6 +544,10 @@ void Leg::update_motor_cmds()
     if (_leg_data->ankle.is_used)
     {
         _ankle.run_joint();
+    }
+    if (_leg_data->elbow.is_used)
+    {
+        _elbow.run_joint();
     }
 };
 

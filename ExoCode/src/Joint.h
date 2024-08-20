@@ -7,7 +7,6 @@
  * @date Jan. 2022
 */
 
-
 #ifndef Joint_h
 #define Joint_h
 
@@ -238,6 +237,38 @@ class AnkleJoint : public _Joint
         Chirp _chirp;                                           /**< Chirp Controller for Device Characterization */
         Step _step;                                             /**< Step Controller for Device Characterization */
         
+};
+
+/**
+ * @brief class for the ankle joint which contains joint specific controllers.
+ */
+class ElbowJoint : public _Joint
+{
+public:
+    ElbowJoint(config_defs::joint_id id, ExoData* exo_data);
+    ~ElbowJoint() {};
+
+    /**
+     * @brief reads the sensors for the joint and sends a torque command, See _Joint
+     */
+    void run_joint();
+
+    /**
+     * @brief sets the controller that is to be used, See _Joint
+     *
+     * @param controller id.
+     */
+    void set_controller(uint8_t);
+
+protected:
+
+    //Objects for joint specific controllers
+    ZeroTorque _zero_torque;                                /**< Zero torque controller */
+    ElbowMinMax _elbow_min_max;                             /**< Elbow Flexion/Extension Controller for Lifting */
+    CalibrManager _calibr_manager;                          /**< Calibration Manager "Controller" */
+    Chirp _chirp;                                           /**< Chirp Controller for Device Characterization */
+    Step _step;                                             /**< Step Controller for Device Characterization */
+
 };
 
 #endif

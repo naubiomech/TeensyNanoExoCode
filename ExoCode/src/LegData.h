@@ -42,7 +42,7 @@ class LegData {
         JointData hip;      /**< Data for the hip joint */
         JointData knee;     /**< Data for the knee joint */
         JointData ankle;    /**< Data for the ankle joint */
-        
+        JointData elbow;    /**< Data for the elbow joint */
         
         float percent_gait;             /**< Estimate of the percent gait based on heel strike */
         float expected_step_duration;   /**< Estimate of how long the next step will take based on the most recent step times */
@@ -59,7 +59,6 @@ class LegData {
         float toe_fsr;                  /**< Calibrated FSR reading for the toe */
         float toe_fsr_upper_threshold;  /**< Upper threshold for the toe */
         float toe_fsr_lower_threshold;  /**< Lower threshold for the toe */
-
         
         bool ground_strike;             /**< Trigger when we go from swing to one FSR making contact. */
         bool toe_strike;                /**< Trigger when we detect toe strike after the last detcted toe off */

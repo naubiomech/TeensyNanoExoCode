@@ -318,7 +318,6 @@ namespace ble_handlers
     }
     inline static void new_trq(ExoData* data, BleMessage* msg)
     {
-
         //(LSP, LDSP, RSP, RDSP) Unpack message data
         config_defs::joint_id joint_id = (config_defs::joint_id)msg->data[0];
         uint8_t controller_id = (uint8_t)msg->data[1];
@@ -331,22 +330,43 @@ namespace ble_handlers
         joint_id = (joint_id==(config_defs::joint_id)1)?(data->left_leg.hip.id):(joint_id);
         joint_id = (joint_id==(config_defs::joint_id)2)?(data->left_leg.knee.id):(joint_id);
         joint_id = (joint_id==(config_defs::joint_id)3)?(data->left_leg.ankle.id):(joint_id);
-        joint_id = (joint_id==(config_defs::joint_id)4)?(data->right_leg.hip.id):(joint_id);
-        joint_id = (joint_id==(config_defs::joint_id)5)?(data->right_leg.knee.id):(joint_id);
-        joint_id = (joint_id==(config_defs::joint_id)6)?(data->right_leg.ankle.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)4)?(data->left_leg.elbow.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)5)?(data->right_leg.hip.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)6)?(data->right_leg.knee.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)7)?(data->right_leg.ankle.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)8)?(data->right_leg.elbow.id):(joint_id);
 
-        if (joint_id == data->left_leg.ankle.id) {
+        if (joint_id == data->left_leg.ankle.id)
+        {
             cont_data = &data->left_leg.ankle.controller;
-        } else if (joint_id == data->left_leg.knee.id) {
+        } 
+        else if (joint_id == data->left_leg.knee.id) 
+        {
             cont_data = &data->left_leg.knee.controller;
-        } else if (joint_id == data->left_leg.hip.id) {
+        } 
+        else if (joint_id == data->left_leg.hip.id)
+        {
             cont_data = &data->left_leg.hip.controller;
-        } else if (joint_id == data->right_leg.ankle.id) {
+        } 
+        else if (joint_id == data->left_leg.elbow.id)
+        {
+            cont_data = &data->left_leg.elbow.controller;
+        }
+        else if (joint_id == data->right_leg.ankle.id) 
+        {
             cont_data = &data->right_leg.ankle.controller;
-        } else if (joint_id == data->right_leg.knee.id) {
+        } 
+        else if (joint_id == data->right_leg.knee.id) 
+        {
             cont_data = &data->right_leg.knee.controller;
-        } else if (joint_id == data->right_leg.hip.id) {
+        } 
+        else if (joint_id == data->right_leg.hip.id) 
+        {
             cont_data = &data->right_leg.hip.controller;
+        }
+        else if (joint_id == data->right_leg.elbow.id)
+        {
+            cont_data = &data->right_leg.elbow.controller;
         }
         if (cont_data == NULL) {
             logger::println("cont_data is NULL!", LogLevel::Warn);
@@ -385,12 +405,12 @@ namespace ble_handlers
     inline static void update_param(ExoData* data, BleMessage* msg)
     {
         //Send UART message to update parameter
-        //logger::println("ble_handlers::update_param() - Got update param message");
-        //logger::print("ble_handlers::update_param() - Joint ID: "); logger::println((uint8_t)msg->data[0]);
-        //logger::print("ble_handlers::update_param() - Controller ID: "); logger::println((uint8_t)msg->data[1]);
-        //logger::print("ble_handlers::update_param() - Param Index: "); logger::println((uint8_t)msg->data[2]);
-        //logger::print("ble_handlers::update_param() - Param Value: "); logger::println((uint8_t)msg->data[3]);
-        //logger::print("New message\n");
+        logger::println("ble_handlers::update_param() - Got update param message");
+        logger::print("ble_handlers::update_param() - Joint ID: "); logger::println((uint8_t)msg->data[0]);
+        logger::print("ble_handlers::update_param() - Controller ID: "); logger::println((uint8_t)msg->data[1]);
+        logger::print("ble_handlers::update_param() - Param Index: "); logger::println((uint8_t)msg->data[2]);
+        logger::print("ble_handlers::update_param() - Param Value: "); logger::println((uint8_t)msg->data[3]);
+        logger::print("New message\n");
 
         UARTHandler* uart_handler = UARTHandler::get_instance();
         UART_msg_t tx_msg;

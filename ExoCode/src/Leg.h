@@ -158,7 +158,8 @@ class Leg
         //Joint objects for the leg. The order these are listed are important as it will determine the order their constructors are called in the initializer list.
         HipJoint _hip;      /**< Instance of a hip joint */
         KneeJoint _knee;    /**< Instance of a knee joint */
-        AnkleJoint _ankle;  /**< Instance of a ankle joint */
+        AnkleJoint _ankle;  /**< Instance of an ankle joint */
+        ElbowJoint _elbow;  /**< Instance of an elbow joint */
         
         //FSR objects for the leg. 
         FSR _heel_fsr;      /**< Heel force sensitive resistor */

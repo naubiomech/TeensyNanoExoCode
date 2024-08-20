@@ -57,9 +57,11 @@ class ExoData
                 func(&left_leg.hip, NULL);
                 func(&left_leg.knee, NULL);
                 func(&left_leg.ankle, NULL);
+                func(&left_leg.elbow, NULL);
                 func(&right_leg.hip, NULL);
                 func(&right_leg.knee, NULL);
                 func(&right_leg.ankle, NULL);
+                func(&right_leg.elbow, NULL);
         }
         template <typename F>
         void for_each_joint(F &&func, float* args)
@@ -67,9 +69,11 @@ class ExoData
                 func(&left_leg.hip, args);
                 func(&left_leg.knee, args);
                 func(&left_leg.ankle, args);
+                func(&left_leg.elbow, args);
                 func(&right_leg.hip, args);
                 func(&right_leg.knee, args);
                 func(&right_leg.ankle, args);
+                func(&right_leg.elbow, args);
         }
 
         //Returns a list of all of the joint IDs that are currently being used
@@ -118,8 +122,6 @@ class ExoData
          * 
          */
         void start_pretrial_cal();
-
-        
         
         bool sync_led_state;    /**< State of the sync led */
         bool estop;             /**< State of the estop */

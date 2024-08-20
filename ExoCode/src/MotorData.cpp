@@ -143,6 +143,49 @@ MotorData::MotorData(config_defs::joint_id id, uint8_t* config_to_send)
             }
             break;
         }
+        case (uint8_t)config_defs::joint_id::elbow:
+        {
+            motor_type = config_to_send[config_defs::elbow_idx];
+
+            switch (config_to_send[config_defs::elbow_gear_idx])
+            {
+            case (uint8_t)config_defs::gearing::gearing_1_1:
+            {
+                gearing = 1;
+                break;
+            }
+            case (uint8_t)config_defs::gearing::gearing_2_1:
+            {
+                gearing = 2;
+                break;
+            }
+            case (uint8_t)config_defs::gearing::gearing_3_1:
+            {
+                gearing = 3;
+                break;
+            }
+            case (uint8_t)config_defs::gearing::gearing_4_5_1:
+            {
+                gearing = 4.5;
+                break;
+            }
+            default:
+            {
+                gearing = 1;
+                break;
+            }
+            }
+
+            if ((config_to_send[config_defs::elbow_flip_motor_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::elbow_flip_motor_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::elbow_flip_motor_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            {
+                this->flip_direction = 1;
+            }
+            else
+            {
+                this->flip_direction = 0;
+            }
+            break;
+        }
     }
     
     
@@ -291,8 +334,50 @@ void MotorData::reconfigure(uint8_t* config_to_send)
             }
             break;
         }
+        case (uint8_t)config_defs::joint_id::elbow:
+        {
+            motor_type = config_to_send[config_defs::elbow_idx];
+
+            switch (config_to_send[config_defs::elbow_gear_idx])
+            {
+            case (uint8_t)config_defs::gearing::gearing_1_1:
+            {
+                gearing = 1;
+                break;
+            }
+            case (uint8_t)config_defs::gearing::gearing_2_1:
+            {
+                gearing = 2;
+                break;
+            }
+            case (uint8_t)config_defs::gearing::gearing_3_1:
+            {
+                gearing = 3;
+                break;
+            }
+            case (uint8_t)config_defs::gearing::gearing_4_5_1:
+            {
+                gearing = 4.5;
+                break;
+            }
+            default:
+            {
+                gearing = 1;
+                break;
+            }
+            }
+
+            if ((config_to_send[config_defs::elbow_flip_motor_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::elbow_flip_motor_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::elbow_flip_motor_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            {
+                this->flip_direction = 1;
+            }
+            else
+            {
+                this->flip_direction = 0;
+            }
+            break;
+        }
     }
-    
     
     //This is only setup for AK motors at the moment, I think we will need to add other motor parameters for different types and just change the ones that are used rather than trying to just have motor specific parameters.
     p = 0;      //Read position

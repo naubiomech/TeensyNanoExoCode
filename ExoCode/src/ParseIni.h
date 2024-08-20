@@ -22,7 +22,7 @@ namespace ini_config
     const int buffer_length = 500;  /**< length of the buffer for reading the file. */
     const int key_length = 25;      /**< Max length of the key name */
     const int section_length = 10;  /**< Max length of the section name */
-    const int number_of_keys = 17;  /**< Number of keys to be parsed. */
+    const int number_of_keys = 40;  /**< Number of keys to be parsed. */
 }
 
 //Includes for reading the ini file from the SD card.
@@ -56,15 +56,26 @@ namespace config_defs
     { 
         bilateral_ankle = 1, 
         bilateral_hip = 2, 
-        bilateral_hip_ankle = 3,
-        left_ankle = 4,
-        right_ankle = 5,
-        left_hip = 6,
-        right_hip = 7,
-        left_hip_ankle = 8,
-        right_hip_ankle = 9,
-        test = 10,
-        right_knee = 11,
+        bilateral_knee = 3,
+        bilateral_elbow = 4,
+        bilateral_hip_ankle = 5,
+        bilateral_hip_elbow = 6,
+        bilateral_ankle_elbow = 7,
+        left_ankle = 8,
+        right_ankle = 9,
+        left_hip = 10,
+        right_hip = 11,
+        left_knee = 12,
+        right_knee = 13,
+        left_elbow = 14,
+        right_elbow = 15,
+        left_hip_ankle = 16,
+        right_hip_ankle = 17,
+        left_hip_elbow = 18,
+        right_hip_elbow = 19,
+        left_ankle_elbow = 20,
+        right_ankle_elbow = 21,
+        test = 22,
     };
     
     enum class exo_side : uint8_t
@@ -79,6 +90,7 @@ namespace config_defs
         hip = 1,
         knee = 2,
         ankle = 3,
+        elbow = 4,
     };
     
     enum class motor : uint8_t
@@ -101,21 +113,26 @@ namespace config_defs
     
     enum class joint_id : uint8_t
     {
-        //Byte format : [0, is_left, !is_left, unused_joint, unused_joint, is_ankle, is_knee, is_hip]
+        //Byte format : [0, is_left, !is_left, unused_joint, is_elbow, is_ankle, is_knee, is_hip]
         left = 0b01000000,
         right = 0b00100000,
         
         hip = 0b00000001,
         knee = 0b00000010,
         ankle = 0b00000100,
+        elbow = 0b00001000,
                 
-        left_hip = left|hip,
-        left_knee = left|knee,
-        left_ankle = left|ankle,
+        left_hip = left|hip,                //Set Motor ID to: 65
+        left_knee = left|knee,              //Set Motor ID to: 66
+        left_ankle = left|ankle,            //Set Motor ID to: 68
+        left_elbow = left|elbow,            //Set Motor ID to: 72
+                                            //Unused Joint ID: 80
         
-        right_hip = right|hip,
-        right_knee = right|knee,
-        right_ankle = right|ankle,
+        right_hip = right|hip,              //Set Motor ID to: 33
+        right_knee = right|knee,            //Set Motor ID to: 34
+        right_ankle = right|ankle,          //Set Motor ID to: 36
+        right_elbow = right|elbow,          //Set Motor ID to: 40
+                                            //Unused Joint ID: 48
     };
         
     enum class  hip_controllers : uint8_t
@@ -151,6 +168,16 @@ namespace config_defs
         chirp = 9,
         step = 10,
     };
+
+    enum class elbow_controllers : uint8_t
+    {
+        disabled = 1,
+        zero_torque = 2,
+        elbow_min_max = 3,
+        calibr_manager = 4,
+        chirp = 5,
+        step = 6,
+    };
     
     enum class flip_dir : uint8_t
     {
@@ -171,37 +198,46 @@ namespace config_defs
     static const int hip_idx = 5;
     static const int knee_idx = 6;
     static const int ankle_idx = 7;
+    static const int elbow_idx = 8;
     
-    static const int hip_gear_idx = 8;
-    static const int knee_gear_idx = 9;
-    static const int ankle_gear_idx = 10;
+    static const int hip_gear_idx = 9;
+    static const int knee_gear_idx = 10;
+    static const int ankle_gear_idx = 11;
+    static const int elbow_gear_idx = 12;
     
-    static const int exo_hip_default_controller_idx = 11;
-    static const int exo_knee_default_controller_idx = 12;
-    static const int exo_ankle_default_controller_idx = 13;
+    static const int exo_hip_default_controller_idx = 13;
+    static const int exo_knee_default_controller_idx = 14;
+    static const int exo_ankle_default_controller_idx = 15;
+    static const int exo_elbow_default_controller_idx = 16;
     
-    static const int hip_flip_dir_idx = 14;
-    static const int knee_flip_dir_idx = 15;
-    static const int ankle_flip_dir_idx = 16;
+    static const int hip_flip_dir_idx = 17;
+    static const int knee_flip_dir_idx = 18;
+    static const int ankle_flip_dir_idx = 19;
+    static const int elbow_flip_dir_idx = 20;
 	
-	static const int hip_flip_motor_dir_idx = 17;
-	static const int knee_flip_motor_dir_idx = 18;
-	static const int ankle_flip_motor_dir_idx = 19;
+	static const int hip_flip_motor_dir_idx = 21;
+	static const int knee_flip_motor_dir_idx = 22;
+	static const int ankle_flip_motor_dir_idx = 23;
+    static const int elbow_flip_motor_dir_idx = 24;
 	
-	static const int hip_flip_torque_dir_idx = 20;
-	static const int knee_flip_torque_dir_idx = 21;
-	static const int ankle_flip_torque_dir_idx = 22;
+	static const int hip_flip_torque_dir_idx = 25;
+	static const int knee_flip_torque_dir_idx = 26;
+	static const int ankle_flip_torque_dir_idx = 27;
+    static const int elbow_flip_torque_dir_idx = 28;
 	
-	static const int hip_flip_angle_dir_idx = 23;
-	static const int knee_flip_angle_dir_idx = 24;
-	static const int ankle_flip_angle_dir_idx = 25;
+	static const int hip_flip_angle_dir_idx = 29;
+	static const int knee_flip_angle_dir_idx = 30;
+	static const int ankle_flip_angle_dir_idx = 31;
+    static const int elbow_flip_angle_dir_idx = 32;
 	
-	static const int left_hip_RoM_idx = 26;
-	static const int right_hip_RoM_idx = 27;
-	static const int left_knee_RoM_idx = 28;
-	static const int right_knee_RoM_idx = 29;
-	static const int left_ankle_RoM_idx = 30;
-	static const int right_ankle_RoM_idx = 31;
+	static const int left_hip_RoM_idx = 33;
+	static const int right_hip_RoM_idx = 34;
+	static const int left_knee_RoM_idx = 35;
+	static const int right_knee_RoM_idx = 36;
+	static const int left_ankle_RoM_idx = 37;
+	static const int right_ankle_RoM_idx = 38;
+    static const int left_elbow_RoM_idx = 39;
+    static const int right_elbow_RoM_idx = 40;
 }
 
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41) 
@@ -281,16 +317,27 @@ namespace config_defs
         const IniKeyCode exo_name 
         { 
             {"bilateralAnkle", (uint8_t)config_defs::exo_name::bilateral_ankle}, 
-            {"bilateralHip", (uint8_t)config_defs::exo_name::bilateral_hip}, 
+            {"bilateralHip", (uint8_t)config_defs::exo_name::bilateral_hip},
+            {"bilateralKnee", (uint8_t)config_defs::exo_name::bilateral_knee},
+            {"bilateralElbow", (uint8_t)config_defs::exo_name::bilateral_elbow},
             {"bilateralHipAnkle", (uint8_t)config_defs::exo_name::bilateral_hip_ankle},
+            {"bilateralHipElbow", (uint8_t)config_defs::exo_name::bilateral_hip_elbow},
+            {"bilateralAnkleElbow", (uint8_t)config_defs::exo_name::bilateral_ankle_elbow},
             {"leftAnkle", (uint8_t)config_defs::exo_name::left_ankle},
             {"rightAnkle", (uint8_t)config_defs::exo_name::right_ankle},
             {"leftHip", (uint8_t)config_defs::exo_name::left_hip},
             {"rightHip", (uint8_t)config_defs::exo_name::right_hip},
+            {"leftKnee", (uint8_t)config_defs::exo_name::left_knee},
+            {"rightKnee", (uint8_t)config_defs::exo_name::right_knee},
+            {"leftElbow", (uint8_t)config_defs::exo_name::left_elbow},
+            {"rightElbow", (uint8_t)config_defs::exo_name::right_elbow},
             {"leftHipAnkle", (uint8_t)config_defs::exo_name::left_hip_ankle},
             {"rightHipAnkle", (uint8_t)config_defs::exo_name::right_hip_ankle},
+            {"leftHipElbow", (uint8_t)config_defs::exo_name::left_hip_elbow},
+            {"rightHipElbow", (uint8_t)config_defs::exo_name::right_hip_elbow},
+            {"leftAnkleElbow", (uint8_t)config_defs::exo_name::left_ankle_elbow},
+            {"rightAnkleElbow", (uint8_t)config_defs::exo_name::right_ankle_elbow},
             {"test", (uint8_t)config_defs::exo_name::test},
-            {"rightKnee", (uint8_t)config_defs::exo_name::right_knee},
         };
         
         const IniKeyCode exo_side 
@@ -352,6 +399,16 @@ namespace config_defs
             {"chirp", (uint8_t)config_defs::ankle_controllers::chirp},
             {"step", (uint8_t)config_defs::ankle_controllers::step},
         };  
+
+        const IniKeyCode elbow_controllers
+        {
+            {"0", (uint8_t)config_defs::elbow_controllers::disabled},
+            {"zeroTorque", (uint8_t)config_defs::elbow_controllers::zero_torque},
+            {"elbowMinMax", (uint8_t)config_defs::elbow_controllers::elbow_min_max},
+            {"calibrManager", (uint8_t)config_defs::elbow_controllers::calibr_manager},
+            {"chirp", (uint8_t)config_defs::elbow_controllers::chirp},
+            {"step", (uint8_t)config_defs::elbow_controllers::step},
+        };
         
         const IniKeyCode flip_dir 
         { 
@@ -379,30 +436,37 @@ namespace config_defs
         std::string exo_hip;
         std::string exo_knee;
         std::string exo_ankle;
+        std::string exo_elbow;
         
         std::string hip_gearing;
         std::string knee_gearing;
         std::string ankle_gearing;
+        std::string elbow_gearing;
         
         std::string exo_hip_default_controller;
         std::string exo_knee_default_controller;
         std::string exo_ankle_default_controller;
+        std::string exo_elbow_default_controller;
         
         std::string hip_flip_dir;
         std::string knee_flip_dir;
         std::string ankle_flip_dir;
+        std::string elbow_flip_dir;
 		
 		std::string hip_flip_motor_dir;
         std::string knee_flip_motor_dir;
         std::string ankle_flip_motor_dir;
+        std::string elbow_flip_motor_dir;
 		
 		std::string hip_flip_torque_dir;
         std::string knee_flip_torque_dir;
         std::string ankle_flip_torque_dir;
+        std::string elbow_flip_torque_dir;
 		
 		std::string hip_flip_angle_dir;
         std::string knee_flip_angle_dir;
         std::string ankle_flip_angle_dir;
+        std::string elbow_flip_angle_dir;
 		
 		float left_hip_RoM;
 		float right_hip_RoM;
@@ -410,6 +474,8 @@ namespace config_defs
 		float right_knee_RoM;
 		float left_ankle_RoM;
 		float right_ankle_RoM;
+        float left_elbow_RoM;
+        float right_elbow_RoM;
 		
     };
 #endif

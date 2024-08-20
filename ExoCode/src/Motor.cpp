@@ -70,6 +70,16 @@ _Motor::_Motor(config_defs::joint_id id, ExoData* exo_data, int enable_pin)
                 _motor_data = &(exo_data->right_leg.ankle.motor);
             }
             break;
+        case (uint8_t)config_defs::joint_id::elbow:
+            if (_is_left)
+            {
+                _motor_data = &(exo_data->left_leg.elbow.motor);
+            }
+            else
+            {
+                _motor_data = &(exo_data->right_leg.elbow.motor);
+            }
+            break;
     }
 
     #ifdef MOTOR_DEBUG

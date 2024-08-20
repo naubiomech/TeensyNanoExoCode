@@ -43,12 +43,16 @@ uint8_t ExoData::get_used_joints(uint8_t* used_joints)
     len += left_leg.knee.is_used;
     used_joints[len] = ((left_leg.ankle.is_used) ? (1) : (0));
     len += left_leg.ankle.is_used;
+    used_joints[len] = ((left_leg.elbow.is_used) ? (1) : (0));
+    len += left_leg.elbow.is_used;
     used_joints[len] = ((right_leg.hip.is_used) ? (1) : (0));
     len += right_leg.hip.is_used;
     used_joints[len] = ((right_leg.knee.is_used) ? (1) : (0));
     len += right_leg.knee.is_used;
     used_joints[len] = ((right_leg.ankle.is_used) ? (1) : (0));
     len += right_leg.ankle.is_used;
+    used_joints[len] = ((right_leg.elbow.is_used) ? (1) : (0));
+    len += right_leg.elbow.is_used;
     return len;
 };
 
@@ -66,6 +70,9 @@ JointData* ExoData::get_joint_with(uint8_t id)
     case (uint8_t)config_defs::joint_id::left_ankle:
         j_data = &left_leg.ankle;
         break;
+    case (uint8_t)config_defs::joint_id::left_elbow:
+        j_data = &left_leg.elbow;
+        break;
     case (uint8_t)config_defs::joint_id::right_hip:
         j_data = &right_leg.hip;
         break;
@@ -75,6 +82,9 @@ JointData* ExoData::get_joint_with(uint8_t id)
     case (uint8_t)config_defs::joint_id::right_ankle:
         j_data = &right_leg.ankle;
         break; 
+    case (uint8_t)config_defs::joint_id::right_elbow:
+        j_data = &right_leg.elbow;
+        break;
     default:
         // logger::print("ExoData::get_joint_with->No joint with ");
         // logger::print(id);
@@ -237,6 +247,33 @@ void ExoData::print()
             logger::print("\t\tController :: parameter_set : ");
             logger::println(left_leg.ankle.controller.parameter_set);
         }
+
+        if (left_leg.elbow.is_used)
+        {
+            logger::println("\tLeft :: Elbow");
+            logger::print("\t\tcalibrate_torque_sensor : ");
+            logger::println(left_leg.elbow.calibrate_torque_sensor);
+            logger::print("\t\ttorque_reading : ");
+            logger::println(left_leg.elbow.torque_reading);
+            logger::print("\t\tMotor :: p : ");
+            logger::println(left_leg.elbow.motor.p);
+            logger::print("\t\tMotor :: v : ");
+            logger::println(left_leg.elbow.motor.v);
+            logger::print("\t\tMotor :: i : ");
+            logger::println(left_leg.elbow.motor.i);
+            logger::print("\t\tMotor :: p_des : ");
+            logger::println(left_leg.elbow.motor.p_des);
+            logger::print("\t\tMotor :: v_des : ");
+            logger::println(left_leg.elbow.motor.v_des);
+            logger::print("\t\tMotor :: t_ff : ");
+            logger::println(left_leg.elbow.motor.t_ff);
+            logger::print("\t\tController :: controller : ");
+            logger::println(left_leg.elbow.controller.controller);
+            logger::print("\t\tController :: setpoint : ");
+            logger::println(left_leg.elbow.controller.setpoint);
+            logger::print("\t\tController :: parameter_set : ");
+            logger::println(left_leg.elbow.controller.parameter_set);
+        }
     }
     
     if (right_leg.is_used)
@@ -334,6 +371,33 @@ void ExoData::print()
             logger::println(right_leg.ankle.controller.setpoint);
             logger::print("\t\tController :: parameter_set : ");
             logger::println(right_leg.ankle.controller.parameter_set);
+        }
+
+        if (right_leg.elbow.is_used)
+        {
+            logger::println("\tRight :: Elbow");
+            logger::print("\t\tcalibrate_torque_sensor : ");
+            logger::println(right_leg.elbow.calibrate_torque_sensor);
+            logger::print("\t\ttorque_reading : ");
+            logger::println(right_leg.elbow.torque_reading);
+            logger::print("\t\tMotor :: p : ");
+            logger::println(right_leg.elbow.motor.p);
+            logger::print("\t\tMotor :: v : ");
+            logger::println(right_leg.elbow.motor.v);
+            logger::print("\t\tMotor :: i : ");
+            logger::println(right_leg.elbow.motor.i);
+            logger::print("\t\tMotor :: p_des : ");
+            logger::println(right_leg.elbow.motor.p_des);
+            logger::print("\t\tMotor :: v_des : ");
+            logger::println(right_leg.elbow.motor.v_des);
+            logger::print("\t\tMotor :: t_ff : ");
+            logger::println(right_leg.elbow.motor.t_ff);
+            logger::print("\t\tController :: controller : ");
+            logger::println(right_leg.elbow.controller.controller);
+            logger::print("\t\tController :: setpoint : ");
+            logger::println(right_leg.elbow.controller.setpoint);
+            logger::print("\t\tController :: parameter_set : ");
+            logger::println(right_leg.elbow.controller.parameter_set);
         }
     }
    
