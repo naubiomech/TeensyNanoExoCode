@@ -20,9 +20,9 @@
  * Uses initializer list for legs.
  * Only stores these objects, and exo_data pointer.
  */
-Exo::Exo(ExoData* exo_data)
-: left_leg(true, exo_data)      //Constructor: uses initializer list for the legs
-, right_leg(false, exo_data)    //Constructor: uses initializer list for the legs
+Exo::Exo(uint8_t* config_to_send, ExoData* exo_data)
+: left_leg(true, config_to_send, exo_data)      //Constructor: uses initializer list for the legs
+, right_leg(false, config_to_send, exo_data)    //Constructor: uses initializer list for the legs
 , sync_led(logic_micro_pins::sync_led_pin, sync_time::SYNC_START_STOP_HALF_PERIOD_US, sync_time::SYNC_HALF_PERIOD_US, logic_micro_pins::sync_led_on_state, logic_micro_pins::sync_default_pin)  //Create a sync LED object, the first and last arguments (pin) are found in Board.h, and the rest are in Config.h.  If you do not have a digital input for the default state you can remove SYNC_DEFAULT_STATE_PIN.
 , status_led(logic_micro_pins::status_led_r_pin, logic_micro_pins::status_led_g_pin, logic_micro_pins::status_led_b_pin)  //Create the status LED object.
 

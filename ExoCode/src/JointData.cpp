@@ -40,7 +40,7 @@ JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send, float jo
             // logger::print("Hip\n");
             
             //Check if the direction should be flipped
-            if ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            if ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::both) || ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::left) && this->is_left) || ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::right) && (!this->is_left)))
             {
                 this->flip_direction = 1;
             }
@@ -49,7 +49,7 @@ JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send, float jo
                 this->flip_direction = 0;
             }
 			
-			if ((config_to_send[config_defs::hip_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::hip_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::hip_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+			if ((config_to_send[config_defs::hip_flip_angle_dir_idx] == (uint8_t)config_defs::flip_angle_dir::both) || ((config_to_send[config_defs::hip_flip_angle_dir_idx] == (uint8_t)config_defs::flip_angle_dir::left) && this->is_left) || ((config_to_send[config_defs::hip_flip_angle_dir_idx] == (uint8_t)config_defs::flip_angle_dir::right) && (!this->is_left)))
             {
                 this->do_flip_angle = 1;
             }
@@ -70,7 +70,7 @@ JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send, float jo
             // logger::print("Knee\n");
              
             //Check if the direction should be flipped
-            if ((config_to_send[config_defs::knee_flip_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::knee_flip_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::knee_flip_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            if ((config_to_send[config_defs::knee_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::both) || ((config_to_send[config_defs::knee_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::left) && this->is_left) || ((config_to_send[config_defs::knee_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::right) && (!this->is_left)))
             {
                 this->flip_direction = 1;
             }
@@ -79,7 +79,7 @@ JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send, float jo
                 this->flip_direction = 0;
             }
 			
-			if ((config_to_send[config_defs::knee_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::knee_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::knee_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+			if ((config_to_send[config_defs::knee_flip_angle_dir_idx] == (uint8_t)config_defs::flip_angle_dir::both) || ((config_to_send[config_defs::knee_flip_angle_dir_idx] == (uint8_t)config_defs::flip_angle_dir::left) && this->is_left) || ((config_to_send[config_defs::knee_flip_angle_dir_idx] == (uint8_t)config_defs::flip_angle_dir::right) && (!this->is_left)))
             {
                 this->do_flip_angle = 1;
             }
@@ -100,7 +100,7 @@ JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send, float jo
             // logger::print("Ankle\n");
             
             //Check if the direction should be flipped
-            if ((config_to_send[config_defs::ankle_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::ankle_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::ankle_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            if ((config_to_send[config_defs::ankle_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::both) || ((config_to_send[config_defs::ankle_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::left) && this->is_left) || ((config_to_send[config_defs::ankle_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::right) && (!this->is_left)))
             {
                 this->flip_direction = 1;
             }
@@ -109,7 +109,7 @@ JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send, float jo
                 this->flip_direction = 0;
             }
 			
-			if ((config_to_send[config_defs::ankle_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::ankle_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::ankle_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+			if ((config_to_send[config_defs::ankle_flip_angle_dir_idx] == (uint8_t)config_defs::flip_angle_dir::both) || ((config_to_send[config_defs::ankle_flip_angle_dir_idx] == (uint8_t)config_defs::flip_angle_dir::left) && this->is_left) || ((config_to_send[config_defs::ankle_flip_angle_dir_idx] == (uint8_t)config_defs::flip_angle_dir::right) && (!this->is_left)))
             {
                 this->do_flip_angle = 1;
             }
@@ -130,7 +130,7 @@ JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send, float jo
             // logger::print("Elbow\n");
 
             //Check if the direction should be flipped
-            if ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            if ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::both) || ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::left) && this->is_left) || ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::right) && (!this->is_left)))
             {
                 this->flip_direction = 1;
             }
@@ -139,7 +139,7 @@ JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send, float jo
                 this->flip_direction = 0;
             }
 
-            if ((config_to_send[config_defs::elbow_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::elbow_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::elbow_flip_angle_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            if ((config_to_send[config_defs::elbow_flip_angle_dir_idx] == (uint8_t)config_defs::flip_angle_dir::both) || ((config_to_send[config_defs::elbow_flip_angle_dir_idx] == (uint8_t)config_defs::flip_angle_dir::left) && this->is_left) || ((config_to_send[config_defs::elbow_flip_angle_dir_idx] == (uint8_t)config_defs::flip_angle_dir::right) && (!this->is_left)))
             {
                 this->do_flip_angle = 1;
             }
@@ -168,7 +168,7 @@ void JointData::reconfigure(uint8_t* config_to_send)
             // logger::print("Hip\n");
             
             //Check if the direction should be flipped
-            if ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            if ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::both) || ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::left) && this->is_left) || ((config_to_send[config_defs::hip_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::right) && (!this->is_left)))
             {
                 this->flip_direction = 1;
             }
@@ -187,7 +187,7 @@ void JointData::reconfigure(uint8_t* config_to_send)
             // logger::print("Knee\n");
             
             //Check if the direction should be flipped
-            if ((config_to_send[config_defs::knee_flip_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::knee_flip_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::knee_flip_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            if ((config_to_send[config_defs::knee_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::both) || ((config_to_send[config_defs::knee_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::left) && this->is_left) || ((config_to_send[config_defs::knee_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::right) && (!this->is_left)))
             {
                 this->flip_direction = 1;
             }
@@ -207,7 +207,7 @@ void JointData::reconfigure(uint8_t* config_to_send)
             
             
             //Check if the direction should be flipped
-            if ((config_to_send[config_defs::ankle_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::ankle_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::ankle_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            if ((config_to_send[config_defs::ankle_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::both) || ((config_to_send[config_defs::ankle_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::left) && this->is_left) || ((config_to_send[config_defs::ankle_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::right) && (!this->is_left)))
             {
                 this->flip_direction = 1;
             }
@@ -227,7 +227,7 @@ void JointData::reconfigure(uint8_t* config_to_send)
             // logger::print("Elbow\n");
 
             //Check if the direction should be flipped
-            if ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::both) || ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::left) && this->is_left) || ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_dir::right) && (!this->is_left)))
+            if ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::both) || ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::left) && this->is_left) || ((config_to_send[config_defs::elbow_flip_torque_dir_idx] == (uint8_t)config_defs::flip_torque_dir::right) && (!this->is_left)))
             {
                 this->flip_direction = 1;
             }

@@ -285,95 +285,95 @@
         
         //--------------------------------------------------------
         
-        get_section_key(ini, temp_exo_name, "hipFlipDir", buffer, buffer_len);
-        data.hip_flip_dir = buffer;
+        get_section_key(ini, temp_exo_name, "hipUseTorqueSensor", buffer, buffer_len);
+        data.hip_use_torque_sensor = buffer;
 
-        // logger::print(data.hip_flip_dir.c_str());
+        // logger::print(data.hip_use_torque_sensor.c_str());
         // logger::print("\t");
-        // logger::println(config_map::flip_dir[data.hip_flip_dir]);
+        // logger::println(config_map::use_torque_sensor[data.hip_use_torque_sensor]);
 
-        config_to_send[config_defs::hip_flip_dir_idx] = config_map::flip_dir[data.hip_flip_dir];
+        config_to_send[config_defs::hip_use_torque_sensor_idx] = config_map::use_torque_sensor[data.hip_use_torque_sensor];
         
-        get_section_key(ini, temp_exo_name, "kneeFlipDir", buffer, buffer_len);
-        data.knee_flip_dir = buffer;
+        get_section_key(ini, temp_exo_name, "kneeUseTorqueSensor", buffer, buffer_len);
+        data.knee_use_torque_sensor = buffer;
 
-        // logger::print(data.knee_flip_dir.c_str());
+        // logger::print(data.knee_use_torque_sensor.c_str());
         // logger::print("\t");
-        // logger::println(config_map::flip_dir[data.knee_flip_dir]);
+        // logger::println(config_map::use_torque_sensor[data.knee_use_torque_sensor]);
 
-        config_to_send[config_defs::knee_flip_dir_idx] = config_map::flip_dir[data.knee_flip_dir];
+        config_to_send[config_defs::knee_use_torque_sensor_idx] = config_map::use_torque_sensor[data.knee_use_torque_sensor];
         
-        get_section_key(ini, temp_exo_name, "ankleFlipDir", buffer, buffer_len);
-        data.ankle_flip_dir = buffer;
+        get_section_key(ini, temp_exo_name, "ankleUseTorqueSensor", buffer, buffer_len);
+        data.ankle_use_torque_sensor = buffer;
 
-        // logger::print(data.ankle_flip_dir.c_str());
+        // logger::print(data.ankle_use_torque_sensor.c_str());
         // logger::print("\t");
-        // logger::println(config_map::flip_dir[data.ankle_flip_dir]);
+        // logger::println(config_map::use_torque_sensor[data.ankle_use_torque_sensor]);
 
-        config_to_send[config_defs::ankle_flip_dir_idx] = config_map::flip_dir[data.ankle_flip_dir];
+        config_to_send[config_defs::ankle_use_torque_sensor_idx] = config_map::use_torque_sensor[data.ankle_use_torque_sensor];
 
-        get_section_key(ini, temp_exo_name, "elbowFlipDir", buffer, buffer_len);
-        data.elbow_flip_dir = buffer;
+        get_section_key(ini, temp_exo_name, "elbowUseTorqueSensor", buffer, buffer_len);
+        data.elbow_use_torque_sensor = buffer;
 
-        // logger::print(data.elbow_flip_dir.c_str());
+        // logger::print(data.elbow_use_torque_sensor.c_str());
         // logger::print("\t");
-        // logger::println(config_map::flip_dir[data.elbow_flip_dir]);
+        // logger::println(config_map::use_torque_sensor[data.elbow_use_torque_sensor]);
 
-        config_to_send[config_defs::elbow_flip_dir_idx] = config_map::flip_dir[data.elbow_flip_dir];
+        config_to_send[config_defs::elbow_use_torque_sensor_idx] = config_map::use_torque_sensor[data.elbow_use_torque_sensor];
 
         //--------------------------------------------------------
 		
         get_section_key(ini, temp_exo_name, "hipFlipMotorDir", buffer, buffer_len);
         data.hip_flip_motor_dir = buffer;
-        config_to_send[config_defs::hip_flip_motor_dir_idx] = config_map::flip_dir[data.hip_flip_motor_dir];
+        config_to_send[config_defs::hip_flip_motor_dir_idx] = config_map::flip_motor_dir[data.hip_flip_motor_dir];
 
         get_section_key(ini, temp_exo_name, "kneeFlipMotorDir", buffer, buffer_len);
         data.knee_flip_motor_dir = buffer;
-        config_to_send[config_defs::knee_flip_motor_dir_idx] = config_map::flip_dir[data.knee_flip_motor_dir];
+        config_to_send[config_defs::knee_flip_motor_dir_idx] = config_map::flip_motor_dir[data.knee_flip_motor_dir];
         
         get_section_key(ini, temp_exo_name, "ankleFlipMotorDir", buffer, buffer_len);
         data.ankle_flip_motor_dir = buffer;
-        config_to_send[config_defs::ankle_flip_motor_dir_idx] = config_map::flip_dir[data.ankle_flip_motor_dir];
+        config_to_send[config_defs::ankle_flip_motor_dir_idx] = config_map::flip_motor_dir[data.ankle_flip_motor_dir];
 
         get_section_key(ini, temp_exo_name, "elbowFlipMotorDir", buffer, buffer_len);
         data.elbow_flip_motor_dir = buffer;
-        config_to_send[config_defs::elbow_flip_motor_dir_idx] = config_map::flip_dir[data.elbow_flip_motor_dir];
+        config_to_send[config_defs::elbow_flip_motor_dir_idx] = config_map::flip_motor_dir[data.elbow_flip_motor_dir];
 
         //--------------------------------------------------------
 		
         get_section_key(ini, temp_exo_name, "hipFlipTorqueDir", buffer, buffer_len);
         data.hip_flip_torque_dir = buffer;
-        config_to_send[config_defs::hip_flip_torque_dir_idx] = config_map::flip_dir[data.hip_flip_torque_dir];
+        config_to_send[config_defs::hip_flip_torque_dir_idx] = config_map::flip_torque_dir[data.hip_flip_torque_dir];
 
         get_section_key(ini, temp_exo_name, "kneeFlipTorqueDir", buffer, buffer_len);
         data.knee_flip_torque_dir = buffer;
-        config_to_send[config_defs::knee_flip_torque_dir_idx] = config_map::flip_dir[data.knee_flip_torque_dir];
+        config_to_send[config_defs::knee_flip_torque_dir_idx] = config_map::flip_torque_dir[data.knee_flip_torque_dir];
         
         get_section_key(ini, temp_exo_name, "ankleFlipTorqueDir", buffer, buffer_len);
         data.ankle_flip_torque_dir = buffer;
-        config_to_send[config_defs::ankle_flip_torque_dir_idx] = config_map::flip_dir[data.ankle_flip_torque_dir];
+        config_to_send[config_defs::ankle_flip_torque_dir_idx] = config_map::flip_torque_dir[data.ankle_flip_torque_dir];
 
         get_section_key(ini, temp_exo_name, "elbowFlipTorqueDir", buffer, buffer_len);
         data.elbow_flip_torque_dir = buffer;
-        config_to_send[config_defs::elbow_flip_torque_dir_idx] = config_map::flip_dir[data.elbow_flip_torque_dir];
+        config_to_send[config_defs::elbow_flip_torque_dir_idx] = config_map::flip_torque_dir[data.elbow_flip_torque_dir];
 
         //--------------------------------------------------------
 
         get_section_key(ini, temp_exo_name, "hipFlipAngleDir", buffer, buffer_len);
         data.hip_flip_angle_dir = buffer;
-        config_to_send[config_defs::hip_flip_angle_dir_idx] = config_map::flip_dir[data.hip_flip_angle_dir];
+        config_to_send[config_defs::hip_flip_angle_dir_idx] = config_map::flip_angle_dir[data.hip_flip_angle_dir];
 
         get_section_key(ini, temp_exo_name, "kneeFlipAngleDir", buffer, buffer_len);
         data.knee_flip_angle_dir = buffer;
-        config_to_send[config_defs::knee_flip_angle_dir_idx] = config_map::flip_dir[data.knee_flip_angle_dir];
+        config_to_send[config_defs::knee_flip_angle_dir_idx] = config_map::flip_angle_dir[data.knee_flip_angle_dir];
 
         get_section_key(ini, temp_exo_name, "ankleFlipAngleDir", buffer, buffer_len);
         data.ankle_flip_angle_dir = buffer;
-        config_to_send[config_defs::ankle_flip_angle_dir_idx] = config_map::flip_dir[data.ankle_flip_angle_dir];
+        config_to_send[config_defs::ankle_flip_angle_dir_idx] = config_map::flip_angle_dir[data.ankle_flip_angle_dir];
 
         get_section_key(ini, temp_exo_name, "elbowFlipAngleDir", buffer, buffer_len);
         data.elbow_flip_angle_dir = buffer;
-        config_to_send[config_defs::elbow_flip_angle_dir_idx] = config_map::flip_dir[data.elbow_flip_angle_dir];
+        config_to_send[config_defs::elbow_flip_angle_dir_idx] = config_map::flip_angle_dir[data.elbow_flip_angle_dir];
 
         //--------------------------------------------------------
 		

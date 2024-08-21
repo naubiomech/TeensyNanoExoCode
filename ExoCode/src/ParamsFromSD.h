@@ -46,7 +46,7 @@
         {
             {(uint8_t)config_defs::hip_controllers::disabled,"hipControllers/zeroTorque.csv"},
             {(uint8_t)config_defs::hip_controllers::zero_torque,"hipControllers/zeroTorque.csv"},
-            {(uint8_t)config_defs::hip_controllers::franks_collins_hip, "hipControllers/franksCollins.csv"},
+            {(uint8_t)config_defs::hip_controllers::franks_collins_hip, "hipControllers/franksCollinsHip.csv"},
             {(uint8_t)config_defs::hip_controllers::constant_torque, "hipControllers/constantTorque.csv"},
             {(uint8_t)config_defs::hip_controllers::chirp,"hipControllers/chirp.csv"},
             {(uint8_t)config_defs::hip_controllers::step,"hipControllers/step.csv"},

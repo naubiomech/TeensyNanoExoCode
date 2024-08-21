@@ -55,6 +55,12 @@
             - <key_idx> is the index from the config_defs in ParseIni.h
             - <key_name> is the IniKeyCode name from config_map in ParseIni.h
             - <field> is what was just updated in step 2.
+
+## uart_commands.h
+- get_config
+	- Use the existing keys as a template. 
+- update_config
+	- Use the existing keys as a template.
             
 ## Wrap up
 - That should be everything you need to do to parse the ini file.

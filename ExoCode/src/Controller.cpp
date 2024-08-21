@@ -1406,10 +1406,6 @@ float Step::calc_motor_cmd()
     int Repetitions = _controller_data->parameters[controller_defs::step::repetitions_idx];         //Number of Step Responses
     float Spacing = _controller_data->parameters[controller_defs::step::spacing_idx];               //Time Between Each Step Response
 
-    Serial.print("Repetitions :: ");
-    Serial.print(Repetitions);
-    Serial.print("\n");
-
     float tt = 0;
 
     if (n <= Repetitions)                                          //If we are less than the number of desired repetitions

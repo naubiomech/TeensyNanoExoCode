@@ -57,7 +57,7 @@ class _Joint
          * @param id of the joint being used
          * @param pointer to the full ExoData instance
          */
-        _Joint(config_defs::joint_id id, ExoData* exo_data);  //Constructor:  
+        _Joint(config_defs::joint_id id, uint8_t* config_to_send, ExoData* exo_data);  //Constructor:  
 		virtual ~_Joint(){};
         
         /**
@@ -100,7 +100,7 @@ class _Joint
          * 
          * @return next pin to assign
          */
-        static unsigned int get_torque_sensor_pin(config_defs::joint_id, ExoData*);
+        static unsigned int get_torque_sensor_pin(config_defs::joint_id, uint8_t* config_to_send, ExoData*);
         
         /**
          * @brief Takes in the joint id and exo data, and checks if the current joint is used.
@@ -138,7 +138,7 @@ class _Joint
 class HipJoint : public _Joint
 {
     public:
-        HipJoint(config_defs::joint_id id, ExoData* exo_data);
+        HipJoint(config_defs::joint_id id, uint8_t* config_to_send, ExoData* exo_data);
         ~HipJoint(){};
         
         /**
@@ -170,7 +170,7 @@ class HipJoint : public _Joint
 class KneeJoint : public _Joint
 {
     public:
-        KneeJoint(config_defs::joint_id id, ExoData* exo_data);
+        KneeJoint(config_defs::joint_id id, uint8_t* config_to_send, ExoData* exo_data);
         ~KneeJoint(){};
         
         /**
@@ -201,7 +201,7 @@ class KneeJoint : public _Joint
 class AnkleJoint : public _Joint
 {
     public:
-        AnkleJoint(config_defs::joint_id id, ExoData* exo_data);
+        AnkleJoint(config_defs::joint_id id, uint8_t* config_to_send, ExoData* exo_data);
         ~AnkleJoint(){};
         
         /**
@@ -245,7 +245,7 @@ class AnkleJoint : public _Joint
 class ElbowJoint : public _Joint
 {
 public:
-    ElbowJoint(config_defs::joint_id id, ExoData* exo_data);
+    ElbowJoint(config_defs::joint_id id, uint8_t* config_to_send, ExoData* exo_data);
     ~ElbowJoint() {};
 
     /**

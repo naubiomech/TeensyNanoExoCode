@@ -22,7 +22,7 @@ namespace ini_config
     const int buffer_length = 500;  /**< length of the buffer for reading the file. */
     const int key_length = 25;      /**< Max length of the key name */
     const int section_length = 10;  /**< Max length of the section name */
-    const int number_of_keys = 40;  /**< Number of keys to be parsed. */
+    const int number_of_keys = 41;  /**< Number of keys to be parsed. */
 }
 
 //Includes for reading the ini file from the SD card.
@@ -179,10 +179,32 @@ namespace config_defs
         step = 6,
     };
     
-    enum class flip_dir : uint8_t
+    enum class use_torque_sensor : uint8_t
     {
-        neither = 1, 
-        left = 2, 
+        no = 1, 
+        yes = 2, 
+    };
+
+    enum class flip_motor_dir : uint8_t
+    {
+        neither = 1,
+        left = 2,
+        right = 3,
+        both = 4,
+    };
+
+    enum class flip_torque_dir : uint8_t
+    {
+        neither = 1,
+        left = 2,
+        right = 3,
+        both = 4,
+    };
+
+    enum class flip_angle_dir : uint8_t
+    {
+        neither = 1,
+        left = 2,
         right = 3,
         both = 4,
     };
@@ -210,10 +232,10 @@ namespace config_defs
     static const int exo_ankle_default_controller_idx = 15;
     static const int exo_elbow_default_controller_idx = 16;
     
-    static const int hip_flip_dir_idx = 17;
-    static const int knee_flip_dir_idx = 18;
-    static const int ankle_flip_dir_idx = 19;
-    static const int elbow_flip_dir_idx = 20;
+    static const int hip_use_torque_sensor_idx = 17;
+    static const int knee_use_torque_sensor_idx = 18;
+    static const int ankle_use_torque_sensor_idx = 19;
+    static const int elbow_use_torque_sensor_idx = 20;
 	
 	static const int hip_flip_motor_dir_idx = 21;
 	static const int knee_flip_motor_dir_idx = 22;
@@ -410,14 +432,35 @@ namespace config_defs
             {"step", (uint8_t)config_defs::elbow_controllers::step},
         };
         
-        const IniKeyCode flip_dir 
+        const IniKeyCode use_torque_sensor
         { 
-            {"0", (uint8_t)config_defs::flip_dir::neither}, 
-            {"left", (uint8_t)config_defs::flip_dir::left}, 
-            {"right", (uint8_t)config_defs::flip_dir::right},
-            {"both", (uint8_t)config_defs::flip_dir::both},
-            
+            {"0", (uint8_t)config_defs::use_torque_sensor::no},
+            {"yes", (uint8_t)config_defs::use_torque_sensor::yes},
         }; 
+
+        const IniKeyCode flip_motor_dir
+        {
+            {"0", (uint8_t)config_defs::flip_motor_dir::neither},
+            {"left", (uint8_t)config_defs::flip_motor_dir::left},
+            {"right", (uint8_t)config_defs::flip_motor_dir::right},
+            {"both", (uint8_t)config_defs::flip_motor_dir::both},
+        };
+
+        const IniKeyCode flip_torque_dir
+        {
+            {"0", (uint8_t)config_defs::flip_torque_dir::neither},
+            {"left", (uint8_t)config_defs::flip_torque_dir::left},
+            {"right", (uint8_t)config_defs::flip_torque_dir::right},
+            {"both", (uint8_t)config_defs::flip_torque_dir::both},
+        };
+
+        const IniKeyCode flip_angle_dir
+        {
+            {"0", (uint8_t)config_defs::flip_angle_dir::neither},
+            {"left", (uint8_t)config_defs::flip_angle_dir::left},
+            {"right", (uint8_t)config_defs::flip_angle_dir::right},
+            {"both", (uint8_t)config_defs::flip_angle_dir::both},
+        };
     };
 
     /**
@@ -448,10 +491,10 @@ namespace config_defs
         std::string exo_ankle_default_controller;
         std::string exo_elbow_default_controller;
         
-        std::string hip_flip_dir;
-        std::string knee_flip_dir;
-        std::string ankle_flip_dir;
-        std::string elbow_flip_dir;
+        std::string hip_use_torque_sensor;
+        std::string knee_use_torque_sensor;
+        std::string ankle_use_torque_sensor;
+        std::string elbow_use_torque_sensor;
 		
 		std::string hip_flip_motor_dir;
         std::string knee_flip_motor_dir;

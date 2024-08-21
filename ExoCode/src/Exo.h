@@ -29,7 +29,7 @@
 class Exo
 {
     public:
-		Exo(ExoData* exo_data); //Constructor: uses initializer list for the Leg objects.
+		Exo(uint8_t* config_to_send, ExoData* exo_data); //Constructor: uses initializer list for the Leg objects.
 		
         /**
          * @brief reads motor data from each motor used in the leg and stores the values
