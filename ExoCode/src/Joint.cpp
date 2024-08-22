@@ -22,8 +22,8 @@ uint8_t _Joint::right_motor_used_count = 0;
  * Uses initializer list for motor, controller, and torque sensor.
  * Only stores these objects, the id, exo_data pointer, and if it is left (for easy access)
  */
-_Joint::_Joint(config_defs::joint_id id, uint8_t* config_to_send, ExoData* exo_data)
-: _torque_sensor(_Joint::get_torque_sensor_pin(id, config_to_send, exo_data)) // <-- Initializer list
+_Joint::_Joint(config_defs::joint_id id, ExoData* exo_data)
+: _torque_sensor(_Joint::get_torque_sensor_pin(id, exo_data)) // <-- Initializer list
 {
     // logger::print("_Joint::right_torque_sensor_used_count : ");
     // logger::println(_Joint::right_torque_sensor_used_count);
@@ -100,7 +100,7 @@ void _Joint::check_calibration()
     }
 };
 
-unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, uint8_t* config_to_send, ExoData* exo_data)
+unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, ExoData* exo_data)
 {
     //logger::print("utils::get_joint_type(id) : ");
     //logger::println(utils::get_joint_type(id));
@@ -112,7 +112,7 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, uint8_t* co
     {
         case (uint8_t)config_defs::joint_id::hip:
         {
-            if (utils::get_is_left(id) && exo_data->left_leg.hip.is_used && (config_to_send[config_defs::hip_use_torque_sensor_idx] == (uint8_t)config_defs::use_torque_sensor::yes))  //Check if the left leg is used and we want to use the torque sensor
+            if (utils::get_is_left(id) && exo_data->left_leg.hip.is_used && exo_data->hip_torque_flag == 1)  //Check if the left leg is used and we want to use the torque sensor
             {
                 if (_Joint::left_torque_sensor_used_count < logic_micro_pins::num_available_joints) // If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -123,7 +123,7 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, uint8_t* co
                     return logic_micro_pins::not_connected_pin;
                 }
             }
-            else if (!(utils::get_is_left(id)) && exo_data->right_leg.hip.is_used && (config_to_send[config_defs::hip_use_torque_sensor_idx] == (uint8_t)config_defs::use_torque_sensor::yes))  //Check if the right leg is used and we want to use the torque sensor
+            else if (!(utils::get_is_left(id)) && exo_data->right_leg.hip.is_used && exo_data->hip_torque_flag == 1)  //Check if the right leg is used and we want to use the torque sensor
             {
                 if (_Joint::right_torque_sensor_used_count < logic_micro_pins::num_available_joints) //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -142,7 +142,7 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, uint8_t* co
         }
         case (uint8_t)config_defs::joint_id::knee:
         {
-            if (utils::get_is_left(id) && exo_data->left_leg.knee.is_used && (config_to_send[config_defs::knee_use_torque_sensor_idx] == (uint8_t)config_defs::use_torque_sensor::yes))  //Check if the left leg is used and we want to use the torque sensor 
+            if (utils::get_is_left(id) && exo_data->left_leg.knee.is_used && exo_data->knee_torque_flag == 1)  //Check if the left leg is used and we want to use the torque sensor 
             {
                 if (_Joint::left_torque_sensor_used_count < logic_micro_pins::num_available_joints) //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -153,7 +153,7 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, uint8_t* co
                     return logic_micro_pins::not_connected_pin;
                 }
             }
-            else if (!(utils::get_is_left(id)) && exo_data->right_leg.knee.is_used && (config_to_send[config_defs::knee_use_torque_sensor_idx] == (uint8_t)config_defs::use_torque_sensor::yes))  //Check if the right leg is used and we want to use the torque sensor
+            else if (!(utils::get_is_left(id)) && exo_data->right_leg.knee.is_used && exo_data->knee_torque_flag == 1)  //Check if the right leg is used and we want to use the torque sensor
             {
                 if (_Joint::right_torque_sensor_used_count < logic_micro_pins::num_available_joints) //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -172,7 +172,7 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, uint8_t* co
         }
         case (uint8_t)config_defs::joint_id::ankle:
         {
-            if (utils::get_is_left(id) && exo_data->left_leg.ankle.is_used && (config_to_send[config_defs::ankle_use_torque_sensor_idx] == (uint8_t)config_defs::use_torque_sensor::yes))   //Check if the left leg is used and we want to use the torque sensor
+            if (utils::get_is_left(id) && exo_data->left_leg.ankle.is_used && exo_data->ankle_torque_flag == 1)   //Check if the left leg is used and we want to use the torque sensor
             {
                 if (_Joint::left_torque_sensor_used_count < logic_micro_pins::num_available_joints)         //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -183,7 +183,7 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, uint8_t* co
                     return logic_micro_pins::not_connected_pin;
                 }
             }
-            else if (!(utils::get_is_left(id)) && exo_data->right_leg.ankle.is_used && (config_to_send[config_defs::ankle_use_torque_sensor_idx] == (uint8_t)config_defs::use_torque_sensor::yes))  //Check if the right leg is used and we want to use the torque sensor
+            else if (!(utils::get_is_left(id)) && exo_data->right_leg.ankle.is_used && exo_data->ankle_torque_flag == 1)  //Check if the right leg is used and we want to use the torque sensor
             {
                 if (_Joint::right_torque_sensor_used_count < logic_micro_pins::num_available_joints)        //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -204,7 +204,7 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, uint8_t* co
         }
         case (uint8_t)config_defs::joint_id::elbow:
         {
-            if (utils::get_is_left(id) && exo_data->left_leg.elbow.is_used && (config_to_send[config_defs::elbow_use_torque_sensor_idx] == (uint8_t)config_defs::use_torque_sensor::yes))   //Check if the left leg is used and we want to use the torque sensor
+            if (utils::get_is_left(id) && exo_data->left_leg.elbow.is_used && exo_data->elbow_torque_flag == 1)   //Check if the left leg is used and we want to use the torque sensor
             {
                 if (_Joint::left_torque_sensor_used_count < logic_micro_pins::num_available_joints)         //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -215,7 +215,7 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, uint8_t* co
                     return logic_micro_pins::not_connected_pin;
                 }
             }
-            else if (!(utils::get_is_left(id)) && exo_data->right_leg.elbow.is_used && (config_to_send[config_defs::ankle_use_torque_sensor_idx] == (uint8_t)config_defs::use_torque_sensor::yes))  //Check if the right leg is used and we want to use the torque sensor
+            else if (!(utils::get_is_left(id)) && exo_data->right_leg.elbow.is_used && exo_data->elbow_torque_flag == 1)  //Check if the right leg is used and we want to use the torque sensor
             {
                 if (_Joint::right_torque_sensor_used_count < logic_micro_pins::num_available_joints)        //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -381,8 +381,8 @@ void _Joint::set_motor(_Motor* new_motor)
 
 
 //*********************************************
-HipJoint::HipJoint(config_defs::joint_id id, uint8_t* config_to_send, ExoData* exo_data)
-: _Joint(id, config_to_send, exo_data)  // <-- Initializer list
+HipJoint::HipJoint(config_defs::joint_id id, ExoData* exo_data)
+: _Joint(id, exo_data)  // <-- Initializer list
 , _zero_torque(id, exo_data)
 , _franks_collins_hip(id, exo_data)
 , _constant_torque(id, exo_data)
@@ -567,8 +567,8 @@ void HipJoint::set_controller(uint8_t controller_id)
 
 //================================================================
 
-KneeJoint::KneeJoint(config_defs::joint_id id, uint8_t* config_to_send, ExoData* exo_data)
-: _Joint(id, config_to_send, exo_data) // <-- Initializer list
+KneeJoint::KneeJoint(config_defs::joint_id id, ExoData* exo_data)
+: _Joint(id, exo_data) // <-- Initializer list
 , _zero_torque(id, exo_data)
 , _constant_torque(id, exo_data)
 , _elbow_min_max(id, exo_data)
@@ -750,8 +750,8 @@ void KneeJoint::set_controller(uint8_t controller_id)  //Changes the high level 
 };
 
 //=================================================================
-AnkleJoint::AnkleJoint(config_defs::joint_id id, uint8_t* config_to_send, ExoData* exo_data)
-: _Joint(id, config_to_send, exo_data) // <-- Initializer list
+AnkleJoint::AnkleJoint(config_defs::joint_id id, ExoData* exo_data)
+: _Joint(id, exo_data) // <-- Initializer list
 , _imu(_is_left)
 , _zero_torque(id, exo_data)
 , _proportional_joint_moment(id, exo_data)
@@ -971,8 +971,8 @@ void AnkleJoint::set_controller(uint8_t controller_id)  //Changes the high level
 };
 
 //=================================================================
-ElbowJoint::ElbowJoint(config_defs::joint_id id, uint8_t* config_to_send, ExoData* exo_data)
-    : _Joint(id, config_to_send, exo_data) // <-- Initializer list
+ElbowJoint::ElbowJoint(config_defs::joint_id id, ExoData* exo_data)
+    : _Joint(id, exo_data) // <-- Initializer list
     , _zero_torque(id, exo_data)
     , _elbow_min_max(id, exo_data)
     , _calibr_manager(id, exo_data)

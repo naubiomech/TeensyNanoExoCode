@@ -25,6 +25,26 @@ ExoData::ExoData(uint8_t* config_to_send)
     this->error_code = static_cast<int>(NO_ERROR);
     this->error_joint_id = 0;
     this->user_paused = false;
+
+    if ((config_to_send[config_defs::hip_use_torque_sensor_idx] == (uint8_t)config_defs::use_torque_sensor::yes))
+    {
+        hip_torque_flag = 1;
+    }
+
+    if ((config_to_send[config_defs::knee_use_torque_sensor_idx] == (uint8_t)config_defs::use_torque_sensor::yes))
+    {
+        knee_torque_flag = 1;
+    }
+
+    if ((config_to_send[config_defs::ankle_use_torque_sensor_idx] == (uint8_t)config_defs::use_torque_sensor::yes))
+    {
+        ankle_torque_flag = 1;
+    }
+
+    if ((config_to_send[config_defs::elbow_use_torque_sensor_idx] == (uint8_t)config_defs::use_torque_sensor::yes))
+    {
+        elbow_torque_flag = 1;
+    }
 };
 
 void ExoData::reconfigure(uint8_t* config_to_send) 

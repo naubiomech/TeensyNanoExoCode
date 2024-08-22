@@ -92,7 +92,7 @@ void loop()
     #endif
 
     //Create the exo object
-    static Exo exo(config_info::config_to_send, &exo_data);                                
+    static Exo exo(&exo_data);                                
 
     //Print to make sure object was created
     #ifdef MAIN_DEBUG

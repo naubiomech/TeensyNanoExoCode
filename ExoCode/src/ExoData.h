@@ -138,8 +138,13 @@ class ExoData
         int error_joint_id;
         bool user_paused;       /**< If the user has paused the system */
 
+        int hip_torque_flag = 0;    /**< Flag to determine if we want to use torque sensor for that joint */
+        int knee_torque_flag = 0;   /**< Flag to determine if we want to use torque sensor for that joint */
+        int ankle_torque_flag = 0;  /**< Flag to determine if we want to use torque sensor for that joint */
+        int elbow_torque_flag = 0;  /**< Flag to determine if we want to use torque sensor for that joint */
+
         private:
-        uint16_t _status;       /**< Status of the system*/
+        uint16_t _status;           /**< Status of the system*/
 };
 
 #endif

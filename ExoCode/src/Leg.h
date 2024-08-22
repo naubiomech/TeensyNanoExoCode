@@ -36,7 +36,7 @@
 class Leg
 {
     public:
-        Leg(bool is_left, uint8_t* config_to_send, ExoData* exo_data); //Constructor: 
+        Leg(bool is_left, ExoData* exo_data); //Constructor: 
         
         /**
          * @brief read FSR,  calc percent gait, read joint data, send joint commands
