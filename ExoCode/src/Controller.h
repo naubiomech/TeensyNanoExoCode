@@ -252,6 +252,34 @@ public:
     float alpha2;
     float alpha3;
 
+    float cmd;
+
+    float Smoothed_Sig_Flex;
+    float Smoothed_Sig_Ext;
+    float Smoothed_Flex_Max;
+    float Smoothed_Flex_Min;
+    float Smoothed_Ext_Max;
+    float Smoothed_Ext_Min;
+
+    float starttime;
+
+    float check;
+
+    float Angle_Max;
+    float Angle_Min;
+    float Angle;
+
+    bool flexState;
+    bool extState;
+    bool nullState;
+
+    float previous_setpoint;
+
+    float fsr_toe_previous_elbow;
+    float fsr_heel_previous_elbow;
+
+    float SpringEffect;
+
     float calc_motor_cmd();
     
 };

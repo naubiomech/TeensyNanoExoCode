@@ -197,7 +197,7 @@ class ControllerData {
 
         float filtered_torque_reading;                      /**< Filtered torque reading, used for filtering torque signal */
         float filtered_cmd;                                 /**< Filtered command, used for filtering motor commands */
-        float filtered_setpoint = 0;                        /**< Filtered setpoint for the controller */
+        float filtered_setpoint;                            /**< Filtered setpoint for the controller */
         
         //Variables for Auto Kf in the PID Controller
         float kf = 1;                                       /**< Gain for the controller */
@@ -244,25 +244,8 @@ class ControllerData {
 		float cmd_1st = 0;	
 
         //Variables for the ElbowMinMax Controller
-        float previous_setpoint = 0;
-        float fsr_toe_min_elbow = 0;
-        float fsr_toe_max_elbow = 0;
-        float fsr_heel_min_elbow = 0;
-        float fsr_heel_max_elbow = 0;
-        float fsr_toe_sum_elbow = 0;
-        float fsr_heel_sum_elbow = 0;
-        int i_elbow = 0;
-        int fsr_toe_array_elbow[50] = { 0 };
-        int fsr_heel_array_elbow[50] = { 0 };
-        bool is_first_run_elbow = true;
-        float output_limit_elbow = 5;
-        float fsr_min_max_elbow = 0;
-        bool is_first_fsr_reading_elbow = true;
-        float fsr_toe_previous_elbow = 0;
-        float fsr_heel_previous_elbow = 0;
-        float elbow_cmd = 0;
-
-        float SpringEffect = 0;
+        float FlexSense;
+        float ExtenseSense;
 		
 		//Variables for the Calibration Manger "Controller"
 		bool calibrComplete = false;

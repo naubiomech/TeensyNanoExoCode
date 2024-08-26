@@ -81,32 +81,6 @@ class SideData {
         float expected_duration_window_lower_coeff; /**< Factor to multiply by the expected duration to get the lower limit of the window to determine if a ground strike is considered a new step. */
 
         Inclination inclination;        /**< Data for inclination */
-
-        //Elbow Controller Variables (MOVE TO CORRECT LOCATION)
-        float elbow_cmd;                      
-        float Smoothed_Sig_Flex = 0;
-        float Smoothed_Sig_Ext = 0;
-        float FlexSense = 0;
-        float ExtenseSense = 0;
-        float Smoothed_Flex_Max = 0.2;
-        float Smoothed_Flex_Min = 0.1;
-        float Smoothed_Ext_Max = 0.2;
-        float Smoothed_Ext_Min = 0.1;
-        float starttime = 0;
-        float check = 0;
-        float t_0 = 0;
-        float t_1 = 0.001;
-        float V_0 = 0;
-        float V_1 = 0;
-        float Angle_Max = 0;
-        float Angle_Min = 0;
-        float Angle = 0;
-        float setpoint = 0;
-        float setpoint_filtered = 0;
-        bool flexState = 0;
-        bool extState = 0;
-        bool nullState = 1;
-        float flexcount = 0;
 };
 
 #endif
