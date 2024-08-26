@@ -1,15 +1,15 @@
 /**
- * @file Leg.h
+ * @file Side.h
  *
- * @brief Declares a class used to operate a leg 
+ * @brief Declares a class used to operate a side 
  * 
  * @author P. Stegall 
  * @date Jan. 2022
 */
 
 
-#ifndef Leg_h
-#define Leg_h
+#ifndef Side_h
+#define Side_h
 
 //Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41)
@@ -30,18 +30,18 @@
 #include <algorithm>
 
 /**
- * @brief class to operate a leg.
+ * @brief class to operate a side.
  * 
  */
-class Leg
+class Side
 {
     public:
-        Leg(bool is_left, ExoData* exo_data); //Constructor: 
+        Side(bool is_left, ExoData* exo_data); //Constructor: 
         
         /**
          * @brief read FSR,  calc percent gait, read joint data, send joint commands
          */
-        void run_leg(); 
+        void run_side(); 
 		
         /**
          * @brief Checks if calibration flags are set, and runs calibration if they are.
@@ -49,14 +49,14 @@ class Leg
         void check_calibration();  
 		
         /**
-         * @brief Reads motor data from each motor used in the leg and stores the values
+         * @brief Reads motor data from each motor used on that side and stores the values
          * Reads the FSR, detects ground strike, and calculates percent gait.
          * Sets the values to the corresponding place in data class.
          */
         void read_data(); 
 		
         /**
-         * @brief sends new control command to the motors used in the leg, based on the defined controllers
+         * @brief sends new control command to the motors used on that side, based on the defined controllers
          */
         void update_motor_cmds();   
 		
@@ -71,7 +71,7 @@ class Leg
         void clear_step_time_estimate();
 
         /**
-         * @brief Disables all motors in the leg
+         * @brief Disables all motors on a side
          * 
          */
         void disable_motors();
@@ -152,23 +152,23 @@ class Leg
         bool _check_toe_off();
 		
         //Data that can be accessed
-        ExoData* _data;     /**< Pointer to the overall exo data */
-        LegData* _leg_data; /**< Pointer to the specific leg we are using.*/
+        ExoData* _data;         /**< Pointer to the overall exo data */
+        SideData* _side_data;   /**< Pointer to the specific side we are using.*/
         
-        //Joint objects for the leg. The order these are listed are important as it will determine the order their constructors are called in the initializer list.
+        //Joint objects for the side. The order these are listed are important as it will determine the order their constructors are called in the initializer list.
         HipJoint _hip;      /**< Instance of a hip joint */
         KneeJoint _knee;    /**< Instance of a knee joint */
         AnkleJoint _ankle;  /**< Instance of an ankle joint */
         ElbowJoint _elbow;  /**< Instance of an elbow joint */
         
-        //FSR objects for the leg. 
+        //FSR objects for the side. 
         FSR _heel_fsr;      /**< Heel force sensitive resistor */
 		FSR _toe_fsr;       /**< Toe force sensitive resistor */
 
-        //Inclination object for the leg
+        //Inclination object for the side
         InclinationDetector* inclination_detector;
         
-        bool _is_left;                              /**< Stores which side the leg is on */
+        bool _is_left;                              /**< Stores which side it is on */
         
         bool _prev_heel_contact_state;              /**< Prev heel contact state used for ground strike detection */
         bool _prev_toe_contact_state;               /**< Prev toe contact state used for ground strike detection */

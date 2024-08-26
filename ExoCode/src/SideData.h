@@ -1,15 +1,15 @@
 /**
- * @file LegData.h
+ * @file SideData.h
  *
- * @brief Declares a class used to store data for leg to access 
+ * @brief Declares a class used to store data for side to access 
  * 
  * @author P. Stegall 
  * @date Jan. 2022
 */
 
 
-#ifndef LegData_h
-#define LegData_h
+#ifndef SideData_h
+#define SideData_h
 
 #include "Arduino.h"
 
@@ -24,16 +24,16 @@
 class ExoData;
 
 /**
- * @brief class to store information related to the leg.
+ * @brief class to store information related to the side.
  * 
  */
-class LegData {
+class SideData {
 	   
     public:
-        LegData(bool is_left, uint8_t* config_to_send);
+        SideData(bool is_left, uint8_t* config_to_send);
         
         /**
-         * @brief reconfigures the the leg data if the configuration changes after constructor called.
+         * @brief reconfigures the side data if the configuration changes after constructor called.
          * 
          * @param configuration array
          */
@@ -69,8 +69,8 @@ class LegData {
         bool prev_heel_stance;          /**< High when the heel FSR was in ground contact on the previous iteration */
         bool prev_toe_stance;           /**< High when the toe FSR was in ground contact on the previous iteration */
         
-        bool is_left;                               /**< 1 if the leg is on the left, 0 otherwise */
-        bool is_used;                               /**< 1 if the leg is used, 0 otherwise */
+        bool is_left;                               /**< 1 if the side is on the left, 0 otherwise */
+        bool is_used;                               /**< 1 if the side is used, 0 otherwise */
         bool do_calibration_toe_fsr;                /**< Flag for if the toe calibration should be done */
         bool do_calibration_refinement_toe_fsr;     /**< Flag for if the toe calibration refinement should be done */
         bool do_calibration_heel_fsr;               /**< Flag for if the heel calibration should be done */
@@ -81,8 +81,6 @@ class LegData {
         float expected_duration_window_lower_coeff; /**< Factor to multiply by the expected duration to get the lower limit of the window to determine if a ground strike is considered a new step. */
 
         Inclination inclination;        /**< Data for inclination */
-
-        float PHJM_state;               /**< State for the PHJM controller, else should be set to 0 (here so it can be plotted) */
 
         //Elbow Controller Variables (MOVE TO CORRECT LOCATION)
         float elbow_cmd;                      

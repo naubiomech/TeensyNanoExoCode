@@ -45,7 +45,7 @@ class _Motor
         //Pure virtual functions, these will have to be defined for each one.
         
         /**
-         * @brief reads motor data from each motor used in the leg and stores the values
+         * @brief reads motor data from each motor used on that side and stores the values
          */
         virtual void read_data() = 0; 
 
@@ -85,7 +85,7 @@ class _Motor
         virtual void zero() = 0;  
         
         /**
-         * @brief lets you know if it is a left or right leg.
+         * @brief lets you know if it is a left or right side.
          * 
          * @return 1 if the motor is on the left side, 0 otherwise
          */

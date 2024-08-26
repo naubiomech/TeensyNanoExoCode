@@ -112,7 +112,7 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, ExoData* ex
     {
         case (uint8_t)config_defs::joint_id::hip:
         {
-            if (utils::get_is_left(id) && exo_data->left_leg.hip.is_used && exo_data->hip_torque_flag == 1)  //Check if the left leg is used and we want to use the torque sensor
+            if (utils::get_is_left(id) && exo_data->left_side.hip.is_used && exo_data->hip_torque_flag == 1)  //Check if the left side is used and we want to use the torque sensor
             {
                 if (_Joint::left_torque_sensor_used_count < logic_micro_pins::num_available_joints) // If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -123,7 +123,7 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, ExoData* ex
                     return logic_micro_pins::not_connected_pin;
                 }
             }
-            else if (!(utils::get_is_left(id)) && exo_data->right_leg.hip.is_used && exo_data->hip_torque_flag == 1)  //Check if the right leg is used and we want to use the torque sensor
+            else if (!(utils::get_is_left(id)) && exo_data->right_side.hip.is_used && exo_data->hip_torque_flag == 1)  //Check if the right side is used and we want to use the torque sensor
             {
                 if (_Joint::right_torque_sensor_used_count < logic_micro_pins::num_available_joints) //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -142,7 +142,7 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, ExoData* ex
         }
         case (uint8_t)config_defs::joint_id::knee:
         {
-            if (utils::get_is_left(id) && exo_data->left_leg.knee.is_used && exo_data->knee_torque_flag == 1)  //Check if the left leg is used and we want to use the torque sensor 
+            if (utils::get_is_left(id) && exo_data->left_side.knee.is_used && exo_data->knee_torque_flag == 1)  //Check if the left side is used and we want to use the torque sensor 
             {
                 if (_Joint::left_torque_sensor_used_count < logic_micro_pins::num_available_joints) //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -153,7 +153,7 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, ExoData* ex
                     return logic_micro_pins::not_connected_pin;
                 }
             }
-            else if (!(utils::get_is_left(id)) && exo_data->right_leg.knee.is_used && exo_data->knee_torque_flag == 1)  //Check if the right leg is used and we want to use the torque sensor
+            else if (!(utils::get_is_left(id)) && exo_data->right_side.knee.is_used && exo_data->knee_torque_flag == 1)  //Check if the right side is used and we want to use the torque sensor
             {
                 if (_Joint::right_torque_sensor_used_count < logic_micro_pins::num_available_joints) //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -172,7 +172,7 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, ExoData* ex
         }
         case (uint8_t)config_defs::joint_id::ankle:
         {
-            if (utils::get_is_left(id) && exo_data->left_leg.ankle.is_used && exo_data->ankle_torque_flag == 1)   //Check if the left leg is used and we want to use the torque sensor
+            if (utils::get_is_left(id) && exo_data->left_side.ankle.is_used && exo_data->ankle_torque_flag == 1)   //Check if the left side is used and we want to use the torque sensor
             {
                 if (_Joint::left_torque_sensor_used_count < logic_micro_pins::num_available_joints)         //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -183,7 +183,7 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, ExoData* ex
                     return logic_micro_pins::not_connected_pin;
                 }
             }
-            else if (!(utils::get_is_left(id)) && exo_data->right_leg.ankle.is_used && exo_data->ankle_torque_flag == 1)  //Check if the right leg is used and we want to use the torque sensor
+            else if (!(utils::get_is_left(id)) && exo_data->right_side.ankle.is_used && exo_data->ankle_torque_flag == 1)  //Check if the right side is used and we want to use the torque sensor
             {
                 if (_Joint::right_torque_sensor_used_count < logic_micro_pins::num_available_joints)        //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -204,7 +204,7 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, ExoData* ex
         }
         case (uint8_t)config_defs::joint_id::elbow:
         {
-            if (utils::get_is_left(id) && exo_data->left_leg.elbow.is_used && exo_data->elbow_torque_flag == 1)   //Check if the left leg is used and we want to use the torque sensor
+            if (utils::get_is_left(id) && exo_data->left_side.elbow.is_used && exo_data->elbow_torque_flag == 1)   //Check if the left side is used and we want to use the torque sensor
             {
                 if (_Joint::left_torque_sensor_used_count < logic_micro_pins::num_available_joints)         //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -215,7 +215,7 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, ExoData* ex
                     return logic_micro_pins::not_connected_pin;
                 }
             }
-            else if (!(utils::get_is_left(id)) && exo_data->right_leg.elbow.is_used && exo_data->elbow_torque_flag == 1)  //Check if the right leg is used and we want to use the torque sensor
+            else if (!(utils::get_is_left(id)) && exo_data->right_side.elbow.is_used && exo_data->elbow_torque_flag == 1)  //Check if the right side is used and we want to use the torque sensor
             {
                 if (_Joint::right_torque_sensor_used_count < logic_micro_pins::num_available_joints)        //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -247,7 +247,7 @@ unsigned int _Joint::get_motor_enable_pin(config_defs::joint_id id, ExoData* exo
     {
         case (uint8_t)config_defs::joint_id::hip:
         {
-            if (utils::get_is_left(id) & exo_data->left_leg.hip.is_used)                        //Check if the left leg is used
+            if (utils::get_is_left(id) & exo_data->left_side.hip.is_used)                        //Check if the left side is used
             {
                 if (_Joint::left_motor_used_count < logic_micro_pins::num_available_joints)     //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -258,7 +258,7 @@ unsigned int _Joint::get_motor_enable_pin(config_defs::joint_id id, ExoData* exo
                     return logic_micro_pins::not_connected_pin;
                 }
             }
-            else if (!(utils::get_is_left(id)) && exo_data->right_leg.hip.is_used)              //Check if the right leg is used
+            else if (!(utils::get_is_left(id)) && exo_data->right_side.hip.is_used)              //Check if the right side is used
             {
                 if (_Joint::right_motor_used_count < logic_micro_pins::num_available_joints)    //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -277,7 +277,7 @@ unsigned int _Joint::get_motor_enable_pin(config_defs::joint_id id, ExoData* exo
         }
         case (uint8_t)config_defs::joint_id::knee:
         {
-            if (utils::get_is_left(id) & exo_data->left_leg.knee.is_used)                       //Check if the left leg is used
+            if (utils::get_is_left(id) & exo_data->left_side.knee.is_used)                       //Check if the left side is used
             {
                 if (_Joint::left_motor_used_count < logic_micro_pins::num_available_joints)     //If we still have available pins send the next one and increment the counter.  If we don't send the not connected pin.
                 {
@@ -288,7 +288,7 @@ unsigned int _Joint::get_motor_enable_pin(config_defs::joint_id id, ExoData* exo
                     return logic_micro_pins::not_connected_pin;
                 }
             }
-            else if (!(utils::get_is_left(id)) && exo_data->right_leg.knee.is_used)             //Check if the right leg is used
+            else if (!(utils::get_is_left(id)) && exo_data->right_side.knee.is_used)             //Check if the right side is used
             {
                 if (_Joint::right_motor_used_count < logic_micro_pins::num_available_joints)    //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -307,7 +307,7 @@ unsigned int _Joint::get_motor_enable_pin(config_defs::joint_id id, ExoData* exo
         }
         case (uint8_t)config_defs::joint_id::ankle:
         {
-            if (utils::get_is_left(id) & exo_data->left_leg.ankle.is_used)                      //Check if the left leg is used
+            if (utils::get_is_left(id) & exo_data->left_side.ankle.is_used)                      //Check if the left side is used
             {
                 if (_Joint::left_motor_used_count < logic_micro_pins::num_available_joints)     //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -318,7 +318,7 @@ unsigned int _Joint::get_motor_enable_pin(config_defs::joint_id id, ExoData* exo
                     return logic_micro_pins::not_connected_pin;
                 }
             }
-            else if (!(utils::get_is_left(id)) && exo_data->right_leg.ankle.is_used)            //Check if the right leg is used
+            else if (!(utils::get_is_left(id)) && exo_data->right_side.ankle.is_used)            //Check if the right side is used
             {
                 if (_Joint::right_motor_used_count < logic_micro_pins::num_available_joints)    //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -337,7 +337,7 @@ unsigned int _Joint::get_motor_enable_pin(config_defs::joint_id id, ExoData* exo
         }
         case (uint8_t)config_defs::joint_id::elbow:
         {
-            if (utils::get_is_left(id) & exo_data->left_leg.elbow.is_used)                      //Check if the left leg is used
+            if (utils::get_is_left(id) & exo_data->left_side.elbow.is_used)                      //Check if the left side is used
             {
                 if (_Joint::left_motor_used_count < logic_micro_pins::num_available_joints)     //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -348,7 +348,7 @@ unsigned int _Joint::get_motor_enable_pin(config_defs::joint_id id, ExoData* exo
                     return logic_micro_pins::not_connected_pin;
                 }
             }
-            else if (!(utils::get_is_left(id)) && exo_data->right_leg.elbow.is_used)            //Check if the right leg is used
+            else if (!(utils::get_is_left(id)) && exo_data->right_side.elbow.is_used)            //Check if the right side is used
             {
                 if (_Joint::right_motor_used_count < logic_micro_pins::num_available_joints)    //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
@@ -399,11 +399,11 @@ HipJoint::HipJoint(config_defs::joint_id id, ExoData* exo_data)
     //Set _joint_data to point to the data specific to this joint.
     if (_is_left)
     {
-        _joint_data = &(exo_data->left_leg.hip);
+        _joint_data = &(exo_data->left_side.hip);
     }
     else
     {
-        _joint_data = &(exo_data->right_leg.hip);
+        _joint_data = &(exo_data->right_side.hip);
     }
 
     #ifdef JOINT_DEBUG
@@ -416,7 +416,7 @@ HipJoint::HipJoint(config_defs::joint_id id, ExoData* exo_data)
     // logger::print(_joint_data->is_used);
     // logger::print("\t");
     
-    //Don't need to check side as we assume symmetry and create both leg data objects. Setup motor from here as it will be easier to check which motor is used
+    //Don't need to check side as we assume symmetry and create both side data objects. Setup motor from here as it will be easier to check which motor is used
     if(_joint_data->is_used)
     {
         #ifdef JOINT_DEBUG
@@ -424,7 +424,7 @@ HipJoint::HipJoint(config_defs::joint_id id, ExoData* exo_data)
             logger::print("Hip : setting motor to ");
         #endif
 
-        switch (exo_data->left_leg.hip.motor.motor_type)
+        switch (exo_data->left_side.hip.motor.motor_type)
         {
             //Using new so the object of the specific motor type persists.
             case (uint8_t)config_defs::motor::AK60 :
@@ -466,7 +466,7 @@ HipJoint::HipJoint(config_defs::joint_id id, ExoData* exo_data)
             logger::println("Hip : Setting Controller");
         #endif
 
-        set_controller(exo_data->left_leg.hip.controller.controller);
+        set_controller(exo_data->left_side.hip.controller.controller);
 
         #ifdef JOINT_DEBUG
             logger::print(_is_left ? "Left " : "Right ");
@@ -585,11 +585,11 @@ KneeJoint::KneeJoint(config_defs::joint_id id, ExoData* exo_data)
     //Set _joint_data to point to the data specific to this joint.
     if (_is_left)
     {
-        _joint_data = &(exo_data->left_leg.knee);
+        _joint_data = &(exo_data->left_side.knee);
     }
     else
     {
-        _joint_data = &(exo_data->right_leg.knee);
+        _joint_data = &(exo_data->right_side.knee);
     }
     
     #ifdef JOINT_DEBUG
@@ -602,7 +602,7 @@ KneeJoint::KneeJoint(config_defs::joint_id id, ExoData* exo_data)
     // logger::print(_joint_data->is_used);
     // logger::print("\t");
     
-    //Don't need to check side as we assume symmetry and create both leg data objects. Setup motor from here as it will be easier to check which motor is used
+    //Don't need to check side as we assume symmetry and create both side data objects. Setup motor from here as it will be easier to check which motor is used
    if(_joint_data->is_used)
    {
         #ifdef JOINT_DEBUG
@@ -610,7 +610,7 @@ KneeJoint::KneeJoint(config_defs::joint_id id, ExoData* exo_data)
             logger::print("Knee : setting motor to ");
         #endif
 
-        switch (_data->left_leg.knee.motor.motor_type)
+        switch (_data->left_side.knee.motor.motor_type)
         {
             //Using new so the object of the specific motor type persists.
             case (uint8_t)config_defs::motor::AK60 :
@@ -652,7 +652,7 @@ KneeJoint::KneeJoint(config_defs::joint_id id, ExoData* exo_data)
             logger::println("Knee : Setting Controller");
         #endif
 
-        set_controller(exo_data->left_leg.knee.controller.controller);
+        set_controller(exo_data->left_side.knee.controller.controller);
 
         #ifdef JOINT_DEBUG
             logger::print(_is_left ? "Left " : "Right ");
@@ -773,11 +773,11 @@ AnkleJoint::AnkleJoint(config_defs::joint_id id, ExoData* exo_data)
     //Set _joint_data to point to the data specific to this joint.
     if (_is_left)
     {
-        _joint_data = &(exo_data->left_leg.ankle);
+        _joint_data = &(exo_data->left_side.ankle);
     }
     else
     {
-        _joint_data = &(exo_data->right_leg.ankle);
+        _joint_data = &(exo_data->right_side.ankle);
     }
     
     #ifdef JOINT_DEBUG
@@ -790,14 +790,14 @@ AnkleJoint::AnkleJoint(config_defs::joint_id id, ExoData* exo_data)
     // logger::print(_joint_data->is_used);
     // logger::print("\t");
             
-    //Don't need to check side as we assume symmetry and create both leg data objects. Setup motor from here as it will be easier to check which motor is used
+    //Don't need to check side as we assume symmetry and create both side data objects. Setup motor from here as it will be easier to check which motor is used
     if(_joint_data->is_used)
     {
         #ifdef JOINT_DEBUG
             logger::print(_is_left ? "Left " : "Right ");
             logger::print("Ankle : setting motor to ");
         #endif
-        switch (_data->left_leg.ankle.motor.motor_type)
+        switch (_data->left_side.ankle.motor.motor_type)
         {
             //Using new so the object of the specific motor type persists.
             case (uint8_t)config_defs::motor::AK60 :
@@ -840,7 +840,7 @@ AnkleJoint::AnkleJoint(config_defs::joint_id id, ExoData* exo_data)
             logger::println("Ankle : Setting Controller");
         #endif
 
-        set_controller(exo_data->left_leg.ankle.controller.controller);
+        set_controller(exo_data->left_side.ankle.controller.controller);
 
         #ifdef JOINT_DEBUG
             logger::print(_is_left ? "Left " : "Right ");
@@ -848,7 +848,6 @@ AnkleJoint::AnkleJoint(config_defs::joint_id id, ExoData* exo_data)
         #endif
     }  
 
-    
 };
 
 /*
@@ -987,11 +986,11 @@ ElbowJoint::ElbowJoint(config_defs::joint_id id, ExoData* exo_data)
     //Set _joint_data to point to the data specific to this joint.
     if (_is_left)
     {
-        _joint_data = &(exo_data->left_leg.elbow);
+        _joint_data = &(exo_data->left_side.elbow);
     }
     else
     {
-        _joint_data = &(exo_data->right_leg.elbow);
+        _joint_data = &(exo_data->right_side.elbow);
     }
 
     #ifdef JOINT_DEBUG
@@ -1004,7 +1003,7 @@ ElbowJoint::ElbowJoint(config_defs::joint_id id, ExoData* exo_data)
     // logger::print(_joint_data->is_used);
     // logger::print("\t");
 
-    //Don't need to check side as we assume symmetry and create both leg data objects. Setup motor from here as it will be easier to check which motor is used
+    //Don't need to check side as we assume symmetry and create both side data objects. Setup motor from here as it will be easier to check which motor is used
     if (_joint_data->is_used)
     {
         #ifdef JOINT_DEBUG
@@ -1012,7 +1011,7 @@ ElbowJoint::ElbowJoint(config_defs::joint_id id, ExoData* exo_data)
                 logger::print("Elbow : setting motor to ");
         #endif
 
-        switch (_data->left_leg.elbow.motor.motor_type)
+        switch (_data->left_side.elbow.motor.motor_type)
         {
             //Using new so the object of the specific motor type persists.
             case (uint8_t)config_defs::motor::AK60:
@@ -1055,7 +1054,7 @@ ElbowJoint::ElbowJoint(config_defs::joint_id id, ExoData* exo_data)
                 logger::println("Elbow : Setting Controller");
         #endif
 
-        set_controller(exo_data->left_leg.elbow.controller.controller);
+        set_controller(exo_data->left_side.elbow.controller.controller);
 
         #ifdef JOINT_DEBUG
                 logger::print(_is_left ? "Left " : "Right ");

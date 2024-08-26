@@ -12,25 +12,25 @@ class PiLogger
     {
         _start();
 
-        _print_tab("LTFsr", _data->left_leg.toe_fsr);
-        _print_tab("LTSta", _data->left_leg.toe_stance);
-        _print_tab("LJTor", _data->left_leg.ankle.torque_reading);
-        _print_tab("LJPos", _data->left_leg.ankle.joint_position);
-        _print_tab("LJVel", _data->left_leg.ankle.joint_velocity);
-        _print_tab("LMPos", _data->left_leg.ankle.motor.p);
-        _print_tab("LMVel", _data->left_leg.ankle.motor.v);
-        _print_tab("LMCur", _data->left_leg.ankle.motor.i);
-        _print_tab("LMCom", _data->left_leg.ankle.motor.last_command);
+        _print_tab("LTFsr", _data->left_side.toe_fsr);
+        _print_tab("LTSta", _data->left_side.toe_stance);
+        _print_tab("LJTor", _data->left_side.ankle.torque_reading);
+        _print_tab("LJPos", _data->left_side.ankle.joint_position);
+        _print_tab("LJVel", _data->left_side.ankle.joint_velocity);
+        _print_tab("LMPos", _data->left_side.ankle.motor.p);
+        _print_tab("LMVel", _data->left_side.ankle.motor.v);
+        _print_tab("LMCur", _data->left_side.ankle.motor.i);
+        _print_tab("LMCom", _data->left_side.ankle.motor.last_command);
 
-        _print_tab("LTFsr", _data->right_leg.toe_fsr);
-        _print_tab("LTSta", _data->right_leg.toe_stance);
-        _print_tab("LJTor", _data->right_leg.ankle.torque_reading);
-        _print_tab("LJPos", _data->right_leg.ankle.joint_position);
-        _print_tab("LJVel", _data->right_leg.ankle.joint_velocity);
-        _print_tab("LMPos", _data->right_leg.ankle.motor.p);
-        _print_tab("LMVel", _data->right_leg.ankle.motor.v);
-        _print_tab("LMCur", _data->right_leg.ankle.motor.i);
-        _print_tab("LMCom", _data->right_leg.ankle.motor.last_command);
+        _print_tab("LTFsr", _data->right_side.toe_fsr);
+        _print_tab("LTSta", _data->right_side.toe_stance);
+        _print_tab("LJTor", _data->right_side.ankle.torque_reading);
+        _print_tab("LJPos", _data->right_side.ankle.joint_position);
+        _print_tab("LJVel", _data->right_side.ankle.joint_velocity);
+        _print_tab("LMPos", _data->right_side.ankle.motor.p);
+        _print_tab("LMVel", _data->right_side.ankle.motor.v);
+        _print_tab("LMCur", _data->right_side.ankle.motor.i);
+        _print_tab("LMCom", _data->right_side.ankle.motor.last_command);
 
         _print_tab("Error", _data->error_code);
         _print_tab("ErJID", _data->error_joint_id);

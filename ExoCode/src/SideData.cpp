@@ -1,12 +1,12 @@
-#include "LegData.h"
+#include "SideData.h"
 #include "Logger.h"
 /*
- * Constructor for the leg data.
- * Takes if the leg is left, and the array from the INI parser.
- * Stores if the leg is left, the percent gait, FSR data, and if the leg is used.
+ * Constructor for the side data.
+ * Takes if the side is left, and the array from the INI parser.
+ * Stores if the side is left, the percent gait, FSR data, and if the side is used.
  * Uses an initializer list for the joint data, and creates the joint id for the joints. 
  */
-LegData::LegData(bool is_left, uint8_t* config_to_send)
+SideData::SideData(bool is_left, uint8_t* config_to_send)
 : hip((config_defs::joint_id)((uint8_t)(is_left ? config_defs::joint_id::left : config_defs::joint_id::right) | (uint8_t)config_defs::joint_id::hip), config_to_send, is_left ? config_to_send[config_defs::left_hip_RoM_idx] : config_to_send[config_defs::right_hip_RoM_idx], config_to_send[config_defs::hip_flip_angle_dir_idx])
 , knee((config_defs::joint_id)((uint8_t)(is_left ? config_defs::joint_id::left : config_defs::joint_id::right) | (uint8_t)config_defs::joint_id::knee), config_to_send, is_left ? config_to_send[config_defs::left_knee_RoM_idx] : config_to_send[config_defs::right_knee_RoM_idx], config_to_send[config_defs::knee_flip_angle_dir_idx])
 , ankle((config_defs::joint_id)((uint8_t)(is_left ? config_defs::joint_id::left : config_defs::joint_id::right) | (uint8_t)config_defs::joint_id::ankle), config_to_send, is_left ? config_to_send[config_defs::left_ankle_RoM_idx] : config_to_send[config_defs::right_ankle_RoM_idx], config_to_send[config_defs::ankle_flip_angle_dir_idx])
@@ -38,9 +38,7 @@ LegData::LegData(bool is_left, uint8_t* config_to_send)
 
     this->inclination = Inclination::Level;
 
-    this->PHJM_state = 0;
-
-    //Check if the leg is used from the config
+    //Check if the side is used from the config
     if ((static_cast<uint8_t>(config_defs::exo_side::bilateral) == config_to_send[config_defs::exo_side_idx]) 
         || (((uint8_t)config_defs::exo_side::left == config_to_send[config_defs::exo_side_idx]) & this->is_left)
         || (((uint8_t)config_defs::exo_side::right == config_to_send[config_defs::exo_side_idx]) & !this->is_left)
@@ -55,7 +53,7 @@ LegData::LegData(bool is_left, uint8_t* config_to_send)
         
 };
 
-void LegData::reconfigure(uint8_t* config_to_send) 
+void SideData::reconfigure(uint8_t* config_to_send) 
 {
     if ((static_cast<uint8_t>(config_defs::exo_side::bilateral) == config_to_send[config_defs::exo_side_idx]) 
         || (((uint8_t)config_defs::exo_side::left == config_to_send[config_defs::exo_side_idx]) & this->is_left)

@@ -40,13 +40,13 @@ _Controller::_Controller(config_defs::joint_id id, ExoData* exo_data)
             #endif
             if (is_left)
             {
-                _controller_data = &(exo_data->left_leg.hip.controller);
-                _joint_data = &(exo_data->left_leg.hip);
+                _controller_data = &(exo_data->left_side.hip.controller);
+                _joint_data = &(exo_data->left_side.hip);
             }
             else
             {
-                _controller_data = &(exo_data->right_leg.hip.controller);
-                _joint_data = &(exo_data->right_leg.hip);
+                _controller_data = &(exo_data->right_side.hip.controller);
+                _joint_data = &(exo_data->right_side.hip);
             }
             break;
             
@@ -56,13 +56,13 @@ _Controller::_Controller(config_defs::joint_id id, ExoData* exo_data)
             #endif
             if (is_left)
             {
-                _controller_data = &(exo_data->left_leg.knee.controller);
-                _joint_data = &(exo_data->left_leg.knee);
+                _controller_data = &(exo_data->left_side.knee.controller);
+                _joint_data = &(exo_data->left_side.knee);
             }
             else
             {
-                _controller_data = &(exo_data->right_leg.knee.controller);
-                _joint_data = &(exo_data->right_leg.knee);
+                _controller_data = &(exo_data->right_side.knee.controller);
+                _joint_data = &(exo_data->right_side.knee);
             }
             break;
         
@@ -72,13 +72,13 @@ _Controller::_Controller(config_defs::joint_id id, ExoData* exo_data)
             #endif
             if (is_left)
             {
-                _controller_data = &(exo_data->left_leg.ankle.controller);
-                _joint_data = &(exo_data->left_leg.ankle);
+                _controller_data = &(exo_data->left_side.ankle.controller);
+                _joint_data = &(exo_data->left_side.ankle);
             }
             else
             {
-                _controller_data = &(exo_data->right_leg.ankle.controller);
-                _joint_data = &(exo_data->right_leg.ankle);
+                _controller_data = &(exo_data->right_side.ankle.controller);
+                _joint_data = &(exo_data->right_side.ankle);
             }
             break;
         case (uint8_t)config_defs::joint_id::elbow:
@@ -87,13 +87,13 @@ _Controller::_Controller(config_defs::joint_id id, ExoData* exo_data)
             #endif
             if (is_left)
             {
-                _controller_data = &(exo_data->left_leg.elbow.controller);
-                _joint_data = &(exo_data->left_leg.elbow);
+                _controller_data = &(exo_data->left_side.elbow.controller);
+                _joint_data = &(exo_data->left_side.elbow);
             }
             else
             {
-                _controller_data = &(exo_data->right_leg.elbow.controller);
-                _joint_data = &(exo_data->right_leg.elbow);
+                _controller_data = &(exo_data->right_side.elbow.controller);
+                _joint_data = &(exo_data->right_side.elbow);
             }
             break;
     }
@@ -102,18 +102,18 @@ _Controller::_Controller(config_defs::joint_id id, ExoData* exo_data)
         logger::print("Controller : \n\t_controller_data set \n\t_joint_data set");
     #endif
 
-    //Added a pointer to the leg data as most controllers will need to access info specific to their leg.
+    //Added a pointer to the side data as most controllers will need to access info specific to their side.
     if (is_left)
     {
-        _leg_data = &(exo_data->left_leg);
+        _side_data = &(exo_data->left_side);
     }
     else
     {
-        _leg_data = &(exo_data->right_leg);
+        _side_data = &(exo_data->right_side);
     } 
 
     #ifdef CONTROLLER_DEBUG
-        logger::println("\n\t_leg_data set");
+        logger::println("\n\t_side_data set");
     #endif
     
     //Set the parameters for cf mfac
@@ -272,12 +272,12 @@ TREC::TREC(config_defs::joint_id id, ExoData* exo_data)
     #endif
 }
 
-void TREC::_update_reference_angles(LegData* leg_data, ControllerData* controller_data, float percent_grf, float percent_grf_heel)
+void TREC::_update_reference_angles(SideData* side_data, ControllerData* controller_data, float percent_grf, float percent_grf_heel)
 {
     //When the percent_grf passes the threshold, update the reference angle
     const float threshold = controller_data->parameters[controller_defs::trec::timing_threshold]/100;
     const bool should_update = (percent_grf > controller_data->toeFsrThreshold) && !controller_data->reference_angle_updated;
-    const bool should_capture_level_entrance = leg_data->do_calibration_refinement_toe_fsr && !leg_data->do_calibration_toe_fsr;
+    const bool should_capture_level_entrance = side_data->do_calibration_refinement_toe_fsr && !side_data->do_calibration_toe_fsr;
     const bool should_reset_level_entrance_angle = controller_data->prev_calibrate_level_entrance < should_capture_level_entrance;
 
     if (should_reset_level_entrance_angle)
@@ -289,13 +289,13 @@ void TREC::_update_reference_angles(LegData* leg_data, ControllerData* controlle
     {
         if (should_capture_level_entrance)
         {
-            controller_data->level_entrance_angle = utils::ewma(leg_data->ankle.joint_position, controller_data->level_entrance_angle, controller_data->cal_level_entrance_angle_alpha);
+            controller_data->level_entrance_angle = utils::ewma(side_data->ankle.joint_position, controller_data->level_entrance_angle, controller_data->cal_level_entrance_angle_alpha);
         }
 
         controller_data->reference_angle_updated = true;
-        controller_data->reference_angle = leg_data->ankle.joint_position;
+        controller_data->reference_angle = side_data->ankle.joint_position;
         
-        //controller_data->reference_angle_offset = leg_data->ankle.joint_global_angle;
+        //controller_data->reference_angle_offset = side_data->ankle.joint_global_angle;
     }
 
     //When the percent_grf drops below the threshold, reset the reference angle updated flag and expire the reference angle
@@ -311,27 +311,27 @@ void TREC::_update_reference_angles(LegData* leg_data, ControllerData* controlle
     controller_data->prev_calibrate_level_entrance = should_capture_level_entrance;
 }
 
-void TREC::_capture_neutral_angle(LegData* leg_data, ControllerData* controller_data)
+void TREC::_capture_neutral_angle(SideData* side_data, ControllerData* controller_data)
 {
     //On the start of torque calibration reset the neutral angle
-    if (controller_data->prev_calibrate_trq_sensor < leg_data->ankle.calibrate_torque_sensor)
+    if (controller_data->prev_calibrate_trq_sensor < side_data->ankle.calibrate_torque_sensor)
     {
-        controller_data->neutral_angle = leg_data->ankle.joint_position;
+        controller_data->neutral_angle = side_data->ankle.joint_position;
     }
 
-    if (leg_data->ankle.calibrate_torque_sensor) 
+    if (side_data->ankle.calibrate_torque_sensor) 
     {
         //Update the neutral angle with an ema filter
-        controller_data->neutral_angle = utils::ewma(leg_data->ankle.joint_position, controller_data->neutral_angle, controller_data->cal_neutral_angle_alpha);
+        controller_data->neutral_angle = utils::ewma(side_data->ankle.joint_position, controller_data->neutral_angle, controller_data->cal_neutral_angle_alpha);
     }
 
-    controller_data->prev_calibrate_trq_sensor = leg_data->ankle.calibrate_torque_sensor;
+    controller_data->prev_calibrate_trq_sensor = side_data->ankle.calibrate_torque_sensor;
 }
 
-void TREC::_grf_threshold_dynamic_tuner(LegData* leg_data, ControllerData* controller_data, float threshold, float percent_grf_heel)
+void TREC::_grf_threshold_dynamic_tuner(SideData* side_data, ControllerData* controller_data, float threshold, float percent_grf_heel)
 {
 	//If it's swing phase, set wait4HiHeelFSR to True, and increase the toeFSR threshold; when wait4HiHeelFSR is true and heelFSR > a pre-defined threshold, reduce the toeFSR threshold; when it's stance phase, set wait4HiHeelFSR to False
-	if (!leg_data->toe_stance)
+	if (!side_data->toe_stance)
     {
 		controller_data->wait4HiHeelFSR = true;
 	}
@@ -353,9 +353,9 @@ void TREC::_grf_threshold_dynamic_tuner(LegData* leg_data, ControllerData* contr
 	}
 }
 
-void TREC::_plantar_setpoint_adjuster(LegData* leg_data, ControllerData* controller_data, float pjmcSpringDamper)
+void TREC::_plantar_setpoint_adjuster(SideData* side_data, ControllerData* controller_data, float pjmcSpringDamper)
 {
-	if(_leg_data->toe_stance) 
+	if(_side_data->toe_stance) 
     {	
 		//Update peak values
 		_controller_data->maxPjmcSpringDamper = max(_controller_data->maxPjmcSpringDamper, pjmcSpringDamper);
@@ -412,22 +412,22 @@ float TREC::calc_motor_cmd()
 
 	const float dorsi_setpoint = -_controller_data->parameters[controller_defs::trec::dorsi_scaling];
     const float threshold = _controller_data->parameters[controller_defs::trec::timing_threshold]/100;
-    const float percent_grf = min(_leg_data->toe_fsr, 1);
-	const float percent_grf_heel = min(_leg_data->heel_fsr, 1);
+    const float percent_grf = min(_side_data->toe_fsr, 1);
+	const float percent_grf_heel = min(_side_data->heel_fsr, 1);
     const float slope = (plantar_setpoint - dorsi_setpoint)/(1 - threshold);
     const float generic = max(((slope*(percent_grf - threshold)) + dorsi_setpoint), dorsi_setpoint);                    //Stateless "PJMC" stateless
 	_controller_data->stateless_pjmc_term = generic;
 
     //Assistive Contribution (a.k.a: Suspension; this term consists of a "Spring term" and a "Damper term" as the suspension)
-    _capture_neutral_angle(_leg_data, _controller_data);
-	_grf_threshold_dynamic_tuner(_leg_data, _controller_data, threshold, percent_grf_heel);
-    _update_reference_angles(_leg_data, _controller_data, percent_grf, percent_grf_heel);   //When current toe FSR > set threshold, use the current ankle angle as the "reference angle"
+    _capture_neutral_angle(_side_data, _controller_data);
+	_grf_threshold_dynamic_tuner(_side_data, _controller_data, threshold, percent_grf_heel);
+    _update_reference_angles(_side_data, _controller_data, percent_grf, percent_grf_heel);   //When current toe FSR > set threshold, use the current ankle angle as the "reference angle"
     const float k = 0.01 * _controller_data->parameters[controller_defs::trec::spring_stiffness];
     const float b = 0.01 * _controller_data->parameters[controller_defs::trec::damping];
     const float equilibrium_angle_offset = _controller_data->parameters[controller_defs::trec::neutral_angle]/100;
     const float deviation_from_level = (_controller_data->reference_angle - _controller_data->level_entrance_angle);
-    const float delta = _controller_data->reference_angle + deviation_from_level - _leg_data->ankle.joint_position + equilibrium_angle_offset;//describes the amount of dorsi flexion since toe FSR > set threshold (negative at more plantarflexed angles)
-    const float assistive = max(k*delta - b*_leg_data->ankle.joint_velocity, 0);//Dorsi velocity: Negative
+    const float delta = _controller_data->reference_angle + deviation_from_level - _side_data->ankle.joint_position + equilibrium_angle_offset;//describes the amount of dorsi flexion since toe FSR > set threshold (negative at more plantarflexed angles)
+    const float assistive = max(k*delta - b*_side_data->ankle.joint_velocity, 0);//Dorsi velocity: Negative
 
     //Use a tuned sigmoid to squelch the spring output during the 'swing' phase
     const float squelch_offset = -(1.5*_controller_data->toeFsrThreshold);                                                                                  //1.5 ensures that the spring activates after the new angle is captured
@@ -439,7 +439,7 @@ float TREC::calc_motor_cmd()
 
     //Propulsive Contribution
     const float kProp = 0.01 * _controller_data->parameters[controller_defs::trec::propulsive_gain];
-    const float saturated_velocity = _leg_data->ankle.joint_velocity > 0 ? _leg_data->ankle.joint_velocity:0;
+    const float saturated_velocity = _side_data->ankle.joint_velocity > 0 ? _side_data->ankle.joint_velocity:0;
     const float propulsive = kProp*saturated_velocity;
 
     //Use a symmetric sigmoid to squelch the propulsive term
@@ -450,7 +450,7 @@ float TREC::calc_motor_cmd()
 	//PJMC reducer
 	if (_controller_data->parameters[controller_defs::trec::turn_on_peak_limiter]) 
     {
-		_plantar_setpoint_adjuster(_leg_data, _controller_data, _controller_data->filtered_squelched_supportive_term+generic);
+		_plantar_setpoint_adjuster(_side_data, _controller_data, _controller_data->filtered_squelched_supportive_term+generic);
 	}
 	
     //Sum for ff
@@ -490,10 +490,10 @@ ProportionalJointMoment::ProportionalJointMoment(config_defs::joint_id id, ExoDa
     #endif
 
     /* Set FSR thresholds to engage controller -> Tells it foot is on the ground*/
-    _stance_thresholds_left.first = exo_data->left_leg.toe_fsr_lower_threshold;
-    _stance_thresholds_left.second = exo_data->left_leg.toe_fsr_upper_threshold;
-    _stance_thresholds_right.first = exo_data->right_leg.toe_fsr_lower_threshold;
-    _stance_thresholds_right.second = exo_data->right_leg.toe_fsr_upper_threshold;
+    _stance_thresholds_left.first = exo_data->left_side.toe_fsr_lower_threshold;
+    _stance_thresholds_left.second = exo_data->left_side.toe_fsr_upper_threshold;
+    _stance_thresholds_right.first = exo_data->right_side.toe_fsr_lower_threshold;
+    _stance_thresholds_right.second = exo_data->right_side.toe_fsr_upper_threshold;
 }
 
 float ProportionalJointMoment::calc_motor_cmd()
@@ -506,11 +506,11 @@ float ProportionalJointMoment::calc_motor_cmd()
     float cmd_ff = 0;
 
     /* If the toe is on the ground, calculate the feed-forward command */
-    if (_leg_data->toe_stance) 
+    if (_side_data->toe_stance) 
     {
         /* Scale the fsr values so the controller outputs zero feed forward when the FSR value is at the threshold */ 
-        float threshold = _leg_data->toe_fsr_upper_threshold;       /* Get the upper threshold for the FSR to be considered in stance */
-        float fsr = min(_leg_data->toe_fsr, 1.2);                   /* Stores a saturated FSR signal from the device, saturates in order to avoid producing a large torque. */
+        float threshold = _side_data->toe_fsr_upper_threshold;       /* Get the upper threshold for the FSR to be considered in stance */
+        float fsr = min(_side_data->toe_fsr, 1.2);                   /* Stores a saturated FSR signal from the device, saturates in order to avoid producing a large torque. */
         float scaled_fsr = (fsr - threshold) / (1 - threshold);     /* Re-scales FSR signal */
 
         /* Calculate FeedForward Command */
@@ -534,7 +534,7 @@ float ProportionalJointMoment::calc_motor_cmd()
     _controller_data->filtered_torque_reading = utils::ewma(torque, _controller_data->filtered_torque_reading, 1); //NOTE: Currently hard coded to not filer, can do so by replacing 1 with alpha
 
     /* Find the maximum measured torque and maximum setpoint during stance */
-    if (_leg_data->toe_stance) 
+    if (_side_data->toe_stance) 
     {
         /* Store the current command and measured torque into set variables */
 		const float new_torque = _controller_data->filtered_torque_reading;
@@ -546,7 +546,7 @@ float ProportionalJointMoment::calc_motor_cmd()
     }
 
     /* Set previous max values on rising edge */
-    if (_leg_data->ground_strike) /* If a ground strike is detected */
+    if (_side_data->ground_strike) /* If a ground strike is detected */
     {
         /* Set the previous maximums to the max measured from the previous step, reset those variables to zero. */
         _controller_data->prev_max_measured = _controller_data->max_measured;
@@ -572,7 +572,7 @@ float ProportionalJointMoment::calc_motor_cmd()
 
     /* Add the PID contribution to the feed forward command */
     float cmd = 0;
-    float kf_cmd = (_leg_data->toe_stance) ? (_controller_data->kf * _controller_data->filtered_setpoint) : _controller_data->filtered_setpoint;
+    float kf_cmd = (_side_data->toe_stance) ? (_controller_data->kf * _controller_data->filtered_setpoint) : _controller_data->filtered_setpoint;
 
     /* If the PID flag is enalbed, do PID control, otherwise just send feed-forward command. */
     if (_controller_data->parameters[controller_defs::proportional_joint_moment::use_pid_idx])
@@ -611,7 +611,7 @@ float ZhangCollins::calc_motor_cmd()
 {
     
     //Calculates Percent Gait
-    float percent_gait = _leg_data->percent_stance;
+    float percent_gait = _side_data->percent_stance;
 			
     //Pull in user defined parameter values
     float peak_torque_Nm = _controller_data->parameters[controller_defs::zhang_collins::torque_idx];
@@ -708,8 +708,8 @@ float FranksCollinsHip::calc_motor_cmd()
     float start_percent_gait = _controller_data->parameters[controller_defs::franks_collins_hip::start_percent_gait_idx];
 
     //Calculates the percent gait
-    float percent_gait = _leg_data->percent_gait;
-    float expected_duration = _leg_data->expected_step_duration;
+    float percent_gait = _side_data->percent_gait;
+    float expected_duration = _side_data->expected_step_duration;
 
     //Determines the time when the user exceeds the defined startpoint of the shifted gait cycle (done to avoid discontinuties realted to heel strike)
     if ((percent_gait >= start_percent_gait) && last_percent_gait < start_percent_gait)
@@ -886,7 +886,7 @@ float ConstantTorque::calc_motor_cmd()
         //Creates the cmd variable and initializes it to 0;
         float cmd_ff = 0;     
 
-        if (_leg_data->do_calibration_toe_fsr)          //If the FSRs are being calibrated or if the toe fsr is 0, send a command of zero
+        if (_side_data->do_calibration_toe_fsr)          //If the FSRs are being calibrated or if the toe fsr is 0, send a command of zero
         {
             cmd_ff = 0;
         }
@@ -986,12 +986,12 @@ float ElbowMinMax::calc_motor_cmd()
     alpha3 = _controller_data->parameters[controller_defs::elbow_min_max::FiltStrength_idx] * 0.01;
 
     float cmd;
-    float Sig_Flex = _leg_data->toe_fsr;    //analogRead(A2);  //analogRead(A2); //_leg_data->heel_fsr; (Sensor 1)
-    float Sig_Ext = _leg_data->heel_fsr;    //analogRead(A3); // //analogRead(A3); //_leg_data->toe_fsr; //not working (Sensor 2)
+    float Sig_Flex = _side_data->toe_fsr;   //(Sensor 1)
+    float Sig_Ext = _side_data->heel_fsr;   //(Sensor 2)
 
     //Filter the incoming FSR signals
-    _leg_data->Smoothed_Sig_Flex = ((alpha0 * Sig_Flex) + ((1 - alpha0) * _leg_data->Smoothed_Sig_Flex));
-    _leg_data->Smoothed_Sig_Ext = ((alpha0 * Sig_Ext) + ((1 - alpha0) * _leg_data->Smoothed_Sig_Ext));
+    _side_data->Smoothed_Sig_Flex = ((alpha0 * Sig_Flex) + ((1 - alpha0) * _side_data->Smoothed_Sig_Flex));
+    _side_data->Smoothed_Sig_Ext = ((alpha0 * Sig_Ext) + ((1 - alpha0) * _side_data->Smoothed_Sig_Ext));
 
     // ============================================ Start Manual Calibration Loop: FSR & Angle Sensing ============================================ //
 
@@ -1003,22 +1003,22 @@ float ElbowMinMax::calc_motor_cmd()
         {
 
             //Initialize Calibration Start Time
-            _leg_data->starttime = millis();
+            _side_data->starttime = millis();
 
             //Initialize Manual Calibration Parameters    
-            _leg_data->Smoothed_Sig_Flex = 0;
-            _leg_data->Smoothed_Sig_Ext = 0;
-            _leg_data->Smoothed_Flex_Max = 0.2;
-            _leg_data->Smoothed_Ext_Max = 0.2;
-            _leg_data->Smoothed_Flex_Min = 0.1;
-            _leg_data->Smoothed_Ext_Min = 0.1;
+            _side_data->Smoothed_Sig_Flex = 0;
+            _side_data->Smoothed_Sig_Ext = 0;
+            _side_data->Smoothed_Flex_Max = 0.2;
+            _side_data->Smoothed_Ext_Max = 0.2;
+            _side_data->Smoothed_Flex_Min = 0.1;
+            _side_data->Smoothed_Ext_Min = 0.1;
 
             //Flag that calibration has been inialized and plotting FSR signals can begin
-            _leg_data->check = 1;
+            _side_data->check = 1;
         }
 
         //Update Calibration Timer
-        float timer = millis() - _leg_data->starttime;
+        float timer = millis() - _side_data->starttime;
 
         //Check if calibration timer is past 10 seconds, stop is so.
         if (timer > 10000) 
@@ -1032,15 +1032,15 @@ float ElbowMinMax::calc_motor_cmd()
         {
 
             //Set new EMG/FSR Sensor Max/Min when found
-            _leg_data->Smoothed_Flex_Max = max(_leg_data->Smoothed_Sig_Flex, _leg_data->Smoothed_Flex_Max);
-            _leg_data->Smoothed_Flex_Min = min(_leg_data->Smoothed_Sig_Flex, _leg_data->Smoothed_Flex_Min);
-            _leg_data->Smoothed_Ext_Max = max(_leg_data->Smoothed_Sig_Ext, _leg_data->Smoothed_Ext_Max);
-            _leg_data->Smoothed_Ext_Min = min(_leg_data->Smoothed_Sig_Ext, _leg_data->Smoothed_Ext_Min);
+            _side_data->Smoothed_Flex_Max = max(_side_data->Smoothed_Sig_Flex, _side_data->Smoothed_Flex_Max);
+            _side_data->Smoothed_Flex_Min = min(_side_data->Smoothed_Sig_Flex, _side_data->Smoothed_Flex_Min);
+            _side_data->Smoothed_Ext_Max = max(_side_data->Smoothed_Sig_Ext, _side_data->Smoothed_Ext_Max);
+            _side_data->Smoothed_Ext_Min = min(_side_data->Smoothed_Sig_Ext, _side_data->Smoothed_Ext_Min);
 
 
             //Set new Joint Angle Sensor Max/Min when found
-            _leg_data->Angle_Max = max(_leg_data->ankle.position, _leg_data->Angle_Max);
-            _leg_data->Angle_Min = min(_leg_data->ankle.position, _leg_data->Angle_Min);
+            _side_data->Angle_Max = max(_side_data->ankle.position, _side_data->Angle_Max);
+            _side_data->Angle_Min = min(_side_data->ankle.position, _side_data->Angle_Min);
 
             //Switches the next calibration iteration loop to exclude the initialation loop, which ensures it get's skipped in the following loop iterations
             _controller_data->parameters[controller_defs::elbow_min_max::CaliRequest_idx] = 2;
@@ -1061,26 +1061,26 @@ float ElbowMinMax::calc_motor_cmd()
         //Right Glove Predefined Calibration Min & Max Parameters
         if (!_joint_data->is_left) 
         {
-            _leg_data->Smoothed_Flex_Max = 4.1;
-            _leg_data->Smoothed_Ext_Max = 3.9;
-            _leg_data->Smoothed_Flex_Min = 0.1;
-            _leg_data->Smoothed_Ext_Min = 0.1;
+            _side_data->Smoothed_Flex_Max = 4.1;
+            _side_data->Smoothed_Ext_Max = 3.9;
+            _side_data->Smoothed_Flex_Min = 0.1;
+            _side_data->Smoothed_Ext_Min = 0.1;
         }
 
         //Left Glove Predefined Calibration Min & Max Parameters
         if (_joint_data->is_left) 
         {
-            _leg_data->Smoothed_Flex_Max = 4;
-            _leg_data->Smoothed_Ext_Max = 2.2;
-            _leg_data->Smoothed_Flex_Min = 0.1;
-            _leg_data->Smoothed_Ext_Min = 0.1;
+            _side_data->Smoothed_Flex_Max = 4;
+            _side_data->Smoothed_Ext_Max = 2.2;
+            _side_data->Smoothed_Flex_Min = 0.1;
+            _side_data->Smoothed_Ext_Min = 0.1;
         }
 
         //Disable this calibration loop, which ensures it get's skipped in the following loop iterations
         _controller_data->parameters[controller_defs::elbow_min_max::CaliRequest_idx] = 0;
 
         //Flag that calibration has been completed
-        _leg_data->check = 1;
+        _side_data->check = 1;
 
     }
 
@@ -1089,72 +1089,72 @@ float ElbowMinMax::calc_motor_cmd()
     // ================================================== FSR and ANGLE Normalization ============================================================== //
     
     //If calibration check has been completed and flagged; Creating signals between 0 and 100% or 0 amd 1.
-    if (_leg_data->check == 1) 
+    if (_side_data->check == 1) 
     {
 
         //Normalize FSR/EMG data - Smooth the signal with an EMA filter
-        _leg_data->FlexSense = (_leg_data->Smoothed_Sig_Flex - _leg_data->Smoothed_Flex_Min) / (_leg_data->Smoothed_Flex_Max - _leg_data->Smoothed_Flex_Min);
-        _leg_data->ExtenseSense = (_leg_data->Smoothed_Sig_Ext - _leg_data->Smoothed_Ext_Min) / (_leg_data->Smoothed_Ext_Max - _leg_data->Smoothed_Ext_Min);
+        _side_data->FlexSense = (_side_data->Smoothed_Sig_Flex - _side_data->Smoothed_Flex_Min) / (_side_data->Smoothed_Flex_Max - _side_data->Smoothed_Flex_Min);
+        _side_data->ExtenseSense = (_side_data->Smoothed_Sig_Ext - _side_data->Smoothed_Ext_Min) / (_side_data->Smoothed_Ext_Max - _side_data->Smoothed_Ext_Min);
 
         //Normalize Angle Sensor Data
-        _leg_data->Angle = (_leg_data->ankle.position - _leg_data->Angle_Min) / (_leg_data->Angle_Max - _leg_data->Angle_Min);
+        _side_data->Angle = (_side_data->ankle.position - _side_data->Angle_Min) / (_side_data->Angle_Max - _side_data->Angle_Min);
     }
 
     //If calibration has not been completed - just filter the reading without normalization
     else 
     {
-        _leg_data->Smoothed_Sig_Flex = ((alpha1 * Sig_Flex) + ((1 - alpha1) * _leg_data->Smoothed_Sig_Flex));
-        _leg_data->Smoothed_Sig_Ext = ((alpha1 * Sig_Ext) + ((1 - alpha1) * _leg_data->Smoothed_Sig_Ext));
+        _side_data->Smoothed_Sig_Flex = ((alpha1 * Sig_Flex) + ((1 - alpha1) * _side_data->Smoothed_Sig_Flex));
+        _side_data->Smoothed_Sig_Ext = ((alpha1 * Sig_Ext) + ((1 - alpha1) * _side_data->Smoothed_Sig_Ext));
     }
 
     // =========================================================== Start: State Detection ======================================================================= //
 
     //Flexion Condition
-    if (_leg_data->FlexSense > (0.05 * _controller_data->parameters[controller_defs::elbow_min_max::DigitFSR_threshold_idx]) && _leg_data->FlexSense > _leg_data->ExtenseSense) 
+    if (_side_data->FlexSense > (0.05 * _controller_data->parameters[controller_defs::elbow_min_max::DigitFSR_threshold_idx]) && _side_data->FlexSense > _side_data->ExtenseSense) 
     {
 
-        _leg_data->setpoint = _controller_data->parameters[controller_defs::elbow_min_max::FLEXamplitude_idx];
+        _side_data->setpoint = _controller_data->parameters[controller_defs::elbow_min_max::FLEXamplitude_idx];
 
         //Update State booleens for torque modifier loop
-        _leg_data->flexState = 1;
-        _leg_data->extState = 0;
-        _leg_data->nullState = 0;
+        _side_data->flexState = 1;
+        _side_data->extState = 0;
+        _side_data->nullState = 0;
 
     }
 
     //Extension Condition
-    else if (_leg_data->ExtenseSense > (0.05 * _controller_data->parameters[controller_defs::elbow_min_max::PalmFSR_threshold_idx])) 
+    else if (_side_data->ExtenseSense > (0.05 * _controller_data->parameters[controller_defs::elbow_min_max::PalmFSR_threshold_idx])) 
     { 
 
-        _leg_data->setpoint = -1 * _controller_data->parameters[controller_defs::elbow_min_max::EXTamplitude_idx];
+        _side_data->setpoint = -1 * _controller_data->parameters[controller_defs::elbow_min_max::EXTamplitude_idx];
 
         //Update State booleens for torque modifier loop
-        _leg_data->flexState = 0;
-        _leg_data->extState = 1;
-        _leg_data->nullState = 0;
+        _side_data->flexState = 0;
+        _side_data->extState = 1;
+        _side_data->nullState = 0;
     }
 
 
     //Zero Torque Condition
-    else if (_leg_data->FlexSense < (0.05 * _controller_data->parameters[controller_defs::elbow_min_max::DigitFSR_LOWthreshold_idx]) && _leg_data->ExtenseSense < (0.05 * _controller_data->parameters[controller_defs::elbow_min_max::PalmFSR_LOWthreshold_idx])) 
+    else if (_side_data->FlexSense < (0.05 * _controller_data->parameters[controller_defs::elbow_min_max::DigitFSR_LOWthreshold_idx]) && _side_data->ExtenseSense < (0.05 * _controller_data->parameters[controller_defs::elbow_min_max::PalmFSR_LOWthreshold_idx])) 
     {
 
-        _leg_data->setpoint = 0;    
+        _side_data->setpoint = 0;    
 
         //Update State booleens for torque modifier loop
-        _leg_data->flexState = 0;
-        _leg_data->extState = 0;
-        _leg_data->nullState = 1;
+        _side_data->flexState = 0;
+        _side_data->extState = 0;
+        _side_data->nullState = 1;
     }
 
     //Just incase condition
     else 
     {
-        _leg_data->setpoint = _controller_data->previous_setpoint;
+        _side_data->setpoint = _controller_data->previous_setpoint;
     }
 
     //Update previous setpoint for the "Just incase condition"
-    _controller_data->previous_setpoint = _leg_data->setpoint;
+    _controller_data->previous_setpoint = _side_data->setpoint;
 
     // --------------------------------------------------------------- End: State Detection ----------------------------------------------------------------------------- //
 
@@ -1164,29 +1164,29 @@ float ElbowMinMax::calc_motor_cmd()
     if (_controller_data->parameters[controller_defs::elbow_min_max::TrqProfile_idx] == 1) 
     {
         //Flexion Modifier
-        if (_leg_data->flexState) 
+        if (_side_data->flexState) 
         {
             //This equation came from a polyfit in excel that maps the desired increase in torque with respect to the normalized angle - specifically for flexion          
-            _controller_data->SpringEffect = ((3.1702 * pow(_leg_data->Angle, 3)) - (4.6572 * pow(_leg_data->Angle, 2)) + (0.49 * _leg_data->Angle) + 1.0006) * _controller_data->parameters[controller_defs::elbow_min_max::SpringPkTorque_idx];
+            _controller_data->SpringEffect = ((3.1702 * pow(_side_data->Angle, 3)) - (4.6572 * pow(_side_data->Angle, 2)) + (0.49 * _side_data->Angle) + 1.0006) * _controller_data->parameters[controller_defs::elbow_min_max::SpringPkTorque_idx];
 
             //This sums the selected setpoint (12 Nm) with the torque modifier, to determine the desired setpoint
-            _leg_data->setpoint = _controller_data->SpringEffect + _leg_data->setpoint;
+            _side_data->setpoint = _controller_data->SpringEffect + _side_data->setpoint;
         }
 
         //Extension Modifier
-        else if (_leg_data->extState) 
+        else if (_side_data->extState) 
         {
             //This equation came from a polyfit in excel that maps the desired increase in torque with respect to the normalized angle - specifically for extension
-            _controller_data->SpringEffect = ((-3.1702 * pow(_leg_data->Angle, 3)) + (4.8521 * pow(_leg_data->Angle, 2)) - (0.6858 * _leg_data->Angle) + (0.0034)) * _controller_data->parameters[controller_defs::elbow_min_max::SpringPkTorque_idx];
+            _controller_data->SpringEffect = ((-3.1702 * pow(_side_data->Angle, 3)) + (4.8521 * pow(_side_data->Angle, 2)) - (0.6858 * _side_data->Angle) + (0.0034)) * _controller_data->parameters[controller_defs::elbow_min_max::SpringPkTorque_idx];
 
             //This sums the selected setpoint (12 Nm) with the torque modifier, to determine the desired setpoint
-            _leg_data->setpoint = -1 * _controller_data->SpringEffect + _leg_data->setpoint;
+            _side_data->setpoint = -1 * _controller_data->SpringEffect + _side_data->setpoint;
         }
 
         //Otherwise
         else 
         {
-            _leg_data->setpoint = 0;
+            _side_data->setpoint = 0;
         }
     }
 
@@ -1194,21 +1194,21 @@ float ElbowMinMax::calc_motor_cmd()
 
     //Get Filtered torque reading, and setpoint for PID input
     _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, alpha2);
-    _leg_data->setpoint_filtered = utils::ewma(_leg_data->setpoint, _leg_data->setpoint_filtered, alpha3);   // Was 0.01 for most trials
+    _side_data->setpoint_filtered = utils::ewma(_side_data->setpoint, _side_data->setpoint_filtered, alpha3);   // Was 0.01 for most trials
 
     //Saftey Feature - Saturate Torque Setpoint at the max if the modifier gets a wild angle reading (Max Torque Limit)
-    if (_leg_data->setpoint_filtered < -1 * _controller_data->parameters[controller_defs::elbow_min_max::TorqueLimit_idx]) 
+    if (_side_data->setpoint_filtered < -1 * _controller_data->parameters[controller_defs::elbow_min_max::TorqueLimit_idx]) 
     {
-        _leg_data->setpoint_filtered = -1 * _controller_data->parameters[controller_defs::elbow_min_max::TorqueLimit_idx];
+        _side_data->setpoint_filtered = -1 * _controller_data->parameters[controller_defs::elbow_min_max::TorqueLimit_idx];
     }
 
-    if (_leg_data->setpoint_filtered > _controller_data->parameters[controller_defs::elbow_min_max::TorqueLimit_idx]) 
+    if (_side_data->setpoint_filtered > _controller_data->parameters[controller_defs::elbow_min_max::TorqueLimit_idx]) 
     {
-        _leg_data->setpoint_filtered = _controller_data->parameters[controller_defs::elbow_min_max::TorqueLimit_idx];
+        _side_data->setpoint_filtered = _controller_data->parameters[controller_defs::elbow_min_max::TorqueLimit_idx];
     }
 
     //Get motor command based on PID
-    cmd = _leg_data->setpoint_filtered + _pid(_leg_data->setpoint_filtered, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::elbow_min_max::P_gain_idx], _controller_data->parameters[controller_defs::elbow_min_max::I_gain_idx], _controller_data->parameters[controller_defs::elbow_min_max::D_gain_idx]);       //originally, (10, 0, 200)
+    cmd = _side_data->setpoint_filtered + _pid(_side_data->setpoint_filtered, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::elbow_min_max::P_gain_idx], _controller_data->parameters[controller_defs::elbow_min_max::I_gain_idx], _controller_data->parameters[controller_defs::elbow_min_max::D_gain_idx]);       //originally, (10, 0, 200)
 
     return cmd;
 }
@@ -1235,7 +1235,7 @@ float CalibrManager::calc_motor_cmd()
 		
 		if (_joint_data->is_left) {
 		Serial.print("\nLeft angle: ");
-		Serial.print(_leg_data->ankle.joint_position);
+		Serial.print(_side_data->ankle.joint_position);
 		Serial.print("  |  Left torque: ");
 		Serial.print(_joint_data->torque_reading);
 		cmd = _controller_data->parameters[controller_defs::calibr_manager::calibr_cmd];
@@ -1245,14 +1245,14 @@ float CalibrManager::calc_motor_cmd()
 	}
 	else {
 		Serial.print("  |  Right angle: ");
-		Serial.print(_leg_data->ankle.joint_position);
+		Serial.print(_side_data->ankle.joint_position);
 		Serial.print("  |  Right torque: ");
 		Serial.print(_joint_data->torque_reading);
 		cmd = 3.5;
 		Serial.print("  |  Right cmd: ");
 		Serial.print(cmd);
 		Serial.print("  |  doToeRefinement: ");
-		Serial.print(String(_leg_data->do_calibration_refinement_toe_fsr));
+		Serial.print(String(_side_data->do_calibration_refinement_toe_fsr));
 		Serial.print("  |  Exo status: ");
 		uint16_t exo_status = _data->get_status();
 		Serial.print(String(exo_status));

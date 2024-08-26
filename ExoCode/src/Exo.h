@@ -16,7 +16,7 @@
 
 #include "Arduino.h"
 
-#include "Leg.h"
+#include "Side.h"
 #include <stdint.h>
 #include "ParseIni.h"
 #include "Board.h"
@@ -29,19 +29,19 @@
 class Exo
 {
     public:
-		Exo(ExoData* exo_data); //Constructor: uses initializer list for the Leg objects.
+		Exo(ExoData* exo_data); //Constructor: uses initializer list for the Side objects.
 		
         /**
-         * @brief reads motor data from each motor used in the leg and stores the values
+         * @brief reads motor data from each motor used on that side and stores the values
          * 
          * @return true If the code ran, ie tiiming was satisfied
          * @return false 
          */
         bool run();  
 		
-        ExoData *data;  /**< Pointer to ExoData that is getting updated by the coms mcu so they share format.*/
-        Leg left_leg;   /**< Light leg object that contains all the joints and sensors for that leg */
-        Leg right_leg;  /**< Right leg object that contains all the joints and sensors for that leg */
+        ExoData *data;      /**< Pointer to ExoData that is getting updated by the coms mcu so they share format.*/
+        Side left_side;     /**< Left side object that contains all the joints and sensors for that side */
+        Side right_side;    /**< Right side object that contains all the joints and sensors for that side */
         
         #ifdef USE_SPEED_CHECK
             utils::SpeedCheck speed_check; /**< Used to check the speed of the loop without needing prints */

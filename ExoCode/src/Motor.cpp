@@ -41,43 +41,43 @@ _Motor::_Motor(config_defs::joint_id id, ExoData* exo_data, int enable_pin)
         case (uint8_t)config_defs::joint_id::hip:
             if (_is_left)
             {
-                _motor_data = &(exo_data->left_leg.hip.motor);
+                _motor_data = &(exo_data->left_side.hip.motor);
             }
             else
             {
-                _motor_data = &(exo_data->right_leg.hip.motor);
+                _motor_data = &(exo_data->right_side.hip.motor);
             }
             break;
             
         case (uint8_t)config_defs::joint_id::knee:
             if (_is_left)
             {
-                _motor_data = &(exo_data->left_leg.knee.motor);
+                _motor_data = &(exo_data->left_side.knee.motor);
             }
             else
             {
-                _motor_data = &(exo_data->right_leg.knee.motor);
+                _motor_data = &(exo_data->right_side.knee.motor);
             }
             break;
         
         case (uint8_t)config_defs::joint_id::ankle:
             if (_is_left)
             {
-                _motor_data = &(exo_data->left_leg.ankle.motor);
+                _motor_data = &(exo_data->left_side.ankle.motor);
             }
             else
             {
-                _motor_data = &(exo_data->right_leg.ankle.motor);
+                _motor_data = &(exo_data->right_side.ankle.motor);
             }
             break;
         case (uint8_t)config_defs::joint_id::elbow:
             if (_is_left)
             {
-                _motor_data = &(exo_data->left_leg.elbow.motor);
+                _motor_data = &(exo_data->left_side.elbow.motor);
             }
             else
             {
-                _motor_data = &(exo_data->right_leg.elbow.motor);
+                _motor_data = &(exo_data->right_side.elbow.motor);
             }
             break;
     }

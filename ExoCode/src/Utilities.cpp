@@ -11,7 +11,6 @@ namespace utils
     {
         return get_is_left((uint8_t) id);
     };
-     
     
     bool get_is_left(uint8_t id)
     {

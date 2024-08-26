@@ -183,7 +183,7 @@
                                         #endif
                                     }
                                     
-                                    exo_data->left_leg.hip.controller.parameters[param_num] = read_val;
+                                    exo_data->left_side.hip.controller.parameters[param_num] = read_val;
                                     
                                     param_num++;
                                 }
@@ -216,7 +216,7 @@
                                         #endif
                                     }
                                     
-                                    exo_data->right_leg.hip.controller.parameters[param_num] = read_val;
+                                    exo_data->right_side.hip.controller.parameters[param_num] = read_val;
                                     
                                     param_num++;
                                 }
@@ -378,7 +378,7 @@
                                         #endif
                                     }
                                     
-                                    exo_data->left_leg.knee.controller.parameters[param_num] = read_val;
+                                    exo_data->left_side.knee.controller.parameters[param_num] = read_val;
                                     
                                     param_num++;
                                 }
@@ -412,7 +412,7 @@
                                         #endif
                                     }
                                     
-                                    exo_data->right_leg.knee.controller.parameters[param_num] = read_val;
+                                    exo_data->right_side.knee.controller.parameters[param_num] = read_val;
                                     
                                     param_num++;
                                 }
@@ -577,7 +577,7 @@
                                         #endif
                                     }
                                     
-                                    exo_data->left_leg.ankle.controller.parameters[param_num] = read_val;
+                                    exo_data->left_side.ankle.controller.parameters[param_num] = read_val;
                                     
                                     param_num++;
                                 }
@@ -611,7 +611,7 @@
                                         #endif
                                     }
                                     
-                                    exo_data->right_leg.ankle.controller.parameters[param_num] = read_val;
+                                    exo_data->right_side.ankle.controller.parameters[param_num] = read_val;
                                     
                                     param_num++;
                                 }
@@ -776,7 +776,7 @@
                                         #endif
                                     }
 
-                                    exo_data->left_leg.elbow.controller.parameters[param_num] = read_val;
+                                    exo_data->left_side.elbow.controller.parameters[param_num] = read_val;
 
                                     param_num++;
                                 }
@@ -809,7 +809,7 @@
                                         #endif
                                     }
 
-                                    exo_data->right_leg.elbow.controller.parameters[param_num] = read_val;
+                                    exo_data->right_side.elbow.controller.parameters[param_num] = read_val;
 
                                     param_num++;
                                 }

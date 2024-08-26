@@ -64,7 +64,7 @@ class _Controller
         
         ExoData* _data;                     /**< Pointer to the full data instance*/
         ControllerData* _controller_data;   /**< Pointer to the data associated with this controller */
-        LegData* _leg_data;                 /**< Pointer for the leg data the controller is associated with */
+        SideData* _side_data;                 /**< Pointer for the side data the controller is associated with */
         JointData* _joint_data;             /**< Pointer to the joint data the controller is associated with */
          
         config_defs::joint_id _id;          /**< Id of the joint this controller is attached to. */
@@ -121,10 +121,10 @@ class TREC : public _Controller
         float calc_motor_cmd();
     
     private:
-        void _update_reference_angles(LegData* leg_data, ControllerData* controller_data, float percent_grf, float percent_grf_heel);
-        void _capture_neutral_angle(LegData* leg_data, ControllerData* controller_data);
-		void _grf_threshold_dynamic_tuner(LegData* leg_data, ControllerData* controller_data, float threshold, float percent_grf_heel);
-		void _plantar_setpoint_adjuster(LegData* leg_data, ControllerData* controller_data, float pjmcSpringDamper);
+        void _update_reference_angles(SideData* side_data, ControllerData* controller_data, float percent_grf, float percent_grf_heel);
+        void _capture_neutral_angle(SideData* side_data, ControllerData* controller_data);
+		void _grf_threshold_dynamic_tuner(SideData* side_data, ControllerData* controller_data, float threshold, float percent_grf_heel);
+		void _plantar_setpoint_adjuster(SideData* side_data, ControllerData* controller_data, float pjmcSpringDamper);
 };
 
 /**

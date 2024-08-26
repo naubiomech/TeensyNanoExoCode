@@ -58,8 +58,6 @@ bool FSR::calibrate(bool do_calibrate)
         //Vo = (Vo < 0.2) ? (0) : (Vo);                                       //If the value is less than 0.2, set it to zero
         //_calibration_max = Vo;
         //_calibration_min = _calibration_max;
-
-
     }
     
     //Check if we are within the time window and need to do the calibration
@@ -81,7 +79,7 @@ bool FSR::calibrate(bool do_calibrate)
         //Vo = (Vo) / (87.43 * pow((Vo), (-0.6721)) - 7.883);                 //Apply interlink conversion
         //Vo = p[0] * Vo * Vo * Vo + p[1] * Vo * Vo + p[2] * Vo + p[3];       //Apply amplification polynomial
         //Vo = (Vo < 0.2) ? (0) : (Vo);                                       //If the value is less than 0.2, set it to zero
-        //float current_reading = Vo;
+        //float current_reading= Vo;
 
         //Track the min and max.
         _calibration_max = max(_calibration_max, current_reading);
@@ -101,6 +99,7 @@ bool FSR::calibrate(bool do_calibrate)
         
     //Store the reading for next time.
     _last_do_calibrate = do_calibrate;
+    
     return do_calibrate;
 };
 
@@ -116,7 +115,7 @@ bool FSR::refine_calibration(bool do_refinement)
             //Set the step max min to the middle value so the initial value is likely not used.
             _step_max = (_calibration_max+_calibration_min)/2;
             _step_min = (_calibration_max+_calibration_min)/2;
-            
+
             //Reset the sum that will be used for averaging
             _step_max_sum = 0;
             _step_min_sum = 0;
@@ -128,7 +127,7 @@ bool FSR::refine_calibration(bool do_refinement)
             /* If You Want Raw FSR Signal, Uncomment this and Comment out Regression Section Below */
             uint16_t current_reading = analogRead(_pin);
 
-            /* Regression Equation FSR to Make Proportional to Ankle Moment*/
+            ///* Regression Equation FSR to Make Proportional to Ankle Moment*/
             //double p[4] = { 0.0787, -0.8471, 20.599, -22.670 };
             //float Vo = 10 * 3.3 * analogRead(_pin) / 4095;                      //ZL Added in the 10* to scale the output
             //Vo = (Vo) / (87.43 * pow((Vo), (-0.6721)) - 7.883);                 //Apply interlink conversion
@@ -158,13 +157,14 @@ bool FSR::refine_calibration(bool do_refinement)
                 
                 // logger::print("FSR::refine_calibration : New Step - ");
             }
+
         }
         else //We are still at do_refinement but the _step_count is at the _num_steps
         {
-            // set the calibration as the average of the max values; average max and min, offset by min and normalize by (max-min), (val-avg_min)/(avg_max-avg_min)
+            //Set the calibration as the average of the max values; average max and min, offset by min and normalize by (max-min), (val-avg_min)/(avg_max-avg_min)
             _calibration_refinement_max = static_cast<decltype(_calibration_refinement_max)>(_step_max_sum)/_num_steps;     //Casting to the type of _calibration_refinement_max before division 
             _calibration_refinement_min = static_cast<decltype(_calibration_refinement_min)>(_step_min_sum)/_num_steps;     //Casting to the type of _calibration_refinement_max before division 
-            
+ 
             //Refinement is done
             do_refinement = false;
         } 
@@ -172,6 +172,7 @@ bool FSR::refine_calibration(bool do_refinement)
 
     //Store the value so we can check for a rising edge next time.
     _last_do_refinement = do_refinement;
+    
     return do_refinement;
 };
 
@@ -181,7 +182,7 @@ float FSR::read()
     /* If You Want Raw FSR Signal, Uncomment this and Comment out Regression Section Below */
     _raw_reading = analogRead(_pin);
 
-    /* Regression Equation FSR to Make Proportional to Ankle Moment*/
+    ///* Regression Equation FSR to Make Proportional to Ankle Moment*/
     //double p[4] = { 0.0787, -0.8471, 20.599, -22.670 };
     //float Vo = 10 * 3.3 * analogRead(_pin) / 4095;                      //ZL Added in the 10* to scale the output
     //Vo = (Vo) / (87.43 * pow((Vo), (-0.6721)) - 7.883);                 //Apply interlink conversion
@@ -210,7 +211,8 @@ float FSR::read()
     
     //Based on the readings update the ground contact state.
     _calc_ground_contact();
-    return _calibrated_reading;
+    
+    return  _calibrated_reading;
 
 };
 
@@ -218,9 +220,10 @@ bool FSR::_calc_ground_contact()
 {
     //Only do this if the refinement is done.
     bool current_state_estimate = false;
+
     if (_calibration_refinement_max > 0)
     {
-        current_state_estimate = utils::schmitt_trigger(_calibrated_reading, _ground_contact, _lower_threshold_percent_ground_contact, _upper_threshold_percent_ground_contact); 
+        current_state_estimate = utils::schmitt_trigger(_calibrated_reading, _ground_contact, _lower_threshold_percent_ground_contact, _upper_threshold_percent_ground_contact);
     }
 
     _ground_contact = current_state_estimate;

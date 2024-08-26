@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#include "LegData.h"
+#include "SideData.h"
 #include <stdint.h>
 #include "ParseIni.h"
 #include "Board.h"
@@ -54,26 +54,26 @@ class ExoData
         template <typename F>
         void for_each_joint(F &&func)
         {
-                func(&left_leg.hip, NULL);
-                func(&left_leg.knee, NULL);
-                func(&left_leg.ankle, NULL);
-                func(&left_leg.elbow, NULL);
-                func(&right_leg.hip, NULL);
-                func(&right_leg.knee, NULL);
-                func(&right_leg.ankle, NULL);
-                func(&right_leg.elbow, NULL);
+                func(&left_side.hip, NULL);
+                func(&left_side.knee, NULL);
+                func(&left_side.ankle, NULL);
+                func(&left_side.elbow, NULL);
+                func(&right_side.hip, NULL);
+                func(&right_side.knee, NULL);
+                func(&right_side.ankle, NULL);
+                func(&right_side.elbow, NULL);
         }
         template <typename F>
         void for_each_joint(F &&func, float* args)
         {
-                func(&left_leg.hip, args);
-                func(&left_leg.knee, args);
-                func(&left_leg.ankle, args);
-                func(&left_leg.elbow, args);
-                func(&right_leg.hip, args);
-                func(&right_leg.knee, args);
-                func(&right_leg.ankle, args);
-                func(&right_leg.elbow, args);
+                func(&left_side.hip, args);
+                func(&left_side.knee, args);
+                func(&left_side.ankle, args);
+                func(&left_side.elbow, args);
+                func(&right_side.hip, args);
+                func(&right_side.knee, args);
+                func(&right_side.ankle, args);
+                func(&right_side.elbow, args);
         }
 
         //Returns a list of all of the joint IDs that are currently being used
@@ -126,8 +126,8 @@ class ExoData
         bool sync_led_state;    /**< State of the sync led */
         bool estop;             /**< State of the estop */
         float battery_value;    /**< Could be Voltage or SOC, depending on the battery type*/
-        LegData left_leg;       /**< Data for the left leg */
-        LegData right_leg;      /**< Data for the right leg */
+        SideData left_side;       /**< Data for the left side */
+        SideData right_side;      /**< Data for the right side */
 
         uint32_t mark;          /**< Used for timing, currently only used by the nano */
 

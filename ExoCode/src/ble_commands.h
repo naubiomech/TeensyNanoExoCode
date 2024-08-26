@@ -327,46 +327,46 @@ namespace ble_handlers
         ControllerData* cont_data = NULL;
 
         //Map the joint IDs because the GUI limits the maximum number for the message
-        joint_id = (joint_id==(config_defs::joint_id)1)?(data->left_leg.hip.id):(joint_id);
-        joint_id = (joint_id==(config_defs::joint_id)2)?(data->left_leg.knee.id):(joint_id);
-        joint_id = (joint_id==(config_defs::joint_id)3)?(data->left_leg.ankle.id):(joint_id);
-        joint_id = (joint_id==(config_defs::joint_id)4)?(data->left_leg.elbow.id):(joint_id);
-        joint_id = (joint_id==(config_defs::joint_id)5)?(data->right_leg.hip.id):(joint_id);
-        joint_id = (joint_id==(config_defs::joint_id)6)?(data->right_leg.knee.id):(joint_id);
-        joint_id = (joint_id==(config_defs::joint_id)7)?(data->right_leg.ankle.id):(joint_id);
-        joint_id = (joint_id==(config_defs::joint_id)8)?(data->right_leg.elbow.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)1)?(data->left_side.hip.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)2)?(data->left_side.knee.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)3)?(data->left_side.ankle.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)4)?(data->left_side.elbow.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)5)?(data->right_side.hip.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)6)?(data->right_side.knee.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)7)?(data->right_side.ankle.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)8)?(data->right_side.elbow.id):(joint_id);
 
-        if (joint_id == data->left_leg.ankle.id)
+        if (joint_id == data->left_side.ankle.id)
         {
-            cont_data = &data->left_leg.ankle.controller;
+            cont_data = &data->left_side.ankle.controller;
         } 
-        else if (joint_id == data->left_leg.knee.id) 
+        else if (joint_id == data->left_side.knee.id) 
         {
-            cont_data = &data->left_leg.knee.controller;
+            cont_data = &data->left_side.knee.controller;
         } 
-        else if (joint_id == data->left_leg.hip.id)
+        else if (joint_id == data->left_side.hip.id)
         {
-            cont_data = &data->left_leg.hip.controller;
+            cont_data = &data->left_side.hip.controller;
         } 
-        else if (joint_id == data->left_leg.elbow.id)
+        else if (joint_id == data->left_side.elbow.id)
         {
-            cont_data = &data->left_leg.elbow.controller;
+            cont_data = &data->left_side.elbow.controller;
         }
-        else if (joint_id == data->right_leg.ankle.id) 
+        else if (joint_id == data->right_side.ankle.id) 
         {
-            cont_data = &data->right_leg.ankle.controller;
+            cont_data = &data->right_side.ankle.controller;
         } 
-        else if (joint_id == data->right_leg.knee.id) 
+        else if (joint_id == data->right_side.knee.id) 
         {
-            cont_data = &data->right_leg.knee.controller;
+            cont_data = &data->right_side.knee.controller;
         } 
-        else if (joint_id == data->right_leg.hip.id) 
+        else if (joint_id == data->right_side.hip.id) 
         {
-            cont_data = &data->right_leg.hip.controller;
+            cont_data = &data->right_side.hip.controller;
         }
-        else if (joint_id == data->right_leg.elbow.id)
+        else if (joint_id == data->right_side.elbow.id)
         {
-            cont_data = &data->right_leg.elbow.controller;
+            cont_data = &data->right_side.elbow.controller;
         }
         if (cont_data == NULL) {
             logger::println("cont_data is NULL!", LogLevel::Warn);
