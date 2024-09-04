@@ -598,76 +598,6 @@ float PropulsiveAssistive::calc_motor_cmd()
     _controller_data->filtered_torque_reading = utils::ewma(torque, 
             _controller_data->filtered_torque_reading, alpha);
 	
-/* 	// are we in the step response test mode?
-	if (_joint_data->is_left) {
-	if (_controller_data->parameters[controller_defs::propulsive_assistive::step_response_mode]) {
-		float gasp_time_current = 0;
-		if ((!_controller_data->gasp_step_started) && (_controller_data->parameters[controller_defs::propulsive_assistive::plantar_scaling] != 0)) {
-			_controller_data->gasp_time_initial = millis();
-			cmd_ff = -_controller_data->parameters[controller_defs::propulsive_assistive::plantar_scaling];
-			_controller_data->gasp_step_started = true;
-			gasp_time_current = 0;
-			
-			//comment out the following line for the step response test
-			//cmd_ff = 0;
-			
-			Serial.print("\n");
-			Serial.print(gasp_time_current);
-			Serial.print(",");
-			Serial.print(cmd_ff);
-			Serial.print(",");
-			Serial.print(torque);
-		}
-		else if (_controller_data->gasp_step_started) {
-			gasp_time_current = millis() - _controller_data->gasp_time_initial;
-			if (gasp_time_current < 100000) {
-				//step test only needs this one following line of code
-				cmd_ff = -_controller_data->parameters[controller_defs::propulsive_assistive::plantar_scaling];
-			
-			//chirrrp start
-			float start_frequency = 0.1;
-			float end_frequency = 20;
-			float amplitude = 5;
-			float t = gasp_time_current;
-			float duration = 100000;
-			float yshift = 6;
-			float frequency = start_frequency + ((end_frequency - start_frequency) * (t / duration));       //Frequency, linearly increases with each iteration of the controller.
-            cmd_ff = -(amplitude * sin(2 * M_PI * frequency * (t/1000) + (6*M_PI/4)) + yshift);                                    //Torque command as a sine wave
-
-            if (std::isnan(frequency))                  //If it detects Nan, sets the values to 0, prevents the exo from throwing a fit.
-            {
-                frequency = start_frequency;
-                cmd_ff = 0;
-            }
-			
-			//chirrrp end
-			
-			
-			Serial.print("\n");
-			Serial.print(gasp_time_current);
-			Serial.print(",");
-			Serial.print(cmd_ff);
-			Serial.print(",");
-			Serial.print(torque);
-			}
-			else {
-				cmd_ff = 0;
-			}
-		}
-		
-		Serial.print("\n");
-		Serial.print(gasp_time_current);
-		Serial.print(",");
-		Serial.print(cmd_ff);
-		Serial.print(",");
-		Serial.print(torque);
-		}
-	} */
-    // close the loop
-	// variable PID gains based on gait phase
-	//if ((cmd_ff < 0) && (_leg_data->toe_stance)) {
-		/* cmd_ff = min(cmd_ff, 40);//cap abs(cmd_ff) at 40 Nm.
-		cmd_ff = max(cmd_ff, -40); */
 		float cmd;
 		if (!_leg_data->is_left){
 	if (cmd_ff < -6) {
@@ -686,161 +616,21 @@ float PropulsiveAssistive::calc_motor_cmd()
 		else {
 			cmd = 0;
 		}
-			/* if (_controller_data->parameters[controller_defs::propulsive_assistive::step_response_mode]) {
-				cmd = -_controller_data->parameters[controller_defs::propulsive_assistive::plantar_scaling] + _pid(-_controller_data->parameters[controller_defs::propulsive_assistive::plantar_scaling], _controller_data->filtered_torque_reading,
-            2 * _controller_data->parameters[controller_defs::propulsive_assistive::kp],
-            0, 
-            2 * _controller_data->parameters[controller_defs::propulsive_assistive::kd]);
-			} */
-	
-	//Maxon testing	
-/* 	cmd = _pid(0, _controller_data->filtered_torque_reading,
-            _controller_data->parameters[controller_defs::propulsive_assistive::kp],
-            0, 
-            _controller_data->parameters[controller_defs::propulsive_assistive::kd]); */
-	
-	
-	/* cmd = min(cmd, cmd_ff + 35);
-	cmd = max(cmd, cmd_ff - 35);
-	cmd = max(cmd, -60); */
-	
-	
-	/* if (!_leg_data->is_left) {
-		Serial.print("\nRight ankle.joint_position at ");
-		Serial.print(String(_leg_data->ankle.joint_position));
-		
-		//Serial.print("\ncmdCacheItr: " + String(_controller_data->cmdCacheItr) + "previousMaxCmdCache: " + String(_controller_data->previousMaxCmdCache) + "currentMaxCmdCache: " + String(_controller_data->currentMaxCmdCache));
-		
-		//Serial.print("\nRight user defined setpoint: " + String(_controller_data->parameters[controller_defs::propulsive_assistive::plantar_scaling]) + "  |  adjusted setpoint: " + String(cmd_ff));
-	} 
-	else {
-		Serial.print("  | Left ankle.joint_position at ");
-		Serial.print(String(_leg_data->ankle.joint_position));
-		
-	} */
+			
 	
 	
 	
-    // update plotting variables
-    //_controller_data->ff_setpoint = cmd_ff / quasi_kf;
+    
 	_controller_data->ff_setpoint = cmd_ff; 
 	_controller_data->setpoint = cmd;
     _controller_data->filtered_setpoint = squelched_propulsive_term;
 
-    // Print the propulsive terms for the right leg
-  /*   if (!_leg_data->is_left)
-    {
-        // Serial.print("Vel:" + String(_leg_data->ankle.joint_velocity) + "\t");
-        // Serial.print("kProp:" + String(kProp) + "\t");
-        // Serial.print("SQPM:" + String(propulsive_grf_squelch_multiplier) + "\t");
-        // Serial.print("SQP:" + String(squelched_propulsive_term) + "\n");
-		//Serial.print("Right Toe FSR Thre: " + String(_controller_data->toeFsrThreshold) + "  |  Assistive: " + String(assistive) + "  |  Reference ang: " + String(_controller_data->reference_angle) + "  |  ToeFSR: " + String(percent_grf) + "\n");
-        
-    } */
+   
 
     #ifdef CONTROLLER_DEBUG
     logger::println("PropulsiveAssistive::calc_motor_cmd : stop");
     #endif
-	// if (!_leg_data->is_left) {
-	// Serial.print("\n");
-	// Serial.print(digitalRead(36));
-	// Serial.print(digitalRead(37));
-		/* if ((!digitalRead(37)||!digitalRead(37))&&(!_controller_data->gasp_error_started)) {
-			_controller_data->gasp_error_start_time = millis();
-			_controller_data->gasp_error_started = true;
-			
-		}
-		if ((digitalRead(37)||digitalRead(37))&&(_controller_data->gasp_error_started)) {
-			// Serial.print("\n");
-			// Serial.print(millis() - _controller_data->gasp_error_start_time);
-			_controller_data->gasp_error_started = false;
-			// _controller_data->gasp_motor_reset_plot++;
-		} */
-	// }
-	/* if (!_leg_data->is_left) {
-	Serial.print("\ncmd_ff: " + String(cmd_ff) + ", raw torque reading: " + String(_controller_data->filtered_torque_reading) + " cmd: " + String(cmd)); 
-	} */
-	/* if (!_leg_data->is_left) {
-	Serial.print("\ncmd: " + String(cmd)); 
-	} */
 	
-	//motor RoM test start
-	/* uint16_t exo_status = _data->get_status();
-    bool active_trial = (exo_status == status_defs::messages::trial_on) || 
-        (exo_status == status_defs::messages::fsr_calibration) ||
-        (exo_status == status_defs::messages::fsr_refinement);
-		
-		if (_joint_data->motor_pos_first_run && _joint_data->motor.enabled) {
-			_joint_data->motor_pos_max = _joint_data->motor.p;
-			_joint_data->motor_pos_min = _joint_data->motor.p;
-			_joint_data->motor_pos_first_run = false;
-		}
-		_joint_data->motor_pos_max = max(_joint_data->motor_pos_max, _joint_data->motor.p);
-		_joint_data->motor_pos_min = min(_joint_data->motor_pos_min, _joint_data->motor.p);
-		
-		if (_joint_data->is_left) {
-		Serial.print("\nLeft angle: ");
-		Serial.print(_leg_data->ankle.joint_position);
-		Serial.print("  |  Left torque: ");
-		Serial.print(_joint_data->torque_reading);
-		//cmd = _controller_data->parameters[controller_defs::calibr_manager::calibr_cmd];
-		//cmd = 0;
-		Serial.print("  |  Left cmd: ");
-		Serial.print(cmd);
-		Serial.print("  |  Left toe FSR: ");
-		Serial.print(_leg_data->toe_fsr);
-		Serial.print("  |  Left heel FSR: ");
-		Serial.print(_leg_data->heel_fsr);
-		Serial.print("  |  Left motor RoM: ");
-		Serial.print(_joint_data->motor_pos_max - _joint_data->motor_pos_min);
-		Serial.print("  |  Left torque offset: ");
-		Serial.print(_joint_data->torque_offset_reading);
-		Serial.print("  |  Left microSD torque offset: ");
-		Serial.print(_joint_data->torque_offset / 100);
-		Serial.print("  |  Left torque reading (microSD): ");
-		Serial.print(_joint_data->torque_reading_microSD);
-	}
-	else {
-		Serial.print("  |  Right angle: ");
-		Serial.print(_leg_data->ankle.joint_position);
-		Serial.print("  |  Right torque: ");
-		Serial.print(_joint_data->torque_reading);
-		//cmd = 0;
-		Serial.print("  |  Right cmd: ");
-		Serial.print(cmd);
-		Serial.print("  |  Right toe FSR: ");
-		Serial.print(_leg_data->toe_fsr);
-		Serial.print("  |  Right heel FSR: ");
-		Serial.print(_leg_data->heel_fsr);
-		Serial.print("  |  Right motor RoM: ");
-		Serial.print(_joint_data->motor_pos_max - _joint_data->motor_pos_min);
-		Serial.print("  |  Right torque offset: ");
-		Serial.print(_joint_data->torque_offset_reading);
-		Serial.print("  |  Right microSD torque offset: ");
-		Serial.print(_joint_data->torque_offset / 100);
-		Serial.print("  |  Right torque reading (microSD): ");
-		Serial.print(_joint_data->torque_reading_microSD);
-		Serial.print("  |  doToeRefinement: ");
-		Serial.print(String(_leg_data->do_calibration_refinement_toe_fsr));
-		Serial.print("  |  Exo status: ");
-		uint16_t exo_status = _data->get_status();
-		Serial.print(String(exo_status));
-	} */
-	//motor RoM test end
-	
-	//
-	/* if (_leg_data->is_left) {
-	digitalWrite(33,HIGH);
-	analogWriteResolution(12);
-	Serial.print("\nFiltered torque: ");
-	Serial.print(_controller_data->filtered_torque_reading);
-	Serial.print("  |  Pre-map cmd: ");
-	Serial.print(cmd);	
-	cmd = map(cmd,-60,60,0,4096);
-	analogWrite(A8,cmd);
-	Serial.print("  |  Post-map cmd: ");
-	Serial.print(cmd);
-	} */
 	
 	//Maxon PCB enabling motors
 	uint16_t exo_status = _data->get_status();
@@ -864,25 +654,10 @@ float PropulsiveAssistive::calc_motor_cmd()
 			analogWriteResolution(12);
 			//analogWriteFrequency(A8, 5000);
 			analogWriteFrequency(A9, 5000);
-			/* if (!digitalRead(36) || !digitalRead(37)) {
-				_controller_data->maxonError = true;
-			}
-			Serial.print("\n");
-			Serial.print(_controller_data->maxonError); */
-			/* Serial.print("\n");
-			Serial.print(digitalRead(36)); */
-			
-			
-			
-			/* Serial.print("\n");
-			Serial.print(_controller_data->maxonErrorCount); */
-			
-			//_controller_data->gasp_step_started = false;
 			return;
 		}
 		
 		if ((!digitalRead(37) || !digitalRead(37)) && _controller_data->maxonResetItrCount==0) {
-				//_controller_data->maxonError = true;
 				digitalWrite(33,LOW);
 				_controller_data->maxonResetItrCount = 1;
 				return;
@@ -906,117 +681,11 @@ float PropulsiveAssistive::calc_motor_cmd()
 			_controller_data->maxonResetItrCount = 0;
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		/* else {
-			if (_controller_data->maxonJustReset == true) {
-				if (_controller_data->maxonResetItrCount > 5) {
-					_controller_data->maxonResetItrCount = 0;
-					_controller_data->maxonJustReset = false;
-				}
-			}
-			else if ((!digitalRead(37) || !digitalRead(37)) && !_controller_data->maxonWasOff) {
-				//_controller_data->maxonError = true;
-				digitalWrite(33,LOW);
-				_controller_data->maxonWasOff = true;
-				_controller_data->maxonErrorCount++;
-				_controller_data->maxonResetItrCount++;
-				
-				//reset i_gain error sum
-				float _pid(cmd_ff, _controller_data->filtered_torque_reading,
-            2 * _controller_data->parameters[controller_defs::propulsive_assistive::kp],
-            0, 
-            2 * _controller_data->parameters[controller_defs::propulsive_assistive::kd]);
-	
-				
-				return;
-			}
-			else if (_controller_data->maxonWasOff) {
-				// analogWriteResolution(12);
-				//analogWrite(A8,2048);
-				//analogWrite(A9,2048);
-				
-				
-				if (_controller_data->maxonResetItrCount > 5) {
-				_controller_data->maxonWasOff = false;
-				float _pid(cmd_ff, _controller_data->filtered_torque_reading,
-            2 * _controller_data->parameters[controller_defs::propulsive_assistive::kp],
-            0, 
-            2 * _controller_data->parameters[controller_defs::propulsive_assistive::kd]);
-				digitalWrite(33,HIGH);
-				_controller_data->maxonJustReset = true;
-				_controller_data->gasp_motor_reset_plot++;
-				}
-				_controller_data->maxonResetItrCount++;
-				
-				
-				
-				/* pinMode(A0,INPUT);
-				pinMode(A1,INPUT); */
-				
-				/* pinMode(36, INPUT);
-				pinMode(37, INPUT); */
-				/* pinMode(36, INPUT_PULLUP);
-				pinMode(37, INPUT_PULLUP); */
-				
-		//	}
-			/* if (_leg_data->is_left) {
-				Serial.print("\nLeft motor error: ");
-				pinMode(36,INPUT);
-				Serial.print(digitalRead(36));
-			}
-			else {
-				Serial.print("  |  Right motor error: ");
-				pinMode(37,INPUT);
-				Serial.print(digitalRead(37));
-			} */
-			// digitalWrite(33,HIGH);
-			// pinMode(A0,INPUT);
-			// pinMode(A1,INPUT);
-		//} */
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		/* if (!digitalRead(36) || !digitalRead(37)) {
-			_controller_data->maxonError = true;
-		}
-		Serial.print("\n");
-		Serial.print(_controller_data->maxonError); */
-		/* Serial.print("\n");
-		Serial.print(digitalRead(36)); */
-		//analogWriteResolution(12);
-		
-		
-		/* Serial.print("\n");
-		Serial.print(_controller_data->maxonErrorCount); */
-		
-		
 		int flip4Maxon = (_joint_data->motor.flip_direction? -1: 1);
 		float cmdMaxon = 2048 + flip4Maxon * cmd;
 		cmdMaxon = min(3645, cmdMaxon);
 		cmdMaxon = max(451, cmdMaxon);
 		
-		//Manually trigger a motor error to test out the motor reset function
-		/* if ((!_controller_data->maxonManualTrigger) && (_controller_data->parameters[controller_defs::propulsive_assistive::kd] != 150)) {
-			cmdMaxon = 0;
-			_controller_data->maxonManualItrCount++;
-			if (_controller_data->maxonManualItrCount > 200) {
-			_controller_data->maxonManualTrigger = true;
-			}
-		} */
-		//Test ends
 		
 		if (_joint_data->is_left) {
 			//analogWrite(A8,cmdMaxon);//Left motor: A8; Right motor: A9
@@ -1024,20 +693,6 @@ float PropulsiveAssistive::calc_motor_cmd()
 		else {
 			analogWrite(A9,cmdMaxon);//Left motor: A8; Right motor: A9
 		}
-		
-		/* _controller_data->setpoint = max(10 * abs(cmd), 10 * _controller_data->setpoint);
-		_controller_data->setpoint = 4; */
-		/* if (10 * abs(cmd) > _controller_data->maxMaxonCMD) {
-			_controller_data->maxMaxonCMD = 10 * abs(cmd);
-		}
-		if (!_leg_data->is_left) {
-			Serial.print("\nRight leg max abs(cmdMaxon): ");
-			Serial.print(_controller_data->maxMaxonCMD);
-		} */
-		/* if (!_leg_data->is_left) {
-			Serial.print("\nRight leg cmdMaxon: ");
-			Serial.print(cmdMaxon);
-		} */
 	
 	return 0;
     //return cmd;
