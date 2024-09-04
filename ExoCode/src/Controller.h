@@ -86,6 +86,7 @@ class _Controller
 		bool _do_start_timer = 0;
 		float _start_time;
 		bool _pid_on = 0;
+		float _pid_error_sum = 0;
         
         /**
          * @brief calculates the current PID contribution to the motor command. 

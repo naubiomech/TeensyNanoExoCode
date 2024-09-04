@@ -47,7 +47,16 @@ bool FSR::calibrate(bool do_calibrate)
         // logger::println(_pin);
         _start_time = millis();
         // set the max/min to the current value
-        _calibration_max = analogRead(_pin);
+        /* _calibration_max = analogRead(_pin); */
+		
+		double p[4] = {0.0787, -0.8471, 20.599, -22.670};
+		float Vo = 10 * 3.3 * analogRead(_pin) / 4095; //ZL Added in the 10* to scale the output
+		Vo = (Vo) / (87.43 * pow((Vo),(-0.6721)) - 7.883);               //Apply interlink conversion
+		Vo = p[0] * Vo * Vo * Vo + p[1] * Vo * Vo + p[2] * Vo + p[3];//Apply amplification polynomial
+		Vo = (Vo < 0.2) ? (0):(Vo);//If the value is less than 0.2, set it to zero
+		_calibration_max = Vo;
+
+		
         _calibration_min = _calibration_max;
     }
     
@@ -59,7 +68,15 @@ bool FSR::calibrate(bool do_calibrate)
     {
         // logger::print("FSR::calibrate : Continuing Cal for pin - ");
         // logger::println(_pin);
-        uint16_t current_reading = analogRead(_pin);
+        //uint16_t current_reading = analogRead(_pin);
+		
+		double p[4] = {0.0787, -0.8471, 20.599, -22.670};
+		float Vo = 10 * 3.3 * analogRead(_pin) / 4095; //ZL Added in the 10* to scale the output
+		Vo = (Vo) / (87.43 * pow((Vo),(-0.6721)) - 7.883);               //Apply interlink conversion
+		Vo = p[0] * Vo * Vo * Vo + p[1] * Vo * Vo + p[2] * Vo + p[3];//Apply amplification polynomial
+		Vo = (Vo < 0.2) ? (0):(Vo);//If the value is less than 0.2, set it to zero
+		float current_reading = Vo;
+		
         // Track the min and max.
         _calibration_max = max(_calibration_max, current_reading);
         _calibration_min = min(_calibration_min, current_reading);
@@ -101,8 +118,14 @@ bool FSR::refine_calibration(bool do_refinement)
         // check if we are done with the calibration
         if (_step_count < _num_steps)
         {
-            uint16_t current_reading = analogRead(_pin);
-            
+            //uint16_t current_reading = analogRead(_pin);
+            double p[4] = {0.0787, -0.8471, 20.599, -22.670};
+			float Vo = 10 * 3.3 * analogRead(_pin) / 4095; //ZL Added in the 10* to scale the output
+			Vo = (Vo) / (87.43 * pow((Vo),(-0.6721)) - 7.883);               //Apply interlink conversion
+			Vo = p[0] * Vo * Vo * Vo + p[1] * Vo * Vo + p[2] * Vo + p[3];//Apply amplification polynomial
+			Vo = (Vo < 0.2) ? (0):(Vo);//If the value is less than 0.2, set it to zero
+			float current_reading = Vo;
+			
             // For each step find max and min for every step
             // keep a running record of the max and min for the step.
             _step_max = max(_step_max, current_reading);
@@ -146,8 +169,16 @@ bool FSR::refine_calibration(bool do_refinement)
 
 float FSR::read()
 {
-    _raw_reading = analogRead(_pin);
-
+    //_raw_reading = analogRead(_pin); % for tekscan FSRs
+	
+	//the following part is for InterLink FSRs
+	double p[4] = {0.0787, -0.8471, 20.599, -22.670};
+	float Vo = 10 * 3.3 * analogRead(_pin) / 4095; //ZL Added in the 10* to scale the output
+		Vo = (Vo) / (87.43 * pow((Vo),(-0.6721)) - 7.883);               //Apply interlink conversion
+		Vo = p[0] * Vo * Vo * Vo + p[1] * Vo * Vo + p[2] * Vo + p[3];//Apply amplification polynomial
+		Vo = (Vo < 0.01) ? (0):(Vo);//If the value is less than 0.2 (now 0.01), set it to zero
+		_raw_reading = Vo;
+	
     // Return the value using the calibrated refinement if it is done.
     if (_calibration_refinement_max > 0)
     {

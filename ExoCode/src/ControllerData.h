@@ -144,7 +144,9 @@ namespace controller_defs /**< stores the parameter indexes for different contro
         const uint8_t kp = 7;
         const uint8_t kd = 8;
 		const uint8_t turn_on_peak_limiter = 9;
-        const uint8_t num_parameter = 10;
+		const uint8_t step_response_mode = 10;
+		const uint8_t ki = 11;
+        const uint8_t num_parameter = 12;
     }
 	
 	namespace calibr_manager
@@ -224,7 +226,8 @@ class ControllerData {
         float filtered_torque_reading; /**< filtered torque reading, used for filtering torque signal */
         float filtered_cmd; /**< filtered command, used for filtering motor commands */
         float filtered_setpoint = 0; /**< filtered setpoint for the controller */
-        
+        float filtered_toe_fsr; /**< filtered fsr reading to smooth out the BTI FSR reading with the new FSR equations */
+		
         // Variables for Auto Kf in the PID Controller
         float kf = 1; /**< gain for the controller */
         float prev_max_measured = 0; /**< previous max measured value */
@@ -266,6 +269,20 @@ class ControllerData {
 		float prevMaxPjmcSpringDamper = 0;
 		float cmd_2nd = 0;
 		float cmd_1st = 0;
+		float maxMaxonCMD = 0;
+		bool maxonWasOff = true;
+		bool maxonError = false;
+		uint16_t maxonErrorCount = 0;
+		bool maxonManualTrigger = false;
+		uint8_t maxonManualItrCount = 0;
+		float gasp_time_current = 0;
+		float gasp_time_initial = 0;
+		bool gasp_step_started = false;
+		uint16_t maxonResetItrCount = 0;
+		bool maxonJustReset = false;
+		bool gasp_error_started = false;
+		float gasp_error_start_time = 0;
+		uint8_t gasp_motor_reset_plot = 0;
 		
 
         // Variables for the ElbowMinMax Controller
