@@ -1,4 +1,4 @@
-Hello and welcome! This is an embedded codebase is used to help people walk, and 
+Hello and welcome! This is an embedded codebase is used to help people move, and 
 we're glad to have you contributing. 
 
 ## Overview
@@ -20,11 +20,11 @@ Remember to profile your code, this ensures that you dont harm the codebases tim
 4. Once everything has been validated, merge your feature branch into main.
 
 ## Suggested Dev Tools
-I (Chancelor Cuddeback) use VSCode for much of my programming, but you can use whatever 
+We use VSCode for much of our programming, but you can use whatever 
 tool you prefer. VSCode is nice because is has a couple of extensions that make
 development and Doxygen commenting easier. Install VSCode [here](https://code.visualstudio.com/Download). To install an extension, click on the Blocks icon on the 
 left toolbar (On windows you can also press Ctrl+Shift+X). Then search for an extension 
-that you would like. I use 'C/C++' (by Microsoft) and 'Doxygen Documentation Generator' 
+that you would like. We use 'C/C++' (by Microsoft) and 'Doxygen Documentation Generator' 
 by Christoph Schlosser. To use the automatic Doxygen comment generator simply go to
 the line above the code you would like to comment and type /** and the hit enter. The 
 extension should automatically add tags for parameters and return values (e.g. for a
