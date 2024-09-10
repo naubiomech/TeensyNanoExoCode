@@ -1,4 +1,4 @@
-# New Code User Guide
+# User Guide
 
 ## Outline
 1.  [Background](#background)
@@ -253,7 +253,7 @@ Signed variables use one extra bit to account for the sign of the value (compare
 
 **ex.** [BleParser.cpp](/ExoCode/src/BleParser.cpp)
 ```
-//Get the ammount of characters to wait for
+//Get the amount of characters to wait for
 for(unsigned int i=0; i < sizeof(ble::commands)/sizeof(ble::commands[0]); i++)
 {
 ```
@@ -1064,13 +1064,8 @@ So when we call reconfigure for the ExoData objects we call the reconfigure memb
 This guide is designed to provide background information on OpenExo's software.
 This system is designed to be flexible, where the system can be easily adapted to the user's needs, changing the motors used, number of joints, etc. 
 
- 
 ### Code Location  
-If you are reading this you have found the location, but for completeness it can be found at: https://github.com/naubiomech/ExoCode/tree/nano_teensy_board.
-To access it you will need to get permission from one of the existing members.  
-Most everyone is an owner and should be able to give you access.
-This code is currently under the nano_teensy_board branch. 
-Detailed instructions on setting up git can be found [here](https://docs.google.com/document/d/15j4S6pc9qAXF1_4HghfnPCgwyrsP_jZ15kv34wk7MbU/edit?usp=sharing).
+If you are reading this you have found the location, but for completeness it can be found at: https://github.com/naubiomech/ExoCode/tree/nano_teensy_board. 
 
 ### Style Guide  
 The detailed style guide can be found [here](StyleGuide.md).
@@ -1079,11 +1074,10 @@ The detailed style guide can be found [here](StyleGuide.md).
 ![Diagram](Figures/CodeDiagram.svg)
 
 Details of the components can be found in [/Presentations/20220914_Pridham_NewCodeBase.pptx](/Presentations/)
-
+Note: At the time of the presentaiton the terminology "Leg/LegData" was used instead of "Side/SideData" and communication between the boards 
+occured via SPI instead of UART. The functionality and structure is the same, but to avoid confusion we wanted to specify. 
 
 ### How to Deploy 
-
-
 First, you will need to connect the physical components.
 1. Mount the motors on the system as appropriate.  
 2. Connect the power and communication cables to the control board.
@@ -1104,13 +1098,10 @@ First, you will need to connect the physical components.
 
 Those are the rough points.
 Detailed explanations can be found in the coming sections.
-    
-
 
 ***
 ## High Level Functionality
-The system is broken into separate components that can be put together based on the system's needs.  
-Arduino is used to control these components.   
+The system is broken into separate components that can be put together based on the system's needs. Arduino is used to control these components.   
 There are two key classes, ExoData and Exo.  
 ExoData is used to store the data recorded by the system and the data used to control the system and should mirror the structure of Exo.
 The hierarchy is:
@@ -1123,8 +1114,9 @@ The hierarchy is:
             - TorqueSensor
             - Motor/MotorData
             - Controller/ControllerData
+			
 A subset of the firmware can run on a separate microcontroller, intended to handle Bluetooth communication and soft real-time functionality. The main microcontroller 
-communicates with the communication microcontroller via SPI. 
+communicates with the communication microcontroller via UART. 
 The hierarchy is:
 - ComsMCU/ExoData
     - ExoBLE/ExoData
@@ -1138,7 +1130,6 @@ The high level way the code runs is:
 3. Create the exo object (static in main loop)
 4. Read new messages and update exo_data
 5. exo.run() which runs the subcomponents as well 
-        
 
 ### Code Structure 
 
@@ -1157,7 +1148,7 @@ To this end we have utilized [abstract classes](#abstract-classes) for things li
 Additionally sensors do not need access to the ExoData object, we considered doing this for all IO but decided it didn't make sense in all cases.
 
 ### Operation  
-TODO: Update when the app portion is incorporated.
+We have developed a Python GUI to aid in the operation of the device. More information on the Python GUI, and its operation, can be found [here] (/Python_GUI)
 
 ***
 ## SD Card  
@@ -1178,10 +1169,13 @@ We have some premade exoskeleton configurations you can choose from by putting t
 Just check to make sure the settings in that section match your system.
 If we are using a bilateral hip system we would set ```[Exo] name = bilateralHip```, then go to the section \[bilateralHip\] and check it matches the system we are using.
 - sides - are you using the left, right, or both sides.
-- hip, knee, ankle - sets the type of motor the joint uses.
-- gear ratio - sets the transmission ratio for the joint torque to the motor output torque.  If the motor has a built in gearbox that should not appear here.
+- hip, knee, ankle - sets the type of motor the joint uses (also determines which joint is actually used, that is, if you set the value to 0 it won't use that joint).
+- gear ratio - sets the transmission ratio for the joint torque to the motor output torque.  If the motor has a built in gearbox that should not appear here but rather be coded into the motor class in Motor.cpp.
 - default controller - is the controller the system starts with.
-- flip dir - is if the direction of the motor values should be flipped.  For example if we have two motors pointing in towards the hip and both rotate counter clockwise with a positive current one of them will need to be sent a negative current so they both rotate in the same direction on the body.  When a side is flipped the commands and angle measurements will be inverted automatically so sending a positive command to both motors will have them move the body in the same way.
+- use torque sensor - flag to determine if you want to use a torque sensor with your joint (0 = no, 1 = yes)
+- flip motor dir - is if the direction of the motor values should be flipped.  For example if we have two motors pointing in towards the hip and both rotate counter clockwise with a positive current one of them will need to be sent a negative current so they both rotate in the same direction on the body.
+- flip torque dir - flips the sign of the torque sensor on the selected side. This helps align the torque sensor reading to be in the same direction as the motor command to avoid PID issues.
+- flip angle dir - flips the sign of the angle sensor on the selected side. This helps align the angle sensor reading to be in the same direction as the motor command to avoid controller issues.
 
 ### SD Controller Parameters 
 The parameters for each controller are stored in their corresponding joint folder.
@@ -1195,15 +1189,15 @@ The nth parameter row is n-1 parameter set, e.g. parameter row 2 will be referen
 
 The order of the parameters should match how they appear in the parameter array which can be found in [ControllerData.h](/ExoCode/src/ControllerData.h). in the controller_defs namespace.
 
-These will be selected using  the update torque field in the app where you set the joint, controller, and parameter set.
+These will be selected using the update controller field in the app where you set the joint, controller, and parameter set.
 
 *** 
 ## Sensors
-Sensors do not have a shared interface(abstract class), although you could do this if you want.
+Sensors do not have a shared interface (abstract class), although you could do this if you want.
 The sensors are designed to be stand alone so they do not need something like access to an ExoData object.
 With this they must be written so that they take in the information they need and return the info they need.
 
-For example the for the FSR to calibrate over a period of time they need to take in a command to calibrate but also to return when the calibration is finished.
+For example for the FSR to calibrate over a period of time they need to take in a command to calibrate but also to return when the calibration is finished.
 
 ### Sensor Structure 
 The main thing the sensors will need is a constructor to setup the interface.
@@ -1214,24 +1208,24 @@ With these other interfaces you will need to make sure not to create conflicts w
 ### Adding New Sensors
 Details can be found in [Adding New Sensors](AddingNew/AddingNewSensors.md)
 
-
 *** 
 ## Displays
-There are currently two different displays, the status LED and the sync LED, used to display information to people or other systems.
+There are currently two different options for displays, the status LED and the sync LED, used to display information to people or other systems.
+Currently we only use the Status LED, but we have developed and outlined the Sync LED for future research purposes. 
  
 ### Status LED
 The status LED is simply and RGB LED that displays different light patterns to let you know what is happening with the system.
 Details on what the different patterns mean can be found in [StatusLed.h](/ExoCode/src/StatusLed.h) in the status_led_defs namespace.
 There is an instance of StatusLed in Exo which should be updated every run of exo using:
 ```
-// update status LED
+//Update status LED
 status_led.update(data->status);
 ```
 Where the status value is defined in the status_defs::messages namespace in [StatusDefs.h](/ExoCode/src/StatusDefs.h), and is set in other areas of the code depending on what the current state is.
 
 ### Sync LED
-The sync LED is used to synchronize the data recorded by the exoskeleton and other systems, primarily infrared based optical motion capture systems.
-This the state of this LED must be included in the recorded data for this to work.
+The sync LED can be used to synchronize the data recorded by the exoskeleton and other systems, primarily infrared based optical motion capture systems.
+The state of this LED must be included in the recorded data for this to work.
 
 Essentially, the LEDs nominal state is either on or off, selectable using the sync default pin on the PCB.  
 When triggered it gives a long pulse, then gives short pulses till triggered again when it gives a long pulse again.
@@ -1241,7 +1235,7 @@ By aligning the long pulses in the data from the exo and the external system the
 This can be done by identifying the long pulses, by finding the time between rising and falling edges, and the long pulses should be the only ones with the larger duration.
 Once identified the start pulse could be matched up, then the time can be scaled to make the end pulse match up.
 This way even if the sampling rates are different or the clocks are at different rates you can still match up the data.
-A tool for aligning can be found at [G:\Shared drives\Biomech_Lab\Experimental Data\Template Data Processing\align_data.m](https://drive.google.com/file/d/1vgxFCoCukO2us4WSrcil_TI3fLCNSLNX/view?usp=sharing).
+A tool for aligning can be found [here](https://drive.google.com/file/d/1vgxFCoCukO2us4WSrcil_TI3fLCNSLNX/view?usp=sharing).
 
 *** 
 ## Actuators
@@ -1280,7 +1274,7 @@ Details on adding a new CAN motor can be found in [Adding New CAN Motor](AddingN
 This is specifically for the TMotor CAN motors but can be adapted to new types of motors when we have them.
 
 ### T-motor Initialization 
-TMotor initialization information can be found in: [G:\Shared drives\Biomech_Lab\Manuals_Guides_Forms\TMotor AK Resources\Manuals](https://drive.google.com/drive/folders/1Zrfk-qxY8917pJ-qeVlzmoCAqcmfqqJG?usp=sharing)
+TMotor initialization information can be found [here] (https://drive.google.com/drive/folders/112uRESszPLOKpT7L96roRqkAQ4_Bt3b_?usp=drive_link)
 
 *** 
 ## Controllers 
@@ -1293,15 +1287,12 @@ That is why the constructor to the a joint like the hip looks like:
 
 ```
 HipJoint::HipJoint(config_defs::joint_id id, ExoData* exo_data)
-: _Joint(id, exo_data)
+: _Joint(id, exo_data)  // <-- Initializer list
 , _zero_torque(id, exo_data)
-, _heel_toe(id, exo_data)
-, _extension_angle(id, exo_data)
-, _bang_bang(id, exo_data)
 , _franks_collins_hip(id, exo_data)
-// , _user_defined(id, exo_data)
-, _sine(id, exo_data)
-, _stasis(id, exo_data)
+, _constant_torque(id, exo_data)
+, _chirp(id, exo_data)
+, _step(id, exo_data)
 {
 ```
 
@@ -1314,21 +1305,20 @@ Within this you can then define what that call does for the specific controller.
 ### Controller Structure 
 The controllers have a primary call of calc_motor_cmd() that will calculate the torque command that will be sent to the motor.
 ```
-// Calculate the motor command
+//Calculate the motor command
 _joint_data->controller.setpoint = _controller->calc_motor_cmd();
 _motor->transaction(_joint_data->controller.setpoint / _joint_data->motor.gearing);
 ```
 Each controller can also have additionally private member functions that are called internally.
 
 The controllers will pull the parameters that they use from the ControllerData instance which can be accessed through the pointer in the controller using ```_controller_data->parameters```.
-This is shared between all controllers so it is important to change to the "stasis" controller prior to moving to a new controller.
+This is shared between all controllers so it is important to change to the "zero_torque" controller prior to moving to a new controller.
 The order of operations are:
-1. Change to stasis controller, commands the motor to 0 current and uses no parameters so it is safe when making big changes to parameters.
+1. Change to zero torque controller, commands the motor to 0 current and uses no parameters so it is safe when making big changes to parameters.
 2. Change parameters so they are what you want for the new controller.
 3. Change the controller pointer to use the new controller.
 This way you don't change a parameter for one controller to something like user mass when the current controller is interpreting that parameter as max torque.
 This should be handled in software so the user doesn't need to think about it, but is good to be aware of.
-
 
 
 ### Adding New Controllers
@@ -1336,44 +1326,51 @@ Details can be found in [Adding New Controller](AddingNew/AddingNewController.md
 
 ### Controller Parameters 
 The controller parameters are dependent on what controller is being used but a description of the parameters for each controller can be found below.
-Each controller should have parameters for if PID should be used, PID gains, and if it is assistive or resistive.
-If the assistive flag is true it should help the person perform the task.  
-If it is false it should resist the person, this manifestation can be as simple as flipping the sign on the torque.
 
 #### Hip
-- [Stasis](Controllers/Stasis.md)
 - [Zero Torque](Controllers/ZeroTorque.md)
-- [Sine](Controllers/Sine.md)
-- [User Defined](Controllers/UserDefined.md)
-- [Heel Toe](Controllers/UserDefined.md)
-- [Extension Angle](Controllers/Hip/ExtensionAngle.md)
-- [Bang Bang](Controllers/Hip/BangBang.md)
 - [Franks Collins Hip](Controllers/Hip/FranksCollinsHip.md)
-
+- [Constant Torque] (Controllers/ConstantTorque.md)
+- [Chirp] (Controllers/Chirp.md)
+- [Step] (Controllers/Step.md)
+- [Calibration Manager] (Controllers/CalbrManager.md)
 
 #### Knee
-- [Stasis](Controllers/Stasis.md)
 - [Zero Torque](Controllers/ZeroTorque.md)
-- [Sine](Controllers/Sine.md)
-- [User Defined](Controllers/UserDefined.md)
+- [Constant Torque] (Controllers/ConstantTorque.md)
+- [Chirp] (Controllers/Chirp.md)
+- [Step] (Controllers/Step.md)
+- [Calibration Manager] (Controllers/CalbrManager.md)
 
 #### Ankle
-- [Stasis](Controllers/Stasis.md)
 - [Zero Torque](Controllers/ZeroTorque.md)
-- [Sine](Controllers/Sine.md)
-- [User Defined](Controllers/UserDefined.md)
+- [Constant Torque] (Controllers/ConstantTorque.md)
+- [Chirp] (Controllers/Chirp.md)
+- [Step] (Controllers/Step.md)
+- [Calibration Manager] (Controllers/CalbrManager.md)
 - [Proportional Joint Moment](Controllers/Ankle/ProportionalJointMoment.md)
 - [Zhang Collins](Controllers/Ankle/ZhangCollins.md)
+
+#### Elbow
+- [Zero Torque](Controllers/ZeroTorque.md)
+- [Elbow Min Max](Controllers/Elbow/ElbowMinMax.md)
+- [Constant Torque] (Controllers/ConstantTorque.md)
+- [Chirp] (Controllers/Chirp.md)
+- [Step] (Controllers/Step.md)
+- [Calibration Manager] (Controllers/CalbrManager.md)
 
 ***
 ## Bluetooth 
 The system uses Bluetooth Low Energy (BLE) to communicate with a graphical user interface (GUI). For an introduction to BLE, [see](https://learn.adafruit.com/introduction-to-bluetooth-low-energy).
 
 ### Bluetooth Background
-The Exosekeleton uses Norduc's UART Service (NUS) to communicate with the GUI. This service has RX and TX characteristics mimicking UART. In order for the app to connect with the Exoskeleton it's name must begin with "EXOBLE_" and advertise the NUS. When the Exoskeleton connects with the GUI, it will begin sending battery data. When a trial is started the device will begin transmitting a subset of the ExoData struct. 
+The Exosekeleton uses Norduc's UART Service (NUS) to communicate with the GUI. This service has RX and TX characteristics mimicking UART. 
+In order for the app to connect with the Exoskeleton it's name must begin with "EXOBLE_" and advertise the NUS. 
+When a trial is started the device will begin transmitting a subset of the ExoData struct. 
 
 ### Bluetooth Structure
-The CommsMCU class is the highest class in the Communications firmware heirarchy. It contains the battery object, and the ExoBLE object. This class manages the bluetooth connection and data. The class also performs battery sampling. 
+The CommsMCU class is the highest class in the Communications firmware heirarchy. It contains the battery object, and the ExoBLE object. 
+This class manages the bluetooth connection and data. The class can also performs battery sampling, however at this time we have opted not to do this via that app to save space/cost on the PCB. The battery level can be monitored manually during operation. 
 The ExoBLE class handles all bluetooth work. This includes initialization, advertising, connection, and data transfer. 
 The BleParser class is used to serialize and deserialize the BLE data. The application uses Nordic's UART service to pass all of the data. Therefore, the command-data pairs must be packaged together and unpackaged on the peripheral and central.
 There are several variables in config.h that control the timing of data transmission. 
@@ -1403,6 +1400,9 @@ So if you are adding a print statement you should wrap it in an ```#ifdef``` for
 The reason we do it file by file rather than printing everything is because it allows you to focus in on the area you are working on.
 Even within this you may still want to comment out some of the prints within the file to really focus on the area you are using.
 
+You will also notice several "logger" print statments throughout the code. If you wish to print these, you need to switch the loglevel in the logging namespace in [Config.h](/ExoCode/src/Config.h) from "Release" to "Debug".
+When not troubleshooting the device, make sure the logger is set to "Release" in order to most efficiently operate the system.  
+
 ***
 ## Adding New
 This section links to how to add new elements not covered by other sections
@@ -1422,11 +1422,13 @@ Details can be found in [Adding New Controller](AddingNew/AddingNewItemToConfig.
 
 This would be done if new features need to be configured.
 
-
+### Adding New Joint
+Details can be found in [Adding New Joint] (AddingNew/AddingNewJoint.md)
 
 ***
 ## Resources
-### Lab Resources
+
+### Arduino Resources
 [Arduino Instructions](https://docs.google.com/document/d/1ToLq6Zqv58Q4YEmf4SzqJDKCTp52LUaKgYg5vNmHdaI/edit?usp=sharing)
 
 ### C++ Resources
@@ -1444,8 +1446,7 @@ runtime. However, using Serial.print("\n") works just fine.
 
 When utilizing an Arduino Nano BLE rev2, you need to download an additional library "Arduino_BMI270_BMM150.h" directly into Arduino for the code to work.
 
-The FSR regression equation for Ankle Control alters accuracy of percent gait estimate which disrupts timing of franksCollins Hip Control.
+The FSR regression equation for Ankle Control alters accuracy of percent gait estimate which disrupts timing of franksCollinsHip Control when in bilateral operation.
+Future work will handle FSRs slightly differently to allow for better control.
 
-Method for handling torque sensor identification does not allow for simultaneous hip and ankle usage if only one joint actually uses torque sensors
-(i.e., if only the ankle has torque sensors but we use hip and ankle configuration, the ankle torque sensors will be assigned to the Hip, current work around
-involves commenting out hip torque sensor id code).  
+An unknown change in later versions of Teensy cause the errors in operation of the code, for the time being we recommend using only [Teensy 1.56] (https://drive.google.com/drive/folders/1KPKqQVOz_tkL_bVR01A6eaRcMwZrPEkt?usp=drive_link)
