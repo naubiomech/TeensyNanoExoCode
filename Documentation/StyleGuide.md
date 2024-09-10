@@ -1,4 +1,4 @@
-# Biomechatronics Lab C++ Style Guide 
+# OpenExo C++ Style Guide 
 Based on https://github.com/isocpp/CppCoreGuidelines
 and https://www.python.org/dev/peps/pep-0008/
 

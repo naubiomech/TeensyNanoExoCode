@@ -1,4 +1,12 @@
-# Purposes
+# Calibration Manager Controller
+
+## Description
+This controller applies a small, constant torque while printing statements of relevance (command value/sign, torque sensor value/sign, angle sensor value/sign) to the Arduino Serial Monitor. 
+
+## Parameters
+There are no user defined parameters associated with this controller. 
+
+## Purposes
 After you have built an exo, one of the first things to check is the motor directions and the signs (positive/negative) of any of your external sensors (torque, angle, etc.). 
 Having correct motor directions is important as it allows the exo controller designers to focus on the control itself, knowing that, if calibrated properly before use, the exo assistance will always be in the designed directions. 
 The same principle applies for the sensors involved with control. Since PID control is implemented in many of our exo controllers, it is crucial to make sure that the directions match. 

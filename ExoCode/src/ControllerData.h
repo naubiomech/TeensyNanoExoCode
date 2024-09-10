@@ -25,22 +25,22 @@ namespace controller_defs                   /**< Stores the parameter indexes fo
 {
     namespace zero_torque
     {
-        const uint8_t use_pid_idx = 0;
-        const uint8_t p_gain_idx = 1;
-        const uint8_t i_gain_idx = 2;
-        const uint8_t d_gain_idx = 3;
+        const uint8_t use_pid_idx = 0;              //Flag to use PID control
+        const uint8_t p_gain_idx = 1;               //Value of P Gain for PID control
+        const uint8_t i_gain_idx = 2;               //Value of I Gain for PID control
+        const uint8_t d_gain_idx = 3;               //Value of D Gain for PID control 
         const uint8_t num_parameter = 4;
     }
     
     namespace proportional_joint_moment
     {
-        const uint8_t stance_max_idx = 0;                   // Parameter for peak exo torque during stance 
-        const uint8_t swing_max_idx = 1;                    // Parameter for peak exo torque during swing
-        const uint8_t is_assitance_idx = 2;
-        const uint8_t use_pid_idx = 3;
-        const uint8_t p_gain_idx = 4;
-        const uint8_t i_gain_idx = 5;
-        const uint8_t d_gain_idx = 6;
+        const uint8_t stance_max_idx = 0;                   //Parameter for peak exo torque during stance 
+        const uint8_t swing_max_idx = 1;                    //Parameter for peak exo torque during swing
+        const uint8_t is_assitance_idx = 2;                 //When this is 1(assistive) the system will apply the torque in the plantar flexion direction, when 0(resistive) will be in the dorsiflexion direction.
+        const uint8_t use_pid_idx = 3;                      //Flag to use PID control
+        const uint8_t p_gain_idx = 4;                       //Value of P Gain for PID control
+        const uint8_t i_gain_idx = 5;                       //Value of I Gain for PID control
+        const uint8_t d_gain_idx = 6;                       //Value of D Gain for PID control 
         const uint8_t torque_alpha_idx = 7;
         const uint8_t num_parameter = 8;
     }
@@ -81,13 +81,13 @@ namespace controller_defs                   /**< Stores the parameter indexes fo
 
     namespace constant_torque
     {
-        const uint8_t amplitude_idx = 0;
-        const uint8_t direction_idx = 1;
-        const uint8_t alpha_idx = 2;
-        const uint8_t use_pid_idx = 3;
-        const uint8_t p_gain_idx = 4;
-        const uint8_t i_gain_idx = 5;
-        const uint8_t d_gain_idx = 6;
+        const uint8_t amplitude_idx = 0;                //Magnitude of the applied torque, in Nm
+        const uint8_t direction_idx = 1;                //Flag to flip the direction of the applied torque 
+        const uint8_t alpha_idx = 2;                    //Filtering term for exponentially wieghted moving average (EWMA) filter, used on torque sensor to cut down on noise.
+        const uint8_t use_pid_idx = 3;                  //Flag to determine whether or not PID used
+        const uint8_t p_gain_idx = 4;                   //Value of P Gain for PID control
+        const uint8_t i_gain_idx = 5;                   //Value of I Gain for PID control
+        const uint8_t d_gain_idx = 6;                   //Value of D Gain for PID control 
         const uint8_t num_parameter = 7;
     }
 
@@ -134,30 +134,30 @@ namespace controller_defs                   /**< Stores the parameter indexes fo
     namespace chirp
     {
         //Parameters for Sine Wave Used in Chirp Testing
-        const uint8_t amplitude_idx = 0;
-        const uint8_t start_frequency_idx = 1;
-        const uint8_t end_frequency_idx = 2;
-        const uint8_t duration_idx = 3;
-        const uint8_t yshift_idx = 4;
-        const uint8_t pid_flag_idx = 5;
-        const uint8_t p_gain_idx = 6;
-        const uint8_t i_gain_idx = 7;
-        const uint8_t d_gain_idx = 8;
+        const uint8_t amplitude_idx = 0;                        //Amplitude, in Nm, of the torque sine wave
+        const uint8_t start_frequency_idx = 1;                  //Starting frequency for the chirp  
+        const uint8_t end_frequency_idx = 2;                    //Ending frequency for the chirp
+        const uint8_t duration_idx = 3;                         //The duration that you want the chirp to be applied
+        const uint8_t yshift_idx = 4;                           //Shifts the center of the chirp if you want it to be something other than zero
+        const uint8_t pid_flag_idx = 5;                         //Flag to determine whether or not PID used
+        const uint8_t p_gain_idx = 6;                           //Value of P Gain for PID control
+        const uint8_t i_gain_idx = 7;                           //Value of I Gain for PID control
+        const uint8_t d_gain_idx = 8;                           //Value of D Gain for PID control
         const uint8_t num_parameter = 9;
     }
 
     namespace step
     {
         //Parameters for step torque used in max torque capacity testing
-        const uint8_t amplitude_idx = 0;
-        const uint8_t duration_idx = 1;
-        const uint8_t repetitions_idx = 2;
-        const uint8_t spacing_idx = 3;
-        const uint8_t pid_flag_idx = 4;
-        const uint8_t p_gain_idx = 5;
-        const uint8_t i_gain_idx = 6;
-        const uint8_t d_gain_idx = 7;
-        const uint8_t alpha_idx = 8;
+        const uint8_t amplitude_idx = 0;                        //Magnitude of the applied torque in Nm             
+        const uint8_t duration_idx = 1;                         //Duration of the applied torque
+        const uint8_t repetitions_idx = 2;                      //Number of times the torque is applied
+        const uint8_t spacing_idx = 3;                          //Time between each application of torque
+        const uint8_t pid_flag_idx = 4;                         //Flag to determine whether or not PID used
+        const uint8_t p_gain_idx = 5;                           //Value of P Gain for PID control
+        const uint8_t i_gain_idx = 6;                           //Value of I Gain for PID control
+        const uint8_t d_gain_idx = 7;                           //Value of D Gain for PID control
+        const uint8_t alpha_idx = 8;                            //Filtering term for exponentially wieghted moving average (EWMA) filter, used on torque sensor to cut down on noise.
         const uint8_t num_parameter = 9;
     }
 

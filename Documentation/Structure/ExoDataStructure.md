@@ -8,7 +8,7 @@ ExoData
     sync_led_state
     estop  
     
-    LegData : left_leg, right_leg
+    SideData : left_side, right_side
     {
         reconfigure(uint8_t* config_to_send)
         

@@ -13,14 +13,14 @@ Wearable Technologies, 2.
 Parameter index order can be found in [ControllerData.h](/ExoCode/src/ControllerData.h).
 - mass - User mass in kg used for denormalizing torque.
 - trough_normalized_torque_Nm_kg - Largest extension torque normalized to user mass (Nm/kg).
-- peak_normalized_torque_Nm_kg - largest flexion torquenormalized to user mass (Nm/kg).
-- start_percent_gait - percent gait to start the torque pattern so it doesn't have a discontinuity at heel strike.
-- trough_onset_percent_gait - percent gait to start applying extension torque.
-- trough_percent_gait - percent gait to apply the largest extension torque.
-- mid_time - transition point between extension and flexion to apply 0 torque.
-- mid_duration - the duration of the transition pause as a percent of the gait cycle.
-- peak_percent_gait - percent gait to apply the largest flexion torque.
-- peak_offset_percent_gait - percent gait to stop applying flexion torque.
+- peak_normalized_torque_Nm_kg - Largest flexion torque normalized to user mass (Nm/kg).
+- start_percent_gait - Percent gait to start the torque pattern so it doesn't have a discontinuity at heel strike.
+- trough_onset_percent_gait - Percent gait to start applying extension torque.
+- trough_percent_gait - Percent gait to apply the largest extension torque.
+- mid_time - Transition point between extension and flexion to apply 0 torque.
+- mid_duration - The duration of the transition pause as a percent of the gait cycle.
+- peak_percent_gait - Percent gait to apply the largest flexion torque.
+- peak_offset_percent_gait - Percent gait to stop applying flexion torque.
 - use_pid - This flag turns PID on(1) or off(0)
 - p_gain - Proportional gain for closed loop controls
 - i_gain - Integral gain for closed loop controls

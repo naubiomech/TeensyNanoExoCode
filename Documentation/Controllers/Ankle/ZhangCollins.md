@@ -9,12 +9,11 @@ Science, 356(6344), 1280-1284.
 
 ## Parameters
 Parameter index order can be found in [ControllerData.h](/ExoCode/src/ControllerData.h).
-- mass - user mass kg
-- peak_normalized_torque_Nm_kg - peak torque divided by user mass 
-- t0 - ramp start percent gait
-- t1 - torque onset percent gait
-- t2 - peak torque point as percent gait
-- t3 - offset as percent gait
+- torque - Magnitude of the peak torque in Nm
+- peak_time - Time when the peak torque occurs (as a % of gait cycle)
+- rise_time - Time from zero torque until peak torque (expressed as a % of gait cycle)
+- fall_time - Time from peak torque until zero torque (expressed as a % of gait cycle)
+- direction - Flag that flips torque from PF to DF (essentailly an assistance/resistance flag)
 - use_pid - This flag turns PID on(1) or off(0)
 - p_gain - Proportional gain for closed loop controls
 - i_gain - Integral gain for closed loop controls

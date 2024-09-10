@@ -1,6 +1,6 @@
 ## Optimizations
 - SPI direct memory access. Should change SPI time from 20 &mu;s per byte to the time to write the memory.
-    - Teensy Datasheet 48.2.1 G:\Shared drives\Biomech_Lab\Manuals_Guides_Forms\Microcontrollers\Teensy_4_1
+    - Teensy Datasheet 48.2.1 
         - Configure SPI
         - Teensy as controller and Nano as peripherial.
     - At top of loop teensy
@@ -9,7 +9,7 @@
         - Teensy processes the que of new complete messages.  This should be a couple of messages and should be fine as the data sent will likely be smaller than data received.
         - Teensy runs the rest of the control loop.
     - Nano would place messages on tx buffer as bluetooth messages come in.
-        - If the Nano is placing data when the Teensy reads the message will be sent over in complete and will need to place the rest of the message afterwards which the Teensy will append when the next read happens.
+        - If the Nano is placing data when the Teensy reads the message will be sent over incomplete and will need to place the rest of the message afterwards which the Teensy will append when the next read happens.
         - Will need a message complete indicator at end of message.
         - Teensy que will also need a message complete flag to know if it needs to precess the message or if the message is incomplete start the next read by appending the rest of the message here. 
         

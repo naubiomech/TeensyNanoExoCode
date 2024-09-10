@@ -61,9 +61,9 @@ Exo
         _message_pattern[n][2]
     }
     
-    Leg : left_leg, right_leg
+    Side : left_side, right_side
     {
-        run_leg()
+        run_side()
         check_calibration()
         read_data()
         update_motor_cmds()
@@ -75,7 +75,7 @@ Exo
         _check_ground_strike()
         
         *_data
-        *_leg_data
+        *_side_data
         _is_left
         _prev_heel_contact_state
         _prev_toe_contact_state
@@ -185,7 +185,7 @@ Exo
         
                *_data
                * _controller_data
-               * _leg_data
+               * _side_data
                * _joint_data
                _id
                _integral_val

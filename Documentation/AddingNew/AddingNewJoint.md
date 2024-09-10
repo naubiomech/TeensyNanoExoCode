@@ -39,20 +39,21 @@
 2. Similarly, update the function "update_config" (Line 227) with the config_defs you added in ParseIni.h, refer to that file and look at the added "static const int" at the end of the config_defs namespace
 3. In "get_real_time_data" (Line 306), add in a new case in the switch statement corresponding to the bilateral configuration of the joint and for any multi-joint instances. You can send up to 10 data points at a time using the established formmating.
 
-## Leg.h
+## Side.h
 1. Create Joint object specific to the joint that you are adding (Line 158, is where the other joint objects are specificed, follow their formmating)
 
-## Leg.cpp
-1. Add in the new joint object you just created in the .h file into the constructer of the leg following the format of the other joints in the constructer 
+## Side.cpp
+1. Add in the new joint object you just created in the .h file into the constructer of the side following the format of the other joints in the constructer 
 2. In the "disable_motors" function (Line 58), add in the new joint following the formatting of the other joints.
 3. In the "read_data" function (Line 98), add in an if statment at the end (Line 142) that reads the data specific to the joint object (see other joints for formatting)
 4. In the "check_calibration" function (Line 161), add in a if statment at the end of the end of the function (Line 189) that checks the calibration specific to the new joint object (see other joints for formatting)
 5. In the "update_motor_cmds" function (Line 534), add in a new if statement at the end that runs the new joint functions (see other joints for formatting)
-## LegData.h
+
+## SideData.h
 1. Line 42: Create a new instance of jointdata and create an object for it for your new joint (see other joints for formatting)
 
-## LegData.cpp
-1. Add in the new joint object you just created in the .h file into the constructer of the legdata following the format of the other joints in the constructer 
+## SideData.cpp
+1. Add in the new joint object you just created in the .h file into the constructer of the sidedata following the format of the other joints in the constructer 
 2. On the last line add in a new statement reconfiguring the joint you just added (see other joints for formatting). 
 
 ## Joint.h

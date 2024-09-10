@@ -469,7 +469,7 @@ switch (month)
 
 **ex.** [Controller.cpp](/ExoCode/src/Controller.cpp)
 ```
-switch (utils::get_joint_type(_id))
+ switch (utils::get_joint_type(_id))
     {
         case (uint8_t)config_defs::joint_id::hip:
             #ifdef CONTROLLER_DEBUG
@@ -477,13 +477,13 @@ switch (utils::get_joint_type(_id))
             #endif
             if (is_left)
             {
-                _controller_data = &(exo_data->left_leg.hip.controller);
-                _joint_data = &(exo_data->left_leg.hip);
+                _controller_data = &(exo_data->left_side.hip.controller);
+                _joint_data = &(exo_data->left_side.hip);
             }
             else
             {
-                _controller_data = &(exo_data->right_leg.hip.controller);
-                _joint_data = &(exo_data->right_leg.hip);
+                _controller_data = &(exo_data->right_side.hip.controller);
+                _joint_data = &(exo_data->right_side.hip);
             }
             break;
             
@@ -493,13 +493,13 @@ switch (utils::get_joint_type(_id))
             #endif
             if (is_left)
             {
-                _controller_data = &(exo_data->left_leg.knee.controller);
-                _joint_data = &(exo_data->left_leg.knee);
+                _controller_data = &(exo_data->left_side.knee.controller);
+                _joint_data = &(exo_data->left_side.knee);
             }
             else
             {
-                _controller_data = &(exo_data->right_leg.knee.controller);
-                _joint_data = &(exo_data->right_leg.knee);
+                _controller_data = &(exo_data->right_side.knee.controller);
+                _joint_data = &(exo_data->right_side.knee);
             }
             break;
         
@@ -509,13 +509,28 @@ switch (utils::get_joint_type(_id))
             #endif
             if (is_left)
             {
-                _controller_data = &(exo_data->left_leg.ankle.controller);
-                _joint_data = &(exo_data->left_leg.ankle);
+                _controller_data = &(exo_data->left_side.ankle.controller);
+                _joint_data = &(exo_data->left_side.ankle);
             }
             else
             {
-                _controller_data = &(exo_data->right_leg.ankle.controller);
-                _joint_data = &(exo_data->right_leg.ankle);
+                _controller_data = &(exo_data->right_side.ankle.controller);
+                _joint_data = &(exo_data->right_side.ankle);
+            }
+            break;
+        case (uint8_t)config_defs::joint_id::elbow:
+            #ifdef CONTROLLER_DEBUG
+                        logger::print("ELBOW ");
+            #endif
+            if (is_left)
+            {
+                _controller_data = &(exo_data->left_side.elbow.controller);
+                _joint_data = &(exo_data->left_side.elbow);
+            }
+            else
+            {
+                _controller_data = &(exo_data->right_side.elbow.controller);
+                _joint_data = &(exo_data->right_side.elbow);
             }
             break;
     }
@@ -809,34 +824,74 @@ A class is made abstract when at least one of its functions is made to be a pure
 class _Controller
 {
 	public:
-        // Constructor not needed as there isn't anything to set.
+        /**
+         * @brief Constructor 
+         * 
+         * @param id of the joint being used
+         * @param pointer to the full ExoData instance
+         */
         _Controller(config_defs::joint_id id, ExoData* exo_data);
-		// Virtual destructor is needed to make sure the correct destructor is called when the derived class is deleted.
+		
+        /**
+         * @brief Virtual destructor is needed to make sure the correct destructor is called when the derived class is deleted.
+         */
         virtual ~_Controller(){};
-		//virtual void set_controller(int joint, int controller) = 0; // Changes the controller for an individual joint
-		virtual float calc_motor_cmd() = 0;
+        
+        /**
+         * @brief Virtual function so that each controller must create a function that will calculate the motor command
+         * 
+         * @return Torque in Nm.
+         */
+		virtual float calc_motor_cmd() = 0; 
+        
+        /**
+         * @brief Resets the integral sum for the controller
+         */
         void reset_integral(); 
         
     protected:
-        ExoData* _data;
-        ControllerData* _controller_data;
-        LegData* _leg_data;
-        JointData* _joint_data;
         
-        config_defs::joint_id _id; 
+        ExoData* _data;                     /**< Pointer to the full data instance*/
+        ControllerData* _controller_data;   /**< Pointer to the data associated with this controller */
+        SideData* _side_data;                 /**< Pointer for the side data the controller is associated with */
+        JointData* _joint_data;             /**< Pointer to the joint data the controller is associated with */
+         
+        config_defs::joint_id _id;          /**< Id of the joint this controller is attached to. */
         
-        Time_Helper* _t_helper;
-        float _t_helper_context;
-        float _t_helper_delta_t;
+        Time_Helper* _t_helper;             /**< Instance of the time helper to track when things happen used to check if we have a set time for the PID */
+        float _t_helper_context;            /**< Store the context for the timer helper */
+        float _t_helper_delta_t;            /**< Time time since the last event */
+
+        //Values for the PID controller
+        float _pid_error_sum = 0;           /**< Summed error term for calucating intergral term */
+        float _prev_input;                  /**< Prev error term for calculating derivative */
+        float _prev_de_dt;                  /**< Prev error derivative used if the timestep is not good*/
+        float _prev_pid_time;               /**< Prev time the PID was called */
         
-        float _integral_val;
-        float _prev_error;  
-        float _prev_de_dt;
-        
+        /**
+         * @brief calculates the current PID contribution to the motor command. 
+         * 
+         * @param controller command 
+         * @param measured controlled value
+         * @param proportional gain
+         * @param integral gain
+         * @param derivative gain
+         */
         float _pid(float cmd, float measurement, float p_gain, float i_gain, float d_gain);
         
+        //Values for the Compact Form Model Free Adaptive Controller
+        std::pair<float, float> measurements;
+        std::pair<float, float> outputs;
+        std::pair<float, float> phi;            /**< Psuedo partial derivative */
+        float rho;                              /**< Penalty factor (0,1) */
+        float lamda;                            /**< Weighting factor limits delta u */
+        float etta;                             /**< Step size constant (0, 1] */
+        float mu;                               /**< Weighting factor that limits the variance of u */
+        float upsilon;                          /**< A sufficiently small integer ~10^-5 */
+        float phi_1;                            /**< Initial/reset condition for estimation of psuedo partial derivitave */
         
-}; 
+        float _cf_mfac(float reference, float current_measurement);
+};
 ```
 
 #### Initializer List
@@ -914,11 +969,11 @@ Within the code you may run into "->". This is used with pointers and is equival
 ```
     if (is_left)
     {
-        _leg_data = &(exo_data->left_leg);
+        _side_data = &(exo_data->left_side);
     }
     else
     {
-        _leg_data = &(exo_data->right_leg);
+        _side_data = &(exo_data->right_side);
     } 
 ```
 
@@ -970,7 +1025,7 @@ In our example we have a class named ExoData which contains some other stuff, li
 Within this class there is a member function ```void reconfigure(uint8_t* config_to_send); ```, so the complier knows that we can call reconfigure if we give it a uint8_t pointer and it won't send anything back.
 What happens when we call it?
 The compiler doesn't care at this point, it just wants to know that we can use it.
-Similarly there are some variables inside that we can also call, ```bool estop;``` is a Boolean that lets us know the status of the emergency stop button, but we can also store objects for other classes like ```LegData left_leg;```.
+Similarly there are some variables inside that we can also call, ```bool estop;``` is a Boolean that lets us know the status of the emergency stop button, but we can also store objects for other classes like ```SideData left_side;```.
 
 **ExoData.h**
 ```
@@ -985,8 +1040,8 @@ class ExoData
         bool sync_led_state;
         bool estop;
         float battery_value; // Could be Voltage or SOC, depending on the battery type
-        LegData left_leg;
-        LegData right_leg;
+        SideData left_side;
+        SideData right_side;
 };
 ```
 
@@ -998,15 +1053,15 @@ If we want to define what happens when we call reconfigure for an ExoData object
 ```
 void ExoData::reconfigure(uint8_t* config_to_send) 
 {
-    left_leg.reconfigure(config_to_send);
-    right_leg.reconfigure(config_to_send);
+    left_side.reconfigure(config_to_send);
+    right_side.reconfigure(config_to_send);
 };
 ```
-So when we call reconfigure for the ExoData objects we call the reconfigure member functions for the left_leg and right_leg objects the class contains.
+So when we call reconfigure for the ExoData objects we call the reconfigure member functions for the left_side and right_side objects the class contains.
 
 ***
 ## Introduction   
-This guide is designed to provide background information on the new (at time of writing) code used to control the NAU Biomechatronics Lab's exo.
+This guide is designed to provide background information on OpenExo's software.
 This system is designed to be flexible, where the system can be easily adapted to the user's needs, changing the motors used, number of joints, etc. 
 
  
@@ -1063,7 +1118,7 @@ The hierarchy is:
     - StatusLed
     - SyncLed
     - FSRs
-    - Leg/LegData
+    - Side/SideData
         - Joint/JointData
             - TorqueSensor
             - Motor/MotorData

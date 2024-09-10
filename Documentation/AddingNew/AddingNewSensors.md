@@ -2,7 +2,7 @@
 
 ## Location
 Because the sensors don't have a common interface it is a bit more straight forward to add new ones.
-The main things you will need to decide is what part of the system makes the most sense for the part to live, e.g. exo, leg, joint.
+The main things you will need to decide is what part of the system makes the most sense for the part to live, e.g. exo, side, joint.
 
 ## Create the Sensor
 The sensor should be its own class.
@@ -66,7 +66,7 @@ Make sure that that pin is free, this should be easier if you design the PCB fir
 
 ### System Containing Sensor Data .h
 Create a variable to store the the data from the sensor.
-If the sensor will be at the leg level this will be in the LegData class, if it is the joint the JointData class, etc.
+If the sensor will be at the side level this will be in the SideData class, if it is the joint the JointData class, etc.
 Additionally if the sensor will need to be calibrated make a variable to store that state;
 ```
 float sensor_reading;
@@ -82,9 +82,9 @@ sensor_calibrate = false;
 ```
 
 ### System Containing Sensor .h
-This will be Leg.h if the sensor is at the leg level or Joint.h if it is at the joint level, etc.
+This will be Side.h if the sensor is at the side level or Joint.h if it is at the joint level, etc.
 Add the include for the sensor, ```#include Sensor.h```, that you created.
-Within the class; Leg, Joint, etc.; declare an instance of the class ```SensorClass new_instance_of_sensor;```
+Within the class; Side, Joint, etc.; declare an instance of the class ```SensorClass new_instance_of_sensor;```
 Create as many instances as you need.
 
 ### System Containing Sensor .cpp
