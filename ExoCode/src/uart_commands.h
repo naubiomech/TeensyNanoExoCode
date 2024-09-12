@@ -337,15 +337,15 @@ namespace UART_command_handlers
         // logger::println("config[config_defs::exo_name_idx] :: "); //Uncomment if you want to check that system is receiving correct config info
         // logger::println(config[config_defs::exo_name_idx]);
 
-        //Plotting & Saved Data Order Guide
-        //0 = Right Torque [Blue Line]
-        //1 = Right State [Blue Line]
-        //2 = Right Torque [Red Line]
-        //3 = Left Torque [Blue Line]
-        //4 = Left State [Blue Line]
-        //5 = Left Torque [Red Line]
-        //6 = Right State [Red Line]
-        //7 = Left State [Red Line]
+        //Plotting Guide [Mapping data value (o,1,2,etc.) to the color and tab of the Python GUI). 
+        //0 = Right Controller [Blue Line]
+        //1 = Right Sensor [Blue Line]
+        //2 = Right Controller [Orange Line]
+        //3 = Left Controller [Blue Line]
+        //4 = Left Sensor [Blue Line]
+        //5 = Left Controller [Orange Line]
+        //6 = Right Sensor [Orange Line]
+        //7 = Left Sensor [Orange Line]
         //8 = Not Plotted, Will Save
         //9 = Not Plotted, Will Save
 
