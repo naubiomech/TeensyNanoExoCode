@@ -13,7 +13,7 @@ The purpose of this project is to provide an open source solution for controllin
 BLE (Bluetooth Low Energy) is the heart of this project which provides a connection from this API/GUI to the exoskeletons. Bleak, a python library is used to handle all BLE operations. To find out more about Bleak click [here](https://bleak.readthedocs.io/en/latest/).
 
 ## Operation of the GUI
-Please refer to our videos outlining getting started with and operating the GUI [here] (https://drive.google.com/drive/folders/1eBydW7si7EmyGxdDkagQktmnZ7M4nHI4?usp=drive_link)
+Please refer to our videos outlining getting started with and operating the GUI [here](https://drive.google.com/drive/folders/1eBydW7si7EmyGxdDkagQktmnZ7M4nHI4?usp=drive_link).
 
 Before attempting to operate make sure you have both Python and the necessary libraries installed in a known location (we recommend your Documents folder).
 
