@@ -1,4 +1,5 @@
 # Adding a new joint
+
 ## Exocode.ini
 1. Line 118: Add joint to the debug statement determining if it is used.
 2. Line 148: Add joint to if statements relating to whether or not the joint is used
@@ -136,6 +137,16 @@
 
 ## SD Card
 1. Make a jointControllers folder with the .csv for the controllers specific to the joint
+
+## Python GUI - ActiveTrialSettings.py
+1. Find the section titled "jointMap"
+	- Add in the new joint name and incrament the int value in the section following the format of the other joints.
+2. In the UpdateTorque Class, update the string list in "values" under the section labeled "Joint Select" with the joint name (e.g., Left elbow, right elbow)
+
+## Python GUI - exoDeviceManager.py
+1. Find "jointDictionary" under the ExoDeviceManager Class
+	- Update the directory with the joint numbers you added in "ActiveTrialSettings" and associate with the Motor ID number you set the motor to via the RLink and in the software
+	- Follow the format of the other joints (e.g., 1: 33. 0 = "Left Hip with an ID of 33")
 
 ## Done
 It should now be good to go.
