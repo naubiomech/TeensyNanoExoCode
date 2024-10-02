@@ -12,6 +12,8 @@
 #include <math.h>
 #include <random>
 #include <cmath>
+#include <Servo.h>
+Servo myservo;
 
 _Controller::_Controller(config_defs::joint_id id, ExoData* exo_data)
 {
@@ -638,6 +640,77 @@ float PropulsiveAssistive::calc_motor_cmd()
         (exo_status == status_defs::messages::fsr_calibration) ||
         (exo_status == status_defs::messages::fsr_refinement);
 		
+		//Servo myservo;
+		if (!_controller_data->servo_attached)
+		{
+			//myservo.attach(26);
+			//_controller_data->servo_attached = true;
+		}
+		
+		
+		
+		if (!_joint_data->is_left) {
+			if (!_controller_data->servo_attached)
+		{
+			
+			myservo.attach(26);
+			_controller_data->servo_attached = true;
+			myservo.write(50);
+			delay(1000);
+			_controller_data->moveStartTime = 0; // start moving
+		}
+		}
+		if (_controller_data->servo_attached) {
+			
+			  float progress = millis() - _controller_data->moveStartTime;
+				Serial.print("\nTime passed: ");
+				Serial.print(_controller_data->moveStartTime);
+				Serial.print("  |  ");
+				Serial.print(_controller_data->moveStartTime);
+				Serial.print("  |  ");
+				
+			  if (_controller_data->moveStartTime <= 100) {
+				long angle = map(_controller_data->moveStartTime, 0, 100, 0, 50);
+				Serial.print(angle);
+				myservo.write(angle); 
+			  }
+			  else if (_controller_data->moveStartTime <= 200) {
+				  long angle = map(_controller_data->moveStartTime, 100, 200, 50, 0);
+				Serial.print(angle);
+				myservo.write(angle); 
+			  }
+			  else {
+				  _controller_data->moveStartTime = 0;
+			  }
+			  _controller_data->moveStartTime = _controller_data->moveStartTime + 1;
+		}
+			
+			
+/* 			int pos = 0;
+  for (pos = 0; pos <= 90; pos += 1) { // goes from 0 degrees to 180 degrees
+
+    // in steps of 1 degree
+
+    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+
+    delay(15);                       // waits 15ms for the servo to reach the position
+
+  }
+
+  for (pos = 90; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
+
+    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+
+    delay(15);                       // waits 15ms for the servo to reach the position
+
+  } */
+  // delete myservo;
+		
+		
+		
+
+
+		
 		if (_data->user_paused || !active_trial)
 		{
 			digitalWrite(33,LOW);
@@ -654,10 +727,20 @@ float PropulsiveAssistive::calc_motor_cmd()
 			analogWriteResolution(12);
 			//analogWriteFrequency(A8, 5000);
 			analogWriteFrequency(A9, 5000);
+			
+			// Testing the Servo motor
+			//pinMode(26, OUTPUT);//A12_Teensy (Right leg angle sensor pin on the AK Board 0.6 Maxon)
+			
+			//myservo.write(0);
+			// exo_data->right_leg.myservo.attach(26);
+			// exo_data->right_leg.myservo.write(0);
+			// delay(100);
 			return;
 		}
+		// exo_data->right_leg.myservo.write(180);
+		// delay(100);
 		
-		if ((!digitalRead(37) || !digitalRead(37)) && _controller_data->maxonResetItrCount==0) {
+		/* if ((!digitalRead(37) || !digitalRead(37)) && _controller_data->maxonResetItrCount==0) {
 				digitalWrite(33,LOW);
 				_controller_data->maxonResetItrCount = 1;
 				return;
@@ -680,7 +763,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 		if (_controller_data->maxonResetItrCount>num_of_frames2) {
 			_controller_data->maxonResetItrCount = 0;
 		}
-		
+		 */
 		int flip4Maxon = (_joint_data->motor.flip_direction? -1: 1);
 		float cmdMaxon = 2048 + flip4Maxon * cmd;
 		cmdMaxon = min(3645, cmdMaxon);
