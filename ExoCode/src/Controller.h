@@ -87,6 +87,15 @@ class _Controller
 		float _start_time;
 		bool _pid_on = 0;
 		float _pid_error_sum = 0;
+		int pos = 0;
+		uint16_t servoWatch;
+		bool run_flag;
+		int input1;
+		int input2;
+		int pos1;
+		int pos2;
+		bool _do_reset_servo = true;
+		
         
         /**
          * @brief calculates the current PID contribution to the motor command. 
@@ -99,6 +108,8 @@ class _Controller
          * @param derivative gain
          */
         float _pid(float cmd, float measurement, float p_gain, float i_gain, float d_gain);
+		
+		int _servo_runner(uint8_t servo_pin, uint8_t speed_level, uint8_t angle_initial, uint8_t angle_final);
         
         // Values for the Compact Form Model Free Adaptive Controller
         std::pair<float, float> measurements;

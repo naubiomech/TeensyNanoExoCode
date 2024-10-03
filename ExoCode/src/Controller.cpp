@@ -142,7 +142,43 @@ float _Controller::_cf_mfac(float reference, float current_measurement)
     outputs.second = outputs.first + (u_numerator/u_denominator);
     return outputs.second;
 }
- 
+
+int _Controller::_servo_runner(uint8_t servo_pin, uint8_t speed_level, uint8_t angle_initial, uint8_t angle_final)
+{
+	bool isGoingUp;
+	if (_do_reset_servo) {
+		myservo.attach(26,500,2500);
+		input1 = angle_initial;
+		input2 = angle_final;
+		pos1 = input1;
+		pos2 = input2;
+		run_flag = true;
+		pos = pos1;
+		_do_reset_servo = false;
+		servoWatch = millis();
+		myservo.write(pos);
+	}
+	if (millis()-servoWatch > 15) {
+		myservo.write(pos);
+		if (pos1<pos2) {
+		pos += 3;
+		isGoingUp = true;
+		}
+		else if (pos1>pos2) {
+		pos -= 3;
+		isGoingUp = false;
+		}
+		else {
+			
+		}
+		servoWatch = millis();
+	}
+	//if (((pos >= pos2)&&(isGoingUp))||((pos <= pos2)&&(!isGoingUp))) {
+	if (pos == pos2) {	
+		_do_reset_servo = true;
+	}
+	return pos;
+}
 float _Controller::_pid(float cmd, float measurement, float p_gain, float i_gain, float d_gain)
 {
 	//Serial.print("\nPID Running...");
@@ -640,71 +676,19 @@ float PropulsiveAssistive::calc_motor_cmd()
         (exo_status == status_defs::messages::fsr_calibration) ||
         (exo_status == status_defs::messages::fsr_refinement);
 		
-		//Servo myservo;
-		if (!_controller_data->servo_attached)
-		{
-			//myservo.attach(26);
-			//_controller_data->servo_attached = true;
+		int servoOutput;
+		if (_controller_data->servoUphill){
+			servoOutput = _servo_runner(26, 0, 0, 30);
 		}
-		
-		
-		
-		if (!_joint_data->is_left) {
-			if (!_controller_data->servo_attached)
-		{
-			
-			myservo.attach(26);
-			_controller_data->servo_attached = true;
-			myservo.write(50);
-			delay(1000);
-			_controller_data->moveStartTime = 0; // start moving
+		else {
+			servoOutput = _servo_runner(26, 0, 30, 0);
 		}
+		if (servoOutput == 0) {
+			_controller_data->servoUphill = true;
 		}
-		if (_controller_data->servo_attached) {
-			
-			  float progress = millis() - _controller_data->moveStartTime;
-				Serial.print("\nTime passed: ");
-				Serial.print(_controller_data->moveStartTime);
-				Serial.print("  |  ");
-				Serial.print(_controller_data->moveStartTime);
-				Serial.print("  |  ");
-				
-			  if (_controller_data->moveStartTime <= 100) {
-				long angle = map(_controller_data->moveStartTime, 0, 100, 0, 50);
-				Serial.print(angle);
-				myservo.write(angle); 
-			  }
-			  else if (_controller_data->moveStartTime <= 200) {
-				  long angle = map(_controller_data->moveStartTime, 100, 200, 50, 0);
-				Serial.print(angle);
-				myservo.write(angle); 
-			  }
-			  else {
-				  _controller_data->moveStartTime = 0;
-			  }
-			  _controller_data->moveStartTime = _controller_data->moveStartTime + 1;
+		if (servoOutput == 30) {
+			_controller_data->servoUphill = false;
 		}
-			
-			
-/* 			int pos = 0;
-  for (pos = 0; pos <= 90; pos += 1) { // goes from 0 degrees to 180 degrees
-
-    // in steps of 1 degree
-
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-
-    delay(15);                       // waits 15ms for the servo to reach the position
-
-  }
-
-  for (pos = 90; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
-
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-
-    delay(15);                       // waits 15ms for the servo to reach the position
-
-  } */
-  // delete myservo;
 		
 		
 		
@@ -713,6 +697,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 		
 		if (_data->user_paused || !active_trial)
 		{
+			return;
 			digitalWrite(33,LOW);
 			_controller_data->maxonWasOff = true;
 			_controller_data->maxonError = false;

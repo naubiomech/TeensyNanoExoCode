@@ -285,6 +285,7 @@ class ControllerData {
 		uint8_t gasp_motor_reset_plot = 0;
 		bool servo_attached = false;
 		float moveStartTime = 0;
+		bool servoUphill = true;
 		
 
         // Variables for the ElbowMinMax Controller
