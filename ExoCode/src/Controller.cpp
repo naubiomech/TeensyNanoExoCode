@@ -146,19 +146,17 @@ float _Controller::_cf_mfac(float reference, float current_measurement)
 int _Controller::_servo_runner(uint8_t servo_pin, uint8_t speed_level, uint8_t angle_initial, uint8_t angle_final)
 {
 	bool isGoingUp;
-	if (_do_reset_servo) {
+	if (!((pos1 == angle_initial)&&(pos2 == angle_final))) {
 		myservo.attach(26,500,2500);
-		input1 = angle_initial;
-		input2 = angle_final;
-		pos1 = input1;
-		pos2 = input2;
+		pos1 = angle_initial;
+		pos2 = angle_final;
 		run_flag = true;
 		pos = pos1;
-		_do_reset_servo = false;
+		_do_stop_servo = false;
 		servoWatch = millis();
 		myservo.write(pos);
 	}
-	if (millis()-servoWatch > 15) {
+	if ((millis()-servoWatch > 15)&&(!_do_stop_servo)) {
 		myservo.write(pos);
 		if (pos1<pos2) {
 		pos += 3;
@@ -172,11 +170,12 @@ int _Controller::_servo_runner(uint8_t servo_pin, uint8_t speed_level, uint8_t a
 			
 		}
 		servoWatch = millis();
+		if (pos == pos2) {	
+			_do_stop_servo = true;
+		}
 	}
 	//if (((pos >= pos2)&&(isGoingUp))||((pos <= pos2)&&(!isGoingUp))) {
-	if (pos == pos2) {	
-		_do_reset_servo = true;
-	}
+	
 	return pos;
 }
 float _Controller::_pid(float cmd, float measurement, float p_gain, float i_gain, float d_gain)
@@ -687,8 +686,9 @@ float PropulsiveAssistive::calc_motor_cmd()
 		if (_data->user_paused || !active_trial)
 		{
 			if (!_leg_data->is_left) {
-				Serial.println("Initializing...");
-				servoOutput = _servo_runner(26, 0, 0, 30);
+				Serial.print("\nInitializing...   |  Heel FSR: ");
+				Serial.print(analogRead(A3));
+				servoOutput = _servo_runner(26, 0, 0, 24);
 			}
 			digitalWrite(33,LOW);
 			_controller_data->maxonWasOff = true;
@@ -721,10 +721,10 @@ float PropulsiveAssistive::calc_motor_cmd()
 				if (!_leg_data->is_left) {
 					if (percent_grf>0.5){
 						Serial.println("FSR above 0.5");
-						servoOutput = _servo_runner(26, 0, 0, 30);
+						servoOutput = _servo_runner(26, 0, 24, 0);
 					}
 					else {
-						servoOutput = _servo_runner(26, 0, 30, 0);
+						servoOutput = _servo_runner(26, 0, 0, 24);
 					}
 				}
 		}

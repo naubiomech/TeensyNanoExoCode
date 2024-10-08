@@ -92,9 +92,9 @@ class _Controller
 		bool run_flag;
 		int input1;
 		int input2;
-		int pos1;
-		int pos2;
-		bool _do_reset_servo = true;
+		int pos1 = 0;
+		int pos2 = 0;
+		bool _do_stop_servo = false;
 		
         
         /**
