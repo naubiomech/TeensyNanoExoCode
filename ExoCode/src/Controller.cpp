@@ -677,18 +677,7 @@ float PropulsiveAssistive::calc_motor_cmd()
         (exo_status == status_defs::messages::fsr_refinement);
 		
 		int servoOutput;
-		if (_controller_data->servoUphill){
-			servoOutput = _servo_runner(26, 0, 0, 30);
-		}
-		else {
-			servoOutput = _servo_runner(26, 0, 30, 0);
-		}
-		if (servoOutput == 0) {
-			_controller_data->servoUphill = true;
-		}
-		if (servoOutput == 30) {
-			_controller_data->servoUphill = false;
-		}
+		
 		
 		
 		
@@ -697,7 +686,10 @@ float PropulsiveAssistive::calc_motor_cmd()
 		
 		if (_data->user_paused || !active_trial)
 		{
-			return;
+			if (!_leg_data->is_left) {
+				Serial.println("Initializing...");
+				servoOutput = _servo_runner(26, 0, 0, 30);
+			}
 			digitalWrite(33,LOW);
 			_controller_data->maxonWasOff = true;
 			_controller_data->maxonError = false;
@@ -721,6 +713,22 @@ float PropulsiveAssistive::calc_motor_cmd()
 			// exo_data->right_leg.myservo.write(0);
 			// delay(100);
 			return;
+		}
+		else {
+			digitalWrite(33,HIGH);
+			
+			if (exo_status == status_defs::messages::fsr_refinement) {
+				if (!_leg_data->is_left) {
+					if (percent_grf>0.5){
+						Serial.println("FSR above 0.5");
+						servoOutput = _servo_runner(26, 0, 0, 30);
+					}
+					else {
+						servoOutput = _servo_runner(26, 0, 30, 0);
+					}
+				}
+		}
+			
 		}
 		// exo_data->right_leg.myservo.write(180);
 		// delay(100);
