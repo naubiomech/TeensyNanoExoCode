@@ -372,7 +372,7 @@ namespace UART_command_handlers
 				//rx_msg.data[3] = exo_data->left_leg.ankle.motor.p;
 		//Left State. Only integer values will be plotted for rx_msg.data[1]
                //rx_msg.data[4] = exo_data->left_leg.toe_stance;
-			   rx_msg.data[4] = 100 * exo_data->left_leg.toe_fsr;
+			   rx_msg.data[4] = 100 * exo_data->right_leg.heel_fsr;
 			   //rx_msg.data[4] = 100 * exo_data->left_leg.ankle.controller.filtered_toe_fsr;
 		//Left Set
                //rx_msg.data[5] = exo_data->left_leg.ankle.controller.filtered_squelched_supportive_term;

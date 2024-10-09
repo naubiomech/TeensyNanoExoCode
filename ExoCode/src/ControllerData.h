@@ -146,7 +146,11 @@ namespace controller_defs /**< stores the parameter indexes for different contro
 		const uint8_t turn_on_peak_limiter = 9;
 		const uint8_t step_response_mode = 10;
 		const uint8_t ki = 11;
-        const uint8_t num_parameter = 12;
+		const uint8_t do_use_servo = 12;
+		const uint8_t fsr_servo_threshold = 13;
+		const uint8_t servo_origin = 14;
+		const uint8_t servo_terminal = 15;
+        const uint8_t num_parameter = 16;
     }
 	
 	namespace calibr_manager
@@ -189,7 +193,7 @@ namespace controller_defs /**< stores the parameter indexes for different contro
         const uint8_t num_parameter = 4;
     }
 
-    const uint8_t max_parameters = franks_collins_hip::num_parameter;//user_defined::num_parameter;  // this should be the largest of all the num_parameters
+    const uint8_t max_parameters = propulsive_assistive::num_parameter;//user_defined::num_parameter;  // this should be the largest of all the num_parameters
 }
 
 /**

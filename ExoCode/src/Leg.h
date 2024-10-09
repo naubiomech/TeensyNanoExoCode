@@ -164,7 +164,7 @@ class Leg
         KneeJoint _knee; /**< instance of a knee joint */
         AnkleJoint _ankle; /**< instance of a ankle joint */
         
-        FSR _heel_fsr; /**< heel force sensitive resistor */
+        FSR_Direct _heel_fsr; /**< heel force sensitive resistor */
 
 		FSR _toe_fsr; /**< toe force sensitive resistor */
 

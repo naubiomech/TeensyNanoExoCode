@@ -678,17 +678,30 @@ float PropulsiveAssistive::calc_motor_cmd()
 		int servoOutput;
 		
 		
+		bool servo_switch = _controller_data->parameters[controller_defs::propulsive_assistive::do_use_servo];
+		float servo_fsr_threshold = 0.01 * _controller_data->parameters[controller_defs::propulsive_assistive::fsr_servo_threshold];
+		uint8_t servo_home = _controller_data->parameters[controller_defs::propulsive_assistive::servo_origin];
+		uint8_t servo_target = _controller_data->parameters[controller_defs::propulsive_assistive::servo_terminal];
 		
-		
+		if (!_leg_data->is_left) {
+			Serial.print("\nSwitch: ");
+			Serial.print(servo_switch);
+			Serial.print("  Heel FSR Threshold: ");
+			Serial.print(servo_fsr_threshold);
+			Serial.print("  Servo home position: ");
+			Serial.print(servo_home);
+			Serial.print("  Servo target position: ");
+			Serial.print(servo_target);
+		}
 
 
 		
 		if (_data->user_paused || !active_trial)
 		{
 			if (!_leg_data->is_left) {
-				Serial.print("\nInitializing...   |  Heel FSR: ");
-				Serial.print(analogRead(A3));
-				servoOutput = _servo_runner(26, 0, 0, 24);
+				// Serial.print("\nInitializing...   |  Heel FSR: ");
+				// Serial.print(analogRead(A3));
+				servoOutput = _servo_runner(26, 0, servo_target, servo_home);
 			}
 			digitalWrite(33,LOW);
 			_controller_data->maxonWasOff = true;
@@ -719,12 +732,16 @@ float PropulsiveAssistive::calc_motor_cmd()
 			
 			if (exo_status == status_defs::messages::fsr_refinement) {
 				if (!_leg_data->is_left) {
-					if (percent_grf>0.5){
-						Serial.println("FSR above 0.5");
-						servoOutput = _servo_runner(26, 0, 24, 0);
+					if (percent_grf_heel>0.5){
+						//Serial.println("FSR above 0.5");
+						if (servo_switch) {
+						servoOutput = _servo_runner(26, 0, servo_home, servo_target);
+						}
 					}
 					else {
-						servoOutput = _servo_runner(26, 0, 0, 24);
+						if (servo_switch) {
+						servoOutput = _servo_runner(26, 0, servo_target, servo_home);
+						}
 					}
 				}
 		}
