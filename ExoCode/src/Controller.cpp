@@ -683,7 +683,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 		uint8_t servo_home = _controller_data->parameters[controller_defs::propulsive_assistive::servo_origin];
 		uint8_t servo_target = _controller_data->parameters[controller_defs::propulsive_assistive::servo_terminal];
 		
-		if (!_leg_data->is_left) {
+		/* if (!_leg_data->is_left) {
 			Serial.print("\nSwitch: ");
 			Serial.print(servo_switch);
 			Serial.print("  Heel FSR Threshold: ");
@@ -692,7 +692,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 			Serial.print(servo_home);
 			Serial.print("  Servo target position: ");
 			Serial.print(servo_target);
-		}
+		} */
 
 
 		
@@ -774,6 +774,13 @@ float PropulsiveAssistive::calc_motor_cmd()
 			_controller_data->maxonResetItrCount = 0;
 		}
 		 */
+		 
+		 if (!_leg_data->is_left) {
+		if ((cmd_ff<0)&&((_controller_data->filtered_torque_reading - cmd_ff) < 0)) {
+							cmd = _pid(0, 0, 0, 0, 0);
+						}
+		Serial.println(cmd);
+		 }
 		int flip4Maxon = (_joint_data->motor.flip_direction? -1: 1);
 		float cmdMaxon = 2048 + flip4Maxon * cmd;
 		cmdMaxon = min(3645, cmdMaxon);
