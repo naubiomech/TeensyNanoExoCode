@@ -150,7 +150,8 @@ namespace controller_defs /**< stores the parameter indexes for different contro
 		const uint8_t fsr_servo_threshold = 13;
 		const uint8_t servo_origin = 14;
 		const uint8_t servo_terminal = 15;
-        const uint8_t num_parameter = 16;
+		const uint8_t maxon_outOfOffice_itr = 16;
+        const uint8_t num_parameter = 17;
     }
 	
 	namespace calibr_manager
@@ -290,6 +291,8 @@ class ControllerData {
 		bool servo_attached = false;
 		float moveStartTime = 0;
 		bool servoUphill = true;
+		//Maxon servo interrupter
+		bool do_interrupt_plotting = true;
 		
 
         // Variables for the ElbowMinMax Controller

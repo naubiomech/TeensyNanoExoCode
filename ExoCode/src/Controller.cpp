@@ -143,6 +143,48 @@ float _Controller::_cf_mfac(float reference, float current_measurement)
     return outputs.second;
 }
 
+//Maxon motor resetter
+//Logic: Run this function in every iteration before actuating the Maxon motors
+bool _Controller::_maxon_manager(uint8_t enable_pin, uint8_t error_pin, uint8_t motor_ctrl_pin, uint16_t standby_target_itr) {
+	//Is the motor standing by? If so, update the iteration number and return directly
+	
+	if (maxon_stands_by) {
+		maxon_standby_itr++;
+		if (maxon_standby_itr == standby_target_itr) {
+			digitalWrite(enable_pin,HIGH);
+			maxon_stands_by = false;
+			maxon_standby_itr = 0;
+			Serial.print("\nMaxon standby is complete.");
+		}
+	}
+	else {
+		uint16_t exo_status = _data->get_status();
+		bool active_trial = (exo_status == status_defs::messages::trial_on) || 
+        (exo_status == status_defs::messages::fsr_calibration) ||
+        (exo_status == status_defs::messages::fsr_refinement);
+		
+		if (_data->user_paused || !active_trial) {
+			digitalWrite(enable_pin,LOW);
+			pinMode(error_pin, INPUT_PULLUP);
+			analogWriteFrequency(motor_ctrl_pin, 5000);
+			Serial.print("\nUser_paused. Returning...");
+		}
+		else {
+			bool maxon_in_error = !digitalRead(error_pin);
+			if (maxon_in_error) {
+				digitalWrite(enable_pin,LOW);
+				maxon_stands_by = true;
+				Serial.print("  |  Maxon error detected.");
+			}
+			else {
+				digitalWrite(enable_pin,HIGH);
+				Serial.print("  |  Re-enable command sent.");
+			}
+		}
+	}
+	return maxon_stands_by;
+}
+//
 int _Controller::_servo_runner(uint8_t servo_pin, uint8_t speed_level, uint8_t angle_initial, uint8_t angle_final)
 {
 	bool isGoingUp;
@@ -670,6 +712,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 	
 	
 	//Maxon PCB enabling motors
+	bool maxon_standby;
 	uint16_t exo_status = _data->get_status();
     bool active_trial = (exo_status == status_defs::messages::trial_on) || 
         (exo_status == status_defs::messages::fsr_calibration) ||
@@ -695,6 +738,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 		} */
 
 
+		maxon_standby = _maxon_manager(33,37,23,100*_controller_data->parameters[controller_defs::propulsive_assistive::maxon_outOfOffice_itr]);
 		
 		if (_data->user_paused || !active_trial)
 		{
@@ -703,20 +747,20 @@ float PropulsiveAssistive::calc_motor_cmd()
 				// Serial.print(analogRead(A3));
 				servoOutput = _servo_runner(26, 0, servo_target, servo_home);
 			}
-			digitalWrite(33,LOW);
+			//digitalWrite(33,LOW);
 			_controller_data->maxonWasOff = true;
 			_controller_data->maxonError = false;
 			_controller_data->maxonManualTrigger = false;
 			
 			/* pinMode(36, INPUT);
 			pinMode(37, INPUT); */
-			pinMode(37, INPUT_PULLUP);
-			pinMode(37, INPUT_PULLUP);
+			//pinMode(37, INPUT_PULLUP);
+			//pinMode(37, INPUT_PULLUP);
 			pinMode(A0,INPUT);
 			pinMode(A1,INPUT);
-			analogWriteResolution(12);
+			//analogWriteResolution(12);
 			//analogWriteFrequency(A8, 5000);
-			analogWriteFrequency(A9, 5000);
+			//analogWriteFrequency(A9, 5000);
 			
 			// Testing the Servo motor
 			//pinMode(26, OUTPUT);//A12_Teensy (Right leg angle sensor pin on the AK Board 0.6 Maxon)
@@ -728,7 +772,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 			return;
 		}
 		else {
-			digitalWrite(33,HIGH);
+			//digitalWrite(33,HIGH);
 			
 			if (exo_status == status_defs::messages::fsr_refinement) {
 				if (!_leg_data->is_left) {
@@ -779,14 +823,18 @@ float PropulsiveAssistive::calc_motor_cmd()
 		if ((cmd_ff<0)&&((_controller_data->filtered_torque_reading - cmd_ff) < 0)) {
 							cmd = _pid(0, 0, 0, 0, 0);
 						}
-		Serial.println(cmd);
+		// Serial.println(cmd);
 		 }
 		int flip4Maxon = (_joint_data->motor.flip_direction? -1: 1);
 		float cmdMaxon = 2048 + flip4Maxon * cmd;
 		cmdMaxon = min(3645, cmdMaxon);
 		cmdMaxon = max(451, cmdMaxon);
 		
+	
 		
+		if (maxon_standby) {
+			return 0;
+		}
 		if (_joint_data->is_left) {
 			//analogWrite(A8,cmdMaxon);//Left motor: A8; Right motor: A9
 		}

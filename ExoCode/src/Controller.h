@@ -95,6 +95,8 @@ class _Controller
 		int pos1 = 0;
 		int pos2 = 0;
 		bool _do_stop_servo = false;
+		bool maxon_stands_by = true;
+		uint16_t maxon_standby_itr = 0;
 		
         
         /**
@@ -110,6 +112,8 @@ class _Controller
         float _pid(float cmd, float measurement, float p_gain, float i_gain, float d_gain);
 		
 		int _servo_runner(uint8_t servo_pin, uint8_t speed_level, uint8_t angle_initial, uint8_t angle_final);
+		
+		bool _maxon_manager(uint8_t enable_pin, uint8_t error_pin, uint8_t motor_ctrl_pin, uint16_t standby_target_itr);
         
         // Values for the Compact Form Model Free Adaptive Controller
         std::pair<float, float> measurements;
