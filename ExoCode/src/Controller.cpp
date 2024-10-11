@@ -748,9 +748,9 @@ float PropulsiveAssistive::calc_motor_cmd()
 				servoOutput = _servo_runner(26, 0, servo_target, servo_home);
 			}
 			//digitalWrite(33,LOW);
-			_controller_data->maxonWasOff = true;
+			/* _controller_data->maxonWasOff = true;
 			_controller_data->maxonError = false;
-			_controller_data->maxonManualTrigger = false;
+			_controller_data->maxonManualTrigger = false; */
 			
 			/* pinMode(36, INPUT);
 			pinMode(37, INPUT); */
@@ -833,7 +833,12 @@ float PropulsiveAssistive::calc_motor_cmd()
 	
 		
 		if (maxon_standby) {
+			Serial.print("  |  Plotting scalar set to -----1");
+			_controller_data->plotting_scalar = -1;
 			return 0;
+		}
+		else {
+			_controller_data->plotting_scalar = 1;
 		}
 		if (_joint_data->is_left) {
 			//analogWrite(A8,cmdMaxon);//Left motor: A8; Right motor: A9

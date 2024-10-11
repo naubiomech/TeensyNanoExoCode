@@ -292,7 +292,7 @@ class ControllerData {
 		float moveStartTime = 0;
 		bool servoUphill = true;
 		//Maxon servo interrupter
-		bool do_interrupt_plotting = true;
+		int plotting_scalar = 1;
 		
 
         // Variables for the ElbowMinMax Controller
