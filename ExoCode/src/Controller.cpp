@@ -174,11 +174,11 @@ bool _Controller::_maxon_manager(uint8_t enable_pin, uint8_t error_pin, uint8_t 
 			if (maxon_in_error) {
 				digitalWrite(enable_pin,LOW);
 				maxon_stands_by = true;
-				Serial.print("  |  Maxon error detected.");
+				//Serial.print("  |  Maxon error detected.");
 			}
 			else {
 				digitalWrite(enable_pin,HIGH);
-				Serial.print("  |  Re-enable command sent.");
+				//Serial.print("  |  Re-enable command sent.");
 			}
 		}
 	}
@@ -773,9 +773,14 @@ float PropulsiveAssistive::calc_motor_cmd()
 		}
 		else {
 			//digitalWrite(33,HIGH);
-			
+			if (!servo_switch) {
+				servoOutput = _servo_runner(26, 0, servo_target, servo_home);
+			}
 			if (exo_status == status_defs::messages::fsr_refinement) {
 				if (!_leg_data->is_left) {
+					
+					
+					
 					if (percent_grf_heel>0.5){
 						//Serial.println("FSR above 0.5");
 						if (servo_switch) {
@@ -831,9 +836,19 @@ float PropulsiveAssistive::calc_motor_cmd()
 		cmdMaxon = max(451, cmdMaxon);
 		
 	
+		//Temporary code to test if Controller.h has different storage for left and right legs.
+		//Test results: Yes, variables in Controller.h does have different storage for left and right leg.
+		/* if (!_leg_data->is_left) {
+		LR_Tester++;
+		}
+		else {
+			LR_Tester--;
+		}
+		Serial.println(LR_Tester); */
+		//
 		
 		if (maxon_standby) {
-			Serial.print("  |  Plotting scalar set to -----1");
+			//Serial.print("  |  Plotting scalar set to -----1");
 			_controller_data->plotting_scalar = -1;
 			return 0;
 		}

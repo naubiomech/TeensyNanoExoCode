@@ -97,6 +97,7 @@ class _Controller
 		bool _do_stop_servo = false;
 		bool maxon_stands_by = true;
 		uint16_t maxon_standby_itr = 0;
+		//uint16_t LR_Tester = 0;
 		
         
         /**
