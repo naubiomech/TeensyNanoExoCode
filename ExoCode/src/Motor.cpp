@@ -363,7 +363,7 @@ void _CANMotor::zero()
     msg.buf[4] = 0xFF;
     msg.buf[5] = 0xFF;
     msg.buf[6] = 0xFF;
-    msg.buf[7] = 0xFE;
+    msg.buf[7] = 0xFE;//From t-motor documentation://Set the current position of the motor to 0 by sending "0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0XFE"
     CAN* can = can->getInstance();
     can->send(msg);
     
