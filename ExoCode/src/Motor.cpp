@@ -419,6 +419,81 @@ float _CANMotor::_uint_to_float(unsigned int x_int, float x_min, float x_max, in
     return pgg;
 };
 
+/*
+ * Constructor for the PWM Motor.  
+ * We are using multilevel inheritance, so we have a general motor type, which is inherited by the PWM (e.g. Maxon) or other type (e.g. Maxon) since models within these types will share communication protocols, which is then inherited by the specific motor model (e.g. AK60), which may have specific torque constants etc.
+ * 
+ */
+_PWMMotor::_PWMMotor(config_defs::joint_id id, ExoData* exo_data, int enable_pin) // constructor: type is the motor type
+: _Motor(id, exo_data, enable_pin)
+{
+
+    JointData* j_data = exo_data->get_joint_with(static_cast<uint8_t>(id));
+
+
+#ifdef MOTOR_DEBUG
+    logger::println("_PWMMotor::_PWMMotor : Leaving Constructor");
+#endif
+};
+
+void _PWMMotor::transaction(float torque)
+{
+    // send data and read response 
+    send_data(torque);
+    read_data();
+    check_response();
+};
+
+void _PWMMotor::zero()
+{
+    //Currently our Maxon PWM motors don't seem to need this function?
+	return;
+};
+
+void _PWMMotor::set_error()
+{
+    _error = true;
+}
+
+bool _PWMMotor::enable()
+{
+    return enable(false);
+};
+
+bool _PWMMotor::enable(bool overide)
+{
+    #ifdef MOTOR_DEBUG
+    //  logger::print(_prev_motor_enabled);
+    //  logger::print("\t");
+    //  logger::print(_motor_data->enabled);
+    //  logger::print("\t");
+    //  logger::print(_motor_data->is_on);
+    //  logger::print("\n");
+    #endif
+    
+    // only change the state and send messages if the enabled state has changed.
+    if ((_prev_motor_enabled != _motor_data->enabled) || overide || !_enable_response)
+    {
+
+        // TODO: Dont reenable after error, or if estop is pulled
+        if (_motor_data->enabled && !_error && !_data->estop)
+        {
+            // !!! A delay check between when turning on power and when timeouts stopped happening gave a delay of 1930 ms rounding to 2000.
+            // enable motor
+			digitalWrite(_enable_pin,HIGH);
+        }
+        else 
+        {
+            _enable_response = false;
+            // disable motor, the message after this shouldn't matter as the power is cut, and the send() doesn't send a message if not enabled.
+			digitalWrite(_enable_pin,LOW);
+        }
+        delayMicroseconds(500);
+		_enable_response = true;
+    }
+    _prev_motor_enabled = _motor_data->enabled;
+    return _enable_response;
+};
 //**************************************
 /*
  * Constructor for the motor

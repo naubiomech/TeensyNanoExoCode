@@ -208,6 +208,27 @@ class _CANMotor : public _Motor
 };
 
 /**
+ * @brief This will define some of the common communication used by all the PWM motors and should be inherited by all of them.
+ */
+class _PWMMotor : public _Motor
+{
+    public:
+        _PWMMotor(config_defs::joint_id id, ExoData* exo_data, int enable_pin);
+        //virtual ~_CANMotor(){};
+        void transaction(float torque);
+        void read_data();
+        void send_data(float torque);
+        void on_off();
+        bool enable();
+        bool enable(bool overide);
+        void zero();
+        float get_Kt();
+        void check_response();
+        void set_error();
+
+};
+
+/**
  * @brief Class for AK60 V1.0 motor
  */
 class AK60 : public _CANMotor
@@ -252,6 +273,12 @@ class AK70 : public _CANMotor
     public:
         AK70(config_defs::joint_id id, ExoData* exo_data, int enable_pin); // constructor: type is the motor type
         ~AK70(){};
+};
+class Maxon : public _PWMMotor
+{
+    public:
+        Maxon(config_defs::joint_id id, ExoData* exo_data, int enable_pin); // constructor: type is the motor type
+		~Maxon(){};
 };
 
 #endif
