@@ -149,12 +149,13 @@ bool _Controller::_maxon_manager(uint8_t enable_pin, uint8_t error_pin, uint8_t 
 	//Is the motor standing by? If so, update the iteration number and return directly
 	
 	if (maxon_stands_by) {
+		digitalWrite(enable_pin,LOW);
 		maxon_standby_itr++;
 		if (maxon_standby_itr == standby_target_itr) {
-			digitalWrite(enable_pin,HIGH);
+			//digitalWrite(enable_pin,HIGH);
 			maxon_stands_by = false;
 			maxon_standby_itr = 0;
-			Serial.print("\nMaxon standby is complete.");
+			//Serial.print("\nMaxon standby is complete.");
 		}
 	}
 	else {
@@ -170,14 +171,15 @@ bool _Controller::_maxon_manager(uint8_t enable_pin, uint8_t error_pin, uint8_t 
 			Serial.print("\nUser_paused. Returning...");
 		}
 		else {
+			digitalWrite(enable_pin,HIGH);
 			bool maxon_in_error = !digitalRead(error_pin);
 			if (maxon_in_error) {
-				digitalWrite(enable_pin,LOW);
+				//digitalWrite(enable_pin,LOW);
 				maxon_stands_by = true;
 				//Serial.print("  |  Maxon error detected.");
 			}
 			else {
-				digitalWrite(enable_pin,HIGH);
+				//digitalWrite(enable_pin,HIGH);
 				//Serial.print("  |  Re-enable command sent.");
 			}
 		}
@@ -726,19 +728,12 @@ float PropulsiveAssistive::calc_motor_cmd()
 		uint8_t servo_home = _controller_data->parameters[controller_defs::propulsive_assistive::servo_origin];
 		uint8_t servo_target = _controller_data->parameters[controller_defs::propulsive_assistive::servo_terminal];
 		
-		/* if (!_leg_data->is_left) {
-			Serial.print("\nSwitch: ");
-			Serial.print(servo_switch);
-			Serial.print("  Heel FSR Threshold: ");
-			Serial.print(servo_fsr_threshold);
-			Serial.print("  Servo home position: ");
-			Serial.print(servo_home);
-			Serial.print("  Servo target position: ");
-			Serial.print(servo_target);
-		} */
 
-
-		maxon_standby = _maxon_manager(33,37,23,100*_controller_data->parameters[controller_defs::propulsive_assistive::maxon_outOfOffice_itr]);
+		//if (!_leg_data->is_left) {
+		//maxon_standby = _maxon_manager(33,37,23,100*_controller_data->parameters[controller_defs::propulsive_assistive::maxon_outOfOffice_itr]);
+		maxon_standby = _maxon_manager(33,37,23,500);
+		
+		//}
 		
 		if (_data->user_paused || !active_trial)
 		{
@@ -748,27 +743,11 @@ float PropulsiveAssistive::calc_motor_cmd()
 				servoOutput = _servo_runner(26, 0, servo_target, servo_home);
 			}
 			//digitalWrite(33,LOW);
-			/* _controller_data->maxonWasOff = true;
-			_controller_data->maxonError = false;
-			_controller_data->maxonManualTrigger = false; */
-			
-			/* pinMode(36, INPUT);
-			pinMode(37, INPUT); */
-			//pinMode(37, INPUT_PULLUP);
-			//pinMode(37, INPUT_PULLUP);
 			pinMode(A0,INPUT);
 			pinMode(A1,INPUT);
-			//analogWriteResolution(12);
+			analogWriteResolution(12);
 			//analogWriteFrequency(A8, 5000);
-			//analogWriteFrequency(A9, 5000);
-			
-			// Testing the Servo motor
-			//pinMode(26, OUTPUT);//A12_Teensy (Right leg angle sensor pin on the AK Board 0.6 Maxon)
-			
-			//myservo.write(0);
-			// exo_data->right_leg.myservo.attach(26);
-			// exo_data->right_leg.myservo.write(0);
-			// delay(100);
+			analogWriteFrequency(A9, 5000);
 			return;
 		}
 		else {
@@ -778,9 +757,6 @@ float PropulsiveAssistive::calc_motor_cmd()
 			}
 			if (exo_status == status_defs::messages::fsr_refinement) {
 				if (!_leg_data->is_left) {
-					
-					
-					
 					if (percent_grf_heel>0.5){
 						//Serial.println("FSR above 0.5");
 						if (servo_switch) {
@@ -793,64 +769,23 @@ float PropulsiveAssistive::calc_motor_cmd()
 						}
 					}
 				}
+		}	
 		}
-			
-		}
-		// exo_data->right_leg.myservo.write(180);
-		// delay(100);
 		
-		/* if ((!digitalRead(37) || !digitalRead(37)) && _controller_data->maxonResetItrCount==0) {
-				digitalWrite(33,LOW);
-				_controller_data->maxonResetItrCount = 1;
-				return;
-		}
-		if (_controller_data->maxonResetItrCount > 0) {
-			_controller_data->maxonResetItrCount++;
-		}
-		uint8_t num_of_frames1= 50;
-		uint8_t num_of_frames2= 100;
-		if ((_controller_data->maxonResetItrCount > 0)&&(_controller_data->maxonResetItrCount< num_of_frames1)) {
-			return;
-		}
-		if ((_controller_data->maxonResetItrCount>num_of_frames1)&&(_controller_data->maxonResetItrCount<num_of_frames2)) {
-		digitalWrite(33,HIGH);
-		cmd = _pid(cmd_ff, _controller_data->filtered_torque_reading,
-            2 * _controller_data->parameters[controller_defs::propulsive_assistive::kp],
-            0, 
-            2 * _controller_data->parameters[controller_defs::propulsive_assistive::kd]);
-		}
-		if (_controller_data->maxonResetItrCount>num_of_frames2) {
-			_controller_data->maxonResetItrCount = 0;
-		}
-		 */
-		 
 		 if (!_leg_data->is_left) {
 		if ((cmd_ff<0)&&((_controller_data->filtered_torque_reading - cmd_ff) < 0)) {
 							cmd = _pid(0, 0, 0, 0, 0);
 						}
-		// Serial.println(cmd);
 		 }
 		int flip4Maxon = (_joint_data->motor.flip_direction? -1: 1);
 		float cmdMaxon = 2048 + flip4Maxon * cmd;
 		cmdMaxon = min(3645, cmdMaxon);
 		cmdMaxon = max(451, cmdMaxon);
 		
-	
-		//Temporary code to test if Controller.h has different storage for left and right legs.
-		//Test results: Yes, variables in Controller.h does have different storage for left and right leg.
-		/* if (!_leg_data->is_left) {
-		LR_Tester++;
-		}
-		else {
-			LR_Tester--;
-		}
-		Serial.println(LR_Tester); */
-		//
 		
 		if (maxon_standby) {
-			//Serial.print("  |  Plotting scalar set to -----1");
 			_controller_data->plotting_scalar = -1;
-			return 0;
+			//return;
 		}
 		else {
 			_controller_data->plotting_scalar = 1;
