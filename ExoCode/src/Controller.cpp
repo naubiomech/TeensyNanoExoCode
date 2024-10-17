@@ -159,20 +159,37 @@ bool _Controller::_maxon_manager(uint8_t enable_pin, uint8_t error_pin, uint8_t 
 		}
 	}
 	else {
+		digitalWrite(enable_pin,HIGH);
 		uint16_t exo_status = _data->get_status();
 		bool active_trial = (exo_status == status_defs::messages::trial_on) || 
         (exo_status == status_defs::messages::fsr_calibration) ||
         (exo_status == status_defs::messages::fsr_refinement);
 		
 		if (_data->user_paused || !active_trial) {
-			digitalWrite(enable_pin,LOW);
+			
+			
 			pinMode(error_pin, INPUT_PULLUP);
+			analogWriteResolution(12);
 			analogWriteFrequency(motor_ctrl_pin, 5000);
-			Serial.print("\nUser_paused. Returning...");
+			analogWrite(motor_ctrl_pin,2048);
+			//Serial.print("\nUser_paused. Returning...");
+			maxon_standby_itr = 0;
 		}
 		else {
-			digitalWrite(enable_pin,HIGH);
-			bool maxon_in_error = !digitalRead(error_pin);
+			
+			
+			//digitalWrite(enable_pin,HIGH);
+			bool maxon_in_error;
+			//if (maxon_ready2capture_error) {
+				maxon_in_error = !digitalRead(error_pin);
+			//}
+			//else {
+				//maxon_standby_itr++;
+				//if (maxon_standby_itr == 2000) {
+					//maxon_ready2capture_error = true;
+					//maxon_standby_itr = 0;
+				//}
+			//}
 			if (maxon_in_error) {
 				//digitalWrite(enable_pin,LOW);
 				maxon_stands_by = true;
@@ -745,9 +762,9 @@ float PropulsiveAssistive::calc_motor_cmd()
 			//digitalWrite(33,LOW);
 			pinMode(A0,INPUT);
 			pinMode(A1,INPUT);
-			analogWriteResolution(12);
+			//analogWriteResolution(12);
 			//analogWriteFrequency(A8, 5000);
-			analogWriteFrequency(A9, 5000);
+			//analogWriteFrequency(A9, 5000);
 			return;
 		}
 		else {
@@ -775,6 +792,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 		 if (!_leg_data->is_left) {
 		if ((cmd_ff<0)&&((_controller_data->filtered_torque_reading - cmd_ff) < 0)) {
 							cmd = _pid(0, 0, 0, 0, 0);
+							cmd = 0;
 						}
 		 }
 		int flip4Maxon = (_joint_data->motor.flip_direction? -1: 1);
