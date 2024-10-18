@@ -777,7 +777,12 @@ float PropulsiveAssistive::calc_motor_cmd()
 					if (percent_grf_heel>0.5){
 						//Serial.println("FSR above 0.5");
 						if (servo_switch) {
-						servoOutput = _servo_runner(26, 0, servo_home, servo_target);
+							Serial.print("\nToe do calibration: ");
+							Serial.print(_leg_data->do_calibration_toe_fsr);
+							Serial.print("  |  Heel do calibration: ");
+							Serial.print(_leg_data->do_calibration_heel_fsr);
+							servoOutput = _servo_runner(26, 0, servo_home, servo_target);
+							
 						}
 					}
 					else {

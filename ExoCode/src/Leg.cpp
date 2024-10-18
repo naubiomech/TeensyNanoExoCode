@@ -148,11 +148,13 @@ void Leg::check_calibration()
         if (_leg_data->do_calibration_toe_fsr)
         {
             _leg_data->do_calibration_toe_fsr = _toe_fsr.calibrate(_leg_data->do_calibration_toe_fsr);
-            _data->set_status(status_defs::messages::fsr_calibration);
+			_leg_data->do_calibration_heel_fsr = _heel_fsr.calibrate(_leg_data->do_calibration_heel_fsr);
+			_data->set_status(status_defs::messages::fsr_calibration);
         }
         else if (_leg_data->do_calibration_refinement_toe_fsr) 
         {
             _leg_data->do_calibration_refinement_toe_fsr = _toe_fsr.refine_calibration(_leg_data->do_calibration_refinement_toe_fsr);
+			_leg_data->do_calibration_refinement_heel_fsr = _heel_fsr.refine_calibration(_leg_data->do_calibration_refinement_heel_fsr);
             _data->set_status(status_defs::messages::fsr_refinement);
         }
         
