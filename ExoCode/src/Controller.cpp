@@ -208,7 +208,7 @@ int _Controller::_servo_runner(uint8_t servo_pin, uint8_t speed_level, uint8_t a
 {
 	bool isGoingUp;
 	if (!((pos1 == angle_initial)&&(pos2 == angle_final))) {
-		myservo.attach(26,500,2500);
+		myservo.attach(servo_pin,500,2500);
 		pos1 = angle_initial;
 		pos2 = angle_final;
 		run_flag = true;
@@ -757,7 +757,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 			if (!_leg_data->is_left) {
 				// Serial.print("\nInitializing...   |  Heel FSR: ");
 				// Serial.print(analogRead(A3));
-				servoOutput = _servo_runner(26, 0, servo_target, servo_home);
+				servoOutput = _servo_runner(27, 0, servo_target, servo_home);
 			}
 			//digitalWrite(33,LOW);
 			pinMode(A0,INPUT);
@@ -770,24 +770,26 @@ float PropulsiveAssistive::calc_motor_cmd()
 		else {
 			//digitalWrite(33,HIGH);
 			if (!servo_switch) {
-				servoOutput = _servo_runner(26, 0, servo_target, servo_home);
+				servoOutput = _servo_runner(27, 0, servo_target, servo_home);
 			}
 			if (exo_status == status_defs::messages::fsr_refinement) {
 				if (!_leg_data->is_left) {
+					// Serial.print("\npercent_grf_heel: ");
+					// Serial.print(percent_grf_heel);
 					if (percent_grf_heel>0.5){
 						//Serial.println("FSR above 0.5");
 						if (servo_switch) {
-							Serial.print("\nToe do calibration: ");
-							Serial.print(_leg_data->do_calibration_toe_fsr);
-							Serial.print("  |  Heel do calibration: ");
-							Serial.print(_leg_data->do_calibration_heel_fsr);
-							servoOutput = _servo_runner(26, 0, servo_home, servo_target);
+							// Serial.print("\nToe do calibration: ");
+							// Serial.print(_leg_data->do_calibration_toe_fsr);
+							// Serial.print("  |  Heel do calibration: ");
+							// Serial.print(_leg_data->do_calibration_heel_fsr);
+							servoOutput = _servo_runner(27, 0, servo_home, servo_target);
 							
 						}
 					}
 					else {
 						if (servo_switch) {
-						servoOutput = _servo_runner(26, 0, servo_target, servo_home);
+						servoOutput = _servo_runner(27, 0, servo_target, servo_home);
 						}
 					}
 				}
