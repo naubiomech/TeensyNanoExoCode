@@ -430,7 +430,8 @@ _PWMMotor::_PWMMotor(config_defs::joint_id id, ExoData* exo_data, int enable_pin
 
     JointData* j_data = exo_data->get_joint_with(static_cast<uint8_t>(id));
 
-
+	_enable_response = false;
+	
 #ifdef MOTOR_DEBUG
     logger::println("_PWMMotor::_PWMMotor : Leaving Constructor");
 #endif
@@ -440,8 +441,8 @@ void _PWMMotor::transaction(float torque)
 {
     // send data and read response 
     send_data(torque);
-    read_data();
-    check_response();
+    /* read_data();
+    check_response(); */
 };
 
 void _PWMMotor::zero()
@@ -481,6 +482,7 @@ bool _PWMMotor::enable(bool overide)
             // !!! A delay check between when turning on power and when timeouts stopped happening gave a delay of 1930 ms rounding to 2000.
             // enable motor
 			digitalWrite(_enable_pin,HIGH);
+			analogWriteResolution(12);
         }
         else 
         {
@@ -493,6 +495,92 @@ bool _PWMMotor::enable(bool overide)
     }
     _prev_motor_enabled = _motor_data->enabled;
     return _enable_response;
+};
+
+void _PWMMotor::send_data(float torque)
+{
+    #ifdef MOTOR_DEBUG
+        logger::print("Sending data: ");
+        logger::print(uint32_t(_motor_data->id));
+        logger::print("\n");
+    #endif
+
+    int direction_modifier = _motor_data->flip_direction ? -1 : 1;
+
+	_motor_data->t_ff = torque;
+    _motor_data->last_command = torque;
+    
+    // only send messages if enabled
+    if (_motor_data->enabled)
+    {
+        // set data in motor
+		digitalWrite(_enable_pin,HIGH);
+		analogWriteResolution(12);
+		analogWrite(A9,2048+(direction_modifier*300));
+    }
+    return;
+};
+
+void _PWMMotor::check_response()
+{
+    // only run if the motor is supposed to be enabled
+    uint16_t exo_status = _data->get_status();
+    bool active_trial = (exo_status == status_defs::messages::trial_on) || 
+        (exo_status == status_defs::messages::fsr_calibration) ||
+        (exo_status == status_defs::messages::fsr_refinement);
+    if (_data->user_paused || !active_trial || _data->estop || _error)
+    {
+        return;
+    }
+
+    // Measured current variance should be non-zero
+    /* _measured_current.push(_motor_data->i);
+    if (_measured_current.size() > _current_queue_size)
+    {
+        _measured_current.pop();
+        auto pop_vals = utils::online_std_dev(_measured_current);
+        if (pop_vals.second < _variance_threshold)
+        {
+            _motor_data->enabled = true;
+            enable(true);
+        }
+    } */
+	_motor_data->enabled = true;
+    enable(true);
+}
+
+void _PWMMotor::on_off()
+{
+    if (_data->estop || _error)
+    {
+        _motor_data->is_on = false;
+        // logger::print("_CANMotor::on_off(bool is_on) : E-stop pulled - ");
+        // logger::print(uint32_t(_motor_data->id));
+        // logger::print("\n");
+    }
+    if (_prev_on_state != _motor_data->is_on) // if was here to save time, can be removed if making problems, or add overide
+    {
+        if (_motor_data->is_on)
+        {
+            digitalWrite(_enable_pin, logic_micro_pins::motor_enable_on_state);
+            // logger::print("_CANMotor::on_off(bool is_on) : Power on- ");
+            // logger::print(uint32_t(_motor_data->id));
+            // logger::print("\n");
+        }
+        else 
+        {
+            digitalWrite(_enable_pin, logic_micro_pins::motor_enable_off_state);
+            // logger::print("_CANMotor::on_off(bool is_on) : Power off- ");
+            // logger::print(uint32_t(_motor_data->id));
+            // logger::print("\n");
+        }
+    }
+    _prev_on_state = _motor_data->is_on;
+
+    #ifdef HEADLESS
+    delay(500);    //Two second delay between motor's turning on and enabeling, we've run into some issues with enabling while in headless mode if this delay is not present. 
+    #endif
+
 };
 //**************************************
 /*
@@ -585,4 +673,8 @@ _CANMotor(id, exo_data, enable_pin)
     exo_data->get_joint_with(static_cast<uint8_t>(id))->motor.kt = kt;
 };
 
+Maxon::Maxon(config_defs::joint_id id, ExoData* exo_data, int enable_pin): // constructor: type is the motor type
+_PWMMotor(id, exo_data, enable_pin)
+{
+};
 #endif

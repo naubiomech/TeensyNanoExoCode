@@ -857,6 +857,12 @@ AnkleJoint::AnkleJoint(config_defs::joint_id id, ExoData* exo_data)
                 #endif
                 AnkleJoint::set_motor(new AK70(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
                 break;
+			case (uint8_t)config_defs::motor::Maxon:
+                #ifdef JOINT_DEBUG
+                    logger::println("Maxon");
+                #endif
+                AnkleJoint::set_motor(new Maxon(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
+                break;
             default :
                 #ifdef JOINT_DEBUG
                     logger::println("NULL");

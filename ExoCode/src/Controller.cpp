@@ -2087,7 +2087,7 @@ float CalibrManager::calc_motor_cmd()
 		cmd = 3;
 		
 		cmdMaxon = 2048 + flip4Maxon * 30 * cmd;
-		analogWrite(A9,cmdMaxon);
+		//analogWrite(A9,cmdMaxon);
 		Serial.print("  |  Right cmd: ");
 		Serial.print(cmd);
 		Serial.print("  |  Right toe FSR: ");
@@ -2150,6 +2150,7 @@ else {
 	} */
 	
 //}
+cmd = 1;
 return cmd;
 	
 }

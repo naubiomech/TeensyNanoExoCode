@@ -225,6 +225,8 @@ class _PWMMotor : public _Motor
         float get_Kt();
         void check_response();
         void set_error();
+	protected:
+		bool _enable_response; /**< True if the motor responded to an enable command */
 
 };
 
