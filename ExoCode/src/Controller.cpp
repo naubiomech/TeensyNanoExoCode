@@ -2017,142 +2017,43 @@ float CalibrManager::calc_motor_cmd()
 {
 	//Serial.print("\nRunning the calibrManager controller...");
 	float cmd;
-	float cmdMaxon;
-	int flip4Maxon;
-	//float calibrSum;
-	// uint16_t exo_status = _data->get_status();
-    // bool active_trial = (exo_status == status_defs::messages::trial_on) || 
-        // (exo_status == status_defs::messages::fsr_calibration) ||
-        // (exo_status == status_defs::messages::fsr_refinement);
-		
-		// if (_joint_data->motor_pos_first_run && _joint_data->motor.enabled) {
-			// _joint_data->motor_pos_max = _joint_data->motor.p;
-			// _joint_data->motor_pos_min = _joint_data->motor.p;
-			// _joint_data->motor_pos_first_run = false;
-		// }
-		// _joint_data->motor_pos_max = max(_joint_data->motor_pos_max, _joint_data->motor.p);
-		// _joint_data->motor_pos_min = min(_joint_data->motor_pos_min, _joint_data->motor.p);
-		
-		//Maxon PCB enabling motors
-		// digitalWrite(33,HIGH);
-		// analogWriteResolution(12);
-		// if (_data->user_paused || !active_trial)
-		// {
-			// digitalWrite(33,LOW);
-			// return;
-		// }
-		
-		// flip4Maxon = (_joint_data->motor.flip_direction? -1: 1);
-		// if (_joint_data->is_left) {
-		// Serial.print("\nLeft angle: ");
-		// Serial.print(_leg_data->ankle.joint_position);
-		// Serial.print("  |  Left torque: ");
-		// Serial.print(_joint_data->torque_reading);
-		// cmd = _controller_data->parameters[controller_defs::calibr_manager::calibr_cmd];
-		
-		// /* Serial.print("\nLeft cmd from SD card: ");
-		// Serial.print(cmd); */
-		
-		// cmd = 3;
-		
-		// cmdMaxon = 2048 + flip4Maxon * 30 * cmd;
-		
-		//cmdMaxon = 410 - cmd;
-		
-		//analogWrite(A8,cmdMaxon);
-		// Serial.print("  |  Left cmd: ");
-		// Serial.print(cmd);
-		// Serial.print("  |  Left toe FSR: ");
-		// Serial.print(_leg_data->toe_fsr);
-		// Serial.print("  |  Left heel FSR: ");
-		// Serial.print(_leg_data->heel_fsr);
-		// Serial.print("  |  Left motor RoM: ");
-		// Serial.print(_joint_data->motor_pos_max - _joint_data->motor_pos_min);
-		// Serial.print("  |  Left torque offset: ");
-		// Serial.print(_joint_data->torque_offset_reading);
-		// Serial.print("  |  Left microSD torque offset: ");
-		// Serial.print(_joint_data->torque_offset / 100);
-		// Serial.print("  |  Left torque reading (microSD): ");
-		// Serial.print(_joint_data->torque_reading_microSD);
-		// Serial.print("  |  Left motor RoM (SD): ");
-		// Serial.print(_joint_data->motor_RoM);
-		
-		// Serial.print("  |  Flip motorL: ");
-		// Serial.print(_joint_data->motor.flip_direction);
-	// }
-	// else {
-		// Serial.print("  |  Right angle: ");
-		// Serial.print(_leg_data->ankle.joint_position);
-		// Serial.print("  |  Right torque: ");
-		// Serial.print(_joint_data->torque_reading);
-		// cmd = 3;
-		
-		// cmdMaxon = 2048 + flip4Maxon * 30 * cmd;
-	//	analogWrite(A9,cmdMaxon);
-		// Serial.print("  |  Right cmd: ");
-		// Serial.print(cmd);
-		// Serial.print("  |  Right toe FSR: ");
-		// Serial.print(_leg_data->toe_fsr);
-		// Serial.print("  |  Right heel FSR: ");
-		// Serial.print(_leg_data->heel_fsr);
-		// Serial.print("  |  Right motor RoM: ");
-		// Serial.print(_joint_data->motor_pos_max - _joint_data->motor_pos_min);
-		// Serial.print("  |  Right torque offset: ");
-		// Serial.print(_joint_data->torque_offset_reading);
-		// Serial.print("  |  Right microSD torque offset: ");
-		// Serial.print(_joint_data->torque_offset / 100);
-		// Serial.print("  |  Right torque reading (microSD): ");
-		// Serial.print(_joint_data->torque_reading_microSD);
-		// Serial.print("  |  Motor pos safety factor: ");
-		// Serial.print(_joint_data->motor_pos_safety_factor);
-		// Serial.print("  |  Right motor RoM (SD): ");
-		// Serial.print(_joint_data->motor_RoM);
-		// Serial.print("  |  doToeRefinement: ");
-		// Serial.print(String(_leg_data->do_calibration_refinement_toe_fsr));
-		// Serial.print("  |  Exo status: ");
-		// uint16_t exo_status = _data->get_status();
-		// Serial.print(String(exo_status));
-		
-		// Serial.print("  |  Flip motorR: ");
-		// Serial.print(_joint_data->motor.flip_direction);
-	// }
-		
-/*     if (_data->user_paused || !active_trial)
-    {
-        return;
-    } */
-/* _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, 0.5);
-if (_leg_data->do_calibration_toe_fsr || _leg_data->do_calibration_refinement_toe_fsr) {
-	cmd = 0;
-}
-else {
-	_controller_data->iCalibr++;
-	if (_controller_data->iCalibr < 100) {
-		cmd = -3.5;
-		_controller_data->calibrSum = _controller_data->calibrSum + _controller_data->filtered_torque_reading * cmd;
-		if (_controller_data->calibrSum > 0) {
-			_controller_data->PIDMLTPLR = 1;
-		}
-		if (_controller_data->calibrSum < 0) {
-			_controller_data->PIDMLTPLR = -1;
-		}
-	}
-	else {
-		_controller_data->iCalibr = 0;
-		_controller_data->calibrSum = 0;
-	} */
-/* 	if (!_joint_data->is_left) {
-	Serial.print(_controller_data->PIDMLTPLR);
-	Serial.print("  |  Torque reading: ");
-	Serial.print(_controller_data->filtered_torque_reading);
-	Serial.print("  |  cmd: ");
-	Serial.print(cmd);
-	Serial.print("\n");
-	} */
+
+	uint16_t exo_status = _data->get_status();
+    bool active_trial = (exo_status == status_defs::messages::trial_on) || 
+        (exo_status == status_defs::messages::fsr_calibration) ||
+        (exo_status == status_defs::messages::fsr_refinement);
 	
-//}
-cmd = 1;
-return cmd;
+    if (active_trial)
+    {
+        if (_joint_data->is_left)
+        {
+            Serial.print("\nLeft angle: ");
+            Serial.print(_side_data->ankle.joint_position);
+            Serial.print("  |  Left torque: ");
+            Serial.print(_joint_data->torque_reading);
+            cmd = _controller_data->parameters[controller_defs::calibr_manager::calibr_cmd];
+            cmd = 3.5;
+            Serial.print("  |  Left cmd: ");
+            Serial.print(cmd);
+        }
+        else
+        {
+            Serial.print("  |  Right angle: ");
+            Serial.print(_side_data->ankle.joint_position);
+            Serial.print("  |  Right torque: ");
+            Serial.print(_joint_data->torque_reading);
+            cmd = 3.5;
+            Serial.print("  |  Right cmd: ");
+            Serial.print(cmd);
+            Serial.print("  |  doToeRefinement: ");
+            Serial.print(String(_side_data->do_calibration_refinement_toe_fsr));
+            Serial.print("  |  Exo status: ");
+            uint16_t exo_status = _data->get_status();
+            Serial.print(String(exo_status));
+        }
+    }
+		
+    return cmd;
 	
 }
 

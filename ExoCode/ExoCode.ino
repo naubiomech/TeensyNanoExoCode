@@ -465,23 +465,37 @@ void loop()
 namespace config_info
 {
      uint8_t config_to_send[ini_config::number_of_keys] = {
-            1,  // board name
-            3,  // board version
-            2,  // battery
-            1,  // exo name
-            1,  // exo side
-            2,  // hip
-            1,  // knee
-            3,  // ankle
-            1,  // hip gear
-            1,  // knee gear
-            1,  // ankle gear
-            1,  // hip default controller
-            1,  // knee default controller
-            1,  // ankle default controller
-            3,  // hip flip dir
-            3,  // knee flip dir
-            3,  // ankle flip dir
+            1,  //Board name
+            3,  //Board version
+            2,  //Battery
+            22,  //Exo name
+            3,  //Exo side
+            5,  //Hip
+            5,  //Knee
+            5,  //Ankle
+            4,  //Hip gear
+            4,  //Knee gear
+            4,  //Ankle gear
+            6,  //Hip default controller
+            6,  //Knee default controller
+            10, //Ankle default controller
+            6,  //Elbow default controller
+            2,  //Hip use torque sensor
+            2,  //Knee use torque sensor
+            2,  //Ankle use torque sensor
+            2,  //Elbow use torque sensor
+            4,  //Hip flip motor dir
+            4,  //Knee flip motor dir
+            4,  //Ankle flip motor dir
+            4,  //Elbow flip motor dir
+            4,  //Hip flip torque dir
+            4,  //Knee flip torque dir
+            4,  //Ankle flip torque dir
+            4,  //Elbow flip torque dir
+            4,  //Hip flip angle dir
+            4,  //Knee flip angle dir
+            4,  //Ankle flip angle dir
+            4,  //Elbow flip angle dir
           };
 }
 

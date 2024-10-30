@@ -231,7 +231,17 @@
         // logger::print(data.exo_ankle_default_controller.c_str());
         // logger::print("\t");
         // logger::println(config_map::ankle_controllers[data.exo_ankle_default_controller]);
+
         config_to_send[config_defs::exo_ankle_default_controller_idx] = config_map::ankle_controllers[data.exo_ankle_default_controller];
+
+        get_section_key(ini, temp_exo_name, "elbowDefaultController", buffer, buffer_len);
+        data.exo_elbow_default_controller = buffer;
+
+        // logger::print(data.exo_elbow_default_controller.c_str());
+        // logger::print("\t");
+        // logger::println(config_map::elbow_controllers[data.exo_elbow_default_controller]);
+
+        config_to_send[config_defs::exo_elbow_default_controller_idx] = config_map::elbow_controllers[data.exo_elbow_default_controller];
         
         //--------------------------------------------------------
         

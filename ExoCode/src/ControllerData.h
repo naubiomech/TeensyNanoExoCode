@@ -341,7 +341,6 @@ class ControllerData {
 		int PIDMLTPLR = 0;
 		bool calibrStart = false;
 		float calibrSum = 0;
-
 		
 		// Variables for the Zhang-Collins Controller
 		float previous_cmd = 0;
