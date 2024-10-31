@@ -416,12 +416,12 @@
         {
              #if defined(ARDUINO_TEENSY41)
                 // Serial Pins, NC
-                unsigned int rx1_pin;
-                unsigned int tx1_pin;
+                const unsigned int rx1_pin;
+                const unsigned int tx1_pin;
                 
                 // CAN Pins
-                unsigned int can_rx_pin;
-                unsigned int can_tx_pin;
+                const unsigned int can_rx_pin;
+                const unsigned int can_tx_pin;
                 
                 // FSR Pins
                 const unsigned int fsr_sense_left_heel_pin = A14;
@@ -440,8 +440,8 @@
                 
                 
                 // Sync LED Pins
-                unsigned int sync_led_pin ;
-                unsigned int sync_default_pin ;
+                const unsigned int sync_led_pin ;
+                const unsigned int sync_default_pin ;
             #endif
             // Arduino compiles all files not just the ones that are used so this is not under teensy to prevent errors
             const unsigned int sync_led_on_state = LOW;//HIGH;
@@ -449,9 +449,9 @@
 
              #if defined(ARDUINO_TEENSY41)
                 // Status LED Pins
-                unsigned int status_led_r_pin ;
-                unsigned int status_led_g_pin ;
-                unsigned int status_led_b_pin ;
+                const unsigned int status_led_r_pin ;
+                const unsigned int status_led_g_pin ;
+                const unsigned int status_led_b_pin ;
             #endif
 
             // if you have connected to pins with PWM set to true.
@@ -462,12 +462,12 @@
                 
             #if defined(ARDUINO_TEENSY41)    
                 // SPI Follower Pins
-                unsigned int miso_pin ;
-                unsigned int mosi_pin ;
-                unsigned int sck_pin ;
-                unsigned int cs_pin ;
-                unsigned int irq_pin ;
-                unsigned int rst_pin ;
+                const unsigned int miso_pin ;
+                const unsigned int mosi_pin ;
+                const unsigned int sck_pin ;
+                const unsigned int cs_pin ;
+                const unsigned int irq_pin ;
+                const unsigned int rst_pin ;
                 const unsigned int spi_mode = 8; // This is 8 or 16 bit, not the actual SPI mode, I know it is confusing but that is how they chose to make the library.
                 
                 
@@ -482,10 +482,10 @@
                 const unsigned int enable_right_pin[] = {33, 33};
                 
                 
-                unsigned int speed_check_pin ;
+                const unsigned int speed_check_pin ;
 				
-				unsigned int left_ankle_angle_pin;
-                unsigned int right_ankle_angle_pin;
+				const unsigned int left_ankle_angle_pin;
+                const unsigned int right_ankle_angle_pin;
                 
                 // I2C 
                 // SDA 18

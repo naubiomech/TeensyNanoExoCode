@@ -141,15 +141,18 @@ class TestMotor : public _Motor
 {
     public:
     TestMotor(config_defs::joint_id id, ExoData* exo_data, int enable_pin);//:_Motor(id, exo_data, enable_pin) {};
-    void read_data() {};
-    void send_data(float torque) {};
-    void transaction(float torque) {};
+    void transaction(float torque);
+	void read_data() {};
+    void send_data(float torque);
     void on_off() {};
-    bool enable() {return true;};
-    bool enable(bool overide) {return true;};
+    bool enable();
+    bool enable(bool overide);
     void zero() {};
     float get_Kt() {return 0.0;};
     void set_error() {};
+	
+	protected:
+	bool _enable_response; /**< True if the motor responded to an enable command */
 };
 
 
