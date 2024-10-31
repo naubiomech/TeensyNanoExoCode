@@ -373,17 +373,17 @@ void _CANMotor::zero()
 float _CANMotor::get_Kt()
 {
     return _Kt;
-}
+};
 
 void _CANMotor::set_error()
 {
     _error = true;
-}
+};
 
 void _CANMotor::set_Kt(float Kt)
 {
     _Kt = Kt;
-}
+};
 
 
 void _CANMotor::_handle_read_failure()
@@ -418,6 +418,98 @@ float _CANMotor::_uint_to_float(unsigned int x_int, float x_min, float x_max, in
     }
     return pgg;
 };
+
+//**************************************
+/*
+ * Constructor for the motor
+ * Takes the joint id and a pointer to the exo_data
+ * Only stores the id, exo_data pointer, and if it is left (for easy access)
+ */
+AK60::AK60(config_defs::joint_id id, ExoData* exo_data, int enable_pin): // constructor: type is the motor type
+_CANMotor(id, exo_data, enable_pin)
+{
+    _I_MAX = 22.0f;
+    _V_MAX = 41.87f;
+    float kt = 0.068 * 6;
+    set_Kt(kt);
+    exo_data->get_joint_with(static_cast<uint8_t>(id))->motor.kt = kt;
+
+#ifdef MOTOR_DEBUG
+    logger::println("AK60::AK60 : Leaving Constructor");
+#endif
+};
+
+/*
+ * Constructor for the motor
+ * Takes the joint id and a pointer to the exo_data
+ * Only stores the id, exo_data pointer, and if it is left (for easy access)
+ */
+AK60_v1_1::AK60_v1_1(config_defs::joint_id id, ExoData* exo_data, int enable_pin): // constructor: type is the motor type
+_CANMotor(id, exo_data, enable_pin)
+{
+    _I_MAX = 13.5f;
+    _V_MAX = 23.04f;
+
+    float kt = 1/0.37775;
+    set_Kt(kt);
+    exo_data->get_joint_with(static_cast<uint8_t>(id))->motor.kt = kt;
+
+#ifdef MOTOR_DEBUG
+    logger::println("AK60_v1_1::AK60_v1_1 : Leaving Constructor");
+#endif
+};
+
+/*
+ * Constructor for the motor
+ * Takes the joint id and a pointer to the exo_data
+ * Only stores the id, exo_data pointer, and if it is left (for easy access)
+ */
+AK60_v1_1_T::AK60_v1_1_T(config_defs::joint_id id, ExoData* exo_data, int enable_pin) : // constructor: type is the motor type
+    _CANMotor(id, exo_data, enable_pin)
+{
+    _I_MAX = 9.0f;
+    _V_MAX = 23.04f; 
+
+    float kt = 1;
+    set_Kt(kt);
+    exo_data->get_joint_with(static_cast<uint8_t>(id))->motor.kt = kt;
+
+#ifdef MOTOR_DEBUG
+    logger::println("AK60_v1_1::AK60_v1_1 : Leaving Constructor");
+#endif
+};
+
+/*
+ * Constructor for the motor
+ * Takes the joint id and a pointer to the exo_data
+ * Only stores the id, exo_data pointer, and if it is left (for easy access)
+ */
+AK80::AK80(config_defs::joint_id id, ExoData* exo_data, int enable_pin): // constructor: type is the motor type
+_CANMotor(id, exo_data, enable_pin)
+{
+    _I_MAX = 24.0f;
+    _V_MAX = 25.65f;
+
+    float kt = 0.091 * 9;
+    set_Kt(kt);
+    exo_data->get_joint_with(static_cast<uint8_t>(id))->motor.kt = kt;
+
+
+#ifdef MOTOR_DEBUG
+    logger::println("AK80::AK80 : Leaving Constructor");
+#endif
+};
+
+AK70::AK70(config_defs::joint_id id, ExoData* exo_data, int enable_pin): // constructor: type is the motor type
+_CANMotor(id, exo_data, enable_pin)
+{
+    _I_MAX = 23.2f;
+    _V_MAX = 15.5f;
+    float kt = 0.13 * 10;
+    set_Kt(kt);
+    exo_data->get_joint_with(static_cast<uint8_t>(id))->motor.kt = kt;
+};
+
 
 /*
  * Constructor for the PWM Motor.  
@@ -454,7 +546,7 @@ void _PWMMotor::zero()
 void _PWMMotor::set_error()
 {
     _error = true;
-}
+};
 
 bool _PWMMotor::enable()
 {
@@ -547,7 +639,7 @@ void _PWMMotor::check_response()
     } */
 	_motor_data->enabled = true;
     enable(true);
-}
+};
 
 void _PWMMotor::on_off()
 {
@@ -582,99 +674,16 @@ void _PWMMotor::on_off()
     #endif
 
 };
-//**************************************
-/*
- * Constructor for the motor
- * Takes the joint id and a pointer to the exo_data
- * Only stores the id, exo_data pointer, and if it is left (for easy access)
- */
-AK60::AK60(config_defs::joint_id id, ExoData* exo_data, int enable_pin): // constructor: type is the motor type
-_CANMotor(id, exo_data, enable_pin)
-{
-    _I_MAX = 22.0f;
-    _V_MAX = 41.87f;
-    float kt = 0.068 * 6;
-    set_Kt(kt);
-    exo_data->get_joint_with(static_cast<uint8_t>(id))->motor.kt = kt;
 
-#ifdef MOTOR_DEBUG
-    logger::println("AK60::AK60 : Leaving Constructor");
-#endif
-};
-
-/*
- * Constructor for the motor
- * Takes the joint id and a pointer to the exo_data
- * Only stores the id, exo_data pointer, and if it is left (for easy access)
- */
-AK60_v1_1::AK60_v1_1(config_defs::joint_id id, ExoData* exo_data, int enable_pin): // constructor: type is the motor type
-_CANMotor(id, exo_data, enable_pin)
-{
-    _I_MAX = 13.5f;
-    _V_MAX = 23.04f;
-
-    float kt = 1/0.37775;
-    set_Kt(kt);
-    exo_data->get_joint_with(static_cast<uint8_t>(id))->motor.kt = kt;
-
-#ifdef MOTOR_DEBUG
-    logger::println("AK60_v1_1::AK60_v1_1 : Leaving Constructor");
-#endif
-};
-
-/*
- * Constructor for the motor
- * Takes the joint id and a pointer to the exo_data
- * Only stores the id, exo_data pointer, and if it is left (for easy access)
- */
-AK60_v1_1_T::AK60_v1_1_T(config_defs::joint_id id, ExoData* exo_data, int enable_pin) : // constructor: type is the motor type
-    _CANMotor(id, exo_data, enable_pin)
-{
-    _I_MAX = 9.0f;
-    _V_MAX = 23.04f; 
-
-    float kt = 1;
-    set_Kt(kt);
-    exo_data->get_joint_with(static_cast<uint8_t>(id))->motor.kt = kt;
-
-#ifdef MOTOR_DEBUG
-    logger::println("AK60_v1_1::AK60_v1_1 : Leaving Constructor");
-#endif
-};
-
-/*
- * Constructor for the motor
- * Takes the joint id and a pointer to the exo_data
- * Only stores the id, exo_data pointer, and if it is left (for easy access)
- */
-AK80::AK80(config_defs::joint_id id, ExoData* exo_data, int enable_pin): // constructor: type is the motor type
-_CANMotor(id, exo_data, enable_pin)
-{
-    _I_MAX = 24.0f;
-    _V_MAX = 25.65f;
-
-    float kt = 0.091 * 9;
-    set_Kt(kt);
-    exo_data->get_joint_with(static_cast<uint8_t>(id))->motor.kt = kt;
-
-
-#ifdef MOTOR_DEBUG
-    logger::println("AK80::AK80 : Leaving Constructor");
-#endif
-};
-
-AK70::AK70(config_defs::joint_id id, ExoData* exo_data, int enable_pin): // constructor: type is the motor type
-_CANMotor(id, exo_data, enable_pin)
-{
-    _I_MAX = 23.2f;
-    _V_MAX = 15.5f;
-    float kt = 0.13 * 10;
-    set_Kt(kt);
-    exo_data->get_joint_with(static_cast<uint8_t>(id))->motor.kt = kt;
-};
-
-Maxon::Maxon(config_defs::joint_id id, ExoData* exo_data, int enable_pin): // constructor: type is the motor type
+/* Maxon::Maxon(config_defs::joint_id id, ExoData* exo_data, int enable_pin): // constructor: type is the motor type
 _PWMMotor(id, exo_data, enable_pin)
 {
-};
+	_I_MAX = 23.2f;
+}; */
+
+TestMotor::TestMotor(config_defs::joint_id id, ExoData* exo_data, int enable_pin) // constructor: type is the motor type
+: _Motor(id, exo_data, enable_pin)
+{
+	
+}
 #endif

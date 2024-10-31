@@ -137,6 +137,21 @@ class NullMotor : public _Motor
     void set_error() {};
 };
 
+class TestMotor : public _Motor
+{
+    public:
+    TestMotor(config_defs::joint_id id, ExoData* exo_data, int enable_pin);//:_Motor(id, exo_data, enable_pin) {};
+    void read_data() {};
+    void send_data(float torque) {};
+    void transaction(float torque) {};
+    void on_off() {};
+    bool enable() {return true;};
+    bool enable(bool overide) {return true;};
+    void zero() {};
+    float get_Kt() {return 0.0;};
+    void set_error() {};
+};
+
 
 /**
  * @brief This will define some of the common communication used by all the CAN motors and should be inherited by all of them.
@@ -207,32 +222,9 @@ class _CANMotor : public _Motor
         const float _variance_threshold = 0.01; /**< Threshold for the variance of the measured current values */
 };
 
-/**
- * @brief This will define some of the common communication used by all the PWM motors and should be inherited by all of them.
- */
-class _PWMMotor : public _Motor
-{
-    public:
-        _PWMMotor(config_defs::joint_id id, ExoData* exo_data, int enable_pin);
-        //virtual ~_CANMotor(){};
-        void transaction(float torque);
-        void read_data();
-        void send_data(float torque);
-        void on_off();
-        bool enable();
-        bool enable(bool overide);
-        void zero();
-        float get_Kt();
-        void check_response();
-        void set_error();
-	protected:
-		bool _enable_response; /**< True if the motor responded to an enable command */
+//*
+//* @brief Class for AK60 V1.0 motor
 
-};
-
-/**
- * @brief Class for AK60 V1.0 motor
- */
 class AK60 : public _CANMotor
 {
     public:
@@ -276,12 +268,35 @@ class AK70 : public _CANMotor
         AK70(config_defs::joint_id id, ExoData* exo_data, int enable_pin); // constructor: type is the motor type
         ~AK70(){};
 };
-class Maxon : public _PWMMotor
+
+
+/**
+ * @brief This will define some of the common communication used by all the PWM motors and should be inherited by all of them.
+ */
+class _PWMMotor : public _Motor
+{
+    public:
+        _PWMMotor(config_defs::joint_id id, ExoData* exo_data, int enable_pin);
+        virtual ~_PWMMotor(){};
+		void transaction(float torque);
+        void send_data(float torque);
+        void on_off();
+        bool enable();
+        bool enable(bool overide);
+        void zero();
+        void check_response();
+        void set_error();
+	protected:
+		bool _enable_response; //*< True if the motor responded to an enable command
+		float _I_MAX;
+};
+
+/* class Maxon : public _PWMMotor
 {
     public:
         Maxon(config_defs::joint_id id, ExoData* exo_data, int enable_pin); // constructor: type is the motor type
 		~Maxon(){};
-};
+}; */
 
 #endif
 #endif
