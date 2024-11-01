@@ -555,9 +555,22 @@ bool TestMotor::enable()
 
 bool TestMotor::enable(bool overide)
 {
+	
+	// if (pwm_standby_count < 10000) {
+		// analogWriteResolution(12);
+		// analogWrite(A9,2048);
+		// pwm_standby_count++;
+		// Serial.print("\n");
+		// Serial.print(pwm_standby_count);
+		// digitalWrite(_enable_pin,LOW);
+		// return;
+	// }
+	
 	if (overide) {
-		digitalWrite(_enable_pin,HIGH);
 		analogWriteResolution(12);
+		analogWrite(A9,2048);
+		//delay(5000);
+		digitalWrite(_enable_pin,HIGH);
 		_motor_data->enabled = true;
 		_enable_response = true;
 	}
@@ -610,7 +623,27 @@ void TestMotor::send_data(float torque)
         // logger::print(uint32_t(_motor_data->id));
         // logger::print("\n");
     // #endif
-
+	
+	// if (pwm_just_powered_on) {
+		// analogWriteResolution(12);
+		// analogWrite(A9,2048);
+		// digitalWrite(_enable_pin,LOW);
+		// pwm_standby_count++;
+		// if (pwm_standby_count > 50000) {
+			// pwm_just_powered_on = false;
+		// }
+		// return;
+	// }
+	// if (pwm_standby_count < 10000) {
+		// analogWriteResolution(12);
+		// analogWrite(A9,2048);
+		// pwm_standby_count++;
+		// Serial.print("\n");
+		// Serial.print(pwm_standby_count);
+		// digitalWrite(_enable_pin,LOW);
+		// return;
+	// }
+	
 	int direction_modifier = _motor_data->flip_direction ? -1 : 1;
 
 	_motor_data->t_ff = torque;
@@ -628,6 +661,10 @@ void TestMotor::send_data(float torque)
         analogWrite(A9,2048);
 		if (!_motor_data->is_left) {
 			Serial.print("\nMotor not enabled.");
+			//if (!pwm_motor_was_off) {
+				digitalWrite(_enable_pin,LOW);
+				pwm_motor_was_off = true;
+			//}
 		}
     }
    // only send messages if enabled
@@ -641,6 +678,10 @@ void TestMotor::send_data(float torque)
 		analogWrite(A9,2048+(-direction_modifier*30));
 		if (!_motor_data->is_left) {
 			Serial.print("\nanalogWrite command sent.");
+			//if (pwm_motor_was_off) {
+				digitalWrite(_enable_pin,HIGH);
+				pwm_motor_was_off = false;
+			//}
 		}
    }
 	

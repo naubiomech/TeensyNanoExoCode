@@ -153,6 +153,9 @@ class TestMotor : public _Motor
 	
 	protected:
 	bool _enable_response; /**< True if the motor responded to an enable command */
+	bool pwm_motor_was_off = true;
+	bool pwm_just_powered_on = true;
+	uint16_t pwm_standby_count = 0;
 };
 
 

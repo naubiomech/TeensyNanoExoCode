@@ -2015,6 +2015,7 @@ CalibrManager::CalibrManager(config_defs::joint_id id, ExoData* exo_data)
 
 float CalibrManager::calc_motor_cmd()
 {
+	Serial.print("\nRunning the calibrManager controller...");
 	float cmd;
 	float cmdMaxon;
 	int flip4Maxon;
