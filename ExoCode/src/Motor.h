@@ -150,6 +150,7 @@ class TestMotor : public _Motor
     void zero() {};
     float get_Kt() {return 0.0;};
     void set_error() {};
+	void check_response();
 	
 	protected:
 	bool _enable_response; /**< True if the motor responded to an enable command */

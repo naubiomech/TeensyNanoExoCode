@@ -255,7 +255,7 @@ void _CANMotor::check_response()
     {
         _measured_current.pop();
         auto pop_vals = utils::online_std_dev(_measured_current);
-        if (pop_vals.second < _variance_threshold)
+        if (pop_vals.second < _variance_threshold)//pop_vals.second represents the standard deviation
         {
             _motor_data->enabled = true;
             enable(true);
@@ -534,7 +534,7 @@ void TestMotor::transaction(float torque)
     // send data and read response 
      send_data(torque);
     //  read_data();
-    // check_response(); */
+    check_response();
 };
 
 // void _PWMMotor::zero()
@@ -550,11 +550,54 @@ void TestMotor::transaction(float torque)
 
 bool TestMotor::enable()
 {
-    return enable(true);
+	Serial.print("\nTestMotor::enable()");
+    return true;
+	//return enable(false);
 };
 
 bool TestMotor::enable(bool overide)
 {
+	Serial.print("\nTestMotor::enable(bool ");
+	Serial.print(overide);
+	Serial.print(")");
+	Serial.print("  _motor_data->id: ");
+	Serial.print(uint32_t(_motor_data->id));
+	Serial.print("  _motor_data->enabled: ");
+	Serial.print(_motor_data->enabled);
+	Serial.print("  _motor_data->motor_type: ");
+	Serial.print(_motor_data->motor_type);
+	
+	// only change the state and send messages if the enabled state has changed.
+    if ((_prev_motor_enabled != _motor_data->enabled) || overide)
+    {
+
+        // TODO: Dont reenable after error, or if estop is pulled
+        //if (_motor_data->enabled && !_error && !_data->estop)
+		if (_motor_data->enabled)
+        {
+			Serial.print("  _motor_data->enabled CHANGED! Now enabled.");
+            // !!! A delay check between when turning on power and when timeouts stopped happening gave a delay of 1930 ms rounding to 2000.
+            // enable motor
+			digitalWrite(_enable_pin,HIGH);
+			analogWriteResolution(12);
+			//analogWrite(A9,2048);
+        }
+        else 
+        {
+			Serial.print("  _motor_data->enabled CHANGED! Now disabled.");
+            _enable_response = false;
+            // disable motor, the message after this shouldn't matter as the power is cut, and the send() doesn't send a message if not enabled.
+            digitalWrite(_enable_pin,LOW);
+			analogWriteResolution(12);
+			analogWrite(A9,2048);
+        }
+		_enable_response = true;
+	}
+	_prev_motor_enabled = _motor_data->enabled;
+    return _enable_response;
+	
+	
+	
 	
 	// if (pwm_standby_count < 10000) {
 		// analogWriteResolution(12);
@@ -566,20 +609,21 @@ bool TestMotor::enable(bool overide)
 		// return;
 	// }
 	
-	if (overide) {
-		analogWriteResolution(12);
-		analogWrite(A9,2048);
+	// if (overide) {
+		// analogWriteResolution(12);
+		// analogWrite(A9,2048);
 		//delay(5000);
-		digitalWrite(_enable_pin,HIGH);
-		_motor_data->enabled = true;
-		_enable_response = true;
-	}
-	else {
-		digitalWrite(_enable_pin,LOW);
-		analogWriteResolution(12);
-		_motor_data->enabled = false;
-		_enable_response = false;
-	}
+		// digitalWrite(_enable_pin,HIGH);
+		// _motor_data->enabled = true;
+		// _enable_response = true;
+	// }
+	// else {
+		// digitalWrite(_enable_pin,LOW);
+		// analogWriteResolution(12);
+		// analogWrite(A9,2048);
+		// _motor_data->enabled = false;
+		// _enable_response = false;
+	// }
 	
     #ifdef MOTOR_DEBUG
      logger::print(_prev_motor_enabled);
@@ -612,8 +656,7 @@ bool TestMotor::enable(bool overide)
         // delay(1000);
 		// _enable_response = true;//for now we assume that the motor has been enabled
     // }
-    _prev_motor_enabled = _motor_data->enabled;
-    return _enable_response;
+
 };
 
 void TestMotor::send_data(float torque)
@@ -660,10 +703,10 @@ void TestMotor::send_data(float torque)
     {
         analogWrite(A9,2048);
 		if (!_motor_data->is_left) {
-			Serial.print("\nMotor not enabled.");
+			//Serial.print("\nMotor not enabled.");
 			//if (!pwm_motor_was_off) {
-				digitalWrite(_enable_pin,LOW);
-				pwm_motor_was_off = true;
+				//digitalWrite(_enable_pin,LOW);
+				//pwm_motor_was_off = true;
 			//}
 		}
     }
@@ -675,45 +718,45 @@ void TestMotor::send_data(float torque)
 		//digitalWrite(_enable_pin,HIGH);
 		//digitalWrite(33,HIGH);
 		//analogWriteResolution(12);
-		analogWrite(A9,2048+(-direction_modifier*30));
+		
 		if (!_motor_data->is_left) {
-			Serial.print("\nanalogWrite command sent.");
+			//Serial.print("\nanalogWrite command sent.");
 			//if (pwm_motor_was_off) {
-				digitalWrite(_enable_pin,HIGH);
-				pwm_motor_was_off = false;
+				//digitalWrite(_enable_pin,HIGH);
+				//pwm_motor_was_off = false;
 			//}
+			analogWrite(A9,2048+(-direction_modifier*500*torque));
 		}
    }
 	
 };
 
-// void _PWMMotor::check_response()
-// {
-   // only run if the motor is supposed to be enabled
-    // uint16_t exo_status = _data->get_status();
-    // bool active_trial = (exo_status == status_defs::messages::trial_on) || 
-        // (exo_status == status_defs::messages::fsr_calibration) ||
-        // (exo_status == status_defs::messages::fsr_refinement);
-    // if (_data->user_paused || !active_trial || _data->estop || _error)
-    // {
-        // return;
-    // }
+void TestMotor::check_response()
+{
+   //only run if the motor is supposed to be enabled
+    uint16_t exo_status = _data->get_status();
+    bool active_trial = (exo_status == status_defs::messages::trial_on) || 
+        (exo_status == status_defs::messages::fsr_calibration) ||
+        (exo_status == status_defs::messages::fsr_refinement);
+    //if (_data->user_paused || !active_trial || _data->estop || _error)
+	if (_data->user_paused || !active_trial)
+    {
+		_motor_data->enabled = false;
+        enable(false);
+    }
+	else {
+		_motor_data->enabled = true;
+        enable(true);
+	}
 
-  //  Measured current variance should be non-zero
-    // /* _measured_current.push(_motor_data->i);
-    // if (_measured_current.size() > _current_queue_size)
-    // {
-        // _measured_current.pop();
-        // auto pop_vals = utils::online_std_dev(_measured_current);
-        // if (pop_vals.second < _variance_threshold)
-        // {
-            // _motor_data->enabled = true;
-            // enable(true);
-        // }
-    // } */
-	// _motor_data->enabled = true;
-    // enable(true);
-// };
+   //Measured current variance should be non-zero
+    
+
+        //if (pop_vals.second < _variance_threshold)
+       // {
+            
+       // }
+};
 
 // void _PWMMotor::on_off()
 // {
