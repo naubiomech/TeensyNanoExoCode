@@ -534,7 +534,15 @@ void TestMotor::transaction(float torque)
     // send data and read response 
      send_data(torque);
     //  read_data();
-    check_response();
+    check_response();//only enable the motor when it's an active trial 
+	if (!_motor_data->is_left) {
+		if (_motor_data->enabled) {
+			maxon_manager(true);
+		}
+		else {//reset the motor error detect function, in case of a user pause during a motor error event
+			maxon_manager(false);
+		}
+	}
 };
 
 // void _PWMMotor::zero()
@@ -550,22 +558,22 @@ void TestMotor::transaction(float torque)
 
 bool TestMotor::enable()
 {
-	Serial.print("\nTestMotor::enable()");
+	//Serial.print("\nTestMotor::enable()");
     return true;
 	//return enable(false);
 };
 
 bool TestMotor::enable(bool overide)
 {
-	Serial.print("\nTestMotor::enable(bool ");
-	Serial.print(overide);
-	Serial.print(")");
-	Serial.print("  _motor_data->id: ");
-	Serial.print(uint32_t(_motor_data->id));
-	Serial.print("  _motor_data->enabled: ");
-	Serial.print(_motor_data->enabled);
-	Serial.print("  _motor_data->motor_type: ");
-	Serial.print(_motor_data->motor_type);
+	// Serial.print("\nTestMotor::enable(bool ");
+	// Serial.print(overide);
+	// Serial.print(")");
+	// Serial.print("  _motor_data->id: ");
+	// Serial.print(uint32_t(_motor_data->id));
+	// Serial.print("  _motor_data->enabled: ");
+	// Serial.print(_motor_data->enabled);
+	// Serial.print("  _motor_data->motor_type: ");
+	// Serial.print(_motor_data->motor_type);
 	
 	// only change the state and send messages if the enabled state has changed.
     if ((_prev_motor_enabled != _motor_data->enabled) || overide)
@@ -575,16 +583,15 @@ bool TestMotor::enable(bool overide)
         //if (_motor_data->enabled && !_error && !_data->estop)
 		if (_motor_data->enabled)
         {
-			Serial.print("  _motor_data->enabled CHANGED! Now enabled.");
+			//Serial.print("  _motor_data->enabled CHANGED! Now enabled.");
             // !!! A delay check between when turning on power and when timeouts stopped happening gave a delay of 1930 ms rounding to 2000.
             // enable motor
 			digitalWrite(_enable_pin,HIGH);
 			analogWriteResolution(12);
-			//analogWrite(A9,2048);
         }
         else 
         {
-			Serial.print("  _motor_data->enabled CHANGED! Now disabled.");
+			//Serial.print("  _motor_data->enabled CHANGED! Now disabled.");
             _enable_response = false;
             // disable motor, the message after this shouldn't matter as the power is cut, and the send() doesn't send a message if not enabled.
             digitalWrite(_enable_pin,LOW);
@@ -596,35 +603,6 @@ bool TestMotor::enable(bool overide)
 	_prev_motor_enabled = _motor_data->enabled;
     return _enable_response;
 	
-	
-	
-	
-	// if (pwm_standby_count < 10000) {
-		// analogWriteResolution(12);
-		// analogWrite(A9,2048);
-		// pwm_standby_count++;
-		// Serial.print("\n");
-		// Serial.print(pwm_standby_count);
-		// digitalWrite(_enable_pin,LOW);
-		// return;
-	// }
-	
-	// if (overide) {
-		// analogWriteResolution(12);
-		// analogWrite(A9,2048);
-		//delay(5000);
-		// digitalWrite(_enable_pin,HIGH);
-		// _motor_data->enabled = true;
-		// _enable_response = true;
-	// }
-	// else {
-		// digitalWrite(_enable_pin,LOW);
-		// analogWriteResolution(12);
-		// analogWrite(A9,2048);
-		// _motor_data->enabled = false;
-		// _enable_response = false;
-	// }
-	
     #ifdef MOTOR_DEBUG
      logger::print(_prev_motor_enabled);
      logger::print("\t");
@@ -633,66 +611,20 @@ bool TestMotor::enable(bool overide)
      logger::print(_motor_data->is_on);
      logger::print("\n");
     #endif
-    
-  // only change the state and send messages if the enabled state has changed.
-    // if ((_prev_motor_enabled != _motor_data->enabled) || overide || !_enable_response)
-    // {
-
-     // TODO: Dont reenable after error, or if estop is pulled
-      //  if (_motor_data->enabled && !_error && !_data->estop)
-        // if (_motor_data->enabled)
-		// {
-        //  !!! A delay check between when turning on power and when timeouts stopped happening gave a delay of 1930 ms rounding to 2000.
-        //  enable motor
-			// digitalWrite(_enable_pin,HIGH);
-			// analogWriteResolution(12);
-        // }
-        // else 
-        // {
-            // _enable_response = false;
-          //disable motor, the message after this shouldn't matter as the power is cut, and the send() doesn't send a message if not enabled.
-			// digitalWrite(_enable_pin,LOW);
-        // }
-        // delay(1000);
-		// _enable_response = true;//for now we assume that the motor has been enabled
-    // }
-
 };
 
 void TestMotor::send_data(float torque)
 {
-    // #ifdef MOTOR_DEBUG
-        // logger::print("Sending data: ");
-        // logger::print(uint32_t(_motor_data->id));
-        // logger::print("\n");
-    // #endif
-	
-	// if (pwm_just_powered_on) {
-		// analogWriteResolution(12);
-		// analogWrite(A9,2048);
-		// digitalWrite(_enable_pin,LOW);
-		// pwm_standby_count++;
-		// if (pwm_standby_count > 50000) {
-			// pwm_just_powered_on = false;
-		// }
-		// return;
-	// }
-	// if (pwm_standby_count < 10000) {
-		// analogWriteResolution(12);
-		// analogWrite(A9,2048);
-		// pwm_standby_count++;
-		// Serial.print("\n");
-		// Serial.print(pwm_standby_count);
-		// digitalWrite(_enable_pin,LOW);
-		// return;
-	// }
+    #ifdef MOTOR_DEBUG
+        logger::print("Sending data: ");
+        logger::print(uint32_t(_motor_data->id));
+        logger::print("\n");
+    #endif
 	
 	int direction_modifier = _motor_data->flip_direction ? -1 : 1;
 
 	_motor_data->t_ff = torque;
     _motor_data->last_command = torque;
-    
-	
 	
 	uint16_t exo_status = _data->get_status();
     bool active_trial = (exo_status == status_defs::messages::trial_on) || 
@@ -702,31 +634,12 @@ void TestMotor::send_data(float torque)
 	if (_data->user_paused || !active_trial)
     {
         analogWrite(A9,2048);
-		if (!_motor_data->is_left) {
-			//Serial.print("\nMotor not enabled.");
-			//if (!pwm_motor_was_off) {
-				//digitalWrite(_enable_pin,LOW);
-				//pwm_motor_was_off = true;
-			//}
-		}
     }
-   // only send messages if enabled
-    // if ((_motor_data->enabled) && (!_motor_data->is_left))
 	else
    {
-      //  set data in motor
-		//digitalWrite(_enable_pin,HIGH);
-		//digitalWrite(33,HIGH);
-		//analogWriteResolution(12);
-		
-		if (!_motor_data->is_left) {
-			//Serial.print("\nanalogWrite command sent.");
-			//if (pwm_motor_was_off) {
-				//digitalWrite(_enable_pin,HIGH);
-				//pwm_motor_was_off = false;
-			//}
-			analogWrite(A9,2048+(-direction_modifier*500*torque));
-		}
+	if (!_motor_data->is_left) {
+		analogWrite(A9,2048+(-direction_modifier*500*torque));
+	}
    }
 	
 };
@@ -748,15 +661,46 @@ void TestMotor::check_response()
 		_motor_data->enabled = true;
         enable(true);
 	}
-
-   //Measured current variance should be non-zero
-    
-
-        //if (pop_vals.second < _variance_threshold)
-       // {
-            
-       // }
 };
+
+//Our implementation of the Maxon motor including the ec motor and the Escon 50_8 Motor Controller would occasionally cause 50_8 to enter error mode, with "Over current" being one of the errors.
+//To tackle this issue, we have sucessfully implemented a solution, now encapsulated in maxon_manager().
+void TestMotor::maxon_manager(bool manager_active) {
+	pinMode(37,INPUT_PULLUP);
+	//Serial.print("\n!digitalRead(37): ");
+	//Serial.print(!digitalRead(37));
+	//Serial.print("\nmaxon_manager(bool manager_active): ");
+	//Serial.print(manager_active);
+	if (!manager_active) {//initialization when the switch is set to FALSE
+		do_scan4maxon_err = true;//initialization
+		maxon_counter_active = false;//initialization
+		zen_period = 0;//initialization
+	}
+	else {//only run the error detection and reset code when the switch is set to TRUE
+		if ((do_scan4maxon_err) && (!digitalRead(37))) {//scan for motor error conditionally
+			do_scan4maxon_err = false;
+			maxon_counter_active = true;
+		}
+		if (maxon_counter_active) {
+			zen_period++;
+		}
+		if (zen_period >= 1000) {//this will run 20 iterations after the following one
+			do_scan4maxon_err = true;//do continue to scan for motor error
+			maxon_counter_active = false;
+			zen_period = 0;
+			Serial.print("\n---------maxon_counter_active = false;");
+		}
+		else if (zen_period >= 500) {//this will run 8 iterations after maxon_counter_active is set to TRUE
+			enable(true);//send enable motor command
+			Serial.print("\n---enable(true)");
+		}
+		else if (zen_period >= 10) {//this will run 2 iterations after the following one
+			enable(false);//send disable motor command
+			Serial.print("\nenable(false)");
+		}
+	}
+
+}
 
 // void _PWMMotor::on_off()
 // {
