@@ -161,6 +161,7 @@ class TestMotor : public _Motor
 	bool do_scan4maxon_err = true;
 	bool maxon_counter_active = false;
 	uint16_t zen_period = 0;
+	uint16_t zen_millis;
 	
 	
 };

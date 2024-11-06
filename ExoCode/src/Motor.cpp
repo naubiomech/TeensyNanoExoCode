@@ -680,25 +680,26 @@ void TestMotor::maxon_manager(bool manager_active) {
 		if ((do_scan4maxon_err) && (!digitalRead(37))) {//scan for motor error conditionally
 			do_scan4maxon_err = false;
 			maxon_counter_active = true;
+			zen_millis = millis();
 		}
 		if (maxon_counter_active) {
-			zen_period++;//use millis();
-		}
-		if (zen_period >= 1000) {//this will run 20 iterations after the following one
-			do_scan4maxon_err = true;//do continue to scan for motor error
-			maxon_counter_active = false;
-			zen_period = 0;
-			Serial.print("\n---------maxon_counter_active = false;");
-		}
-		else if (zen_period >= 500) {//this will run 8 iterations after maxon_counter_active is set to TRUE
-			enable(true);//send enable motor command
-			//digitalWrite(33,HIGH);
-			Serial.print("\n---enable(true)");
-		}
-		else if (zen_period >= 10) {//this will run 2 iterations after the following one
-			enable(false);//send disable motor command
-			//digitalWrite(33,LOW);
-			Serial.print("\nenable(false)");
+			//zen_period++;//use millis();
+			if (millis() - zen_millis >= 2000) {//this will run 20 iterations after the following one
+				do_scan4maxon_err = true;//do continue to scan for motor error
+				maxon_counter_active = false;
+				//zen_period = 0;
+				Serial.print("\n---------maxon_counter_active = false;");
+			}
+			else if (millis() - zen_millis >= 1000) {//this will run 8 iterations after maxon_counter_active is set to TRUE
+				enable(true);//send enable motor command
+				//digitalWrite(33,HIGH);
+				Serial.print("\n---enable(true)");
+			}
+			else if (millis() - zen_millis >= 200) {//this will run 2 iterations after the following one
+				enable(false);//send disable motor command
+				//digitalWrite(33,LOW);
+				Serial.print("\nenable(false)");
+			}
 		}
 	}
 
