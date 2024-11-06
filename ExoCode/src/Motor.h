@@ -137,10 +137,10 @@ class NullMotor : public _Motor
     void set_error() {};
 };
 
-class TestMotor : public _Motor
+class MaxonMotor : public _Motor
 {
     public:
-    TestMotor(config_defs::joint_id id, ExoData* exo_data, int enable_pin);//:_Motor(id, exo_data, enable_pin) {};
+    MaxonMotor(config_defs::joint_id id, ExoData* exo_data, int enable_pin);//:_Motor(id, exo_data, enable_pin) {};
     void transaction(float torque);
 	void read_data() {};
     void send_data(float torque);
@@ -150,7 +150,7 @@ class TestMotor : public _Motor
     void zero() {};
     float get_Kt() {return 0.0;};
     void set_error() {};
-	void check_response();
+	void master_switch();
 	void maxon_manager(bool manager_active);
 	
 	protected:
@@ -160,8 +160,8 @@ class TestMotor : public _Motor
 	uint16_t pwm_standby_count = 0;
 	bool do_scan4maxon_err = true;
 	bool maxon_counter_active = false;
-	uint16_t zen_period = 0;
-	uint16_t zen_millis;
+	//uint16_t zen_period = 0;
+	unsigned long zen_millis;
 	
 	
 };
