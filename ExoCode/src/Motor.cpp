@@ -586,8 +586,8 @@ bool TestMotor::enable(bool overide)
 			//Serial.print("  _motor_data->enabled CHANGED! Now enabled.");
             // !!! A delay check between when turning on power and when timeouts stopped happening gave a delay of 1930 ms rounding to 2000.
             // enable motor
-			digitalWrite(_enable_pin,HIGH);
-			analogWriteResolution(12);
+			digitalWrite(_enable_pin,HIGH);//relocate
+			analogWriteResolution(12);//relocate
         }
         else 
         {
@@ -633,7 +633,7 @@ void TestMotor::send_data(float torque)
    // if (_data->user_paused || !active_trial || _data->estop || _error)
 	if (_data->user_paused || !active_trial)
     {
-        analogWrite(A9,2048);
+        analogWrite(A9,2048);//send 50% PWM (0 Nm)
     }
 	else
    {
@@ -682,7 +682,7 @@ void TestMotor::maxon_manager(bool manager_active) {
 			maxon_counter_active = true;
 		}
 		if (maxon_counter_active) {
-			zen_period++;
+			zen_period++;//use millis();
 		}
 		if (zen_period >= 1000) {//this will run 20 iterations after the following one
 			do_scan4maxon_err = true;//do continue to scan for motor error
@@ -691,11 +691,13 @@ void TestMotor::maxon_manager(bool manager_active) {
 			Serial.print("\n---------maxon_counter_active = false;");
 		}
 		else if (zen_period >= 500) {//this will run 8 iterations after maxon_counter_active is set to TRUE
-			enable(true);//send enable motor command
+			//enable(true);//send enable motor command
+			digitalWrite(33,HIGH);
 			Serial.print("\n---enable(true)");
 		}
 		else if (zen_period >= 10) {//this will run 2 iterations after the following one
-			enable(false);//send disable motor command
+			//enable(false);//send disable motor command
+			digitalWrite(33,LOW);
 			Serial.print("\nenable(false)");
 		}
 	}
