@@ -575,7 +575,7 @@ bool TestMotor::enable(bool overide)
 	// Serial.print("  _motor_data->motor_type: ");
 	// Serial.print(_motor_data->motor_type);
 	
-	// only change the state and send messages if the enabled state has changed.
+	// only change the state and send messages if the enabled state (used as a master switch for this motor) has changed.
     if ((_prev_motor_enabled != _motor_data->enabled) || overide)
     {
 
@@ -589,17 +589,17 @@ bool TestMotor::enable(bool overide)
 			digitalWrite(_enable_pin,HIGH);//relocate
 			analogWriteResolution(12);//relocate
         }
-        else 
+		_enable_response = true;
+	}
+	if (!overide)
         {
 			//Serial.print("  _motor_data->enabled CHANGED! Now disabled.");
-            _enable_response = false;
-            // disable motor, the message after this shouldn't matter as the power is cut, and the send() doesn't send a message if not enabled.
-            digitalWrite(_enable_pin,LOW);
+			_enable_response = false;
+			// disable motor, the message after this shouldn't matter as the power is cut, and the send() doesn't send a message if not enabled.
+			digitalWrite(_enable_pin,LOW);
 			analogWriteResolution(12);
 			analogWrite(A9,2048);
         }
-		_enable_response = true;
-	}
 	_prev_motor_enabled = _motor_data->enabled;
     return _enable_response;
 	
@@ -691,13 +691,13 @@ void TestMotor::maxon_manager(bool manager_active) {
 			Serial.print("\n---------maxon_counter_active = false;");
 		}
 		else if (zen_period >= 500) {//this will run 8 iterations after maxon_counter_active is set to TRUE
-			//enable(true);//send enable motor command
-			digitalWrite(33,HIGH);
+			enable(true);//send enable motor command
+			//digitalWrite(33,HIGH);
 			Serial.print("\n---enable(true)");
 		}
 		else if (zen_period >= 10) {//this will run 2 iterations after the following one
-			//enable(false);//send disable motor command
-			digitalWrite(33,LOW);
+			enable(false);//send disable motor command
+			//digitalWrite(33,LOW);
 			Serial.print("\nenable(false)");
 		}
 	}
