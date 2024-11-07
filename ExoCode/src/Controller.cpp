@@ -145,7 +145,7 @@ float _Controller::_cf_mfac(float reference, float current_measurement)
 
 //Maxon motor resetter
 //Logic: Run this function in every iteration before actuating the Maxon motors
-bool _Controller::_maxon_manager(uint8_t enable_pin, uint8_t error_pin, uint8_t motor_ctrl_pin, uint16_t standby_target_itr) {
+/* bool _Controller::_maxon_manager(uint8_t enable_pin, uint8_t error_pin, uint8_t motor_ctrl_pin, uint16_t standby_target_itr) {
 	//Is the motor standing by? If so, update the iteration number and return directly
 	
 	if (maxon_stands_by) {
@@ -202,7 +202,7 @@ bool _Controller::_maxon_manager(uint8_t enable_pin, uint8_t error_pin, uint8_t 
 		}
 	}
 	return maxon_stands_by;
-}
+} */
 //
 int _Controller::_servo_runner(uint8_t servo_pin, uint8_t speed_level, uint8_t angle_initial, uint8_t angle_final)
 {
@@ -731,7 +731,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 	
 	
 	//Maxon PCB enabling motors
-	bool maxon_standby;
+	//bool maxon_standby;
 	uint16_t exo_status = _data->get_status();
     bool active_trial = (exo_status == status_defs::messages::trial_on) || 
         (exo_status == status_defs::messages::fsr_calibration) ||
@@ -748,7 +748,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 
 		//if (!_leg_data->is_left) {
 		//maxon_standby = _maxon_manager(33,37,23,100*_controller_data->parameters[controller_defs::propulsive_assistive::maxon_outOfOffice_itr]);
-		maxon_standby = _maxon_manager(33,37,23,500);
+		//maxon_standby = _maxon_manager(33,37,23,500);
 		
 		//}
 		
@@ -765,7 +765,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 			//analogWriteResolution(12);
 			//analogWriteFrequency(A8, 5000);
 			//analogWriteFrequency(A9, 5000);
-			return;
+			//return;
 		}
 		else {
 			//digitalWrite(33,HIGH);
@@ -802,28 +802,37 @@ float PropulsiveAssistive::calc_motor_cmd()
 							cmd = 0;
 						}
 		 }
-		int flip4Maxon = (_joint_data->motor.flip_direction? -1: 1);
-		float cmdMaxon = 2048 + flip4Maxon * cmd;
-		cmdMaxon = min(3645, cmdMaxon);
-		cmdMaxon = max(451, cmdMaxon);
+		// int flip4Maxon = (_joint_data->motor.flip_direction? -1: 1);
+		// float cmdMaxon = 2048 + flip4Maxon * cmd;
+		// cmdMaxon = min(3645, cmdMaxon);
+		// cmdMaxon = max(451, cmdMaxon);
 		
 		
-		if (maxon_standby) {
-			_controller_data->plotting_scalar = -1;
+		// if (maxon_standby) {
+			// _controller_data->plotting_scalar = -1;
 			//return;
-		}
-		else {
-			_controller_data->plotting_scalar = 1;
-		}
-		if (_joint_data->is_left) {
+		// }
+		// else {
+			// _controller_data->plotting_scalar = 1;
+		// }
+		// if (_joint_data->is_left) {
 			//analogWrite(A8,cmdMaxon);//Left motor: A8; Right motor: A9
-		}
-		else {
-			analogWrite(A9,cmdMaxon);//Left motor: A8; Right motor: A9
-		}
+		// }
+		// else {
+			// analogWrite(A9,cmdMaxon);//Left motor: A8; Right motor: A9
+		// }
 	
-	return 0;
-    //return cmd;
+	// return 0;
+	if (!_joint_data->is_left) {
+		Serial.print("\ncmd = ");
+		Serial.print(cmd);
+		return cmd;
+	}
+	else
+	{
+		return;
+	}
+    
 }
 
 //****************************************************
@@ -2012,9 +2021,9 @@ float CalibrManager::calc_motor_cmd()
 		/* Serial.print("\nLeft cmd from SD card: ");
 		Serial.print(cmd); */
 		
-		cmd = 3;
+		//cmd = 3;
 		
-		cmdMaxon = 2048 + flip4Maxon * 30 * cmd;
+		//cmdMaxon = 2048 + flip4Maxon * 30 * cmd;
 		
 		//cmdMaxon = 410 - cmd;
 		
@@ -2046,8 +2055,8 @@ float CalibrManager::calc_motor_cmd()
 		Serial.print(_joint_data->torque_reading);
 		cmd = 3;
 		
-		cmdMaxon = 2048 + flip4Maxon * 30 * cmd;
-		analogWrite(A9,cmdMaxon);
+		//cmdMaxon = 2048 + flip4Maxon * 30 * cmd;
+		//analogWrite(A9,cmdMaxon);
 		Serial.print("  |  Right cmd: ");
 		Serial.print(cmd);
 		Serial.print("  |  Right toe FSR: ");

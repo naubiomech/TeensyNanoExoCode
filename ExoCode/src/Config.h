@@ -26,7 +26,7 @@
     #define LOOP_TIME_TOLERANCE 0.1 
     
     #define USE_SPEED_CHECK 0
-	#define USE_ANGLE_SENSORS 1
+	#define USE_ANGLE_SENSORS 0
 
     // MACRO magic to convert a define to a string
     #define VAL(str) #str
