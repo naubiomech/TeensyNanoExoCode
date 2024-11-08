@@ -409,12 +409,20 @@
             
         };
         #endif
-	#elif BOARD_VERSION == AK_Board_V0_6_Maxon 
+	#elif BOARD_VERSION == AK_Board_V0_6_Maxon //compatible with AK Board 0.7
        
         #include "Arduino.h"
         namespace logic_micro_pins  //teensy
         {
              #if defined(ARDUINO_TEENSY41)
+				// Maxon motor Pins
+				const unsigned int maxon_err_pin = 37;
+				const unsigned int maxon_ctrl_left_pin;
+				const unsigned int maxon_ctrl_right_pin = A9;
+				
+				//SPV2 Additional Pins
+				const unsigned int SPV2_servo_pin = 27;
+			 
                 // Serial Pins, NC
                 const unsigned int rx1_pin ;
                 const unsigned int tx1_pin ;
@@ -479,7 +487,7 @@
                 
                 // Motor enable Pins
                 const unsigned int enable_left_pin[] = {28, 29};
-                const unsigned int enable_right_pin[] = {33, 33};
+                const unsigned int enable_right_pin[] = {33, 33};//motor enable pins
                 
                 
                 const unsigned int speed_check_pin ;

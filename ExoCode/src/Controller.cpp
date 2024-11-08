@@ -698,114 +698,92 @@ float PropulsiveAssistive::calc_motor_cmd()
 	
 		float cmd;
 		if (!_leg_data->is_left){
-	if (cmd_ff < -6) {
-		cmd = cmd_ff + _pid(cmd_ff, _controller_data->filtered_torque_reading,
-            2 * _controller_data->parameters[controller_defs::propulsive_assistive::kp],
-            8 * _controller_data->parameters[controller_defs::propulsive_assistive::ki], 
-            2 * _controller_data->parameters[controller_defs::propulsive_assistive::kd]);
-	}
-	else {
-		cmd = cmd_ff + _pid(cmd_ff, _controller_data->filtered_torque_reading,
-            1 * _controller_data->parameters[controller_defs::propulsive_assistive::kp],
-            8 * _controller_data->parameters[controller_defs::propulsive_assistive::ki], 
-            2 * _controller_data->parameters[controller_defs::propulsive_assistive::kd]);
-	}
+			if (cmd_ff < -6) {
+				cmd = cmd_ff + _pid(cmd_ff, _controller_data->filtered_torque_reading,
+					20 * _controller_data->parameters[controller_defs::propulsive_assistive::kp],
+					80 * _controller_data->parameters[controller_defs::propulsive_assistive::ki], 
+					20 * _controller_data->parameters[controller_defs::propulsive_assistive::kd]);
+			}
+			else {
+				cmd = cmd_ff + _pid(cmd_ff, _controller_data->filtered_torque_reading,
+					10 * _controller_data->parameters[controller_defs::propulsive_assistive::kp],
+					80 * _controller_data->parameters[controller_defs::propulsive_assistive::ki], 
+					20 * _controller_data->parameters[controller_defs::propulsive_assistive::kd]);
+			}
 		}
 		else {
 			cmd = 0;
 		}
 			
 	
-	
-	
-    
 	_controller_data->ff_setpoint = cmd_ff; 
 	_controller_data->setpoint = cmd;
     _controller_data->filtered_setpoint = squelched_propulsive_term;
-
-   
 
     #ifdef CONTROLLER_DEBUG
     logger::println("PropulsiveAssistive::calc_motor_cmd : stop");
     #endif
 	
-	
-	//Maxon PCB enabling motors
-	//bool maxon_standby;
 	uint16_t exo_status = _data->get_status();
     bool active_trial = (exo_status == status_defs::messages::trial_on) || 
         (exo_status == status_defs::messages::fsr_calibration) ||
         (exo_status == status_defs::messages::fsr_refinement);
-		
-		int servoOutput;
-		
-		
-		bool servo_switch = _controller_data->parameters[controller_defs::propulsive_assistive::do_use_servo];
-		float servo_fsr_threshold = 0.01 * _controller_data->parameters[controller_defs::propulsive_assistive::fsr_servo_threshold];
-		uint8_t servo_home = _controller_data->parameters[controller_defs::propulsive_assistive::servo_origin];
-		uint8_t servo_target = _controller_data->parameters[controller_defs::propulsive_assistive::servo_terminal];
-		
 
-		//if (!_leg_data->is_left) {
-		//maxon_standby = _maxon_manager(33,37,23,100*_controller_data->parameters[controller_defs::propulsive_assistive::maxon_outOfOffice_itr]);
-		//maxon_standby = _maxon_manager(33,37,23,500);
+	int servoOutput;	
+	bool servo_switch = _controller_data->parameters[controller_defs::propulsive_assistive::do_use_servo];
+	float servo_fsr_threshold = 0.01 * _controller_data->parameters[controller_defs::propulsive_assistive::fsr_servo_threshold];
+	uint8_t servo_home = _controller_data->parameters[controller_defs::propulsive_assistive::servo_origin];
+	uint8_t servo_target = _controller_data->parameters[controller_defs::propulsive_assistive::servo_terminal];
 		
-		//}
-		
-		if (_data->user_paused || !active_trial)
-		{
-			if (!_leg_data->is_left) {
-				// Serial.print("\nInitializing...   |  Heel FSR: ");
-				// Serial.print(analogRead(A3));
-				servoOutput = _servo_runner(27, 0, servo_target, servo_home);
-			}
-			//digitalWrite(33,LOW);
-			pinMode(A0,INPUT);
-			pinMode(A1,INPUT);
-			//analogWriteResolution(12);
-			//analogWriteFrequency(A8, 5000);
-			//analogWriteFrequency(A9, 5000);
-			//return;
+	if (!_leg_data->is_left) {
+		Serial.print("\nheel fsr threshold: ");
+		Serial.print(_controller_data->parameters[controller_defs::propulsive_assistive::fsr_servo_threshold]);
+	}
+	if (_data->user_paused || !active_trial)
+	{
+		if (!_leg_data->is_left) {
+			
+			// Serial.print("\nInitializing...   |  Heel FSR: ");
+			// Serial.print(analogRead(A3));
+			servoOutput = _servo_runner(27, 0, servo_target, servo_home);
 		}
-		else {
-			//digitalWrite(33,HIGH);
-			if (!servo_switch) {
-				servoOutput = _servo_runner(27, 0, servo_target, servo_home);
-			}
-			if (exo_status == status_defs::messages::fsr_refinement) {
-				if (!_leg_data->is_left) {
-					// Serial.print("\npercent_grf_heel: ");
-					// Serial.print(percent_grf_heel);
-					if (percent_grf_heel>0.5){
-						//Serial.println("FSR above 0.5");
-						if (servo_switch) {
-							// Serial.print("\nToe do calibration: ");
-							// Serial.print(_leg_data->do_calibration_toe_fsr);
-							// Serial.print("  |  Heel do calibration: ");
-							// Serial.print(_leg_data->do_calibration_heel_fsr);
-							servoOutput = _servo_runner(27, 0, servo_home, servo_target);
-							
-						}
-					}
-					else {
-						if (servo_switch) {
-						servoOutput = _servo_runner(27, 0, servo_target, servo_home);
-						}
+
+		
+	}
+	else {
+		if (!servo_switch) {
+			servoOutput = _servo_runner(27, 0, servo_target, servo_home);
+		}
+		if (exo_status == status_defs::messages::fsr_refinement) {
+			if (!_leg_data->is_left) {
+				// Serial.print("\npercent_grf_heel: ");
+				// Serial.print(percent_grf_heel);
+				if (percent_grf_heel>0.5){
+					//Serial.println("FSR above 0.5");
+					if (servo_switch) {
+						// Serial.print("\nToe do calibration: ");
+						// Serial.print(_leg_data->do_calibration_toe_fsr);
+						// Serial.print("  |  Heel do calibration: ");
+						// Serial.print(_leg_data->do_calibration_heel_fsr);
+						servoOutput = _servo_runner(27, 0, servo_home, servo_target);
+						
 					}
 				}
+				else {
+					if (servo_switch) {
+					servoOutput = _servo_runner(27, 0, servo_target, servo_home);
+					}
+				}
+			}
 		}	
-		}
-		
-		 if (!_leg_data->is_left) {
+	}
+	
+	if (!_leg_data->is_left) {
 		if ((cmd_ff<0)&&((_controller_data->filtered_torque_reading - cmd_ff) < 0)) {
-							cmd = _pid(0, 0, 0, 0, 0);
-							cmd = 0;
-						}
-		 }
-		// int flip4Maxon = (_joint_data->motor.flip_direction? -1: 1);
-		// float cmdMaxon = 2048 + flip4Maxon * cmd;
-		// cmdMaxon = min(3645, cmdMaxon);
-		// cmdMaxon = max(451, cmdMaxon);
+			cmd = _pid(0, 0, 0, 0, 0);
+			cmd = 0;
+			}
+	}
 		
 		
 		// if (maxon_standby) {
@@ -822,10 +800,9 @@ float PropulsiveAssistive::calc_motor_cmd()
 			// analogWrite(A9,cmdMaxon);//Left motor: A8; Right motor: A9
 		// }
 	
-	// return 0;
 	if (!_joint_data->is_left) {
-		Serial.print("\ncmd = ");
-		Serial.print(cmd);
+		//Serial.print("\ncmd = ");
+		//Serial.print(cmd);
 		return cmd;
 	}
 	else
