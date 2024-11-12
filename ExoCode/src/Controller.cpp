@@ -735,10 +735,10 @@ float PropulsiveAssistive::calc_motor_cmd()
 	uint8_t servo_home = _controller_data->parameters[controller_defs::propulsive_assistive::servo_origin];
 	uint8_t servo_target = _controller_data->parameters[controller_defs::propulsive_assistive::servo_terminal];
 		
-	if (!_leg_data->is_left) {
-		Serial.print("\nheel fsr threshold: ");
-		Serial.print(_controller_data->parameters[controller_defs::propulsive_assistive::fsr_servo_threshold]);
-	}
+	// if (!_leg_data->is_left) {
+		// Serial.print("\nheel fsr threshold: ");
+		// Serial.print(_controller_data->parameters[controller_defs::propulsive_assistive::fsr_servo_threshold]);
+	// }
 	if (_data->user_paused || !active_trial)
 	{
 		if (!_leg_data->is_left) {
@@ -758,7 +758,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 			if (!_leg_data->is_left) {
 				// Serial.print("\npercent_grf_heel: ");
 				// Serial.print(percent_grf_heel);
-				if (percent_grf_heel>0.5){
+				if (percent_grf_heel > servo_fsr_threshold){
 					//Serial.println("FSR above 0.5");
 					if (servo_switch) {
 						// Serial.print("\nToe do calibration: ");
@@ -780,8 +780,8 @@ float PropulsiveAssistive::calc_motor_cmd()
 	
 	if (!_leg_data->is_left) {
 		if ((cmd_ff<0)&&((_controller_data->filtered_torque_reading - cmd_ff) < 0)) {
-			cmd = _pid(0, 0, 0, 0, 0);
-			cmd = 0;
+			cmd = _pid(0, 0, 0, 0, 0);//reset the PID error sum by sending a 0 I gain
+			cmd = 0;//send 0 Nm torque command to "turn off" the motor and extend the battery life
 			}
 	}
 		
@@ -801,8 +801,10 @@ float PropulsiveAssistive::calc_motor_cmd()
 		// }
 	
 	if (!_joint_data->is_left) {
-		//Serial.print("\ncmd = ");
-		//Serial.print(cmd);
+		Serial.print("\ncmd = ");
+		Serial.print(cmd);
+		Serial.print("  |  filtered_torque_reading - cmd_ff: ");
+		Serial.print(_controller_data->filtered_torque_reading - cmd_ff);
 		return cmd;
 	}
 	else

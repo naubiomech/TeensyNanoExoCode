@@ -644,6 +644,8 @@ void MaxonMotor::master_switch()
         (exo_status == status_defs::messages::fsr_calibration) ||
         (exo_status == status_defs::messages::fsr_refinement);
     //if (_data->user_paused || !active_trial || _data->estop || _error)
+	Serial.print("\nexo_status: ");
+	Serial.print(exo_status);
 	if (_data->user_paused || !active_trial)
     {
 		_motor_data->enabled = false;
@@ -667,6 +669,7 @@ void MaxonMotor::maxon_manager(bool manager_active) {
 		do_scan4maxon_err = true;//initialization
 		maxon_counter_active = false;//initialization
 		//zen_period = 0;//initialization
+		Serial.print("\n-----------------maxon_manager(false)");
 	}
 	else {//only run the error detection and reset code when the switch is set to TRUE
 		if ((do_scan4maxon_err) && (!digitalRead(37))) {//scan for motor error conditionally
