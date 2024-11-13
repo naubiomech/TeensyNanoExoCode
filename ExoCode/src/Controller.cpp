@@ -809,7 +809,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 	}
 	else
 	{
-		return;
+		return 0;
 	}
     
 }
