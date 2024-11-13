@@ -626,8 +626,10 @@ void MaxonMotor::send_data(float torque)//always send motor command regardless o
 	else
    {
 	if (!_motor_data->is_left) {
-		uint16_t post_fuse_torque = max(455,2048+(direction_modifier*1*torque));//set the lowerest allowed PWM command
-		post_fuse_torque = min(3890,post_fuse_torque);//set the highest allowed PWM command
+		uint16_t post_fuse_torque = max(655,2048+(direction_modifier*1*torque));//set the lowerest allowed PWM command
+		//455
+		post_fuse_torque = min(3690,post_fuse_torque);//set the highest allowed PWM command
+		//3890
 		analogWrite(A9,post_fuse_torque);
 		// Serial.print("\npost_fuse_torque: ");
 		// Serial.print(post_fuse_torque);
