@@ -780,7 +780,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 	
 	if (!_leg_data->is_left) {
 		//if ((cmd_ff<_controller_data->parameters[controller_defs::propulsive_assistive::dorsi_scaling])&&((_controller_data->filtered_torque_reading - cmd_ff) < 0)) {
-		if ((servo_switch) && (percent_grf_heel > servo_fsr_threshold) && (percent_grf < (servo_fsr_threshold + 0.2))){
+		if ((servo_switch) && (percent_grf_heel > servo_fsr_threshold) && (_controller_data->filtered_torque_reading - cmd_ff) < 0){
 			cmd = _pid(0, 0, 0, 0, 0);//reset the PID error sum by sending a 0 I gain
 			cmd = 0;//send 0 Nm torque command to "turn off" the motor and extend the battery life
 			}
