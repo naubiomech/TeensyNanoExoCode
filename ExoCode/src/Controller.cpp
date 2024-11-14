@@ -758,31 +758,34 @@ float PropulsiveAssistive::calc_motor_cmd()
 			if (!_leg_data->is_left) {
 				// Serial.print("\npercent_grf_heel: ");
 				// Serial.print(percent_grf_heel);
-				if (percent_grf_heel > servo_fsr_threshold){
+//Servo movement
+//// When does the arm go DOWN?////
+				if ((percent_grf_heel > servo_fsr_threshold) || (percent_grf > servo_fsr_threshold)){
 					//Serial.println("FSR above 0.5");
 					if (servo_switch) {
 						// Serial.print("\nToe do calibration: ");
 						// Serial.print(_leg_data->do_calibration_toe_fsr);
 						// Serial.print("  |  Heel do calibration: ");
 						// Serial.print(_leg_data->do_calibration_heel_fsr);
-						servoOutput = _servo_runner(27, 0, servo_home, servo_target);
+						servoOutput = _servo_runner(27, 0, servo_home, servo_target);//servo goes to the target position (DOWN)
 						
 					}
 				}
 				else {
 					if (servo_switch) {
-					servoOutput = _servo_runner(27, 0, servo_target, servo_home);
+					servoOutput = _servo_runner(27, 0, servo_target, servo_home);//servo goes back to the home position (UP)
 					}
 				}
 			}
 		}	
 	}
-	
+////Turn of the motor////
+	//When do we turn the motor OFF?
 	if (!_leg_data->is_left) {
 		//if ((cmd_ff<_controller_data->parameters[controller_defs::propulsive_assistive::dorsi_scaling])&&((_controller_data->filtered_torque_reading - cmd_ff) < 0)) {
 		if ((servo_switch) && (percent_grf_heel > servo_fsr_threshold) && (_controller_data->filtered_torque_reading - cmd_ff) < 0){
 			cmd = _pid(0, 0, 0, 0, 0);//reset the PID error sum by sending a 0 I gain
-			cmd = 0;//send 0 Nm torque command to "turn off" the motor and extend the battery life
+			cmd = 0;//send 0 Nm torque command to "turn off" the motor to extend the battery life
 			}
 	}
 		
@@ -802,10 +805,10 @@ float PropulsiveAssistive::calc_motor_cmd()
 		// }
 	
 	if (!_joint_data->is_left) {
-		Serial.print("\ncmd = ");
-		Serial.print(cmd);
-		Serial.print("  |  filtered_torque_reading - cmd_ff: ");
-		Serial.print(_controller_data->filtered_torque_reading - cmd_ff);
+		// Serial.print("\ncmd = ");
+		// Serial.print(cmd);
+		// Serial.print("  |  filtered_torque_reading - cmd_ff: ");
+		// Serial.print(_controller_data->filtered_torque_reading - cmd_ff);
 		return cmd;
 	}
 	else
