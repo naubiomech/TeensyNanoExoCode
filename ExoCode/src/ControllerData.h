@@ -293,6 +293,9 @@ class ControllerData {
 		bool servoUphill = true;
 		//Maxon servo interrupter
 		int plotting_scalar = 1;
+		unsigned long servo_departure_time;
+		bool servo_did_go_down = true;
+		bool servo_get_ready = false;
 		
 
         // Variables for the ElbowMinMax Controller

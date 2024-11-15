@@ -760,21 +760,28 @@ float PropulsiveAssistive::calc_motor_cmd()
 				// Serial.print(percent_grf_heel);
 //Servo movement
 //// When does the arm go DOWN?////
-				if ((percent_grf_heel > servo_fsr_threshold) || (percent_grf > servo_fsr_threshold)){
-					//Serial.println("FSR above 0.5");
+				//reset only after toe FSR drops below a threshold
+				if ((percent_grf_heel + percent_grf > servo_fsr_threshold) && (!_controller_data->servo_did_go_down)) {
 					if (servo_switch) {
-						// Serial.print("\nToe do calibration: ");
-						// Serial.print(_leg_data->do_calibration_toe_fsr);
-						// Serial.print("  |  Heel do calibration: ");
-						// Serial.print(_leg_data->do_calibration_heel_fsr);
+					_controller_data->servo_get_ready = true;
+					_controller_data->servo_departure_time = millis();
+					}
+				}
+				if (percent_grf_heel + percent_grf < servo_fsr_threshold) {
+					_controller_data->servo_did_go_down = false;
+				}
+				
+				if (_controller_data->servo_get_ready){
+					if (millis() - _controller_data->servo_departure_time < 200) {
 						servoOutput = _servo_runner(27, 0, servo_home, servo_target);//servo goes to the target position (DOWN)
-						
+						_controller_data->servo_did_go_down = true;
+					}
+					else {	
+						_controller_data->servo_get_ready = false;
 					}
 				}
 				else {
-					if (servo_switch) {
 					servoOutput = _servo_runner(27, 0, servo_target, servo_home);//servo goes back to the home position (UP)
-					}
 				}
 			}
 		}	
