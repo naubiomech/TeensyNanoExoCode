@@ -646,8 +646,8 @@ void MaxonMotor::master_switch()
         (exo_status == status_defs::messages::fsr_calibration) ||
         (exo_status == status_defs::messages::fsr_refinement);
     //if (_data->user_paused || !active_trial || _data->estop || _error)
-	Serial.print("\nexo_status: ");
-	Serial.print(exo_status);
+	//Serial.print("\nexo_status: ");
+	//Serial.print(exo_status);
 	if (_data->user_paused || !active_trial)
     {
 		_motor_data->enabled = false;
@@ -671,14 +671,14 @@ void MaxonMotor::maxon_manager(bool manager_active) {
 		do_scan4maxon_err = true;//initialization
 		maxon_counter_active = false;//initialization
 		//zen_period = 0;//initialization
-		Serial.print("\n-----------------maxon_manager(false)");
+		//Serial.print("\n-----------------maxon_manager(false)");
 	}
 	else {//only run the error detection and reset code when the switch is set to TRUE
 		if ((do_scan4maxon_err) && (!digitalRead(37))) {//scan for motor error conditionally
 			do_scan4maxon_err = false;
 			maxon_counter_active = true;
 			zen_millis = millis();
-			Serial.print("\n-----------------(do_scan4maxon_err) && (!digitalRead(37)");
+			//Serial.print("\n-----------------(do_scan4maxon_err) && (!digitalRead(37)");
 		}
 		if (maxon_counter_active) {
 			//zen_period++;//use millis();
@@ -686,20 +686,20 @@ void MaxonMotor::maxon_manager(bool manager_active) {
 				do_scan4maxon_err = true;//do continue to scan for motor error
 				maxon_counter_active = false;
 				//zen_period = 0;
-				Serial.print("\n---------maxon_counter_active = false;  millis()= ");
-				Serial.print(millis());
-				Serial.print("  |  zen_millis= ");
-				Serial.print(zen_millis);
+				// Serial.print("\n---------maxon_counter_active = false;  millis()= ");
+				// Serial.print(millis());
+				// Serial.print("  |  zen_millis= ");
+				// Serial.print(zen_millis);
 			}
 			else if (millis() - zen_millis >= 10) {//this will run 8 iterations after maxon_counter_active is set to TRUE
 				enable(true);//send enable motor command
 				//digitalWrite(33,HIGH);
-				Serial.print("\n---enable(true)");
+				//Serial.print("\n---enable(true)");
 			}
 			else if (millis() - zen_millis >= 2) {//this will run 2 iterations after the following one
 				enable(false);//send disable motor command
 				//digitalWrite(33,LOW);
-				Serial.print("\nenable(false)");
+				//Serial.print("\nenable(false)");
 			}
 		}
 	}

@@ -204,39 +204,31 @@ float _Controller::_cf_mfac(float reference, float current_measurement)
 	return maxon_stands_by;
 } */
 //
-int _Controller::_servo_runner(uint8_t servo_pin, uint8_t speed_level, uint8_t angle_initial, uint8_t angle_final)
+int _Controller::_servo_runner(uint8_t servo_pin, uint8_t speed_level, long angle_initial, long angle_final)
 {
-	bool isGoingUp;
-	if (!((pos1 == angle_initial)&&(pos2 == angle_final))) {
+	unsigned long progress;
+	if (!((pos1 == angle_initial)&&(pos2 == angle_final))) {//if servo command changes
 		myservo.attach(servo_pin,500,2500);
 		pos1 = angle_initial;
 		pos2 = angle_final;
-		run_flag = true;
-		pos = pos1;
-		_do_stop_servo = false;
 		servoWatch = millis();
-		myservo.write(pos);
+		servo_active = true;	
 	}
-	if ((millis()-servoWatch > 15)&&(!_do_stop_servo)) {
+	if (servo_active) {
+		Serial.print("\nservo_active...");
+		progress = millis() - servoWatch;
+		pos = map(progress, 0, 100, pos1, pos2);
+		pos = constrain(pos, pos1, pos2);
 		myservo.write(pos);
-		if (pos1<pos2) {
-		pos += 3;
-		isGoingUp = true;
-		}
-		else if (pos1>pos2) {
-		pos -= 3;
-		isGoingUp = false;
-		}
-		else {
-			
-		}
-		servoWatch = millis();
-		if (pos == pos2) {	
-			_do_stop_servo = true;
+		if (progress >= 100) {
+			servo_active = false;
+			progress = 0;
 		}
 	}
-	//if (((pos >= pos2)&&(isGoingUp))||((pos <= pos2)&&(!isGoingUp))) {
-	
+	Serial.print("\npos = ");
+	Serial.print(pos);
+	Serial.print("  |  progress = ");
+	Serial.print(progress);
 	return pos;
 }
 float _Controller::_pid(float cmd, float measurement, float p_gain, float i_gain, float d_gain)

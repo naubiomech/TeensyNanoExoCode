@@ -87,14 +87,15 @@ class _Controller
 		float _start_time;
 		bool _pid_on = 0;
 		float _pid_error_sum = 0;
-		int pos = 0;
-		uint16_t servoWatch;
+		long pos;//servo parameters
+		unsigned long servoWatch;
 		bool run_flag;
 		int input1;
 		int input2;
 		int pos1 = 0;
 		int pos2 = 0;
 		bool _do_stop_servo = false;
+		bool servo_active = false;
 		bool maxon_stands_by = false;
 		uint16_t maxon_standby_itr = 0;
 		bool maxon_ready2capture_error = false;//it appears that Maxon would report two errors before trials start for the first time:Vcc under voltage and PWM out of limit. To combat this, we're not going to detect error until trials start for the first time
@@ -113,7 +114,7 @@ class _Controller
          */
         float _pid(float cmd, float measurement, float p_gain, float i_gain, float d_gain);
 		
-		int _servo_runner(uint8_t servo_pin, uint8_t speed_level, uint8_t angle_initial, uint8_t angle_final);
+		int _servo_runner(uint8_t servo_pin, uint8_t speed_level, long angle_initial, long angle_final);
 		
 		bool _maxon_manager(uint8_t enable_pin, uint8_t error_pin, uint8_t motor_ctrl_pin, uint16_t standby_target_itr);
         
