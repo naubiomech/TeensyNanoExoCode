@@ -311,6 +311,7 @@ namespace UART_command_handlers
         switch (config[config_defs::exo_name_idx])
         {
         case (uint8_t)config_defs::exo_name::bilateral_ankle:
+		{
             rx_msg.len = (uint8_t)rt_data::BILATERAL_ANKLE_RT_LEN;
 
             // Jack Plot
@@ -408,6 +409,7 @@ namespace UART_command_handlers
 				//rx_msg.data[8] = exo_data->left_leg.ankle.controller.gasp_motor_reset_plot;
 				//rx_msg.data[9] = exo_data->right_leg.ankle.controller.gasp_motor_reset_plot;
                 break;
+		}
 
         case (uint8_t)config_defs::exo_name::bilateral_hip:
             rx_msg.len = (uint8_t)rt_data::BILATERAL_HIP_RT_LEN;
