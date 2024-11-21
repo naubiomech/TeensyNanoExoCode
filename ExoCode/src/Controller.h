@@ -333,5 +333,56 @@ public:
 
 };
 
+/**
+ * @brief Proportional Hip Moment Controller
+ * This controller is for the hip joint
+ * Applies a torque based on an estimate of the hip moment 
+ *
+ * See ControllerData.h for details on the parameters used.
+ */
+class ProportionalHipMoment : public _Controller
+{
+public:
+    ProportionalHipMoment(config_defs::joint_id id, ExoData* exo_data);
+    ~ProportionalHipMoment() {};
+    
+    /* Note: Duration in this controller is in terms of number of iterations in that window, rather than as a time. */
+
+    int state;                      /* Keeps track of what state we are in: State 1 - Mid-to-Late Swing (15% onward), State 2: Stance, State 3: Early-Swing (First 15%). */
+
+    bool first_state2;              /* Flag to set variable values upon the first instance of the current State 2. */
+    bool first_state3;              /* Flag to set variable values upon the first instance of the current State 3. */
+
+    int swing_counter;              /* Keeps track of the number of iterations that have occured in current swing phase. */
+    int state1_counter;             /* Keeps track of the number of iterations that have occured in current State 1. */
+    int prev_state1_counter;        /* Stores the previous duration of State 1, used to estimate position in current State 1 relative to expected duration. */
+    int stance_counter;             /* Keeps track of the number of iterations that have occured in current Stance Phase. */
+    int swing_duration;             /* Stores the duration of the previous swing phase. */
+ 
+    float setpoint;                 /* Stores the calculated feed-foward setpoint for the hip command. */
+    float old_setpoint;             /* Stores the setpoint at the end of State 3 to be used for setpoint calculation in State 1. */
+
+    int state_count_12;             /* Keeps track of the number of iterations that have occured in the State 1 - to - State 2 Transition. */
+    int state_count_23;             /* Keeps track of the number of iterations that have occured in the State 2 - to - State 3 Transition. */
+    int state_count_31;             /* Keeps track of the number of iterations that have occured in the State 3 - to - State 1 Transition. */
+    
+    int Prev_latestance_duration;   /* Stores the previous duration of the late-stance phase (part of the late-stance to early-swing transition period. */
+    int latestance_duration;        /* Records the duration of the recently ended late-stance phase. */
+    int latestance_counter;         /* Keeps track of the number of iterations that have occured in the current Late-Stance Period. */
+    float Alpha_counter;            /* Keeps track of the number of iterations that have occured in the current Late-Stance - and - Early Swing Transition Period. */
+    float Alpha;                    /* Stores the expected duration of the Late-Stance - and - Early Swing Transition Period, based on the duration of the last transition period. */
+    float t;                        /* Calculated percentage of stance-to-swing transition based on the duration of the previous stance-to-swing transition (expressed as 0.1, 0.2,... rather than 10%, 20%,...). */
+    
+    float fs;                       /* Ratio of heel and toe fsrs accounting for GRF Ratio (0.25). */
+    float fs_min;                   /* Stores the minimum calculated fs for the current cycle, used as a starting estimate for the Late-Stance - to - Early Swing transition period. */
+    float prev_fs;                  /* Stores the previous cycle's fs to help determine the slope of the fs curve. */
+    float hip_ratio;                /* Part of calculation to determine the feed-foward setpoint calculation during stance-phase (State 2). */
+
+    float calc_motor_cmd();         /* Function to calcualte the desired motor command. */
+
+private:
+
+};
+
 #endif
 #endif

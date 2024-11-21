@@ -143,6 +143,7 @@ namespace config_defs
         constant_torque = 4,
         chirp = 5,
         step = 6,
+        phmc = 7,
     };
     
     enum class knee_controllers : uint8_t
@@ -399,6 +400,7 @@ namespace config_defs
             {"constantTorque", (uint8_t)config_defs::hip_controllers::constant_torque},
             {"chirp", (uint8_t)config_defs::hip_controllers::chirp},
             {"step", (uint8_t)config_defs::hip_controllers::step},
+            {"phmc", (uint8_t)config_defs::hip_controllers::phmc},
 
         };
         

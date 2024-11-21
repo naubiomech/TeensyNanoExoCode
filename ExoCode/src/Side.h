@@ -176,7 +176,7 @@ class Side
         bool _prev_toe_contact_state_toe_off;       /**< Prev toe off state used for toe off detection */
         bool _prev_toe_contact_state_toe_on;        /**< Prev toe off state used for toe off detection */
         
-        static const uint8_t _num_steps_avg = 3;    /**< Number of prior steps used to estimate the expected duration, used for percent gait calculation */
+        static const uint8_t _num_steps_avg = 3;    /**< Number of prior steps used to estimate the expected duration, used for percent gait calculation. */
         unsigned int _step_times[_num_steps_avg];   /**< Stores the duration of the last N steps, used for percent gait calculation */ 
 
         unsigned int _stance_times[_num_steps_avg]; /**< Stores the duration of the last N stance phases, used for percent stance calculation */ 

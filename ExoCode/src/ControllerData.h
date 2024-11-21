@@ -161,6 +161,13 @@ namespace controller_defs                   /**< Stores the parameter indexes fo
         const uint8_t num_parameter = 9;
     }
 
+    namespace proportional_hip_moment
+    {
+        const uint8_t extension_setpoint_idx = 0;                   //Parameter for extension setpoint 
+        const uint8_t flexion_setpoint_idx = 1;                     //Parameter for flexion setpoin
+        const uint8_t num_parameter = 2;
+    }
+
     const uint8_t max_parameters = franks_collins_hip::num_parameter;   //This should be the largest of all the num_parameters
 }
 
@@ -256,6 +263,10 @@ class ControllerData {
 		
 		//Variables for the Zhang-Collins Controller
 		float previous_cmd = 0;
+
+        //Variables for the PHMC Controller
+        float fs;
+        float state;
 };      
 
 #endif
