@@ -50,7 +50,6 @@ void BleMessage::print(BleMessage msg)
     logger::print("\n");
 }
 
-// TODO: Overide == operator
 int BleMessage::matching(BleMessage msg1, BleMessage msg2)
 {
     int doesnt_match = 0;

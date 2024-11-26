@@ -19,8 +19,9 @@ static const BleMessage empty_message = BleMessage();
 BleMessage ble_queue::pop()
 {
     #if defined(ARDUINO_ARDUINO_NANO33BLE) | defined(ARDUINO_NANO_RP2040_CONNECT)
-    queue_mutex.lock();
+        queue_mutex.lock();
     #endif
+
     if(ble_queue::size()) 
     {
         BleMessage msg = queue[m_size];
@@ -32,24 +33,26 @@ BleMessage ble_queue::pop()
         logger::println("BleMessageQueue::pop_queue->No messages in Queue!", LogLevel::Warn);
         return empty_message;
     }
+
     #if defined(ARDUINO_ARDUINO_NANO33BLE) | defined(ARDUINO_NANO_RP2040_CONNECT)
-    queue_mutex.unlock();
+        queue_mutex.unlock();
     #endif
 }
 
 void ble_queue::push(BleMessage* msg)
 {
     #if BLE_QUEUE_DEBUG
-    logger::println("BleMessageQueue::push_queue");
-    logger::print("m_size: ");
-    logger::println(m_size);
-    logger::print("msg: ");
-    BleMessage::print(*msg);
+        logger::println("BleMessageQueue::push_queue");
+        logger::print("m_size: ");
+        logger::println(m_size);
+        logger::print("msg: ");
+        BleMessage::print(*msg);
     #endif
 
     #if defined(ARDUINO_ARDUINO_NANO33BLE) | defined(ARDUINO_NANO_RP2040_CONNECT)
-    queue_mutex.lock();
+        queue_mutex.lock();
     #endif
+
     if (m_size >= (k_max_size-1))
     {
         logger::println("BleMessageQueue::push_queue->Queue Full!", LogLevel::Warn);
@@ -58,15 +61,16 @@ void ble_queue::push(BleMessage* msg)
 
     m_size++;
     queue[m_size].copy(msg);
+
     #if defined(ARDUINO_ARDUINO_NANO33BLE) | defined(ARDUINO_NANO_RP2040_CONNECT)
-    queue_mutex.unlock();
+        queue_mutex.unlock();
     #endif
 
     #if BLE_QUEUE_DEBUG
-    logger::print("m_size: ");
-    logger::println(m_size);
-    logger::print("msg: ");
-    BleMessage::print(queue[m_size]);
+        logger::print("m_size: ");
+        logger::println(m_size);
+        logger::print("msg: ");
+        BleMessage::print(queue[m_size]);
     #endif
 }
 

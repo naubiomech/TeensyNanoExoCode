@@ -5,7 +5,7 @@
  * 
  * Constructor: StatusLed(int r_pin, int g_pin, int b_pin) or (int r_pin, int g_pin, int b_pin, int brightness)
  *   The pins are the RGB LED pins ideally they are PWM but can also handle simple digital pins.
- *      In the header set NO_PWM to true or false depending on if you have PWM or simple digital pins.
+ *   In the header set NO_PWM to true or false depending on if you have PWM or simple digital pins.
  *   Brightness sets the brightness from 255 to 0, this is ignored for simple digital pins
  *   
  * updateLed(int message) method sets the color of the LED, these messages can be found in the preprocessor part of the header.
@@ -14,7 +14,6 @@
  * @author P. Stegall 
  * @date Dec. 2021
 */
-
 
 #ifndef StatusLed_h
 #define StatusLed_h
@@ -31,9 +30,9 @@
  */
 namespace status_led_defs
 {
-    typedef std::map<uint16_t, uint16_t> IdxRemap; /**< type to map an error message to a display type */
+    typedef std::map<uint16_t, uint16_t> IdxRemap; /**< Type to map an error message to a display type */
     
-    
+    /**< Maps messages to idx used for color and pattern. Mainly needed so errors and warnings will look the same.*/
     const IdxRemap status_led_idx = 
     { 
         {status_defs::messages::off, 0},
@@ -53,21 +52,27 @@ namespace status_led_defs
         {status_defs::messages::error_left_hip_torque_sensor, 8},
         {status_defs::messages::error_left_knee_torque_sensor, 8},
         {status_defs::messages::error_left_ankle_torque_sensor, 8},
+        {status_defs::messages::error_left_elbow_torque_sensor, 8},
         {status_defs::messages::error_right_hip_torque_sensor, 8},
         {status_defs::messages::error_right_knee_torque_sensor, 8},
         {status_defs::messages::error_right_ankle_torque_sensor, 8},
+        {status_defs::messages::error_right_elbow_torque_sensor, 8},
         {status_defs::messages::error_left_hip_motor, 8},
         {status_defs::messages::error_left_knee_motor, 8},
         {status_defs::messages::error_left_ankle_motor, 8},
+        {status_defs::messages::error_left_elbow_motor, 8},
         {status_defs::messages::error_right_hip_motor, 8},
         {status_defs::messages::error_right_knee_motor, 8},
         {status_defs::messages::error_right_ankle_motor, 8},
+        {status_defs::messages::error_right_elbow_motor, 8},
         {status_defs::messages::error_left_hip_controller, 8},
         {status_defs::messages::error_left_knee_controller, 8},
         {status_defs::messages::error_left_ankle_controller, 8},
+        {status_defs::messages::error_left_elbow_controller, 8},
         {status_defs::messages::error_right_hip_controller, 8},
         {status_defs::messages::error_right_knee_controller, 8},
         {status_defs::messages::error_right_ankle_controller, 8},
+        {status_defs::messages::error_right_elbow_controller, 8},
         {status_defs::messages::error_to_be_used_1, 8},
         {status_defs::messages::error_to_be_used_2, 8},
         {status_defs::messages::error_to_be_used_3, 8},
@@ -75,12 +80,6 @@ namespace status_led_defs
         {status_defs::messages::error_to_be_used_5, 8},
         {status_defs::messages::error_to_be_used_6, 8},
         {status_defs::messages::error_to_be_used_7, 8},
-        {status_defs::messages::error_to_be_used_8, 8},
-        {status_defs::messages::error_to_be_used_9, 8},
-        {status_defs::messages::error_to_be_used_10, 8},
-        {status_defs::messages::error_to_be_used_11, 8},
-        {status_defs::messages::error_to_be_used_12, 8},
-        {status_defs::messages::error_to_be_used_13, 8},
         
         {status_defs::messages::warning, 9},
         {status_defs::messages::warning_exo_run_time, 9}, 
@@ -98,27 +97,28 @@ namespace status_led_defs
         {status_defs::messages::warning_to_be_used_12, 9}, 
         {status_defs::messages::warning_to_be_used_13, 9}, 
         {status_defs::messages::warning_to_be_used_14, 9},
-    }; /**< maps messages to idx used for color and pattern.  Mainly needed so errors and warnings will look the same.*/
+    }; 
 }
 #endif
-// Define the on and off state of the LED.  This is handy for if you are using a P Channel MOSFET where low is on.
+
+//Define the on and off state of the LED. This is handy for if you are using a P Channel MOSFET where low is on.
 //#define STATUS_LED_ON_STATE 0
 //#define STATUS_LED_OFF_STATE 255
 
-// color assumes 255 is on.  The code will use the on/off state above to compensate for the code.
-//#define STATUS_MESSAGE_LED_OFF 0  // set the message index
-//#define STATUS_COLOR_LED_OFF {0, 0, 0}  // set the color in {R, G, B} format 0-255
+//Color assumes 255 is on. The code will use the on/off state above to compensate for the code.
+//#define STATUS_MESSAGE_LED_OFF 0              //Set the message index
+//#define STATUS_COLOR_LED_OFF {0, 0, 0}        //Set the color in {R, G, B} format 0-255
 
-//#define STATUS_MESSAGE_TRIAL_OFF 1  // set the message index
-//#define STATUS_COLOR_TRIAL_OFF {0, 0, 255}   // set the color in {R, G, B} format 0-255 
+//#define STATUS_MESSAGE_TRIAL_OFF 1            //Set the message index
+//#define STATUS_COLOR_TRIAL_OFF {0, 0, 255}    //Set the color in {R, G, B} format 0-255 
+    
+//#define STATUS_MESSAGE_TRIAL_ON 2             //Set the message index
+//#define STATUS_COLOR_TRIAL_ON {0, 255, 0}     //Set the color in {R, G, B} format 0-255
 
-//#define STATUS_MESSAGE_TRIAL_ON 2 // set the message index
-//#define STATUS_COLOR_TRIAL_ON {0, 255, 0}  // set the color in {R, G, B} format 0-255
+//#define STATUS_MESSAGE_ERROR 3                //Set the message index
+//#define STATUS_COLOR_ERROR {255, 0, 0}        //Set the color in {R, G, B} format 0-255
 
-//#define STATUS_MESSAGE_ERROR 3  // set the message index
-//#define STATUS_COLOR_ERROR {255, 0, 0}  // set the color in {R, G, B} format 0-255
-
-//#define NO_PWM true // true if using simple digital pins, false if using pwm pins
+//#define NO_PWM true //True if using simple digital pins, false if using pwm pins
 
 /**
  * @brief define how each message will be displayed.
@@ -128,7 +128,7 @@ namespace status_led_defs
     /**
      * @brief colors each message should display
      */
-    namespace colors // just used namespace due to the complex structure.
+    namespace colors //Just used namespace due to the complex structure.
     {
         const int off[] =  {0, 0, 0};
         const int trial_off[] = {0, 0, 255};
@@ -140,41 +140,38 @@ namespace status_led_defs
         const int motor_start_up[] = {255, 68, 0};
         const int error[] = {255, 0, 0};
         const int warning[] = {255, 68, 0};
-        
     }
     
     /**
      * @brief patterns to use for each message
      */
-    namespace patterns // just used namespace due to the complex structure.
+    namespace patterns //Just used namespace due to the complex structure.
     {
         const uint8_t solid = 0;
         const uint8_t blink = 1;
         const uint8_t pulse = 2;
         const uint8_t rainbow = 3;
         
-        
         //Format is pattern number and period in ms
-        const int off[] =  {solid, 0}; // Solid
-        const int trial_off[] = {solid,0}; // Solid
-        const int trial_on[] = {pulse, 500}; // Solid
-        const int test[] = {rainbow, 4000}; // pulse
-        const int torque_calibration[] = {solid, 0};
-        const int fsr_calibration[] = {solid, 0};
-        const int fsr_refinement[] = {pulse, 250};
-        const int motor_start_up[] = {pulse, 4000};
-        const int error[] = {blink, 250}; // blinking
-        const int warning[] = {blink, 250}; // blinking
+        const int off[] =  {solid, 0};                  //Solid
+        const int trial_off[] = {solid,0};              //Solid
+        const int trial_on[] = {pulse, 500};            //Pulse
+        const int test[] = {rainbow, 4000};             //Rainbow
+        const int torque_calibration[] = {solid, 0};    //Solid
+        const int fsr_calibration[] = {solid, 0};       //Solid
+        const int fsr_refinement[] = {pulse, 250};      //Pulse
+        const int motor_start_up[] = {pulse, 4000};     //Pulse
+        const int error[] = {blink, 250};               //Blinking
+        const int warning[] = {blink, 250};             //Blinking
     }
     
-    const uint8_t on_state = logic_micro_pins::status_led_on_state; /**< on state of the LED used to determine PWM ratio*/
-    const uint8_t off_state = logic_micro_pins::status_led_off_state;  /**< off state of the LED used to determine PWM ratio*/
+    const uint8_t on_state = logic_micro_pins::status_led_on_state;     /**< On state of the LED used to determine PWM ratio*/
+    const uint8_t off_state = logic_micro_pins::status_led_off_state;   /**< Off state of the LED used to determine PWM ratio*/
     
-    const bool has_pwm = logic_micro_pins::status_has_pwm;  /**< records if  the display should use PWM or simple digital output. */
-    
+    const bool has_pwm = logic_micro_pins::status_has_pwm;              /**< Records if the display should use PWM or simple digital output. */ 
 }
 
-// Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
+//Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41)
 /**
  * @brief class used to set the status LED display based on the Status
@@ -182,28 +179,29 @@ namespace status_led_defs
 class StatusLed
 {
   public:
-    // Constructors one you can set the default LED State
-    StatusLed(int r_pin, int g_pin, int b_pin);   // pins are the pins assocated with the different LED inputs
-    StatusLed(int r_pin, int g_pin, int b_pin, int brightness);  // pins are the pins assocated with the different LED inputs, brightness is used to scale the colors that are sent: color * brightness/255
+    //Constructors one you can set the default LED State
+    StatusLed(int r_pin, int g_pin, int b_pin);                 //Pins are the pins assocated with the different LED inputs
+    StatusLed(int r_pin, int g_pin, int b_pin, int brightness); //Pins are the pins assocated with the different LED inputs, brightness is used to scale the colors that are sent: color * brightness/255
    
     /**
      * @brief Change the message and LED state
      *
      * @param status message
      */
-    void update(uint16_t message); // Changes the LED State to the current state
+    void update(uint16_t message); //Changes the LED State to the current state
     
     /**
-     * @brief Change the brightness.  Only used when logic_micro_pins::status_has_pwm is true.
+     * @brief Change the brightness. Only used when logic_micro_pins::status_has_pwm is true.
      *
      * @param int used to set the brightness of the LED
      */
-    void set_brightness(int brightness);  // Used if you need to change the brightness after initialization, brightness is used to scale the colors that are sent: color * brightness/255
+    void set_brightness(int brightness);  //Used if you need to change the brightness after initialization, brightness is used to scale the colors that are sent: color * brightness/255
     
     /**
      * @brief Toggle the status LED on or off
      */
     void toggle();
+
   private:
   
     /**
@@ -213,7 +211,7 @@ class StatusLed
      * @param green value 0-255
      * @param blue value 0-255
      */
-    void _set_color(int R, int G, int B);  // changes the color R, G, and B are 0-255 values to set the corresponding colors.
+    void _set_color(int R, int G, int B);  //Changes the color R,G,and B are 0-255 values to set the corresponding colors.
     
     /**
      * @brief  Displays whatever the current _message_colors values are continuously
@@ -240,19 +238,21 @@ class StatusLed
      */
     void _rainbow_hsv();
     
-    int _r_pin;  /**< pin used for the red LED */
-    int _g_pin;  /**< pin used for the green LED */
-    int _b_pin;  /**< pin used for the blue LED */
-    int _brightness;  /**< Max brightness of LED this scales the RGB colors, color * brightness/255 */
-    int _current_message;  /**< index of the current message used to select the correct color. */
-    uint16_t _msg_idx; /**< index the current message uses for display */
+    int _r_pin;             /**< Pin used for the red LED */
+    int _g_pin;             /**< Pin used for the green LED */
+    int _b_pin;             /**< Pin used for the blue LED */
+    int _brightness;        /**< Max brightness of LED this scales the RGB colors, color * brightness/255 */
+    int _current_message;   /**< Index of the current message used to select the correct color. */
+    uint16_t _msg_idx;      /**< Index the current message uses for display */
     
-    int _pattern_start_timestamp; /**< keeps track of the time the current pattern has run. */
-    int _period_ms; /**< period of the pattern */
-    int _pattern_brightness_percent; /**< Percent of the  for the pattern brightness. */
+    int _pattern_start_timestamp;       /**< Keeps track of the time the current pattern has run. */
+    int _period_ms;                     /**< Period of the pattern */
+    int _pattern_brightness_percent;    /**< Percent of the  for the pattern brightness. */
     
-    // make sure to keep in index order from messages, this is an array of the colors to use _messageColors[_currentMessage][color] where color is 0 for r, 1 for g, and 2 for b.
-    // This method of accessing array elements is bulky but works.
+    //Make sure to keep in index order from messages, this is an array of the colors to use _messageColors[_currentMessage][color] where color is 0 for r, 1 for g, and 2 for b.
+    //This method of accessing array elements is bulky but works.
+
+    /**< Mapping from _msg_idx to color */
     const int _message_colors[10][3] = {{status_led_defs::colors::off[0], status_led_defs::colors::off[1], status_led_defs::colors::off[2]}, 
                 {status_led_defs::colors::trial_off[0], status_led_defs::colors::trial_off[1], status_led_defs::colors::trial_off[2]}, 
                 {status_led_defs::colors::trial_on[0], status_led_defs::colors::trial_on[1], status_led_defs::colors::trial_on[2]}, 
@@ -263,10 +263,9 @@ class StatusLed
                 {status_led_defs::colors::motor_start_up[0], status_led_defs::colors::motor_start_up[1], status_led_defs::colors::motor_start_up[2]},
                 {status_led_defs::colors::error[0], status_led_defs::colors::error[1], status_led_defs::colors::error[2]}, 
                 {status_led_defs::colors::warning[0], status_led_defs::colors::warning[1], status_led_defs::colors::warning[2]} 
-                }; /**< mapping from _msg_idx to color */
-    
-    // make sure to keep in index order from messages, this is an array of the colors to use _messageColors[_currentMessage][color] where color is 0 for r, 1 for g, and 2 for b.
-    // This method of accessing array elements is bulky but works.
+                }; 
+
+    /**< Mapping from _msg_idx to pattern */
     const int _message_pattern[10][2] = {{status_led_defs::patterns::off[0], status_led_defs::patterns::off[1]}, 
                 {status_led_defs::patterns::trial_off[0], status_led_defs::patterns::trial_off[1]}, 
                 {status_led_defs::patterns::trial_on[0], status_led_defs::patterns::trial_on[1]}, 
@@ -277,9 +276,7 @@ class StatusLed
                 {status_led_defs::patterns::motor_start_up[0], status_led_defs::patterns::motor_start_up[1]},
                 {status_led_defs::patterns::error[0], status_led_defs::patterns::error[1]},
                 {status_led_defs::patterns::warning[0], status_led_defs::patterns::warning[1]} 
-                };/**< mapping from _msg_idx to pattern */
-              
-    
+                };
 };
 #endif
 #endif

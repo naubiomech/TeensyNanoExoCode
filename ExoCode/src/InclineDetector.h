@@ -11,7 +11,8 @@
  */
 
 #include "Arduino.h"
-// Average stair ascent should be ~0.006 Pa/sample at 500 Hz
+
+//Average stair ascent should be ~0.006 Pa/sample at 500 Hz
 #define DEFAULT_ALPHA 0.01f
 #define SMOOTH_ALPHA 0.025f
 #define DEFAULT_THRESHOLD 1.5f

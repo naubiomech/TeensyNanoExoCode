@@ -23,6 +23,7 @@ class ErrorManager
 {
     public:
         ErrorManager() {};
+        
         /**
          * @brief Runs the error manager. This should be called every loop.
          * 
@@ -32,20 +33,23 @@ class ErrorManager
         template <typename data>
         bool run(data* _data)
         {
-            // Check for errors
+            //Check for errors
             for (int i_error = (NO_ERROR + 1); i_error != ERROR_CODE_LENGTH; i_error++)
             {
-                // current error code
+                //Current error code
                 ErrorCodes error_code = static_cast<ErrorCodes>(i_error);
-                // get error type
+
+                //Get error type
                 ErrorType* error = error_map.at(error_code);
-                // check for error
+
+                //Check for error
                 if (error->check(_data))
                 {
                     error->handle(_data);
                     this->_pushError(error_code);
                 }
             }
+
             return static_cast<bool>(this->errorQueueSize());
         }
 
@@ -73,6 +77,7 @@ class ErrorManager
 
     private:
         std::queue<ErrorCodes> _error_queue;
+        
         /**
          * @brief Pushes an error code to the queue
          * 

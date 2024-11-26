@@ -5,7 +5,7 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-#include "I2CHandler.h" // Just used for register and address definitions
+#include "I2CHandler.h" //Just used for register and address definitions
 
 
 
@@ -14,7 +14,7 @@ class ThIMU
 {
     public:
     ThIMU(bool is_left);
-    bool init(float timeout = 500); // timeout in ms
+    bool init(float timeout = 500); //Timeout in ms
     float read_data();
 
     private:

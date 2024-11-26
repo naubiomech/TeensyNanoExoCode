@@ -33,6 +33,7 @@ public:
         static ErrorReporter* instance = new ErrorReporter();
         return instance;
     }
+
     /**
      * @brief Report an error to the other microcontroller.
      * 

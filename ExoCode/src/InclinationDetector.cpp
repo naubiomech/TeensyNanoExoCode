@@ -15,9 +15,8 @@
 #define INCLINATION_DETECTOR_DEBUG 0
 
 /* Default detection parameters */
-
 static constexpr float k_decline_angle_threshold{0.2f};
-static constexpr float k_incline_angle_theshold{0.075f}; // was 0.1
+static constexpr float k_incline_angle_theshold{0.075f}; //Note: Previously was 0.1
 
 
 InclinationDetector::InclinationDetector()
@@ -51,7 +50,7 @@ void InclinationDetector::set_decline_angle(float threshold)
 InclinationDetector::Edge InclinationDetector::_check_for_edge(const bool is_stance)
 {
     #if INCLINATION_DETECTOR_DEBUG
-    //logger::println("Checking for edge with (is_stance): "+ String(is_stance), LogLevel::Debug);
+        //logger::println("Checking for edge with (is_stance): "+ String(is_stance), LogLevel::Debug);
     #endif
 
     Edge edge = Edge::None;
@@ -69,7 +68,7 @@ InclinationDetector::Edge InclinationDetector::_check_for_edge(const bool is_sta
 float InclinationDetector::_update_stance_phase(const InclinationDetector::Edge edge, const bool is_stance)
 {
     #if INCLINATION_DETECTOR_DEBUG
-    logger::println("Updating stance phase with (edge, is_stance): " + String(static_cast<int>(edge)) + ", " + String(is_stance), LogLevel::Debug);
+        logger::println("Updating stance phase with (edge, is_stance): " + String(static_cast<int>(edge)) + ", " + String(is_stance), LogLevel::Debug);
     #endif
 
     if (!is_stance && edge != Edge::Falling)
@@ -81,7 +80,7 @@ float InclinationDetector::_update_stance_phase(const InclinationDetector::Edge 
     if (edge == Edge::Rising)
     {
         #if INCLINATION_DETECTOR_DEBUG
-        logger::println("Updating _current_stance_start with (millis): " + String(now), LogLevel::Debug);
+            logger::println("Updating _current_stance_start with (millis): " + String(now), LogLevel::Debug);
         #endif
         _current_stance_start = now;
         
@@ -89,20 +88,20 @@ float InclinationDetector::_update_stance_phase(const InclinationDetector::Edge 
     } else if (edge == Edge::Falling)
     {
         const float stance_time = now - _current_stance_start;
-        // TODO: Check for bad stance phase (too short, or overflow error)
+
         #if INCLINATION_DETECTOR_DEBUG
-        logger::println("Updating _prev_stance_time with (stance_time): " + String(stance_time), LogLevel::Debug);
+            logger::println("Updating _prev_stance_time with (stance_time): " + String(stance_time), LogLevel::Debug);
         #endif
+
         _prev_stance_time = stance_time;
         return 100;
     } else if (edge == Edge::None)
     {   
         const float stance_phase = (now-_current_stance_start) / _prev_stance_time;
         #if INCLINATION_DETECTOR_DEBUG
-        logger::println("Updating stance phase with (millis, current start, prev time, phase): " + String(now) + ", "
-                + String(_current_stance_start) + ", " + String(_prev_stance_time) + ", " + String(stance_phase), LogLevel::Debug);
+            logger::println("Updating stance phase with (millis, current start, prev time, phase): " + String(now) + ", "+ String(_current_stance_start) + ", " + String(_prev_stance_time) + ", " + String(stance_phase), LogLevel::Debug);
         #endif
-        // TODO: Check for overflow
+
         return stance_phase;
     }
 }
@@ -144,7 +143,7 @@ bool InclinationDetector::_incline_check(const float norm_angle)
     const bool is_incline = norm_angle < (_calibrated_stance_entry_angle - _incline_angle_theshold);
 
     #if INCLINATION_DETECTOR_DEBUG
-    //logger::println("Incline check with (angle, is_incline): " + String(norm_angle) + ", " + String(is_incline), LogLevel::Debug);
+        //logger::println("Incline check with (angle, is_incline): " + String(norm_angle) + ", " + String(is_incline), LogLevel::Debug);
     #endif
 
     return is_incline;
@@ -154,7 +153,7 @@ bool InclinationDetector::_decline_check(const float norm_angle)
     const bool is_decline = norm_angle < (_calibrated_stance_exit_angle - _decline_angle_threshold);
 
     #if INCLINATION_DETECTOR_DEBUG
-    //logger::println("Decline check with (angle, is_decline): " + String(norm_angle) + ", " + String(is_decline), LogLevel::Debug);
+        //logger::println("Decline check with (angle, is_decline): " + String(norm_angle) + ", " + String(is_decline), LogLevel::Debug);
     #endif
 
     return is_decline;
@@ -163,30 +162,33 @@ bool InclinationDetector::_decline_check(const float norm_angle)
 Inclination InclinationDetector::check(const bool is_stance, const bool fsr_calibrating, const float norm_angle)
 {
     #if INCLINATION_DETECTOR_DEBUG
-    logger::println("Checking for inclination with (is_stance, fsr_calibrating, norm_angle): " + String(is_stance) + ", " + String(fsr_calibrating) + ", " + String(norm_angle), LogLevel::Debug);
+        logger::println("Checking for inclination with (is_stance, fsr_calibrating, norm_angle): " + String(is_stance) + ", " + String(fsr_calibrating) + ", " + String(norm_angle), LogLevel::Debug);
     #endif
 
     const Edge edge = _check_for_edge(is_stance);
     //const float stance_phase_percent = _update_stance_phase(edge, is_stance);
     //_update_angles_at(stance_phase_percent, norm_angle, edge);
 
-    // Check for calibration
+    //Check for calibration
     const bool should_calibrate = _should_calibrate(fsr_calibrating, edge);
     if (should_calibrate) {
         _update_gait_features(edge, norm_angle);
     }
-    // Check for end of calibration
+
+    //Check for end of calibration
     const bool end_of_calibration = (should_calibrate < _previous_should_calibrate);
     _previous_should_calibrate = should_calibrate;
+
     if (end_of_calibration) {
         _calculate_gait_features();
     }
 
     if (edge == Edge::Rising) {
         #if INCLINATION_DETECTOR_DEBUG
-        logger::println("Rising Edge with (is_stance, norm_angle): " + String(is_stance) + ", " + String(norm_angle), LogLevel::Debug);
+            logger::println("Rising Edge with (is_stance, norm_angle): " + String(is_stance) + ", " + String(norm_angle), LogLevel::Debug);
         #endif
-        // Reset ability to return an estimate
+
+        //Reset ability to return an estimate
         _returned_this_stance = false;
 
         const bool is_incline = _incline_check(norm_angle);
@@ -194,8 +196,9 @@ Inclination InclinationDetector::check(const bool is_stance, const bool fsr_cali
             _returned_this_stance = true;
             //Serial.println("Got Incline with: " + String(norm_angle) + " < " + String(_calibrated_stance_entry_angle - _incline_angle_theshold));
             #if INCLINATION_DETECTOR_DEBUG
-            logger::println("Returning Incline", LogLevel::Debug);
+                logger::println("Returning Incline", LogLevel::Debug);
             #endif
+
             _prev_estimate = Inclination::Incline;
             return Inclination::Incline;
         }
@@ -203,55 +206,29 @@ Inclination InclinationDetector::check(const bool is_stance, const bool fsr_cali
 
     if (edge == Edge::Falling && !_returned_this_stance) {
         #if INCLINATION_DETECTOR_DEBUG
-        logger::println("Falling Edge with (is_stance, norm_angle): " + String(is_stance) + ", " + String(norm_angle), LogLevel::Debug);
+            logger::println("Falling Edge with (is_stance, norm_angle): " + String(is_stance) + ", " + String(norm_angle), LogLevel::Debug);
         #endif
+
         const bool is_decline = _decline_check(norm_angle);
         if (is_decline) {
             //Serial.println("Got Decline with: " + String(norm_angle) + " < " + String(_calibrated_stance_exit_angle - _decline_angle_threshold));
             #if INCLINATION_DETECTOR_DEBUG
-            logger::println("Returning Decline", LogLevel::Debug);
+                logger::println("Returning Decline", LogLevel::Debug);
             #endif
+
             _prev_estimate = Inclination::Decline;
             return Inclination::Decline;
         } else {
-            // Must be level ground
+            //Must be level ground
             //Serial.println("Got Level with: " + String(norm_angle));
             #if INCLINATION_DETECTOR_DEBUG
-            logger::println("Returning Level", LogLevel::Debug);
+                logger::println("Returning Level", LogLevel::Debug);
             #endif
+
             _prev_estimate = Inclination::Level;
             return Inclination::Level;
         }
     }
 
     return _prev_estimate;
-
-    // #if INCLINATION_DETECTOR_DEBUG
-    // logger::println("Check got (edge, stance_phase_percent): " + String(static_cast<int>(edge)) + ", " + String(stance_phase_percent), LogLevel::Debug);
-    // #endif
-
-    // if (!_may_update(edge, is_stance))
-    // {
-    //     return _statefully_from_check(_prev_estimate, false);
-    // }
-    // if (edge == Edge::Falling)
-    // {
-    //     _returned_this_stance = false;
-    // }
-
-    // #if INCLINATION_DETECTOR_DEBUG
-    // logger::println("==============================================================", LogLevel::Debug);
-    // #endif
-
-    // if ((edge == Edge::Rising) && _incline_check(norm_angle))
-    // {
-    //     return _statefully_from_check(Inclination::Incline, true);
-    // } else if (edge == Edge::Falling && _decline_check(norm_angle))
-    // {
-    //     return _statefully_from_check(Inclination::Decline, true);
-    // } else if (edge == Edge::Falling)
-    // {
-    //     return _statefully_from_check(Inclination::Level, true);
-    // }
-    // return _statefully_from_check(_prev_estimate, false);
 }

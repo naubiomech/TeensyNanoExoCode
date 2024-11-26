@@ -6,6 +6,8 @@
 
 #define BATTERY_DEBUG 0
 
+//Note: Our Current Version of the PCB does not contain the necessary components to read battery voltage, future iterations will re-add this component
+
 void SmartBattery::init() {;}
 float SmartBattery::get_parameter()
 {

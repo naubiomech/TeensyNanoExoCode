@@ -19,22 +19,20 @@
 #include "Arduino.h"
 #include <stdint.h>
 
-#define MAX_NUM_LEGS 2
-#define MAX_NUM_JOINTS_PER_LEG 2 // current PCB can only do 2 motors per leg.
+#define MAX_NUM_SIDES 2             //Seems unlikely there would be any more
+#define MAX_NUM_JOINTS_PER_SIDE 2   //Current PCB can only do 2 motors per side, if you have made a new PCB, update.
 #define MAX_RAW_BUFFER_SIZE 256
 #define MAX_DATA_SIZE 32
-// if type is changes you will need to comment/uncomment lines in pack_float and unpack_float
-#define UART_DATA_TYPE short int
+#define UART_DATA_TYPE short int //If type is changes you will need to comment/uncomment lines in pack_float and unpack_float
 #define FIXED_POINT_FACTOR 100
 #define UART_BAUD 256000
 
-#define MAX_RX_LEN 64 // bytes
-#define RX_TIMEOUT_US 1000   // microseconds
+#define MAX_RX_LEN 64       //Bytes
+#define RX_TIMEOUT_US 1000  //Microseconds
 
-/* SLIP special character codes
-*/
-#define END             0300    /* indicates end of packet */
-#define ESC             0333    /* indicates byte stuffing */
+/* SLIP special character codes */
+#define END             0300    /* Indicates end of packet */
+#define ESC             0333    /* Indicates byte stuffing */
 #define ESC_END         0334    /* ESC ESC_END means END data byte */
 #define ESC_ESC         0335    /* ESC ESC_ESC means ESC data byte */
 
@@ -122,7 +120,5 @@ class UARTHandler
         uint8_t _msg_buffer_len = 0;
 
 };
-
-
 
 #endif

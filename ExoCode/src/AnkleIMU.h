@@ -20,12 +20,14 @@
 class AnkleIMU
 {
     public:
-    /**
+    
+     /**
      * @brief Construct a new Ankle I M U object
      * 
      * @param is_left 
      */
     AnkleIMU(bool is_left);
+    
     /**
      * @brief Get the global angle object
      * 

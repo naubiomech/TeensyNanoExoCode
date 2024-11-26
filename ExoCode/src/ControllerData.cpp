@@ -8,13 +8,12 @@
 /*
  * Constructor for the controller data.
  * Takes the joint id and the array from the INI parser.
- * Stores the id, sets the controller to the default controller for the appropriate joint, and records the joint type to check we are using appropriate controllers.
- * TODO: decide what other data to store.  I created a setpoint and a couple of generic parameters as place holders. 
+ * Stores the id, sets the controller to the default controller for the appropriate joint, and records the joint type to check we are using appropriate controllers. 
  */
 ControllerData::ControllerData(config_defs::joint_id id, uint8_t* config_to_send)
 {
     
-    switch ((uint8_t)id & (~(uint8_t)config_defs::joint_id::left & ~(uint8_t)config_defs::joint_id::right))  // use the id with the side masked out.
+    switch ((uint8_t)id & (~(uint8_t)config_defs::joint_id::left & ~(uint8_t)config_defs::joint_id::right))  //Use the id with the side masked out.
     {
         case (uint8_t)config_defs::joint_id::hip:
         {
@@ -34,10 +33,17 @@ ControllerData::ControllerData(config_defs::joint_id id, uint8_t* config_to_send
             joint = config_defs::JointType::ankle;
             break;
         }
+        case (uint8_t)config_defs::joint_id::elbow:
+        {
+            controller = config_to_send[config_defs::exo_elbow_default_controller_idx];
+            joint = config_defs::JointType::elbow;
+            break;
+        }
     }
     
     setpoint = 0;
     parameter_set = 0;
+
     for (int i=0; i < controller_defs::max_parameters; i++)
     {    
         parameters[i] = 0;
@@ -49,8 +55,8 @@ ControllerData::ControllerData(config_defs::joint_id id, uint8_t* config_to_send
 
 void ControllerData::reconfigure(uint8_t* config_to_send) 
 {
-    // just reset controller
-    switch ((uint8_t)joint)  // use the id with the side masked out.
+    //Just reset controller
+    switch ((uint8_t)joint)  //Use the id with the side masked out.
     {
         case (uint8_t)config_defs::joint_id::hip:
         {
@@ -67,9 +73,15 @@ void ControllerData::reconfigure(uint8_t* config_to_send)
             controller = config_to_send[config_defs::exo_ankle_default_controller_idx];
             break;
         }
+        case (uint8_t)config_defs::joint_id::elbow:
+        {
+            controller = config_to_send[config_defs::exo_elbow_default_controller_idx];
+            break;
+        }
     }
     
     setpoint = 0;
+
     for (int i=0; i < controller_defs::max_parameters; i++)
     {    
         parameters[i] = 0;
@@ -81,5 +93,4 @@ uint8_t ControllerData::get_parameter_length()
 {
     uint8_t length = 0;
     return length;
-    //TODO: Implement
 }

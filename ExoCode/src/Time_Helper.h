@@ -6,7 +6,8 @@
 #include <vector>
 
 /* Class to help track the time of code execution. The class uses a singleton design pattern. 
- * Example usage: 
+ * 
+ Example usage: 
  *      Time_Helper* my_time_helper_singleton = get_instance();
  *      static const float my_context = my_time_helper_singleton->generate_new_context();
  *      static my_delta_time;
@@ -19,7 +20,6 @@
  * the default value of 'use_micros' in the constructor should be true. 
  * 
  * If 'tick()' is continuosly returning 0, you are passing an invalid context. 
- * 
  *
  */
 
@@ -40,6 +40,7 @@ class Time_Helper
 
         float generate_new_context();
         void destroy_context(float context);
+    
     private:
         bool _context_conflicts(float context);
         ticker_t* _ticker_from_context(float context);

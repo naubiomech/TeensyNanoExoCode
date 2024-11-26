@@ -11,14 +11,15 @@
 
 #include "Logger.h"
 #include "Arduino.h"
-// Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
+
+ //Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41)
 
 #include "FlexCAN_T4.h"
 #if defined(ARDUINO_TEENSY36)
-static FlexCAN_T4<CAN0, RX_SIZE_256, TX_SIZE_16> Can0;
+    static FlexCAN_T4<CAN0, RX_SIZE_256, TX_SIZE_16> Can0;
 #elif defined(ARDUINO_TEENSY41)
-static FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> Can0;
+    static FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> Can0;
 #endif
 
 /**

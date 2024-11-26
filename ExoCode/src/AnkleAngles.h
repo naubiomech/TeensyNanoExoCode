@@ -14,8 +14,6 @@
 #include <Arduino.h>
 #include "Board.h"
 
-//TODO: Add angle calibration
-
 /**
  * @brief Class to interface with a microcontroller that samples angle data.
  * 
@@ -24,9 +22,11 @@ class AnkleAngles
 {
     public:
     AnkleAngles() {}
+    
     // AnkleAngles(AnkleAngles& other) = delete;
     // void operator=(const AnkleAngles&) = delete;
     // static AnkleAngles* GetInstance();
+    
     /**
      * @brief Initialize the ankle sensor, and perform a handshake.
      * 
@@ -35,6 +35,7 @@ class AnkleAngles
      * @return false 
      */
     bool init(bool is_left);
+    
     /**
      * @brief Get the left or right angle. Returns a ratiometric value [0, 1]
      * 
@@ -52,16 +53,19 @@ class AnkleAngles
     const float _max_min_delta = 0.00001;
 
     bool _left = false;
+    
     /**
      * @brief Check if the ankle sensor is initialized.
      * 
      */
     bool _is_initialized = false;
+    
     /**
      * @brief Right analog pin
      * 
      */
     const int _right_pin = logic_micro_pins::right_ankle_angle_pin;
+    
     /**
      * @brief Left analog pin
      * 

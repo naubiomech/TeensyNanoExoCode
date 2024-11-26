@@ -48,9 +48,11 @@ private:
     const char _start_data = 'c';
     const char _delimiter = 'n';
     const int _maxChars = 12;
-    // Empty message
+    
+    //Empty message
     const BleMessage _empty_message = BleMessage();
-    // The current working message, used by handle_raw_data
+
+    //The current working message, used by handle_raw_data
     BleMessage _working_message = BleMessage();
     bool _waiting_for_data = false;
     int _bytes_collected = 0;
@@ -64,5 +66,4 @@ private:
     void _handle_command(char command);
 };
 
-// #endif
 #endif

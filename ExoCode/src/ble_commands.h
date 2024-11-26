@@ -11,8 +11,8 @@
 
 #include "Arduino.h"
 #include "ExoData.h"
-#include "ParseIni.h" // For config_defs
-#include "StatusDefs.h" // For ExoDataStatus_t
+#include "ParseIni.h"       //For config_defs
+#include "StatusDefs.h"     //For ExoDataStatus
 #include "BleMessage.h"
 #include "ParamsFromSD.h"
 
@@ -37,7 +37,7 @@ typedef struct
  */
 namespace ble_names
 {
-    // Recieved Commands (GIU->Firmware)
+    //Recieved Commands (GUI->Firmware)
     static const char start             = 'E';
     static const char stop              = 'G';
     static const char cal_trq           = 'H';
@@ -51,7 +51,7 @@ namespace ble_names
     static const char mark              = 'N';
     static const char update_param      = 'f';
 
-    // Sending Commands (Firmware->GUI)
+    //Sending Commands (Firmware->GUI)
     static const char send_real_time_data = '?';
     static const char send_batt           = '~';
     static const char send_cal_done       = 'n';
@@ -62,8 +62,6 @@ namespace ble_names
 
 };
 
-
-
 /**
  * @brief Associates the command and ammount of data that it expects to be sent/received
  * 
@@ -72,7 +70,7 @@ namespace ble
 {
     static const ble_command_t commands[] = 
     {
-        // Recieved Commands
+        //Recieved Commands
         {ble_names::start,              0},
         {ble_names::stop,               0},
         {ble_names::cal_trq,            0},
@@ -86,7 +84,7 @@ namespace ble
         {ble_names::new_trq,            4},
         {ble_names::update_param,       4},
         
-        // Sending Commands
+        //Sending Commands
         {ble_names::send_batt,              1},
         {ble_names::send_real_time_data,    9},
         {ble_names::send_error_count,       1},
@@ -106,13 +104,14 @@ namespace ble_command_helpers
     /**
      * @brief Get the ammount of data a command is expecting
      * 
-     * @param command command to get the length
-     * @return int Ammount of data for a command, -1 if command not found
+     * @param command to get the length
+     * @return int amount of data for a command, -1 if command not found
      */
     inline static int get_length_for_command(char command)
     {
         int length = -1;
-        //Get the ammount of characters to wait for
+
+        //Get the amount of characters to wait for
         for(unsigned int i=0; i < sizeof(ble::commands)/sizeof(ble::commands[0]); i++)
         {
             if(command == ble::commands[i].command)
@@ -124,7 +123,6 @@ namespace ble_command_helpers
         return length;
     }
 
-
 }
 
 /**
@@ -133,7 +131,7 @@ namespace ble_command_helpers
  */
 namespace ble_handler_vars
 {
-    // Should be used sparingly, we chose to do this so that ExoData wasn't needlessly populated with variables
+    //Should be used sparingly, we chose to do this so that ExoData wasn't needlessly populated with variables
     static const uint8_t k_max_joints = 6;
     static uint8_t prev_controllers[k_max_joints] = {0, 0, 0, 0, 0, 0};
 
@@ -149,9 +147,9 @@ namespace ble_handlers
 {
     inline static void start(ExoData* data, BleMessage* msg)
     {
-        // Start the trial (ie Enable motors and begin streaming data)
-        // if the joint is used; enable the motor, and set the controller to zero torque
+        //Start the trial (ie Enable motors and begin streaming data). If the joint is used; enable the motor, and set the controller to zero torque
         data->for_each_joint(
+            
             // This is a lamda or anonymous function, see https://www.learncpp.com/cpp-tutorial/introduction-to-lambdas-anonymous-functions/
             [](JointData* j_data, float* args)
             {
@@ -163,12 +161,10 @@ namespace ble_handlers
             }
         );
 
-        //logger::print("\n\n=============================== Started ==========================\n\n");
-
-        // Set the data status to running
+        //Set the data status to running
         data->set_status(status_defs::messages::trial_on);
 
-        // Send status update
+        //Send status update
         UARTHandler* uart_handler = UARTHandler::get_instance();
         UART_msg_t tx_msg;
         tx_msg.command = UART_command_names::update_status;
@@ -178,7 +174,8 @@ namespace ble_handlers
         uart_handler->UART_msg(tx_msg);
 
         delayMicroseconds(10);
-        // Send motor enable update
+
+        //Send motor enable update
         tx_msg.command = UART_command_names::update_motor_enable_disable;
         tx_msg.joint_id = 0;
         tx_msg.data[(uint8_t)UART_command_enums::motor_enable_disable::ENABLE_DISABLE] = 1;
@@ -186,17 +183,18 @@ namespace ble_handlers
         uart_handler->UART_msg(tx_msg);
 
         delayMicroseconds(10);
-        // Send FSR Calibration and Refinement
+
+        //Send FSR Calibration and Refinement
         tx_msg.command = UART_command_names::update_cal_fsr;
         tx_msg.len = 0;
         uart_handler->UART_msg(tx_msg);
     }
     inline static void stop(ExoData* data, BleMessage* msg)
     {
-        // Stop the trial (inverse of start)
-        // Send trial summary data (step information)
+        //Stop the trial (inverse of start) & send trial summary data (step information)
         data->for_each_joint(
-            // This is a lamda or anonymous function, see https://www.learncpp.com/cpp-tutorial/introduction-to-lambdas-anonymous-functions/
+            
+            //This is a lamda or anonymous function, see https://www.learncpp.com/cpp-tutorial/introduction-to-lambdas-anonymous-functions/
             [](JointData* j_data, float* args)
             {
                 if (j_data->is_used)
@@ -207,10 +205,10 @@ namespace ble_handlers
             }
         );
 
-        // Set the data status to off
+        //Set the data status to off
         data->set_status(status_defs::messages::trial_off);
 
-        // Send status update
+        //Send status update
         UARTHandler* uart_handler = UARTHandler::get_instance();
         UART_msg_t tx_msg;
         tx_msg.command = UART_command_names::update_status;
@@ -220,22 +218,22 @@ namespace ble_handlers
         uart_handler->UART_msg(tx_msg);
 
         delayMicroseconds(100);
-        // Send motor enable update
+
+        //Send motor enable update
         tx_msg.command = UART_command_names::update_motor_enable_disable;
         tx_msg.joint_id = 0;
         tx_msg.data[(uint8_t)UART_command_enums::motor_enable_disable::ENABLE_DISABLE] = 0;
         tx_msg.len = (uint8_t)UART_command_enums::motor_enable_disable::LENGTH;
         uart_handler->UART_msg(tx_msg);
 
-        //TODO: Reset ExoData and Exo
         data->mark = 10;
     }
     inline static void cal_trq(ExoData* data, BleMessage* msg)
     {   
-        // Raise cal_trq flag for all joints being used, (Out of context: Should send calibration info upon cal completion)
+        //Raise cal_trq flag for all joints being used, (Out of context: Should send calibration info upon cal completion)
         data->for_each_joint([](JointData* j_data, float* args) {j_data->calibrate_torque_sensor = j_data->is_used;});
 
-        // Send cal_trq
+        //Send cal_trq
         UARTHandler* uart_handler = UARTHandler::get_instance();
         UART_msg_t tx_msg;
         tx_msg.command = UART_command_names::update_cal_trq_sensor;
@@ -259,28 +257,17 @@ namespace ble_handlers
     }
     inline static void assist(ExoData* data, BleMessage* msg)
     {
-        // Change PJMC parameter to assist
-        // Need to implement PJMC
+        //Right now we are approaching defining assistance and resistance directly in the controllers via a controller specific parameter, future work may populate these functions instead
     }
     inline static void resist(ExoData* data, BleMessage* msg)
     {
-        // Change PJMC parameter to resist
-        // Need to implement PJMC
+        //Right now we are approaching defining assistance and resistance directly in the controllers via a controller specific parameter, future work may populate these functions instead
     }
     inline static void motors_on(ExoData* data, BleMessage* msg)
-    {
-        // Enable Motors, stateless (ie keep running fault detection algorithms)
-        // int count = 0;
-        // data->for_each_joint(
-        //     [&count, &(ble_handler_vars::prev_controllers)](JointData* j_data)
-        //     {
-        //         j_data->controller.controller = ble_handler_vars::prev_controllers[count];
-        //         count++;
-        //     }
-        // );
-        
+    {        
         data->for_each_joint(
-            // This is a lamda or anonymous function, see https://www.learncpp.com/cpp-tutorial/introduction-to-lambdas-anonymous-functions/
+            
+            //This is a lamda or anonymous function, see https://www.learncpp.com/cpp-tutorial/introduction-to-lambdas-anonymous-functions/
             [](JointData* j_data, float* args)
             {
                 if (j_data->is_used)
@@ -301,22 +288,10 @@ namespace ble_handlers
         
     }
     inline static void motors_off(ExoData* data, BleMessage* msg)
-    {
-        // Disable Motors, stateless (ie keep running fault detection algorithms)
-        // Chnage to stasis and save the previous controller
-        // int count = 0;
-        // data->for_each_joint(
-        //     [&count, &(ble_handler_vars::prev_controllers)](JointData* j_data)
-        //     {
-        //         ble_handler_vars::prev_controllers[count] = (uint8_t)j_data->controller.controller;
-        //         count++;
-
-        //         j_data->controller.controller = (uint8_t)config_defs::ankle_controllers::stasis;
-        //     }
-        // );
-        
+    {   
         data->for_each_joint(
-            // This is a lamda or anonymous function, see https://www.learncpp.com/cpp-tutorial/introduction-to-lambdas-anonymous-functions/
+            
+            //This is a lamda or anonymous function, see https://www.learncpp.com/cpp-tutorial/introduction-to-lambdas-anonymous-functions/
             [](JointData* j_data, float* args)
             {
                 if (j_data->is_used)
@@ -338,46 +313,60 @@ namespace ble_handlers
     }
     inline static void mark(ExoData* data, BleMessage* msg)
     {
-        // Increment mark variable (Done by sending different data on one of the real time signals, we should raise a flag or inc a var in exo_data)
+        //Increment mark variable (Done by sending different data on one of the real time signals, we should raise a flag or inc a var in exo_data)
         data->mark++;
     }
     inline static void new_trq(ExoData* data, BleMessage* msg)
     {
-         //logger::print("Ankle ID: "); logger::println((uint8_t)data->left_leg.ankle.id);
-         //logger::println("Got New Trq:");
-         //logger::print(msg->data[0]); logger::print("\t");
-         //logger::print(msg->data[1]); logger::print("\t");
-         //logger::print(msg->data[2]); logger::print("\t");
-         //logger::print(msg->data[3]); logger::print("\t\r\n");
-        // (LSP, LDSP, RSP, RDSP) Unpack message data
+        //(LSP, LDSP, RSP, RDSP) Unpack message data
         config_defs::joint_id joint_id = (config_defs::joint_id)msg->data[0];
         uint8_t controller_id = (uint8_t)msg->data[1];
         uint8_t set_num = (uint8_t)msg->data[2];
-        // Update Exo_Data controller for each joint
+        
+        //Update Exo_Data controller for each joint
         ControllerData* cont_data = NULL;
 
-        // Map the joint IDs because the GUI limits the maximum number for the message
-        joint_id = (joint_id==(config_defs::joint_id)1)?(data->left_leg.hip.id):(joint_id);
-        joint_id = (joint_id==(config_defs::joint_id)2)?(data->left_leg.knee.id):(joint_id);
-        joint_id = (joint_id==(config_defs::joint_id)3)?(data->left_leg.ankle.id):(joint_id);
-        joint_id = (joint_id==(config_defs::joint_id)4)?(data->right_leg.hip.id):(joint_id);
-        joint_id = (joint_id==(config_defs::joint_id)5)?(data->right_leg.knee.id):(joint_id);
-        joint_id = (joint_id==(config_defs::joint_id)6)?(data->right_leg.ankle.id):(joint_id);
+        //Map the joint IDs because the GUI limits the maximum number for the message
+        joint_id = (joint_id==(config_defs::joint_id)1)?(data->left_side.hip.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)2)?(data->left_side.knee.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)3)?(data->left_side.ankle.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)4)?(data->left_side.elbow.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)5)?(data->right_side.hip.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)6)?(data->right_side.knee.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)7)?(data->right_side.ankle.id):(joint_id);
+        joint_id = (joint_id==(config_defs::joint_id)8)?(data->right_side.elbow.id):(joint_id);
 
-        if (joint_id == data->left_leg.ankle.id) {
-            //logger::println("ble_handlers::new_trq() - Left Ankle");
-            cont_data = &data->left_leg.ankle.controller;
-        } else if (joint_id == data->left_leg.knee.id) {
-            cont_data = &data->left_leg.knee.controller;
-        } else if (joint_id == data->left_leg.hip.id) {
-            cont_data = &data->left_leg.hip.controller;
-        } else if (joint_id == data->right_leg.ankle.id) {
-            //logger::println("ble_handlers::new_trq() - Right Ankle");
-            cont_data = &data->right_leg.ankle.controller;
-        } else if (joint_id == data->right_leg.knee.id) {
-            cont_data = &data->right_leg.knee.controller;
-        } else if (joint_id == data->right_leg.hip.id) {
-            cont_data = &data->right_leg.hip.controller;
+        if (joint_id == data->left_side.ankle.id)
+        {
+            cont_data = &data->left_side.ankle.controller;
+        } 
+        else if (joint_id == data->left_side.knee.id) 
+        {
+            cont_data = &data->left_side.knee.controller;
+        } 
+        else if (joint_id == data->left_side.hip.id)
+        {
+            cont_data = &data->left_side.hip.controller;
+        } 
+        else if (joint_id == data->left_side.elbow.id)
+        {
+            cont_data = &data->left_side.elbow.controller;
+        }
+        else if (joint_id == data->right_side.ankle.id) 
+        {
+            cont_data = &data->right_side.ankle.controller;
+        } 
+        else if (joint_id == data->right_side.knee.id) 
+        {
+            cont_data = &data->right_side.knee.controller;
+        } 
+        else if (joint_id == data->right_side.hip.id) 
+        {
+            cont_data = &data->right_side.hip.controller;
+        }
+        else if (joint_id == data->right_side.elbow.id)
+        {
+            cont_data = &data->right_side.elbow.controller;
         }
         if (cont_data == NULL) {
             logger::println("cont_data is NULL!", LogLevel::Warn);
@@ -387,7 +376,7 @@ namespace ble_handlers
             cont_data->parameter_set = set_num;
         }
 
-        //set_controller_params((uint8_t)joint_id, controller_id, set_num, data);
+        //Set_controller_params((uint8_t)joint_id, controller_id, set_num, data);
         UARTHandler* uart_handler = UARTHandler::get_instance();
         UART_msg_t tx_msg;
         tx_msg.command = UART_command_names::update_controller_params;
@@ -397,13 +386,12 @@ namespace ble_handlers
         tx_msg.data[(uint8_t)UART_command_enums::controller_params::PARAM_START] = set_num;
         tx_msg.len = 3;
         uart_handler->UART_msg(tx_msg);
-        //logger::println("ble_handlers::new_trq() - Sent UART message");
+
         UART_msg_t_utils::print_msg(tx_msg);
     }
     inline static void new_fsr(ExoData* data, BleMessage* msg)
     {
-        // Change contact thresholds for the feet
-        // Send UART message to update FSR thresholds
+        //Change contact thresholds & Send UART message to update FSR thresholds
         UARTHandler* uart_handler = UARTHandler::get_instance();
         UART_msg_t tx_msg;
         tx_msg.command = UART_command_names::update_FSR_thesholds;
@@ -416,13 +404,14 @@ namespace ble_handlers
 
     inline static void update_param(ExoData* data, BleMessage* msg)
     {
-         //Send UART message to update parameter
-         //logger::println("ble_handlers::update_param() - Got update param message");
-         //logger::print("ble_handlers::update_param() - Joint ID: "); logger::println((uint8_t)msg->data[0]);
-         //logger::print("ble_handlers::update_param() - Controller ID: "); logger::println((uint8_t)msg->data[1]);
-         //logger::print("ble_handlers::update_param() - Param Index: "); logger::println((uint8_t)msg->data[2]);
-         //logger::print("ble_handlers::update_param() - Param Value: "); logger::println((uint8_t)msg->data[3]);
+        //Send UART message to update parameter
+        logger::println("ble_handlers::update_param() - Got update param message");
+        logger::print("ble_handlers::update_param() - Joint ID: "); logger::println((uint8_t)msg->data[0]);
+        logger::print("ble_handlers::update_param() - Controller ID: "); logger::println((uint8_t)msg->data[1]);
+        logger::print("ble_handlers::update_param() - Param Index: "); logger::println((uint8_t)msg->data[2]);
+        logger::print("ble_handlers::update_param() - Param Value: "); logger::println((uint8_t)msg->data[3]);
         logger::print("New message\n");
+
         UARTHandler* uart_handler = UARTHandler::get_instance();
         UART_msg_t tx_msg;
         tx_msg.command = UART_command_names::update_controller_param;
@@ -433,8 +422,6 @@ namespace ble_handlers
         tx_msg.len = 3;
         uart_handler->UART_msg(tx_msg);
     }
-
- 
 
 }
 

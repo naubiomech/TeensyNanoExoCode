@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#include "LegData.h"
+#include "SideData.h"
 #include <stdint.h>
 #include "ParseIni.h"
 #include "Board.h"
@@ -25,9 +25,9 @@
  * Just thought you might be wondering about the weirdness.
  */
 
-// moved status values to StatusDefs.h
+//Status values are in StatusDefs.h
 
-// Type used for the for each joint method, the function should take JointData as input and return void
+//Type used for the for each joint method, the function should take JointData as input and return void
 typedef void (*for_each_joint_function_t) (JointData*, float*); 
 
 
@@ -37,7 +37,7 @@ typedef void (*for_each_joint_function_t) (JointData*, float*);
 class ExoData 
 {
 	public:
-        ExoData(uint8_t* config_to_send); // constructor
+        ExoData(uint8_t* config_to_send); //Constructor
         
         /**
          * @brief reconfigures the the exo data if the configuration changes after constructor called.
@@ -54,25 +54,29 @@ class ExoData
         template <typename F>
         void for_each_joint(F &&func)
         {
-                func(&left_leg.hip, NULL);
-                func(&left_leg.knee, NULL);
-                func(&left_leg.ankle, NULL);
-                func(&right_leg.hip, NULL);
-                func(&right_leg.knee, NULL);
-                func(&right_leg.ankle, NULL);
+                func(&left_side.hip, NULL);
+                func(&left_side.knee, NULL);
+                func(&left_side.ankle, NULL);
+                func(&left_side.elbow, NULL);
+                func(&right_side.hip, NULL);
+                func(&right_side.knee, NULL);
+                func(&right_side.ankle, NULL);
+                func(&right_side.elbow, NULL);
         }
         template <typename F>
         void for_each_joint(F &&func, float* args)
         {
-                func(&left_leg.hip, args);
-                func(&left_leg.knee, args);
-                func(&left_leg.ankle, args);
-                func(&right_leg.hip, args);
-                func(&right_leg.knee, args);
-                func(&right_leg.ankle, args);
+                func(&left_side.hip, args);
+                func(&left_side.knee, args);
+                func(&left_side.ankle, args);
+                func(&left_side.elbow, args);
+                func(&right_side.hip, args);
+                func(&right_side.knee, args);
+                func(&right_side.ankle, args);
+                func(&right_side.elbow, args);
         }
 
-        // Returns a list of all of the joint IDs that are currently being used
+        //Returns a list of all of the joint IDs that are currently being used
         uint8_t get_used_joints(uint8_t* used_joints);
 
         /**
@@ -118,26 +122,29 @@ class ExoData
          * 
          */
         void start_pretrial_cal();
-
         
-        
-        bool sync_led_state; /**< state of the sync led */
-        bool estop;/**< state of the estop */
-        float battery_value; /**<Could be Voltage or SOC, depending on the battery type*/
-        LegData left_leg;/**< data for the left leg */
-        LegData right_leg;/**< data for the right leg */
+        bool sync_led_state;    /**< State of the sync led */
+        bool estop;             /**< State of the estop */
+        float battery_value;    /**< Could be Voltage or SOC, depending on the battery type*/
+        SideData left_side;       /**< Data for the left side */
+        SideData right_side;      /**< Data for the right side */
 
-        uint32_t mark; /**< used for timing, currently only used by the nano */
+        uint32_t mark;          /**< Used for timing, currently only used by the nano */
 
-        uint8_t* config; /**< pointer to the configuration array */
-        uint8_t config_len; /**< len of the configuration array */
+        uint8_t* config;        /**< Pointer to the configuration array */
+        uint8_t config_len;     /**< Length of the configuration array */
 
-        int error_code; /**< current error code for the system */
+        int error_code;         /**< Current error code for the system */
         int error_joint_id;
-        bool user_paused; /**< if the user has paused the system */
+        bool user_paused;       /**< If the user has paused the system */
+
+        int hip_torque_flag = 0;    /**< Flag to determine if we want to use torque sensor for that joint */
+        int knee_torque_flag = 0;   /**< Flag to determine if we want to use torque sensor for that joint */
+        int ankle_torque_flag = 0;  /**< Flag to determine if we want to use torque sensor for that joint */
+        int elbow_torque_flag = 0;  /**< Flag to determine if we want to use torque sensor for that joint */
 
         private:
-        uint16_t _status; /**< status of the system*/
+        uint16_t _status;           /**< Status of the system*/
 };
 
 #endif

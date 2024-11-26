@@ -9,11 +9,11 @@
 InclineDetector::InclineDetector(float alpha, float threshold)
 {
     #if INCLINE_DETECTOR_DEBUG
-    logger::println("InclineDetector::InclineDetector()");
-    logger::print("alpha: ");
-    logger::println(alpha);
-    logger::print("threshold: ");
-    logger::println(threshold);
+        logger::println("InclineDetector::InclineDetector()");
+        logger::print("alpha: ");
+        logger::println(alpha);
+        logger::print("threshold: ");
+        logger::println(threshold);
     #endif
 
     _alpha = alpha;
@@ -51,15 +51,14 @@ incline_state_t InclineDetector::run(float pressure)
     }
 
     #if INCLINE_DETECTOR_DEBUG
-    logger::print("Pressure: ");
-    logger::print(_smooth_demeanedPressure);
-    logger::print("\t");
-    logger::print("High: ");
-    logger::print(_threshold);
-    logger::print("\t");
-    logger::print("Low: ");
-    logger::println(-_threshold);
-
+        logger::print("Pressure: ");
+        logger::print(_smooth_demeanedPressure);
+        logger::print("\t");
+        logger::print("High: ");
+        logger::print(_threshold);
+        logger::print("\t");
+        logger::print("Low: ");
+        logger::println(-_threshold);
     #endif
 
     return _state;

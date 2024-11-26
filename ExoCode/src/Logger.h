@@ -17,7 +17,7 @@ namespace logger
     template <typename T>
     static void print(T msg, enum LogLevel level = LogLevel::Debug)
     {
-        // Only print if the local log level is lower (more important) or equal to the global log level
+        //Only print if the local log level is lower (more important) or equal to the global log level
         if (level <= logging::level) {
             Serial.print(msg);
         }

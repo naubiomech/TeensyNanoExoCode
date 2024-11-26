@@ -18,48 +18,31 @@
 #include "ParseIni.h"
 #include <stdint.h>
 
-// forward declaration
+//Forward declaration
 class ExoData;
 
-
-namespace controller_defs /**< stores the parameter indexes for different controllers */
+namespace controller_defs                   /**< Stores the parameter indexes for different controllers */
 {
     namespace zero_torque
     {
-        const uint8_t use_pid_idx = 0;
-        const uint8_t p_gain_idx = 1;
-        const uint8_t i_gain_idx = 2;
-        const uint8_t d_gain_idx = 3;
+        const uint8_t use_pid_idx = 0;              //Flag to use PID control
+        const uint8_t p_gain_idx = 1;               //Value of P Gain for PID control
+        const uint8_t i_gain_idx = 2;               //Value of I Gain for PID control
+        const uint8_t d_gain_idx = 3;               //Value of D Gain for PID control 
         const uint8_t num_parameter = 4;
-    }
-    
-    namespace stasis
-    {
-        const uint8_t num_parameter = 0;
     }
     
     namespace proportional_joint_moment
     {
-        const uint8_t stance_max_idx = 0;  // parameter for peak exo torque during stance
-        const uint8_t swing_max_idx = 1;  // parameter for peak exo torque during swing
-        const uint8_t is_assitance_idx = 2;
-        const uint8_t use_pid_idx = 3;
-        const uint8_t p_gain_idx = 4;
-        const uint8_t i_gain_idx = 5;
-        const uint8_t d_gain_idx = 6;
+        const uint8_t stance_max_idx = 0;                   //Parameter for peak exo torque during stance 
+        const uint8_t swing_max_idx = 1;                    //Parameter for peak exo torque during swing
+        const uint8_t is_assitance_idx = 2;                 //When this is 1(assistive) the system will apply the torque in the plantar flexion direction, when 0(resistive) will be in the dorsiflexion direction.
+        const uint8_t use_pid_idx = 3;                      //Flag to use PID control
+        const uint8_t p_gain_idx = 4;                       //Value of P Gain for PID control
+        const uint8_t i_gain_idx = 5;                       //Value of I Gain for PID control
+        const uint8_t d_gain_idx = 6;                       //Value of D Gain for PID control 
         const uint8_t torque_alpha_idx = 7;
         const uint8_t num_parameter = 8;
-    }
-    
-    namespace heel_toe
-    {
-        const uint8_t flexion_torque_setpoint_idx = 0;
-        const uint8_t extension_torque_setpoint_idx = 1;
-        const uint8_t use_pid_idx = 2;
-        const uint8_t p_gain_idx = 3;
-        const uint8_t i_gain_idx = 4;
-        const uint8_t d_gain_idx = 5;
-        const uint8_t num_parameter = 6;
     }
 
     namespace zhang_collins
@@ -98,41 +81,36 @@ namespace controller_defs /**< stores the parameter indexes for different contro
 
     namespace constant_torque
     {
-        const uint8_t amplitude_idx = 0;
-        const uint8_t direction_idx = 0;
-        //const uint8_t upper_idx = 0;    // amplitude in Nm
-        //const uint8_t lower_idx = 1;
-        //const uint8_t iterations_idx = 2;
-        const uint8_t num_parameter = 3;
-        ;
+        const uint8_t amplitude_idx = 0;                //Magnitude of the applied torque, in Nm
+        const uint8_t direction_idx = 1;                //Flag to flip the direction of the applied torque 
+        const uint8_t alpha_idx = 2;                    //Filtering term for exponentially wieghted moving average (EWMA) filter, used on torque sensor to cut down on noise.
+        const uint8_t use_pid_idx = 3;                  //Flag to determine whether or not PID used
+        const uint8_t p_gain_idx = 4;                   //Value of P Gain for PID control
+        const uint8_t i_gain_idx = 5;                   //Value of I Gain for PID control
+        const uint8_t d_gain_idx = 6;                   //Value of D Gain for PID control 
+        const uint8_t num_parameter = 7;
     }
 
     namespace elbow_min_max
     {
-        const uint8_t amplitude_idx = 0;    // amplitude in Nm
-        const uint8_t fsr_threshold_idx = 1;  
-		const uint8_t fsr_threshold1_idx = 2;
-        const uint8_t num_parameter = 3;
-        
-        
+        const uint8_t FLEXamplitude_idx = 0;            // Flexion Torque setpoint in Nm
+        const uint8_t DigitFSR_threshold_idx = 1;       // Grip Upper Threshhold
+        const uint8_t PalmFSR_threshold_idx = 2;        // Palm Upper Threshold
+        const uint8_t DigitFSR_LOWthreshold_idx = 3;    // Grip lower Threshhold
+        const uint8_t PalmFSR_LOWthreshold_idx = 4;     // Palm lower Threshold
+        const uint8_t CaliRequest_idx = 5;              // Calibration Request - 1 = factory recalibrate
+        const uint8_t TrqProfile_idx = 6;               // Toggles between torque profiles, 1 = spring torque, 0 = constant torque
+        const uint8_t P_gain_idx = 7;                   // Proportion gain for closed loop torque control
+        const uint8_t I_gain_idx = 8;                   // Integral gain
+        const uint8_t D_gain_idx = 9;                   // Differntial gain
+        const uint8_t TorqueLimit_idx = 10;             // Setpoint Limiter - max pos/neg amplitude - default 16
+        const uint8_t SpringPkTorque_idx = 11;          // Sets the maximum spring torque (Nm)
+        const uint8_t EXTamplitude_idx = 12;            // Extension Torque Setpoint in Nm
+        const uint8_t FiltStrength_idx = 13;            // Setpoint Filter Strength
+        const uint8_t num_parameter = 14;               // Number of unique commands      
     }
 
-    namespace ptb_general 
-    {
-        const uint8_t ptb_mode_idx = 0;
-        const uint8_t ptb_settings_1_idx = 1;
-        const uint8_t ptb_settings_2_idx = 2;
-        const uint8_t ptb_settings_3_idx = 3;
-        const uint8_t ptb_settings_4_idx = 4;
-        const uint8_t use_pid_idx = 5;
-        const uint8_t p_gain_idx = 6;
-        const uint8_t i_gain_idx = 7;
-        const uint8_t d_gain_idx = 8;
-		const uint8_t ptb_settings_9_idx = 9;
-        const uint8_t num_parameter = 10;
-    }
-
-    namespace propulsive_assistive 
+    namespace trec 
     {
         const uint8_t plantar_scaling = 0;
         const uint8_t dorsi_scaling = 1;
@@ -144,14 +122,7 @@ namespace controller_defs /**< stores the parameter indexes for different contro
         const uint8_t kp = 7;
         const uint8_t kd = 8;
 		const uint8_t turn_on_peak_limiter = 9;
-		const uint8_t step_response_mode = 10;
-		const uint8_t ki = 11;
-		const uint8_t do_use_servo = 12;
-		const uint8_t fsr_servo_threshold = 13;
-		const uint8_t servo_origin = 14;
-		const uint8_t servo_terminal = 15;
-		const uint8_t maxon_outOfOffice_itr = 16;
-        const uint8_t num_parameter = 17;
+        const uint8_t num_parameter = 10;
     }
 	
 	namespace calibr_manager
@@ -160,41 +131,59 @@ namespace controller_defs /**< stores the parameter indexes for different contro
 		const uint8_t num_parameter = 1;
 	}
 
-    namespace hip_resist
-    {
-        // parameters for maximum exo extension and flexion torque.
-        const uint8_t flexion_setpoint_idx = 0;
-        const uint8_t extension_setpoint_idx = 1;
-        const uint8_t direction_idx = 2;
-        const uint8_t num_parameter = 3;
-    }
-
     namespace chirp
     {
-        // Parameters for Sine Wave Used in Chirp Testing
-        const uint8_t amplitude_idx = 0;
-        const uint8_t start_frequency_idx = 1;
-        const uint8_t end_frequency_idx = 2;
-        const uint8_t duration_idx = 3;
-        const uint8_t yshift_idx = 4;
-        const uint8_t pid_flag_idx = 5;
-        const uint8_t p_gain_idx = 6;
-        const uint8_t i_gain_idx = 7;
-        const uint8_t d_gain_idx = 8;
+        //Parameters for Sine Wave Used in Chirp Testing
+        const uint8_t amplitude_idx = 0;                        //Amplitude, in Nm, of the torque sine wave
+        const uint8_t start_frequency_idx = 1;                  //Starting frequency for the chirp  
+        const uint8_t end_frequency_idx = 2;                    //Ending frequency for the chirp
+        const uint8_t duration_idx = 3;                         //The duration that you want the chirp to be applied
+        const uint8_t yshift_idx = 4;                           //Shifts the center of the chirp if you want it to be something other than zero
+        const uint8_t pid_flag_idx = 5;                         //Flag to determine whether or not PID used
+        const uint8_t p_gain_idx = 6;                           //Value of P Gain for PID control
+        const uint8_t i_gain_idx = 7;                           //Value of I Gain for PID control
+        const uint8_t d_gain_idx = 8;                           //Value of D Gain for PID control
         const uint8_t num_parameter = 9;
     }
 
     namespace step
     {
-        // Parameters for step torque used in max torque capacity testing
-        const uint8_t amplitude_idx = 0;
-        const uint8_t duration_idx = 1;
-        const uint8_t repetitions_idx = 2;
-        const uint8_t spacing_idx = 3;
-        const uint8_t num_parameter = 4;
+        //Parameters for step torque used in max torque capacity testing
+        const uint8_t amplitude_idx = 0;                        //Magnitude of the applied torque in Nm             
+        const uint8_t duration_idx = 1;                         //Duration of the applied torque
+        const uint8_t repetitions_idx = 2;                      //Number of times the torque is applied
+        const uint8_t spacing_idx = 3;                          //Time between each application of torque
+        const uint8_t pid_flag_idx = 4;                         //Flag to determine whether or not PID used
+        const uint8_t p_gain_idx = 5;                           //Value of P Gain for PID control
+        const uint8_t i_gain_idx = 6;                           //Value of I Gain for PID control
+        const uint8_t d_gain_idx = 7;                           //Value of D Gain for PID control
+        const uint8_t alpha_idx = 8;                            //Filtering term for exponentially wieghted moving average (EWMA) filter, used on torque sensor to cut down on noise.
+        const uint8_t num_parameter = 9;
+    }
+	
+	namespace spv2 
+    {
+        const uint8_t plantar_scaling = 0;
+        const uint8_t dorsi_scaling = 1;
+        const uint8_t timing_threshold = 2;//toe FSR threshold (unit: %)
+        const uint8_t spring_stiffness = 3;//not used
+        const uint8_t neutral_angle = 4;//not used
+        const uint8_t damping = 5;//not used
+        const uint8_t propulsive_gain = 6;//not used
+        const uint8_t kp = 7;
+        const uint8_t kd = 8;
+		const uint8_t turn_on_peak_limiter = 9;//not used
+		const uint8_t step_response_mode = 10;//not used
+		const uint8_t ki = 11;
+		const uint8_t do_use_servo = 12;
+		const uint8_t fsr_servo_threshold = 13;
+		const uint8_t servo_origin = 14;
+		const uint8_t servo_terminal = 15;
+		const uint8_t maxon_outOfOffice_itr = 16;//not used
+        const uint8_t num_parameter = 17;
     }
 
-    const uint8_t max_parameters = propulsive_assistive::num_parameter;//user_defined::num_parameter;  // this should be the largest of all the num_parameters
+    const uint8_t max_parameters = spv2::num_parameter;   //This should be the largest of all the num_parameters
 }
 
 /**
@@ -220,37 +209,38 @@ class ControllerData {
         uint8_t get_parameter_length();
         
         
-        uint8_t controller; /**< id of the current controller */
-        config_defs::JointType joint; /**< id of the current joint */
-        // These were made floats to dummy proof the math for people but will double the data needed to be sent over SPI, we double the speed of the SPI if we move to fixed point.
-        float setpoint;  /**< controller setpoint, basically the motor command. */
-        float ff_setpoint; /**< feed forwared setpoint, only updated in closed loop controllers */
+        uint8_t controller;                                 /**< Id of the current controller */
+        config_defs::JointType joint;                       /**< Id of the current joint */
+
+        float setpoint;                                     /**< Controller setpoint, basically the motor command. */
+        float ff_setpoint;                                  /**< Feed forwared setpoint, only updated in closed loop controllers */
         float parameters[controller_defs::max_parameters];  /**< Parameter list for the controller see the controller_defs namespace for the specific controller. */
-        uint8_t parameter_set; /**< temporary value used to store the parameter set while we are pulling from the sd card. */
+        uint8_t parameter_set;                              /**< Temporary value used to store the parameter set while we are pulling from the sd card. */
 
-        float filtered_torque_reading; /**< filtered torque reading, used for filtering torque signal */
-        float filtered_cmd; /**< filtered command, used for filtering motor commands */
-        float filtered_setpoint = 0; /**< filtered setpoint for the controller */
-        float filtered_toe_fsr; /**< filtered fsr reading to smooth out the BTI FSR reading with the new FSR equations */
-		
-        // Variables for Auto Kf in the PID Controller
-        float kf = 1; /**< gain for the controller */
-        float prev_max_measured = 0; /**< previous max measured value */
-        float prev_max_setpoint = 0; /**< previous max setpoint value */
-        float max_measured = 0; /**< max measured value */
-        float max_setpoint = 0; /**< max setpoint value */
+        float filtered_torque_reading;                      /**< Filtered torque reading, used for filtering torque signal */
+        float filtered_cmd;                                 /**< Filtered command, used for filtering motor commands */
+        float filtered_setpoint;                            /**< Filtered setpoint for the controller */
+        
+        //Variables for Auto Kf in the PID Controller
+        float kf = 1;                                       /**< Gain for the controller */
+        float prev_max_measured = 0;                        /**< Previous max measured value */
+        float prev_max_setpoint = 0;                        /**< Previous max setpoint value */
+        float max_measured = 0;                             /**< Max measured value */
+        float max_setpoint = 0;                             /**< Max setpoint value */
 
-        // Variables for GAsP Controller
-        float reference_angle = 0; /**< reference angle for the spring term */
-        float reference_angle_offset = 0; /**< offset for the reference angle */
-        bool reference_angle_updated = false; /**< flag to indicate if the reference angle was updated this step */
-        float filtered_squelched_supportive_term = 0; /**< low pass on final spring output */
-        float neutral_angle = 0.0f; /**< neutral angle for the spring term */
-        bool prev_calibrate_trq_sensor = false; /**< previous value of the calibrate torque sensor flag */
-        const float cal_neutral_angle_alpha = 0.01f; /**< alpha for the low pass on the neutral angle calibration */
-        float level_entrance_angle = 0.0f; /**< level entrance angle for the spring term */
-        bool prev_calibrate_level_entrance = false; /**< previous value of the calibrate level entrance flag */
-        const float cal_level_entrance_angle_alpha = 0.01f; /**< alpha for the low pass on the level entrance calibration */
+        /* Controller Specific Variables That You Want To Plot. */
+
+        //Variables for TREC Controller (MOVE TO Controller.h)
+        float reference_angle = 0;                              /**< Reference angle for the spring term */
+        float reference_angle_offset = 0;                       /**< Offset for the reference angle */
+        bool reference_angle_updated = false;                   /**< Flag to indicate if the reference angle was updated this step */
+        float filtered_squelched_supportive_term = 0;           /**< Low pass on final spring output */
+        float neutral_angle = 0.0f;                             /**< Neutral angle for the spring term */
+        bool prev_calibrate_trq_sensor = false;                 /**< Previous value of the calibrate torque sensor flag */
+        const float cal_neutral_angle_alpha = 0.01f;            /**< Alpha for the low pass on the neutral angle calibration */
+        float level_entrance_angle = 0.0f;                      /**< Level entrance angle for the spring term */
+        bool prev_calibrate_level_entrance = false;             /**< Previous value of the calibrate level entrance flag */
+        const float cal_level_entrance_angle_alpha = 0.01f;     /**< Alpha for the low pass on the level entrance calibration */
 		float stateless_pjmc_term = 0;
 		float toeFsrThreshold = 0.2f;
 		bool wait4HiHeelFSR = false;
@@ -273,81 +263,28 @@ class ControllerData {
 		bool wasStance = false;
 		float prevMaxPjmcSpringDamper = 0;
 		float cmd_2nd = 0;
-		float cmd_1st = 0;
-		float maxMaxonCMD = 0;
-		bool maxonWasOff = true;
-		bool maxonError = false;
-		uint16_t maxonErrorCount = 0;
-		bool maxonManualTrigger = false;
-		uint8_t maxonManualItrCount = 0;
-		float gasp_time_current = 0;
-		float gasp_time_initial = 0;
-		bool gasp_step_started = false;
-		uint16_t maxonResetItrCount = 0;
-		bool maxonJustReset = false;
-		bool gasp_error_started = false;
-		float gasp_error_start_time = 0;
-		uint8_t gasp_motor_reset_plot = 0;
-		bool servo_attached = false;
-		float moveStartTime = 0;
-		bool servoUphill = true;
-		//Maxon servo interrupter
-		int plotting_scalar = 1;
-		unsigned long servo_departure_time;
-		bool servo_did_go_down = true;
-		bool servo_get_ready = false;
-		
+		float cmd_1st = 0;	
 
-        // Variables for the ElbowMinMax Controller
-        float fsr_toe_min_elbow = 0;
-        float fsr_toe_max_elbow = 0;
-        float fsr_heel_min_elbow = 0;
-        float fsr_heel_max_elbow = 0;
-        float fsr_toe_sum_elbow = 0;
-        float fsr_heel_sum_elbow = 0;
-        int i_elbow = 0;
-        int fsr_toe_array_elbow [50] = {0};
-        int fsr_heel_array_elbow [50] = {0};
-        bool is_first_run_elbow = true;
-        float output_limit_elbow = 5;
-        float fsr_min_max_elbow = 0;
-        bool is_first_fsr_reading_elbow = true;
-        float fsr_toe_previous_elbow = 0;
-        float fsr_heel_previous_elbow = 0;
-		float elbow_cmd = 0;
-
-        // Variables for the Generalizable Perturbation Controller (ptbGeneral)
-        bool isPerturbing = false;
-        bool ptbDetermined = false;
-        float time_current_ptb = 0;
-        float time_previous_ptb = 0;
-        //uint8_t ptbHead = 0;
-        //uint8_t ptbTail = 0;
-        //uint8_t iPercentGait= 0;
-        bool ptbApplied = false;
-        bool ptbRandomIsFirstRun = true;
-        //bool ptbWait4ANewStep = true;
-        //uint8_t ptbFrequency = 0;
-        uint16_t ptb_iStep = 0;
-		//uint16_t ptb_totalSteps = 0;
-		bool ptb_newIsSwing = true;
-		bool ptb_oldIsSwing = true;
-		//uint16_t fsrThreshold = 0.3;
-		uint8_t ptb_frequency = 0;
-		uint16_t ptb_iiStep = 0;
-		uint16_t ptb_setpoint = 0;
-		bool ptb_fsrGotHigh = false;
+        //Variables for the ElbowMinMax Controller
+        float FlexSense;
+        float ExtenseSense;
 		
-		// Variables for the Calibration Manger "Controller"
+		//Variables for the Calibration Manger "Controller"
 		bool calibrComplete = false;
 		uint16_t iCalibr = 0;
 		int PIDMLTPLR = 0;
 		bool calibrStart = false;
 		float calibrSum = 0;
-
 		
-		// Variables for the Zhang-Collins Controller
+		//Variables for the Zhang-Collins Controller
 		float previous_cmd = 0;
+		
+		//Maxon servo interrupter
+		int plotting_scalar = 1;
+		//SPV2 parameters
+		unsigned long servo_departure_time;
+		bool servo_did_go_down = true;
+		bool servo_get_ready = false;
 };      
 
 #endif

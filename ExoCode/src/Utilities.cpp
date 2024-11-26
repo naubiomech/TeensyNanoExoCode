@@ -9,9 +9,8 @@ namespace utils
 {
     bool get_is_left(config_defs::joint_id id)
     {
-        return get_is_left((uint8_t) id);//((uint8_t)id & (uint8_t)config_defs::joint_id::left) == (uint8_t)config_defs::joint_id::left;
+        return get_is_left((uint8_t) id);
     };
-     
     
     bool get_is_left(uint8_t id)
     {
@@ -20,12 +19,12 @@ namespace utils
 
     uint8_t get_joint_type(config_defs::joint_id id)
     {
-        return get_joint_type((uint8_t) id);//(uint8_t)id & (~(uint8_t)config_defs::joint_id::left & ~(uint8_t)config_defs::joint_id::right);  // return the joint id with the left/right indicators masked out.  
+        return get_joint_type((uint8_t) id);
     };
     
     uint8_t get_joint_type(uint8_t id)
     {
-        return id & (~(uint8_t)config_defs::joint_id::left & ~(uint8_t)config_defs::joint_id::right);  // return the joint id with the left/right indicators masked out.  
+        return id & (~(uint8_t)config_defs::joint_id::left & ~(uint8_t)config_defs::joint_id::right);  //Return the joint id with the left/right indicators masked out.  
     };
     
     bool schmitt_trigger(float value, bool is_high, float lower_threshold, float upper_threshold)
@@ -42,45 +41,40 @@ namespace utils
         return trigger;
     }
     
-    
-    
-     // TODO: Add template so works with ints, floats, whatever.
+     //TODO: Add template so works with ints, floats, whatever.
      int rate_limit(int setpoint, int last_value, int* last_time, int rate_per_ms)
      {
         int time = millis();
         int step = (time - *last_time) * rate_per_ms;
         *last_time = time;
         
-        return min(setpoint, last_value + step);
-        
-        
-        
+        return min(setpoint, last_value + step); 
      };
      
     uint8_t update_bit(uint8_t original, bool val, uint8_t loc)
     {
-        uint8_t keep_bit = ~(1<<loc);  //set a mask for the bits we aren't setting 
+        uint8_t keep_bit = ~(1<<loc);  //Set a mask for the bits we aren't setting 
         
         return (original & keep_bit) | (val<<loc);
     };
     
     uint16_t update_bit(uint16_t original, bool val, uint8_t loc)
     {
-        uint16_t keep_bit = ~(1<<loc);  //set a mask for the bits we aren't setting 
+        uint16_t keep_bit = ~(1<<loc);  //Set a mask for the bits we aren't setting 
         
         return (original & keep_bit) | (val<<loc);
     };
     
     bool get_bit(uint8_t original, uint8_t loc)
     {
-        uint8_t bit_to_check = (1<<loc);  //set a mask for the bits we are checking
+        uint8_t bit_to_check = (1<<loc);  //Set a mask for the bits we are checking
         
         return (original & bit_to_check) == bit_to_check;
     };
     
     bool get_bit(uint16_t original, uint8_t loc)
     {
-        uint8_t bit_to_check = (1<<loc);  //set a mask for the bits we are checking
+        uint8_t bit_to_check = (1<<loc);  //Set a mask for the bits we are checking
         
         return (original & bit_to_check) == bit_to_check;
     };
@@ -117,7 +111,7 @@ namespace utils
     }
 
     /*
-     * given and integer, return the number of characters in it
+     * given an integer, return the number of characters in it
      */
     int get_char_length(int ofInt)
     {
@@ -125,9 +119,11 @@ namespace utils
         int localInt = ofInt;
         if (localInt < 0) {
             len += 1;
+            
             //Quick abs(x)
             localInt = ((localInt < 0) ? -1 * localInt : localInt);
         }
+
         //Faster than loop
         if (localInt < 10) {
             len += 1;
@@ -183,12 +179,12 @@ namespace utils
         FloatByteUnion val;
         switch (sizeof(float))
         {
-            case 4: // 32 bit
-                val.f = 1.401298464324817e-45;  // only works for 32 bit floats, arduino doesn't handle -0.
+            case 4: //32 bit
+                val.f = 1.401298464324817e-45;  //Only works for 32 bit floats, arduino doesn't handle -0.
                 return val.b[0] == 0x01;
                 break;
-            case 8: // 64 bit
-                val.f = 4.94065645841246544176568792868E-324;  // only works for 64 bit floats, arduino doesn't handle -0.
+            case 8: //64 bit
+                val.f = 4.94065645841246544176568792868E-324;  //Only works for 64 bit floats, arduino doesn't handle -0.
                 return val.b[0] == 0x01;
                 break;
             default:
@@ -228,7 +224,7 @@ namespace utils
         int idx;
         // logger::println(bytes_to_convert[0],HEX);
         
-        // flip the idx if not little endian
+        //Flip the idx if not little endian
         for(uint8_t i = 0; i<sizeof(float); i++)
         {
             if (is_little_endian())
@@ -246,7 +242,6 @@ namespace utils
         
         *converted_float = val.f;
         // logger::println(*converted_float);
-        
          
         return;
     }
@@ -281,7 +276,7 @@ namespace utils
         int idx;
         // logger::println(bytes_to_convert[0],HEX);
         
-        // flip the idx if not little endian
+        //Flip the idx if not little endian
         for(uint8_t i = 0; i<sizeof(short int); i++)
         {
             if (is_little_endian())
@@ -299,13 +294,10 @@ namespace utils
         
         *converted_val = ((float)val.i/factor);
         // logger::println(*converted_float);
-        
          
         return;
     }
     
-   
-
     /* Exponentially weighted moving average filter. Takes in a new value, the current filtered value, and 
      * a filter parameter (alpha). The filter weights the new input. See the link below for more
      * information on this filter. 
@@ -332,7 +324,6 @@ namespace utils
         return val;
     }
 
-
     void spin_on_error_with(String message)
     {
         for (;;)
@@ -350,7 +341,8 @@ namespace utils
     std::pair<float, float> online_std_dev(std::queue<float> set)
     {
         std::queue<float> set_copy = set;
-        // calculate the std dev
+        
+        //Calculate the std dev
         float mean = 0;
         float M2 = 0;
         float delta = 0;
