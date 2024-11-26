@@ -221,10 +221,12 @@ int _Controller::_servo_runner(uint8_t servo_pin, uint8_t speed_level, uint8_t a
 		myservo.write(pos);
 		if (pos1<pos2) {
 		pos += 3;
+		pos = constrain(pos, pos1, pos2);
 		isGoingUp = true;
 		}
 		else if (pos1>pos2) {
 		pos -= 3;
+		pos = constrain(pos, pos2, pos1);
 		isGoingUp = false;
 		}
 		else {
@@ -789,6 +791,11 @@ float PropulsiveAssistive::calc_motor_cmd()
 ////Turn of the motor////
 	//When do we turn the motor OFF?
 	if (!_leg_data->is_left) {
+		//limit post-PID motor command for dorsiflexion torque
+		if (cmd_ff >= 0) {
+			cmd = constrain(cmd, -300, 300);
+		}
+		
 		//if ((cmd_ff<_controller_data->parameters[controller_defs::propulsive_assistive::dorsi_scaling])&&((_controller_data->filtered_torque_reading - cmd_ff) < 0)) {
 		if ((servo_switch) && (percent_grf_heel > servo_fsr_threshold) && (_controller_data->filtered_torque_reading - cmd_ff) < 0){
 			cmd = _pid(0, 0, 0, 0, 0);//reset the PID error sum by sending a 0 I gain
