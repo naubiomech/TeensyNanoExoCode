@@ -747,14 +747,14 @@ float PropulsiveAssistive::calc_motor_cmd()
 			
 			// Serial.print("\nInitializing...   |  Heel FSR: ");
 			// Serial.print(analogRead(A3));
-			servoOutput = _servo_runner(27, 0, servo_target, servo_home);
+			servoOutput = _servo_runner(27, 3, servo_target, servo_home);
 		}
 
 		
 	}
 	else {
 		if (!servo_switch) {
-			servoOutput = _servo_runner(27, 0, servo_target, servo_home);
+			servoOutput = _servo_runner(27, 3, servo_target, servo_home);
 		}
 		if (exo_status == status_defs::messages::fsr_refinement) {
 			if (!_leg_data->is_left) {
@@ -775,7 +775,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 				
 				if (_controller_data->servo_get_ready){
 					if (millis() - _controller_data->servo_departure_time < 200) {
-						servoOutput = _servo_runner(27, 0, servo_home, servo_target);//servo goes to the target position (DOWN)
+						servoOutput = _servo_runner(27, 3, servo_home, servo_target);//servo goes to the target position (DOWN)
 						_controller_data->servo_did_go_down = true;
 					}
 					else {	
@@ -783,7 +783,7 @@ float PropulsiveAssistive::calc_motor_cmd()
 					}
 				}
 				else {
-					servoOutput = _servo_runner(27, 0, servo_target, servo_home);//servo goes back to the home position (UP)
+					servoOutput = _servo_runner(27, 3, servo_target, servo_home);//servo goes back to the home position (UP)
 				}
 			}
 		}	
