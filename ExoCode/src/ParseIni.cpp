@@ -408,6 +408,38 @@
         get_section_key(ini, temp_exo_name, "rightElbowRoM", buffer, buffer_len);
         data.right_elbow_RoM = atof(buffer);
         config_to_send[config_defs::right_elbow_RoM_idx] = data.right_elbow_RoM;
+		
+		get_section_key(ini, temp_exo_name, "leftHipTorqueOffset", buffer, buffer_len);
+		data.left_hip_torque_offset = atof(buffer);
+		config_to_send[config_defs::left_hip_torque_offset_idx] =  data.left_hip_torque_offset;
+		
+		get_section_key(ini, temp_exo_name, "rightHipTorqueOffset", buffer, buffer_len);
+		data.right_hip_torque_offset = atof(buffer);
+		config_to_send[config_defs::right_hip_torque_offset_idx] =  data.right_hip_torque_offset;
+		
+		get_section_key(ini, temp_exo_name, "leftKneeTorqueOffset", buffer, buffer_len);
+		data.left_knee_torque_offset = atof(buffer);
+		config_to_send[config_defs::left_knee_torque_offset_idx] =  data.left_knee_torque_offset;
+		
+		get_section_key(ini, temp_exo_name, "rightKneeTorqueOffset", buffer, buffer_len);
+		data.right_knee_torque_offset = atof(buffer);
+		config_to_send[config_defs::right_knee_torque_offset_idx] =  data.right_knee_torque_offset;
+		
+		get_section_key(ini, temp_exo_name, "leftAnkleTorqueOffset", buffer, buffer_len);
+		data.left_ankle_torque_offset = atof(buffer);
+		config_to_send[config_defs::left_ankle_torque_offset_idx] =  data.left_ankle_torque_offset;
+		
+		get_section_key(ini, temp_exo_name, "rightAnkleTorqueOffset", buffer, buffer_len);
+		data.right_ankle_torque_offset = atof(buffer);
+		config_to_send[config_defs::right_ankle_torque_offset_idx] =  data.right_ankle_torque_offset;
+		
+		get_section_key(ini, temp_exo_name, "leftElbowTorqueOffset", buffer, buffer_len);
+		data.left_elbow_torque_offset = atof(buffer);
+		config_to_send[config_defs::left_elbow_torque_offset_idx] =  data.left_elbow_torque_offset;
+		
+		get_section_key(ini, temp_exo_name, "rightElbowTorqueOffset", buffer, buffer_len);
+		data.right_elbow_torque_offset = atof(buffer);
+		config_to_send[config_defs::right_elbow_torque_offset_idx] =  data.right_elbow_torque_offset;
     }
 
     /*

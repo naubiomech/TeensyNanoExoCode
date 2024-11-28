@@ -263,6 +263,15 @@ namespace config_defs
 	static const int right_ankle_RoM_idx = 38;
     static const int left_elbow_RoM_idx = 39;
     static const int right_elbow_RoM_idx = 40;
+	
+	static const int left_hip_torque_offset_idx = 41;
+	static const int right_hip_torque_offset_idx = 42;
+	static const int left_knee_torque_offset_idx = 43;
+	static const int right_knee_torque_offset_idx = 44;
+	static const int left_ankle_torque_offset_idx = 45;
+	static const int right_ankle_torque_offset_idx = 46;
+	static const int left_elbow_torque_offset_idx = 47;
+	static const int right_elbow_torque_offset_idx = 48;
 }
 
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41) 
@@ -529,6 +538,15 @@ namespace config_defs
 		float right_ankle_RoM;
         float left_elbow_RoM;
         float right_elbow_RoM;
+		
+		float left_hip_torque_offset;
+		float right_hip_torque_offset;
+		float left_knee_torque_offset;
+		float right_knee_torque_offset;
+		float left_ankle_torque_offset;
+		float right_ankle_torque_offset;
+		float left_elbow_torque_offset;
+		float right_elbow_torque_offset;
 		
     };
 #endif

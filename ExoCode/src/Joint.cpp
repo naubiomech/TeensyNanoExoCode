@@ -74,7 +74,9 @@ void _Joint::read_data()
     
     _joint_data->position = _joint_data->motor.p / _joint_data->motor.gearing;
     _joint_data->velocity = _joint_data->motor.v / _joint_data->motor.gearing;
-
+	
+	_joint_data->torque_offset_reading = _torque_sensor.readOffset();
+	_joint_data->torque_reading_microSD = (_joint_data->flip_direction ? -1.0 : 1.0) * _torque_sensor.read_microSD(_joint_data->torque_offset / 100);
 };
 
 

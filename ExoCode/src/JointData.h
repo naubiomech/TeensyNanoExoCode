@@ -46,7 +46,7 @@ class JointData {
         ControllerData controller;      /**< Data for the controller attached to the joint */
         float torque_reading;           /**< Calibrated reading from the torque sensor */ 
         bool is_left;                   /**< If the leg is left */
-        bool flip_direction;            /**< If true invert the current to the motor and the position/velocity readings */
+        bool flip_direction;            /**< If true, invert the sign of the torque readings for the current joint (for example, left ankle) */
         bool is_used;                   /**< Stores if the joint is used, joint is skipped if it is not used */
         bool calibrate_torque_sensor;   /**< Flag for if we should calibrate the torque sensor. */ 
         bool calibrate_angle_sensor;    /**< Flag for if we should calibrate the angle sensor. */
@@ -62,6 +62,10 @@ class JointData {
         const float joint_velocity_alpha = 0.05f;
 		const float joint_RoM;                      /**< Joint Range of Motion */
 		bool do_flip_angle;                         /**< If true invert the angle */
+
+		float torque_reading_microSD;				/**< torque reading based on the stored offset on the SD card */
+		const float torque_offset;					/**< torque offset pulled from the SD card for the current torque sensor */
+		float torque_offset_reading;				/**< true torque offset for the current torque sensor; note that the true offset may change */
 
         //Torque tracking check
         float torque_output_alpha = 0.2;    /**< Low pass to describe the lag of the low level controller relative to setpoint. */
