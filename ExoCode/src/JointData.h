@@ -32,7 +32,7 @@ class ExoData;
  */
 class JointData {
 	public:
-        JointData(config_defs::joint_id id, uint8_t* config_to_send, float joint_RoM, bool flip_ankle_angle);
+        JointData(config_defs::joint_id id, uint8_t* config_to_send, float joint_RoM, bool flip_ankle_angle, float torque_offset);
         
         /**
          * @brief reconfigures the the joint data if the configuration changes after constructor called.

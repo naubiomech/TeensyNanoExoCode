@@ -75,8 +75,17 @@ void _Joint::read_data()
     _joint_data->position = _joint_data->motor.p / _joint_data->motor.gearing;
     _joint_data->velocity = _joint_data->motor.v / _joint_data->motor.gearing;
 	
+	//Read the true torque sensor offset
 	_joint_data->torque_offset_reading = _torque_sensor.readOffset();
+	
+	//Return calculated torque reading based on the offset pulled from the SD Card
 	_joint_data->torque_reading_microSD = (_joint_data->flip_direction ? -1.0 : 1.0) * _torque_sensor.read_microSD(_joint_data->torque_offset / 100);
+	
+	//To bypass the torque calibration process at the beginning of each trial, modify the torque offset placeholder "255" on the SD card
+	//Example: If the true offset is 1.19, use 119; if the true offset is 0.95, use 95.
+	if (_joint_data->torque_offset != 255) {
+		_joint_data->torque_reading = _joint_data->torque_reading_microSD;
+	}
 };
 
 

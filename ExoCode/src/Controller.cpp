@@ -1319,6 +1319,10 @@ float CalibrManager::calc_motor_cmd()//The calibration manager "controller" is a
             cmd = 3.5;
             Serial.print("  |  Left cmd: ");
             Serial.print(cmd);
+			Serial.print("  |  Left microSD TRQ: ");
+			Serial.print(_joint_data->torque_reading_microSD);
+			Serial.print("  |  Left TRQ offset: ");
+			Serial.print(_joint_data->torque_offset_reading);
         }
         else
         {
@@ -1329,6 +1333,10 @@ float CalibrManager::calc_motor_cmd()//The calibration manager "controller" is a
             cmd = 3.5;
             Serial.print("  |  Right cmd: ");
             Serial.print(cmd);
+			Serial.print("  |  Right microSD TRQ: ");
+			Serial.print(_joint_data->torque_reading_microSD);
+			Serial.print("  |  Right TRQ offset: ");
+			Serial.print(_joint_data->torque_offset_reading);
             Serial.print("  |  doToeRefinement: ");
             Serial.print(String(_side_data->do_calibration_refinement_toe_fsr));
             Serial.print("  |  Exo status: ");
