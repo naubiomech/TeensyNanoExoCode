@@ -529,8 +529,8 @@ void MaxonMotor::transaction(float torque)
 		else {//reset the motor error detect function, in case of a user pause during a motor error event
 			maxon_manager(false);
 		}
-		Serial.print("\nRight leg MaxonMotor::transaction(float torque)  |  torque = ");
-		Serial.print(torque);
+		// Serial.print("\nRight leg MaxonMotor::transaction(float torque)  |  torque = ");
+		// Serial.print(torque);
 	}
 };
 
@@ -645,6 +645,7 @@ void MaxonMotor::maxon_manager(bool manager_active) {
 			if (millis() - zen_millis >= 30) {//this will run 20 iterations after the following one
 				do_scan4maxon_err = true;//do continue to scan for motor error
 				maxon_counter_active = false;
+				_motor_data->maxon_plotting_scalar = -1 * _motor_data->maxon_plotting_scalar;
 			}
 			else if (millis() - zen_millis >= 10) {//this will run 8 iterations after maxon_counter_active is set to TRUE
 				enable(true);//send enable motor command

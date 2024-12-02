@@ -169,7 +169,7 @@ namespace config_defs
 		calibr_manager = 8,
         chirp = 9,
         step = 10,
-		spv2 = 11,
+		spv2 = 11,//controller ID
     };
 
     enum class elbow_controllers : uint8_t

@@ -1307,16 +1307,24 @@ float CalibrManager::calc_motor_cmd()//The calibration manager "controller" is a
         (exo_status == status_defs::messages::fsr_calibration) ||
         (exo_status == status_defs::messages::fsr_refinement);
 	
+	Serial.print("\nExo status: ");
+	Serial.print(String(exo_status));
+	Serial.print("  |  doToeRefinement: ");
+	Serial.print(String(_side_data->do_calibration_refinement_toe_fsr));
+	
     if (active_trial)
     {
         if (_joint_data->is_left)
         {
-            Serial.print("\nLeft angle: ");
+            Serial.print("  |  Left angle: ");
             Serial.print(_side_data->ankle.joint_position);
             Serial.print("  |  Left torque: ");
             Serial.print(_joint_data->torque_reading);
-            cmd = _controller_data->parameters[controller_defs::calibr_manager::calibr_cmd];
+            //cmd = _controller_data->parameters[controller_defs::calibr_manager::calibr_cmd];
             cmd = 3.5;
+			if (_joint_data->motor.motor_type == (uint8_t)config_defs::motor::MaxonMotor) {
+				cmd = 100;//The range of PWM motor control signals differ from that of CAN motors
+			}
             Serial.print("  |  Left cmd: ");
             Serial.print(cmd);
 			Serial.print("  |  Left microSD TRQ: ");
@@ -1331,17 +1339,15 @@ float CalibrManager::calc_motor_cmd()//The calibration manager "controller" is a
             Serial.print("  |  Right torque: ");
             Serial.print(_joint_data->torque_reading);
             cmd = 3.5;
+			if (_joint_data->motor.motor_type == (uint8_t)config_defs::motor::MaxonMotor) {
+				cmd = 100;//The range of PWM motor control signals differ from that of CAN motors
+			}
             Serial.print("  |  Right cmd: ");
             Serial.print(cmd);
 			Serial.print("  |  Right microSD TRQ: ");
 			Serial.print(_joint_data->torque_reading_microSD);
 			Serial.print("  |  Right TRQ offset: ");
 			Serial.print(_joint_data->torque_offset_reading);
-            Serial.print("  |  doToeRefinement: ");
-            Serial.print(String(_side_data->do_calibration_refinement_toe_fsr));
-            Serial.print("  |  Exo status: ");
-            uint16_t exo_status = _data->get_status();
-            Serial.print(String(exo_status));
         }
     }
 		
@@ -1771,6 +1777,14 @@ float SPV2::calc_motor_cmd()
 		// Serial.print(cmd);
 		// Serial.print("  |  filtered_torque_reading - cmd_ff: ");
 		// Serial.print(_controller_data->filtered_torque_reading - cmd_ff);
+		//Debugging for the motor id stuff
+		//(uint8_t)config_defs::motor::MaxonMotor
+		Serial.print("\n_joint_data->motor.motor_type: ");
+		Serial.print(_joint_data->motor.motor_type);
+		Serial.print("  |  ");
+		Serial.print((uint8_t)config_defs::motor::MaxonMotor);
+		Serial.print("  |  ==?: ");
+		Serial.print(_joint_data->motor.motor_type == (uint8_t)config_defs::motor::MaxonMotor);
 		return cmd;
 	}
 	else
