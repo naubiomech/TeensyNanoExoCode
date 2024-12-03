@@ -247,33 +247,11 @@ float _Controller::_pjmc_generic(float current_fsr, float fsr_threshold, float s
 
 int _Controller::_servo_runner(uint8_t servo_pin, uint8_t speed_level, long angle_initial, long angle_final)
 {
-	if (!((pos1 == angle_initial)&&(pos2 == angle_final))) {
-		if (!myservo.attached()) {
+	if (!myservo.attached()) {
 			myservo.attach(servo_pin,500,2500);//attach the servo object
 		}
-		pos1 = angle_initial;
-		pos2 = angle_final;
-		pos = pos1;
-		myservo.write(pos);
-		_do_stop_servo = false;
-		servoWatch = millis();
-	}
-	if ((millis() - servoWatch > 15)&&(!_do_stop_servo)) {
-		myservo.write(pos);
-		if (pos1 < pos2) {
-			pos += speed_level;
-			pos = constrain(pos, pos1, pos2);
-		}
-		else if (pos1 > pos2) {
-			pos -= speed_level;
-			pos = constrain(pos, pos2, pos1);
-		}
-		servoWatch = millis();
-		if (pos == pos2) {	
-			_do_stop_servo = true;
-		}
-	}
-	return pos;//report the current feedforward "pos";
+	myservo.write(angle_final);
+	return 0;
 }
 
 //****************************************************
@@ -1641,10 +1619,10 @@ float SPV2::calc_motor_cmd()
 	float percent_grf = constrain(_side_data->toe_fsr, 0, 1.2);
 	float percent_grf_heel = constrain(_side_data->heel_fsr, 0, 1.2);
 	float cmd_ff = _pjmc_generic(percent_grf, threshold, dorsi_setpoint, -plantar_setpoint);
-	if (!_joint_data->is_left){
-		Serial.print("\nRunning SPV2...");
-		Serial.print(cmd_ff);
-	}
+	// if (!_joint_data->is_left){
+		// Serial.print("\nRunning SPV2...");
+		// Serial.print(cmd_ff);
+	// }
         // low pass filter on torque_reading
     const float torque = _joint_data->torque_reading;
 	// const float torque = _joint_data->torque_reading_microSD;
@@ -1680,6 +1658,12 @@ float SPV2::calc_motor_cmd()
     logger::println("SPV2::calc_motor_cmd : stop");
     #endif
 	
+	//Current issue: The exo doesn't know when the ratchet engages. Upon toe strike, the down motion of the servo is too slow?
+	//Solution: 
+	//What works: Heel strike, plenty of push-off movement initiated by the wearer.
+	//Symptoms: When the wearer relys on the exo to initiate movement, especialy the push-off motion, the ratchet would sometimes fail to disengage.
+	//Proposed solutions: Lowering the servo arm towards the end of the swing phase.
+	
 	uint16_t exo_status = _data->get_status();
     bool active_trial = (exo_status == status_defs::messages::trial_on) || 
         (exo_status == status_defs::messages::fsr_calibration) ||
@@ -1698,17 +1682,14 @@ float SPV2::calc_motor_cmd()
 	if (_data->user_paused || !active_trial)
 	{
 		if (!_joint_data->is_left) {
-			
-			// Serial.print("\nInitializing...   |  Heel FSR: ");
-			// Serial.print(analogRead(A3));
-			servoOutput = _servo_runner(27, 3, servo_target, servo_home);
+			servoOutput = _servo_runner(27, 1, servo_target, servo_home);
 		}
 
 		
 	}
 	else {
 		if (!servo_switch) {
-			servoOutput = _servo_runner(27, 3, servo_target, servo_home);
+			servoOutput = _servo_runner(27, 1, servo_target, servo_home);
 		}
 		if (exo_status == status_defs::messages::fsr_refinement) {
 			if (!_joint_data->is_left) {
@@ -1729,7 +1710,7 @@ float SPV2::calc_motor_cmd()
 				
 				if (_controller_data->servo_get_ready){
 					if (millis() - _controller_data->servo_departure_time < 200) {
-						servoOutput = _servo_runner(27, 3, servo_home, servo_target);//servo goes to the target position (DOWN)
+						servoOutput = _servo_runner(27, 1, servo_home, servo_target);//servo goes to the target position (DOWN)
 						_controller_data->servo_did_go_down = true;
 					}
 					else {	
@@ -1737,7 +1718,7 @@ float SPV2::calc_motor_cmd()
 					}
 				}
 				else {
-					servoOutput = _servo_runner(27, 3, servo_target, servo_home);//servo goes back to the home position (UP)
+					servoOutput = _servo_runner(27, 1, servo_target, servo_home);//servo goes back to the home position (UP)
 				}
 			}
 		}	
@@ -1746,12 +1727,14 @@ float SPV2::calc_motor_cmd()
 	//When do we turn the motor OFF?
 	if (!_joint_data->is_left) {
 		//limit post-PID motor command for dorsiflexion torque
-		if (cmd_ff >= 0) {
-			cmd = constrain(cmd, -300, 300);
-		}
+		// if (cmd_ff >= 0) {
+			// cmd = constrain(cmd, -200, 200);
+		// }
 		
 		//if ((cmd_ff<_controller_data->parameters[controller_defs::propulsive_assistive::dorsi_scaling])&&((_controller_data->filtered_torque_reading - cmd_ff) < 0)) {
-		if ((servo_switch) && (percent_grf_heel > servo_fsr_threshold) && (_controller_data->filtered_torque_reading - cmd_ff) < 0){
+		// if ((servo_switch) && (percent_grf_heel > servo_fsr_threshold) && (_controller_data->filtered_torque_reading - cmd_ff) < 0){
+		// if ((servo_switch) && (cmd_ff < 0) && (_controller_data->filtered_torque_reading - cmd_ff) < 0){
+		if ((servo_switch) && (_controller_data->servo_did_go_down) && (_controller_data->filtered_torque_reading - cmd_ff) < 0){
 			cmd = _pid(0, 0, 0, 0, 0);//reset the PID error sum by sending a 0 I gain
 			cmd = 0;//send 0 Nm torque command to "turn off" the motor to extend the battery life
 			}
@@ -1779,12 +1762,12 @@ float SPV2::calc_motor_cmd()
 		// Serial.print(_controller_data->filtered_torque_reading - cmd_ff);
 		//Debugging for the motor id stuff
 		//(uint8_t)config_defs::motor::MaxonMotor
-		Serial.print("\n_joint_data->motor.motor_type: ");
-		Serial.print(_joint_data->motor.motor_type);
-		Serial.print("  |  ");
-		Serial.print((uint8_t)config_defs::motor::MaxonMotor);
-		Serial.print("  |  ==?: ");
-		Serial.print(_joint_data->motor.motor_type == (uint8_t)config_defs::motor::MaxonMotor);
+		// Serial.print("\n_joint_data->motor.motor_type: ");
+		// Serial.print(_joint_data->motor.motor_type);
+		// Serial.print("  |  ");
+		// Serial.print((uint8_t)config_defs::motor::MaxonMotor);
+		// Serial.print("  |  ==?: ");
+		// Serial.print(_joint_data->motor.motor_type == (uint8_t)config_defs::motor::MaxonMotor);
 		return cmd;
 	}
 	else
