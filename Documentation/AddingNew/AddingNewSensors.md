@@ -11,6 +11,7 @@ In our codebase, sensor integration varies depending on the sensor. Below, we li
     - UART (Teensy-Nano communication)
     - CAN (Teensy-Motor communication)
     - SPI (Teensy-SD Card interface)
+
 Here, we'll demonstrate how the Teensy communicates with sensors using an example of an analog input sensor and another example with the I2C protocol.
 
 ---
