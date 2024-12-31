@@ -26,6 +26,7 @@ float current_reading =  analogRead(_pin)*torque_calibration::AI_CNT_TO_V;
 ### Notes from PJRC:
 - None of the pins on the Teensy are 5-volt tolerate, and the input voltage range is fixed at 0 to 3.3 volts.
 - `analogReference()` has no effect on Teensy 4.1
+
 *Sidenote*: If you need to use `digitalRead()`, make sure to set the appropriate pin monde using `pinMode()` with values such as `INPUT` or `INPUT_PULLUP`. Refer to the user manual of the sensor or peripheral in use.
 
 ### More examples on `analogRead()`
