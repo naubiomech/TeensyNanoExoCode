@@ -27,7 +27,7 @@ float current_reading =  analogRead(_pin)*torque_calibration::AI_CNT_TO_V;
 - None of the pins on the Teensy are 5-volt tolerate, and the input voltage range is fixed at 0 to 3.3 volts.
 - `analogReference()` has no effect on Teensy 4.1
 
-*Sidenote*: If you need to use `digitalRead()`, make sure to set the appropriate pin monde using `pinMode()` with values such as `INPUT` or `INPUT_PULLUP`. Refer to the user manual of the sensor or peripheral in use.
+*Sidenote*: If you need to use `digitalRead()`, make sure to set the appropriate pin mode using `pinMode()` with values such as `INPUT` or `INPUT_PULLUP`. Refer to the user manual of the sensor or peripheral in use.
 
 ### More examples on `analogRead()`
 The following `.cpp` files utilize `analogRead()`:
@@ -54,7 +54,7 @@ Noah Enlow put together some great documentation detailing how I2C works in our 
 
 - Unions in arduino (and C++) function similar to structs. However, with unions, the data stored within is stored in a single location in memory and can be accessed as any data type desired (such as float or int). Thus, a union allows you to access the same raw data in multiple ways. 
 
-- This is useful for sending data over i2c because now we can collect our data from a sensor (say float data from an accelerometer), store it in a union, and then access that same data as bytes when we're ready to send it via I2C. On the receiving device, we essentially do the opposite. We receive the incoming bytes into a union, and then access the data as floats again.
+- This is useful for sending data over I2C because now we can collect our data from a sensor (say float data from an accelerometer), store it in a union, and then access that same data as bytes when we're ready to send it via I2C. On the receiving device, we essentially do the opposite. We receive the incoming bytes into a union, and then access the data as floats again.
 The scheme is:
 ```
     float -> convert to bytes -> send over I2C -> receive as bytes -> convert back to float
@@ -66,7 +66,8 @@ The scheme is:
 
     1. First define the union: 
     ```
-        union Data {               		# Data is the name of the union
+        union Data                      # Data is the name of the union
+        {
             float data_as_float;        # Representation of the data as a float
             byte data_as_bytes[4];      # Represntation of the data as a vector of bytes (must specify the size, floats are 4 bytes)
         };
@@ -79,24 +80,27 @@ The scheme is:
 
     3. Send via I2C using the Arduino Wire library:
     ```
-        void sendEvent() {													# sendEvent() is called in your main loop whenever you are ready to send the data
+        void sendEvent()                         # sendEvent() is called in your main loop whenever you are ready to send the data
+        {													
             Wire.write(Data.data_as_bytes, sizeof(Data.data_as_bytes));
         }
     ```
 
-- Now to recieve the data that has been sent. We'll create an identical union on the device requesting the data (master) to make it more intelligible, however the union need not be identical.
+- Now to recieve the data that has been sent. We'll create an identical union on the device requesting the data (primary) to make it more intelligible, however the union need not be identical.
     1. Define a union on the device receiving the data:
     ```
-        union Data {                	# Data is the name of the union
+        union Data                      # Data is the name of the union
+        {                	
             float data_as_float;        # Representation of the data as a float
-            byte data_as_bytes[4];      # Represntation of the data as a vector of bytes (must specify the size, floats are 4 bytes)
+            byte data_as_bytes[4];      # Representation of the data as a vector of bytes (must specify the size, floats are 4 bytes)
         };
     ```
 
-    2. Now request the data from the peripheral (slave) device, which in this case is the one doing the sending. Because the data is coming in as individual bytes, we'll need a for loop to iterate through those bytes and append them to the vector of bytes contained in the union we just defined.
+    2. Now request the data from the peripheral (secondary) device, which in this case is the one doing the sending. Because the data is coming in as individual bytes, we'll need a for loop to iterate through those bytes and append them to the vector of bytes contained in the union we just defined.
     ```
         Wire.requestFrom(PERIPHERAL_ADDRESS, 4);
-        for(int i=0; i<4; i++) {
+        for(int i=0; i<4; i++)
+        {
             Data.data_as_bytes[i] = Wire.read();
         }
     ```
@@ -105,7 +109,7 @@ The scheme is:
         float data_recieved = Data.data_as_float;
     ```
 
-- In summary, a union was created on our peripheral device (the device sending) to store the float data and send it as bytes over I2C. Another identical union was created on our master device, which in this case is the one we want to recieve the data. A for loop is used on the master to iteratively append the bytes being recieved to the byte-type variable in the union. Once this is done, the data recieved can then be accesed as a float again through the union.
+- In summary, a union was created on our peripheral device (the device sending) to store the float data and send it as bytes over I2C. Another identical union was created on our primary device, which in this case is the one we want to recieve the data. A for loop is used on the primary to iteratively append the bytes being recieved to the byte-type variable in the union. Once this is done, the data recieved can then be accesed as a float again through the union.
 
 
 </details>
@@ -147,7 +151,6 @@ The main things you will need to decide is what part of the system makes the mos
 ## Create the Sensor
 The sensor should be its own class.
 You will need to create a .h and .cpp file in the src folder.
-This should first be done in the [system check folder](/ExoCode/systemCheck) to make sure everything works before migrating it over to the main code.
 The sensor class will have all the functions that you need to use the class, below you can find an example to build from.
 This example is an outline of what would be in the header(.h) file.
 
@@ -221,13 +224,13 @@ sensor_reading = 0;
 sensor_calibrate = false;
 ```
 
-### System Containing Sensor .h
+### System Containing Sensor.h
 This will be Side.h if the sensor is at the side level or Joint.h if it is at the joint level, etc.
 Add the include for the sensor, ```#include Sensor.h```, that you created.
 Within the class; Side, Joint, etc.; declare an instance of the class ```SensorClass new_instance_of_sensor;```
 Create as many instances as you need.
 
-### System Containing Sensor .cpp
+### System Containing Sensor.cpp
 1. Within the .cpp file related to the .h file you just changed you need to call the constructor for the instances of the class you just declared.
 This will be done in the initializer list.
 For example for a joint level sensor:
