@@ -1674,7 +1674,7 @@ float SPV2::calc_motor_cmd()
 	float servo_fsr_threshold = 0.01 * _controller_data->parameters[controller_defs::spv2::fsr_servo_threshold];
 	uint8_t servo_home = _controller_data->parameters[controller_defs::spv2::servo_origin];
 	uint8_t servo_target = _controller_data->parameters[controller_defs::spv2::servo_terminal];
-		
+	bool SD_content_imported = (((servo_home == 0)&&(servo_target == 0)&&(servo_fsr_threshold == 0))?false: true);	
 	// if (!_joint_data->is_left) {
 		// Serial.print("\nheel fsr threshold: ");
 		// Serial.print(_controller_data->parameters[controller_defs::spv2::fsr_servo_threshold]);
@@ -1682,12 +1682,28 @@ float SPV2::calc_motor_cmd()
 	if (_data->user_paused || !active_trial)
 	{
 		if (!_joint_data->is_left) {
-			servoOutput = _servo_runner(27, 1, servo_target, servo_home);
+			if (SD_content_imported) {
+				servoOutput = _servo_runner(27, 1, servo_target, servo_home);
+			}
+			// Serial.print("\nCASE 1. servo_target: ");
+			// Serial.print(servo_target);
+			// Serial.print("  |  servo_home: ");
+			// Serial.print(servo_home);
+			// Serial.print("  |  PID kp: ");
+			// Serial.print(_controller_data->parameters[controller_defs::spv2::kp]);
 		}
 
 		
 	}
 	else {
+		
+		// Serial.print("\nCASE 2. servo_target: ");
+		// Serial.print(servo_target);
+		// Serial.print("  |  servo_home: ");
+		// Serial.print(servo_home);
+		// Serial.print("  |  PID kp: ");
+		// Serial.print(_controller_data->parameters[controller_defs::spv2::kp]);
+		
 		if (!servo_switch) {
 			servoOutput = _servo_runner(27, 1, servo_target, servo_home);
 		}

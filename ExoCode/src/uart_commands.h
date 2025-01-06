@@ -365,7 +365,8 @@ namespace UART_command_handlers
                 // break;
 			//TREC Plot
 		// int local_scalar = exo_data->right_side.ankle.controller.plotting_scalar;
-		int local_scalar = exo_data->right_side.ankle.motor.maxon_plotting_scalar;
+		//int local_scalar = exo_data->right_side.ankle.motor.maxon_plotting_scalar;
+		int local_scalar = 1;
 		//Right Torque
 				//rx_msg.data[0] = exo_data->right_leg.ankle.controller.filtered_torque_reading;
 				//rx_msg.data[0] = exo_data->left_leg.ankle.torque_reading;
