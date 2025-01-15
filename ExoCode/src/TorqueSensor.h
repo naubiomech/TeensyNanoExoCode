@@ -42,6 +42,20 @@ class TorqueSensor
          * @return the calibrated torque reading
          */
         float read();
+		
+		/**
+         * @brief reads the pin and returns the offset value.
+         * 
+         * @return torque calibration offset
+         */
+		float readOffset();
+		
+		/**
+         * @brief reads the pin and returns the calibrated value.
+         * 
+         * @return the calibrated torque reading (offset pulled from the SD card)
+         */
+		float read_microSD(float _calibration_microSD);
 	    
         int _raw_reading;                   /**< Raw pin reading */
 		
@@ -52,7 +66,8 @@ class TorqueSensor
         float _calibration;                 /**< Stores the value used for calibration. This is a zero torque offset*/
         //int _raw_reading;                 /**< Raw pin reading */
 		float _calibrated_reading;          /**< Torque value with offset applied */
-        
+        float _calibrated_reading_microSD;	/**< Torque value with offset (pulled from the SD Card) applied */
+		
         const uint16_t _cal_time = 1000;    /**< The time to do the initial calibration in ms*/  
         uint16_t _start_time;               /**< Time the calibration starts. */   
         bool _last_do_calibrate;            /**< This when the calibration ends. */

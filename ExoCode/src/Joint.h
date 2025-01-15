@@ -237,7 +237,7 @@ class AnkleJoint : public _Joint
 		CalibrManager _calibr_manager;                          /**< Calibration Manager "Controller" */
         Chirp _chirp;                                           /**< Chirp Controller for Device Characterization */
         Step _step;                                             /**< Step Controller for Device Characterization */
-        
+        SPV2 _spv2;												/**< SPV2 */
 };
 
 /**

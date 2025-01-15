@@ -7,11 +7,12 @@
  * Stores the id, torque sensor reading, if it is on the left side (for convenience), and if the joint is used.
  * Uses an initializer list for the motor and controller data. 
  */
-JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send, float joint_RoM, bool do_flip_angle)
+JointData::JointData(config_defs::joint_id id, uint8_t* config_to_send, float joint_RoM, bool do_flip_angle, float torque_offset)
 : motor(id, config_to_send)
 , controller(id, config_to_send)
 , joint_RoM(joint_RoM)
 , do_flip_angle(do_flip_angle)
+, torque_offset(torque_offset)
 {
     
     //Set all the data based on the id and configuration

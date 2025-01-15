@@ -161,5 +161,19 @@ float TorqueSensor::read()
     return _calibrated_reading;
 };
 
+float TorqueSensor::readOffset()
+	{
+		return _calibration;
+	}
+	
+float TorqueSensor::read_microSD(float _calibration_microSD)
+	{
+		_raw_reading = analogRead(_pin);
+		
+		//Torque value calculated based on the offset pulled from the SD card
+		_calibrated_reading_microSD = (((float)_raw_reading*torque_calibration::AI_CNT_TO_V) - _calibration_microSD) * torque_calibration::TRQ_V_TO_NM;
+		return _calibrated_reading_microSD;
+	}
+
 
 #endif

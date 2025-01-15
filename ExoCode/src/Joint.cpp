@@ -74,7 +74,18 @@ void _Joint::read_data()
     
     _joint_data->position = _joint_data->motor.p / _joint_data->motor.gearing;
     _joint_data->velocity = _joint_data->motor.v / _joint_data->motor.gearing;
-
+	
+	//Read the true torque sensor offset
+	_joint_data->torque_offset_reading = _torque_sensor.readOffset();
+	
+	//Return calculated torque reading based on the offset pulled from the SD Card
+	_joint_data->torque_reading_microSD = (_joint_data->flip_direction ? -1.0 : 1.0) * _torque_sensor.read_microSD(_joint_data->torque_offset / 100);
+	
+	//To bypass the torque calibration process at the beginning of each trial, modify the torque offset placeholder "255" on the SD card
+	//Example: If the true offset is 1.19, use 119; if the true offset is 0.95, use 95.
+	if (_joint_data->torque_offset != 255) {
+		_joint_data->torque_reading = _joint_data->torque_reading_microSD;
+	}
 };
 
 
@@ -452,6 +463,12 @@ HipJoint::HipJoint(config_defs::joint_id id, ExoData* exo_data)
                 #endif
                 HipJoint::set_motor(new AK70(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
                 break;
+			case (uint8_t)config_defs::motor::MaxonMotor:
+                #ifdef JOINT_DEBUG
+                    logger::println("MaxonMotor");
+                #endif
+                HipJoint::set_motor(new MaxonMotor(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
+                break;
             default :
                 #ifdef JOINT_DEBUG
                     logger::println("NULL");
@@ -641,6 +658,12 @@ KneeJoint::KneeJoint(config_defs::joint_id id, ExoData* exo_data)
                 #endif
                 KneeJoint::set_motor(new AK70(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
                 break;
+			case (uint8_t)config_defs::motor::MaxonMotor:
+                #ifdef JOINT_DEBUG
+                    logger::println("MaxonMotor");
+                #endif
+                KneeJoint::set_motor(new MaxonMotor(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
+                break;
             default :
                 #ifdef JOINT_DEBUG
                     logger::println("NULL");
@@ -766,6 +789,7 @@ AnkleJoint::AnkleJoint(config_defs::joint_id id, ExoData* exo_data)
 , _calibr_manager(id, exo_data)
 , _chirp(id, exo_data)
 , _step(id, exo_data)
+, _spv2(id, exo_data)
 {
     #ifdef JOINT_DEBUG
         logger::print(_is_left ? "Left " : "Right ");
@@ -827,6 +851,12 @@ AnkleJoint::AnkleJoint(config_defs::joint_id id, ExoData* exo_data)
                     logger::println("AK70");
                 #endif
                 AnkleJoint::set_motor(new AK70(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
+                break;
+			case (uint8_t)config_defs::motor::MaxonMotor:
+                #ifdef JOINT_DEBUG
+                    logger::println("MaxonMotor");
+                #endif
+                AnkleJoint::set_motor(new MaxonMotor(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
                 break;
             default :
                 #ifdef JOINT_DEBUG
@@ -966,6 +996,9 @@ void AnkleJoint::set_controller(uint8_t controller_id)  //Changes the high level
         case (uint8_t)config_defs::ankle_controllers::step:
             _controller = &_step;
             break;
+		case (uint8_t)config_defs::ankle_controllers::spv2:
+            _controller = &_spv2;
+            break;
         default :
             logger::print("Unkown Controller!\n", LogLevel::Error);
             _controller = &_zero_torque;
@@ -1042,6 +1075,12 @@ ElbowJoint::ElbowJoint(config_defs::joint_id id, ExoData* exo_data)
                 #endif
                 ElbowJoint::set_motor(new AK70(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
             break;
+			case (uint8_t)config_defs::motor::MaxonMotor:
+                #ifdef JOINT_DEBUG
+                    logger::println("MaxonMotor");
+                #endif
+                ElbowJoint::set_motor(new MaxonMotor(id, exo_data, _Joint::get_motor_enable_pin(id, exo_data)));
+                break;
             default:
                 #ifdef JOINT_DEBUG
                             logger::println("NULL");

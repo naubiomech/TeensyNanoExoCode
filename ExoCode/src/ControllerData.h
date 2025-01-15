@@ -160,7 +160,6 @@ namespace controller_defs                   /**< Stores the parameter indexes fo
         const uint8_t alpha_idx = 8;                            //Filtering term for exponentially wieghted moving average (EWMA) filter, used on torque sensor to cut down on noise.
         const uint8_t num_parameter = 9;
     }
-
     namespace proportional_hip_moment
     {
         const uint8_t extension_setpoint_idx = 0;                   //Parameter for extension setpoint 
@@ -168,7 +167,30 @@ namespace controller_defs                   /**< Stores the parameter indexes fo
         const uint8_t num_parameter = 2;
     }
 
-    const uint8_t max_parameters = franks_collins_hip::num_parameter;   //This should be the largest of all the num_parameters
+
+	namespace spv2 
+    {
+        const uint8_t plantar_scaling = 0;
+        const uint8_t dorsi_scaling = 1;
+        const uint8_t timing_threshold = 2;//toe FSR threshold (unit: %)
+        const uint8_t spring_stiffness = 3;//not used
+        const uint8_t damping = 5;//not used
+        const uint8_t neutral_angle = 4;//not used
+        const uint8_t propulsive_gain = 6;//not used
+        const uint8_t kp = 7;
+		const uint8_t turn_on_peak_limiter = 9;//not used
+        const uint8_t kd = 8;
+		const uint8_t step_response_mode = 10;//not used
+		const uint8_t ki = 11;
+		const uint8_t do_use_servo = 12;
+		const uint8_t fsr_servo_threshold = 13;
+		const uint8_t servo_origin = 14;
+		const uint8_t servo_terminal = 15;
+		const uint8_t maxon_outOfOffice_itr = 16;//not used
+        const uint8_t num_parameter = 17;
+    }
+
+    const uint8_t max_parameters = spv2::num_parameter;   //This should be the largest of all the num_parameters
 }
 
 /**
@@ -263,6 +285,13 @@ class ControllerData {
 		
 		//Variables for the Zhang-Collins Controller
 		float previous_cmd = 0;
+		
+		//Maxon servo interrupter
+		int plotting_scalar = 1;
+		//SPV2 parameters
+		unsigned long servo_departure_time;
+		bool servo_did_go_down = true;
+		bool servo_get_ready = false;
 
         //Variables for the PHMC Controller
         float fs;

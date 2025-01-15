@@ -44,6 +44,7 @@ namespace config_defs
         zero_three = 2,
         zero_four = 3,
         zero_five_one = 4,
+		zero_six_Maxon = 5,
     };
     
     enum class battery : uint8_t
@@ -100,6 +101,7 @@ namespace config_defs
         AK80 = 3,
         AK60_v1_1 = 4,
         AK70 = 5,
+		MaxonMotor = 6,
     };
     
     enum class gearing : uint8_t
@@ -168,6 +170,7 @@ namespace config_defs
 		calibr_manager = 8,
         chirp = 9,
         step = 10,
+		spv2 = 11,//controller ID
     };
 
     enum class elbow_controllers : uint8_t
@@ -261,6 +264,15 @@ namespace config_defs
 	static const int right_ankle_RoM_idx = 38;
     static const int left_elbow_RoM_idx = 39;
     static const int right_elbow_RoM_idx = 40;
+	
+	static const int left_hip_torque_offset_idx = 41;
+	static const int right_hip_torque_offset_idx = 42;
+	static const int left_knee_torque_offset_idx = 43;
+	static const int right_knee_torque_offset_idx = 44;
+	static const int left_ankle_torque_offset_idx = 45;
+	static const int right_ankle_torque_offset_idx = 46;
+	static const int left_elbow_torque_offset_idx = 47;
+	static const int right_elbow_torque_offset_idx = 48;
 }
 
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41) 
@@ -333,6 +345,7 @@ namespace config_defs
             {"0.1", (uint8_t)config_defs::board_version::zero_one},
             {"0.3", (uint8_t)config_defs::board_version::zero_three},
             {"0.5.1", (uint8_t)config_defs::board_version::zero_five_one},
+			{"0.6", (uint8_t)config_defs::board_version::zero_six_Maxon},//compatible with AK Board 0.7
         };
         
         const IniKeyCode battery = 
@@ -381,6 +394,7 @@ namespace config_defs
             {"AK80", (uint8_t)config_defs::motor::AK80},
             {"AK60v1.1", (uint8_t)config_defs::motor::AK60_v1_1},
             {"AK70", (uint8_t)config_defs::motor::AK70},
+			{"MaxonMotor", (uint8_t)config_defs::motor::MaxonMotor},
         };
         
         const IniKeyCode gearing 
@@ -426,6 +440,7 @@ namespace config_defs
 			{"calibrManager", (uint8_t)config_defs::ankle_controllers::calibr_manager},
             {"chirp", (uint8_t)config_defs::ankle_controllers::chirp},
             {"step", (uint8_t)config_defs::ankle_controllers::step},
+			{"SPV2", (uint8_t)config_defs::ankle_controllers::spv2},
         };  
 
         const IniKeyCode elbow_controllers
@@ -525,6 +540,15 @@ namespace config_defs
 		float right_ankle_RoM;
         float left_elbow_RoM;
         float right_elbow_RoM;
+		
+		float left_hip_torque_offset;
+		float right_hip_torque_offset;
+		float left_knee_torque_offset;
+		float right_knee_torque_offset;
+		float left_ankle_torque_offset;
+		float right_ankle_torque_offset;
+		float left_elbow_torque_offset;
+		float right_elbow_torque_offset;
 		
     };
 #endif

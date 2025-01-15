@@ -74,6 +74,7 @@
 			{(uint8_t)config_defs::ankle_controllers::elbow_min_max, "ankleControllers/elbowMinMax.csv"},
             {(uint8_t)config_defs::ankle_controllers::chirp,"ankleControllers/chirp.csv"},
             {(uint8_t)config_defs::ankle_controllers::step,"ankleControllers/step.csv"},
+			{(uint8_t)config_defs::ankle_controllers::spv2,"ankleControllers/spv2.csv"},
         };
 
         const ParamFilenameKey elbow
@@ -84,6 +85,7 @@
             {(uint8_t)config_defs::elbow_controllers::chirp,"elbowControllers/chirp.csv"},
             {(uint8_t)config_defs::elbow_controllers::step,"elbowControllers/step.csv"},
         };
+
     };
     
     /**
