@@ -477,7 +477,7 @@ float Side::_update_expected_swing_duration()
     uint8_t num_uninitialized = 0;
     
     //Check that everything is set.
-    for (int i = 0; i<_num_steps_avg; i++)
+    for (int i = 0; i < _num_steps_avg; i++)
     {
         num_uninitialized += (_swing_times[i] == 0);
     }
