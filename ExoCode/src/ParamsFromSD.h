@@ -86,14 +86,6 @@
             {(uint8_t)config_defs::elbow_controllers::step,"elbowControllers/step.csv"},
         };
 
-        const ParamFilenameKey elbow
-        {
-            {(uint8_t)config_defs::elbow_controllers::disabled,"elbowControllers/zeroTorque.csv"},
-            {(uint8_t)config_defs::elbow_controllers::zero_torque,"elbowControllers/zeroTorque.csv"},
-            {(uint8_t)config_defs::elbow_controllers::elbow_min_max, "elbowControllers/elbowMinMax.csv"},
-            {(uint8_t)config_defs::elbow_controllers::chirp,"elbowControllers/chirp.csv"},
-            {(uint8_t)config_defs::elbow_controllers::step,"elbowControllers/step.csv"},
-        };
     };
     
     /**

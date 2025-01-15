@@ -1640,76 +1640,294 @@ ProportionalHipMoment::ProportionalHipMoment(config_defs::joint_id id, ExoData* 
     prev_fs = 0.0;
     hip_ratio = 0.0;
 
-    //if (difference > 0)
-    //{
-    //    if (flag == 1 && (previous_torque_reading >=  0.9 * cmd_ff))
-    //    {
-    //        flag = 0;
-    //    }
-    //}
+}
 
-    //if (difference < 0)
-    //{
-    //    //if (flag == 1 && (previous_torque_reading <= (1 - 0.9) * cmd_ff))
-    //    //{
-    //    //    flag = 0;
-    //    //}
-    //}
+float ProportionalHipMoment::calc_motor_cmd()
+{
+    //Store Flexion and Extension Setpoints
+    float extension_setpoint = _controller_data->parameters[controller_defs::proportional_hip_moment::extension_setpoint_idx];
+    float flexion_setpoint = _controller_data->parameters[controller_defs::proportional_hip_moment::flexion_setpoint_idx];
 
-    //if (flag == 0)
-    //{
-    //    _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, (_controller_data->parameters[controller_defs::step::alpha_idx] / 100));
-    //}
-    //else
-    //{
-    //    _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, 1);
-    //}
-
-
-    _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, (_controller_data->parameters[controller_defs::step::alpha_idx])/100);
-
-    _controller_data->ff_setpoint = cmd_ff;
-
-    float cmd = cmd_ff;
-
-    if (_controller_data->parameters[controller_defs::step::pid_flag_idx] > 0)
+    //State Machine
+    switch (state)
     {
-        cmd = cmd_ff + _pid(cmd_ff, _controller_data->filtered_torque_reading, _controller_data->parameters[controller_defs::step::p_gain_idx], _controller_data->parameters[controller_defs::step::i_gain_idx], _controller_data->parameters[controller_defs::step::d_gain_idx]);
+        case 1: //Late Swing Phase
+
+            //We are no longer in the transition from stance to swing, so make sure counter is set to 0
+            Alpha_counter = 0;
+
+            //Update Number of Iterations in Swing and in State 1
+            swing_counter++;
+            state1_counter++;
+
+            //Calculate the setpoint as based on linear setpoint
+            setpoint = (setpoint + (((extension_setpoint * 0.6) - old_setpoint) / prev_state1_counter));
+
+            //Correct if it exceeds starting point of State 3
+            if (setpoint >= extension_setpoint * 0.6)
+            {
+                setpoint = extension_setpoint * 0.6;
+            }
+
+            //Saftey factor so that setpoint does not become crazy high
+            if (abs(setpoint) > 20)
+            {
+                setpoint = 0.0;
+            }
+
+            //If the foot is on the ground, we are transitioning from swing to stance (0.03 as the FSR transition value is arbitrary but seems to work, feel free to adjust if needed)
+            if (_side_data->toe_fsr > 0.03 || _side_data->heel_stance > 0.03)
+            {
+                //Update the transition counter 
+                state_count_12++;
+
+                //Update the stance counter
+                stance_counter++;
+
+                //If we have had 3 straight instances of stance, we know it is not noise and can start to transition to the next state (3 instances seems to be robust but can be adjusted if needed)
+                if (state_count_12 >= 3)
+                {
+
+                    //If we have been in State 1 for a sufficient enough of time, update the previous duration of State 1
+                    if (state1_counter > 3)
+                    {
+                        prev_state1_counter = state1_counter;
+                    }
+                    
+                    //Update the current State to be Stance 
+                    state = 2;
+
+                    //Record the duration of this past Swing phase 
+                    swing_duration = swing_counter;
+
+                    //Reset the State Transition Counter for the next cylce
+                    state_count_12 = 0;
+
+                    //Make sure the flag for the first instance of State 2 is true 
+                    first_state2 = true;
+
+                    //Reset the minimum fs from the previous cycle to 0 for the upcoming cycle
+                    fs_min = 0.0;
+                }
+            }
+            else   //This is here to reset these values should we have had non-consecutive detections of Stance 
+            {
+                state_count_12 = 0;
+                stance_counter = 0;
+            }
+
+            break;
+
+
+        case 2: //Stance Phase
+
+            if (first_state2 == true)
+            {
+                //Reset the Swing Phase and State 1 Counters when we enter Stance Phase 
+                swing_counter = 0;
+                state1_counter = 0;
+                first_state2 = false;
+            }
+
+            //Update the number of iterations that we have been in Stance Phase
+            stance_counter++; 
+
+            //If we are transitioning from Stance Phase to Swing Phase
+            if ((_side_data->toe_fsr <= 0.03) && (_side_data->heel_stance <= 0.3))
+            {
+                //Increment Swing Counter
+                swing_counter++;
+
+                //Increment Stance-to-Swing Counter 
+                state_count_23++;   
+
+                //If the transition to Swing Phase is not just noise
+                if (state_count_23 >= 3)
+                {
+                    //Store the Late Stance Duration as the Previous Late Stance Duration for the Next Cycle
+                    Prev_latestance_duration = latestance_duration;
+
+                    //Set the Current Late Stance Duration as the Number of Late Stance Iterations We Recorded from this Cycle
+                    latestance_duration = latestance_counter;
+
+                    //Reset the Late Stance Counter
+                    latestance_counter = 0;
+
+                    //Update the Current State
+                    state = 3;
+
+                    //Reset the Transition Counter to 0 for the next cycle 
+                    state_count_23 = 0;
+
+                    //Make sure the flag for the first instance of State 3 is true 
+                    first_state3 = true;
+                }
+            }
+            else   //This is here to reset these values should we have had non-consecutive detections of Swing 
+            {
+                state_count_23 = 0;
+                swing_counter = 0;
+            }
+
+            break;
+
+        case 3: //Early Swing Phase
+
+            if (first_state3 == true)
+            {
+                //Reset the Stance Counter and State 1 Counter apon entering State 3
+                stance_counter = 0;
+                state1_counter = 0;
+                first_state3 = false;
+            }
+
+            //Update the number of iterations in Swing 
+            swing_counter++;
+
+            //Update the number of iterations that have occured in the Stance-to-Swing Transition (this scales the end of Stance, see below, until the end of this State)
+            Alpha_counter = swing_counter + latestance_duration;
+
+            //Calculate the expected duration of the Stance-to-Swing Transition Period (based on the duration of the last transition period)
+            Alpha = ((swing_duration / 2) * 0.3) + Prev_latestance_duration; 
+
+            //Calculate the timing in the current transition phase relative to the previous transition phase 
+            t = (Alpha_counter / Alpha);
+
+            //Saftey net to make sure case ends at appropriate point
+            if ((((9 * t * t) - (9 * t)) / ((3 * t) - 4)) < 0)
+            {
+                state1_counter++;
+                old_setpoint = setpoint;
+                setpoint = 0.0;
+
+                state = 1;
+            }
+
+            //Calculate the Setpoint 
+            setpoint = ((4 * fs_min * 0.5) - (0.5 * (((9 * t * t) - (9 * t)) / ((3 * t) - 4)))) * flexion_setpoint;
+
+            //Built in a saftey factor in case of large torque setpoint
+            if (abs(setpoint) > 20)
+            {
+                setpoint = 0.0;
+            }
+
+            //If we are moving out of Early Swing into Late Swing
+            if ((_side_data->toe_fsr <= 0.03) && (_side_data->heel_fsr <= 0.03) && (swing_counter > ((swing_duration / 2) * 0.3)))
+            {
+                //Count Iterations in transition period 
+                state_count_31++;   
+
+                //Start State 1 Counter
+                state1_counter++; 
+
+                //If the transition to Late Swing Phase is not just noise
+                if (state_count_31 >= 3)
+                {
+                    //Set the Ending Setpoint of the Transition Phase to the Last Setpoint
+                    old_setpoint = setpoint;
+
+                    //Update the Current State to State 1
+                    state = 1;
+
+                    //Reset the transition counter to 0
+                    state_count_31 = 0;
+                }
+
+            }
+            else    //This is here to reset these values should we have had non-consecutive detections of the transition
+            {
+                state_count_31 = 0;
+                state1_counter = 0;
+            }
+
+            //If we were to suddenly have heel-strike for some reason, transition right to State 2
+            if ((_side_data->toe_fsr > 0.03) || (_side_data->heel_fsr > 0.03))
+            {
+                state = 2;
+            }
+
+            break;
     }
-    else
+
+    //If we are in stance
+    if (state == 2)
     {
-        cmd = cmd_ff;
+        //Determine fs
+        fs = _side_data->heel_fsr - (_side_data->toe_fsr * 0.25);
+
+        //Set min fs for this cycle
+        if (fs < fs_min)
+        {
+            fs_min = fs;
+        }
+
+        //Handle Late Stance Stuff (if fs is less than 0 the toe is greater than the heel which means we are in late stance)
+        if ((fs < 0) || (fs == 0 && prev_fs >= 0)) 
+        {
+            //If the slope is negative
+            if (fs < prev_fs)
+            {
+                hip_ratio = fs * 4 * 0.5;
+            }
+            else //We have entered the Late Stance-to-Swing Transition Period
+            {
+                //Keep count of number of iterations in this late stance phase
+                latestance_counter++;
+
+                //Update the number of iterations that have occured in the Stance-to-Swing Transition (this scales the end of Stance until the end of State 5, see above)
+                Alpha_counter = latestance_counter;
+
+                //Calculate the expected duration of the Stance-to-Swing Transition Period (based on the duration of the last transition period)
+                Alpha = ((swing_duration / 2) * 0.3) + latestance_duration; 
+
+                //Calculate the timing in the current transition phase relative to the previous transition phase 
+                t = Alpha_counter / Alpha;
+
+                //Calculate the hip ratio, which will be scaled by the setpoint (see below)
+                hip_ratio = ((4 * fs_min * 0.5) - (0.5 * (((9 * t * t) - (9 * t)) / ((3 * t) - 4))));
+            }
+        }
+        else //Handle Early Stance Stuff (If fs is not < 0 then the heel is greater than the toe, which means we are in early stance)
+        {
+            //If fs is less than 1 and the slope is + then we are just after heel strike and working towards peak extension 
+            if ((1 > fs) && (fs != 0) && (prev_fs <= fs))
+            {
+                hip_ratio = 0.6 + (fs * 0.4);
+            }
+            else //Handle the post extension transition towards flexion
+            {
+                hip_ratio = fs;
+            }
+        }
+
+        //Set the Previous fs to the current fs for the next cycle
+        prev_fs = fs;
+
+        //Determine the setpoint
+        if (fs <= 0)
+        {
+            setpoint = hip_ratio * flexion_setpoint;
+        }
+        else
+        {
+            setpoint = hip_ratio * extension_setpoint;
+        }
     }
 
-    previous_command = cmd_ff;
+    //Store the State in its plotable counterpart (see bottom of ControllerData.h)
+    _controller_data->state = state;
 
-    previous_torque_reading = _controller_data->filtered_torque_reading;
+    //Set the Feed-Foward Command to the setpoint
+    _controller_data->ff_setpoint = setpoint;
 
-    uint16_t exo_status = _data->get_status();
-    
-    bool active_trial = (exo_status == status_defs::messages::trial_on) || (exo_status == status_defs::messages::fsr_calibration) || (exo_status == status_defs::messages::fsr_refinement);
+    //Store fs in its plotable counterpart (see bottom of ControllerData/h)
+    _controller_data->fs = fs;
 
-    //if (active_trial)
-    //{
-    //    if (!_joint_data->is_left)
-    //    {
-    //        Serial.print(_controller_data->ff_setpoint);
-    //        Serial.print(',');
-    //        Serial.print(100);
-    //        Serial.print("\n");
+    //Set the motor command equal to the setpoint, this is for open-loop control, we would need a torque sensor and to call the PID function if we wanted to do closed-loop
+    float cmd = setpoint;
 
-    //        Serial.print(_controller_data->filtered_torque_reading);
-    //        Serial.print(',');
-    //        Serial.print(200);
-    //        Serial.print("\n");
-
-    //        Serial.print(tt*1000);
-    //        Serial.print(',');
-    //        Serial.print(300);
-    //        Serial.print("\n");
-    //    }
-    //}
-
+    //Return the Motor Command
     return cmd;
 }
 
