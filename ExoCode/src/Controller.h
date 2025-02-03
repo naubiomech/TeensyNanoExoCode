@@ -79,6 +79,12 @@ class _Controller
         float _prev_de_dt;                  /**< Prev error derivative used if the timestep is not good*/
         float _prev_pid_time;               /**< Prev time the PID was called */
         
+		long pos;//servo parameters
+		unsigned long servoWatch;
+		int pos1;
+		int pos2;
+		bool _do_stop_servo = false;
+		
         /**
          * @brief calculates the current PID contribution to the motor command. 
          * 
@@ -89,6 +95,26 @@ class _Controller
          * @param derivative gain
          */
         float _pid(float cmd, float measurement, float p_gain, float i_gain, float d_gain);
+		
+		/**
+         * @brief actuate the servo motor (might need to move this out of the controller class) 
+         * 
+         * @param signal pin 
+         * @param not used
+         * @param start angle
+         * @param end angle
+         */
+		int _servo_runner(uint8_t servo_pin, uint8_t speed_level, long angle_initial, long angle_final);
+		
+		/**
+         * @brief a function that returns cmd_ff for stateless PJMC. 
+         * 
+         * @param current fsr percentage value (after calibration, this value should typical range from 0 to 1 
+         * @param fsr threshold; a current fsr value below this threshold will have the generic pjmc function return a cmd_ff with a sign of setpoint_negative
+         * @param positive setpoint (the sign definitions follow those as shown in OpenSim's default models: Positive for dorsiflexion, knee extension, and hip flexion.
+         * @param negative setpoint
+         */
+        float _pjmc_generic(float current_fsr, float fsr_threshold, float setpoint_positive, float setpoint_negative);
         
         //Values for the Compact Form Model Free Adaptive Controller
         std::pair<float, float> measurements;
@@ -102,6 +128,21 @@ class _Controller
         float phi_1;                            /**< Initial/reset condition for estimation of psuedo partial derivitave */
         
         float _cf_mfac(float reference, float current_measurement);
+};
+
+/**
+ * @brief SPV2 Controller 
+ */
+class SPV2 : public _Controller
+{
+    public:
+        SPV2(config_defs::joint_id id, ExoData* exo_data);
+        ~SPV2(){};
+
+        float calc_motor_cmd();
+    
+    private:
+        
 };
 
 /**

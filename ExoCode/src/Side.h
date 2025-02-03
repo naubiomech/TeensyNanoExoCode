@@ -162,7 +162,7 @@ class Side
         ElbowJoint _elbow;  /**< Instance of an elbow joint */
         
         //FSR objects for the side. 
-        FSR _heel_fsr;      /**< Heel force sensitive resistor */
+        FSR_Direct _heel_fsr;      /**< Heel force sensitive resistor */
 		FSR _toe_fsr;       /**< Toe force sensitive resistor */
 
         //Inclination object for the side
