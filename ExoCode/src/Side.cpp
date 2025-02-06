@@ -226,7 +226,6 @@ bool Side::_check_ground_strike()
 
     bool ground_strike = false;
     
-    
     // logger::print("Side::_check_ground_strike : _prev_heel_contact_state - ");
     // logger::print(_prev_heel_contact_state);
     // logger::print("\n");
@@ -294,7 +293,7 @@ float Side::_calc_percent_gait()
     int percent_gait = -1;
     
     //Only calulate if the expected step duration has been established.
-    if (_side_data->expected_step_duration>0)
+    if (_side_data->expected_step_duration > 0)
     {
         percent_gait = 100 * ((float)timestamp - _ground_strike_timestamp) / _side_data->expected_step_duration;
         percent_gait = min(percent_gait, 100); //Set saturation.

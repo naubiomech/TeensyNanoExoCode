@@ -28,7 +28,7 @@ class TorqueSensor
         
         /**
          * @brief Does the calibration, while do_calibration is true, and returns 0 when the calibration has finished.
-         *  This gets the average of the readings during quite standing.
+         * This gets the average of the readings during quite standing.
          * 
          * @param should the calibration be done
          *
@@ -37,21 +37,21 @@ class TorqueSensor
         bool calibrate(bool do_calibration); 
 		
         /**
-         * @brief reads the pin and returns the calibrated value.
+         * @brief Reads the pin and returns the calibrated value.
          * 
          * @return the calibrated torque reading
          */
         float read();
 		
 		/**
-         * @brief reads the pin and returns the offset value.
+         * @brief Reads the pin and returns the offset value.
          * 
          * @return torque calibration offset
          */
 		float readOffset();
 		
 		/**
-         * @brief reads the pin and returns the calibrated value.
+         * @brief Reads the pin and returns the calibrated value.
          * 
          * @return the calibrated torque reading (offset pulled from the SD card)
          */
@@ -64,7 +64,6 @@ class TorqueSensor
         bool _is_used;                      /**< Flag indicating if the sensor is used */
         
         float _calibration;                 /**< Stores the value used for calibration. This is a zero torque offset*/
-        //int _raw_reading;                 /**< Raw pin reading */
 		float _calibrated_reading;          /**< Torque value with offset applied */
         float _calibrated_reading_microSD;	/**< Torque value with offset (pulled from the SD Card) applied */
 		

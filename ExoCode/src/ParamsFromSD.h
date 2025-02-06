@@ -28,7 +28,7 @@
     typedef std::map<uint8_t, std::string> ParamFilenameKey;
     
     /**
-     * @brief types of errors when reading the SD card
+     * @brief Types of errors when reading the SD card
      */
     namespace param_error
     {
@@ -89,7 +89,7 @@
     };
     
     /**
-     * @brief prints name of error message
+     * @brief Prints name of error message
      *
      * @param error identifier
      */

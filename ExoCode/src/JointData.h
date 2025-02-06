@@ -11,7 +11,6 @@
 #ifndef JointData_h
 #define JointData_h
 
-
 #include "Arduino.h"
 
 #include "MotorData.h"
@@ -22,12 +21,11 @@
 #include <stdint.h>
 #include <queue>
 
-
 //Forward declaration
 class ExoData;
 
 /**
- * @brief class to store information related to joint.
+ * @brief Class to store information related to joint.
  * 
  */
 class JointData {
@@ -35,7 +33,7 @@ class JointData {
         JointData(config_defs::joint_id id, uint8_t* config_to_send, float joint_RoM, bool flip_ankle_angle, float torque_offset);
         
         /**
-         * @brief reconfigures the the joint data if the configuration changes after constructor called.
+         * @brief Reconfigures the the joint data if the configuration changes after constructor called.
          * 
          * @param configuration array
          */
@@ -43,7 +41,7 @@ class JointData {
         
         config_defs::joint_id id;       /**< Id of the joint */
         MotorData motor;                /**< Data for the motor attached to the joint */
-        ControllerData controller;      /**< Data for the controller attached to the joint */
+        ControllerData controller;      /**< Data for the controller running the joint */
         float torque_reading;           /**< Calibrated reading from the torque sensor */ 
         bool is_left;                   /**< If the leg is left */
         bool flip_direction;            /**< If true, invert the sign of the torque readings for the current joint (for example, left ankle) */
@@ -63,9 +61,9 @@ class JointData {
 		const float joint_RoM;                      /**< Joint Range of Motion */
 		bool do_flip_angle;                         /**< If true invert the angle */
 
-		float torque_reading_microSD;				/**< torque reading based on the stored offset on the SD card */
-		const float torque_offset;					/**< torque offset pulled from the SD card for the current torque sensor */
-		float torque_offset_reading;				/**< true torque offset for the current torque sensor; note that the true offset may change */
+		float torque_reading_microSD;				/**< Torque reading based on the stored offset on the SD card */
+		const float torque_offset;					/**< Torque offset pulled from the SD card for the current torque sensor */
+		float torque_offset_reading;				/**< True torque offset for the current torque sensor; note that the true offset may change */
 
         //Torque tracking check
         float torque_output_alpha = 0.2;    /**< Low pass to describe the lag of the low level controller relative to setpoint. */
