@@ -7,7 +7,6 @@
  * @date Jan. 2022
 */
 
-
 #ifndef MotorData_h
 #define MotorData_h
 

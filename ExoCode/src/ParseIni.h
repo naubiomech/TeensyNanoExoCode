@@ -19,14 +19,13 @@
  */
 namespace ini_config
 {
-    const int buffer_length = 500;  /**< length of the buffer for reading the file. */
+    const int buffer_length = 500;  /**< Length of the buffer for reading the file. */
     const int key_length = 25;      /**< Max length of the key name */
     const int section_length = 10;  /**< Max length of the section name */
-    const int number_of_keys = 41;  /**< Number of keys to be parsed. */
+    const int number_of_keys = 48;  /**< Number of keys to be parsed. */
 }
 
-//Includes for reading the ini file from the SD card.
-//1 is the lowest value to confirm that data is present for sending over SPI
+//Reading the ini file from the SD card; 1 is the lowest value to confirm that data is present for sending over SPI
 
 /**
  * @brief Namespace that defines numeric coding for different keys values. These are used throughout the code.
@@ -38,7 +37,7 @@ namespace config_defs
         AK_board = 1,
     };
     
-    enum class board_version : uint8_t
+    enum class board_version : uint8_t          //Board version options (zero_five_one is default recommended for AK Motors)
     { 
         zero_one = 1,
         zero_three = 2,
@@ -53,7 +52,7 @@ namespace config_defs
         dumb = 2,
     };
 
-    enum class exo_name : uint8_t
+    enum class exo_name : uint8_t           //Exo configuration options
     { 
         bilateral_ankle = 1, 
         bilateral_hip = 2, 
@@ -79,14 +78,14 @@ namespace config_defs
         test = 22,
     };
     
-    enum class exo_side : uint8_t
+    enum class exo_side : uint8_t           //Side options
     { 
         bilateral = 1, 
         left = 2, 
         right = 3,
     };
     
-    enum class JointType
+    enum class JointType                    //Joints options
     {
         hip = 1,
         knee = 2,
@@ -94,7 +93,7 @@ namespace config_defs
         elbow = 4,
     };
     
-    enum class motor : uint8_t
+    enum class motor : uint8_t              //Motor options
     { 
         not_used = 1, 
         AK60 = 2, 
@@ -104,7 +103,7 @@ namespace config_defs
 		MaxonMotor = 6,
     };
     
-    enum class gearing : uint8_t
+    enum class gearing : uint8_t            //Gearing ratio options
     { 
         gearing_1_1 = 1,
         gearing_2_1 = 2,
@@ -113,7 +112,7 @@ namespace config_defs
     };
     
     
-    enum class joint_id : uint8_t
+    enum class joint_id : uint8_t           //Joint IDs
     {
         //Byte format : [0, is_left, !is_left, unused_joint, is_elbow, is_ankle, is_knee, is_hip]
         left = 0b01000000,
@@ -137,7 +136,7 @@ namespace config_defs
                                             //Unused Joint ID: 48
     };
         
-    enum class  hip_controllers : uint8_t
+    enum class  hip_controllers : uint8_t   //Hip Controller IDs
     {
         disabled = 1,
         zero_torque = 2,
@@ -148,7 +147,7 @@ namespace config_defs
         phmc = 7,
     };
     
-    enum class knee_controllers : uint8_t
+    enum class knee_controllers : uint8_t   //Knee Controller IDs
     {
         disabled = 1,
         zero_torque = 2,
@@ -158,7 +157,7 @@ namespace config_defs
         step = 6,
     };
         
-    enum class ankle_controllers : uint8_t
+    enum class ankle_controllers : uint8_t  //Ankle Controller IDs
     {
         disabled = 1, 
         zero_torque = 2, 
@@ -170,10 +169,10 @@ namespace config_defs
 		calibr_manager = 8,
         chirp = 9,
         step = 10,
-		spv2 = 11,//controller ID
+		spv2 = 11,
     };
 
-    enum class elbow_controllers : uint8_t
+    enum class elbow_controllers : uint8_t  //Elbow Controller IDs
     {
         disabled = 1,
         zero_torque = 2,
@@ -183,13 +182,13 @@ namespace config_defs
         step = 6,
     };
     
-    enum class use_torque_sensor : uint8_t
+    enum class use_torque_sensor : uint8_t  //Option to use or not use torque sensor for low-level control
     {
         no = 1, 
         yes = 2, 
     };
 
-    enum class flip_motor_dir : uint8_t
+    enum class flip_motor_dir : uint8_t     //Flip direction of motor, can be used to help determine which is positive in controller
     {
         neither = 1,
         left = 2,
@@ -197,7 +196,7 @@ namespace config_defs
         both = 4,
     };
 
-    enum class flip_torque_dir : uint8_t
+    enum class flip_torque_dir : uint8_t    //Flip direction for torque, important to align with motor directions
     {
         neither = 1,
         left = 2,
@@ -205,7 +204,7 @@ namespace config_defs
         both = 4,
     };
 
-    enum class flip_angle_dir : uint8_t
+    enum class flip_angle_dir : uint8_t     //Flip direciton for angle sensors
     {
         neither = 1,
         left = 2,
@@ -290,14 +289,14 @@ namespace config_defs
     #endif
 
     /**
-     * @brief Parses the config.ini file in the root folder of the SD card and puts the parsed data to the provided array
+     * @brief Parses the config.ini file in the root folder of the SD card and puts the parsed data in the provided array
      * 
      * @param pointer to the uint8_t array to be updated with the encoded parameter info. Array should be ini_config::number_of_keys in length
      */
-    void ini_parser(uint8_t* config_to_send); // uses default filename
+    void ini_parser(uint8_t* config_to_send); //Uses default filename
     
     /**
-     * @brief Parses the specified filename from the SD card and puts the parsed data to the array provided
+     * @brief Parses the specified filename from the SD card and puts the parsed data into the array provided
      * 
      * @param pointer to the character array that contains a nonstandard filename to parse.
      * @param pointer to the uint8_t array to be updated with the encoded parameter info. Array should be ini_config::number_of_keys in length
@@ -305,7 +304,7 @@ namespace config_defs
     void ini_parser(char* filename, uint8_t* config_to_send); //uses sent filename
     
     /**
-     * @brief retrieve the key values and get the print the output
+     * @brief Retrieve the key values and print the output
      *
      * @param pointer to char array that contains the section containing the key
      * @param pointer to char array that contains the key name
@@ -345,7 +344,7 @@ namespace config_defs
             {"0.1", (uint8_t)config_defs::board_version::zero_one},
             {"0.3", (uint8_t)config_defs::board_version::zero_three},
             {"0.5.1", (uint8_t)config_defs::board_version::zero_five_one},
-			{"0.6", (uint8_t)config_defs::board_version::zero_six_Maxon},//compatible with AK Board 0.7
+			{"0.6", (uint8_t)config_defs::board_version::zero_six_Maxon},   //Note: This works for board version 0.7 as well, hence lack of specific version for it
         };
         
         const IniKeyCode battery = 

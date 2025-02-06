@@ -12,7 +12,8 @@
 #include <random>
 #include <cmath>
 #include <Servo.h>
-Servo myservo;//TO-DO: Move servo definition code out of controller.cpp
+
+Servo myservo;          //TO DO: Move servo definition code out of Controller.cpp
 
 _Controller::_Controller(config_defs::joint_id id, ExoData* exo_data)
 {
@@ -235,22 +236,30 @@ float _Controller::_pid(float cmd, float measurement, float p_gain, float i_gain
  
 float _Controller::_pjmc_generic(float current_fsr, float fsr_threshold, float setpoint_positive, float setpoint_negative)
 {
-	if (fsr_threshold == 1) {
-		return 0;//fsr_threshold shouldn't be set to 1
+	if (fsr_threshold == 1)
+    {
+		return 0;               //fsr_threshold shouldn't be set to 1
 	}
+
 	float slope = (setpoint_positive - setpoint_negative)/(1 - fsr_threshold);
+
 	float prescribed_val = setpoint_positive - slope * (current_fsr - fsr_threshold);
-	return prescribed_val;//this prescribed value is not capped
+
+	return prescribed_val;      //Note: This prescribed value is not capped
 }
 
 //****************************************************
 
+//Specific function for Servo Control, will be moved to appropriate location in future 
 int _Controller::_servo_runner(uint8_t servo_pin, uint8_t speed_level, long angle_initial, long angle_final)
 {
-	if (!myservo.attached()) {
-			myservo.attach(servo_pin,500,2500);//attach the servo object
-		}
+	if (!myservo.attached())
+    {
+		myservo.attach(servo_pin,500,2500);     //Attach the servo object
+	}
+
 	myservo.write(angle_final);
+
 	return 0;
 }
 
@@ -536,7 +545,7 @@ float ProportionalJointMoment::calc_motor_cmd()
         /* Scale the fsr values so the controller outputs zero feed forward when the FSR value is at the threshold */ 
         float threshold = _side_data->toe_fsr_upper_threshold;       /* Get the upper threshold for the FSR to be considered in stance */
         float fsr = min(_side_data->toe_fsr, 1.2);                   /* Stores a saturated FSR signal from the device, saturates in order to avoid producing a large torque. */
-        float scaled_fsr = (fsr - threshold) / (1 - threshold);     /* Re-scales FSR signal */
+        float scaled_fsr = (fsr - threshold) / (1 - threshold);      /* Re-scales FSR signal */
 
         /* Calculate FeedForward Command */
         cmd_ff = (scaled_fsr) * _controller_data->parameters[controller_defs::proportional_joint_moment::stance_max_idx];          
@@ -884,7 +893,6 @@ float FranksCollinsHip::_spline_generation(float node1, float node2, float node3
 
     return u;
 }
-
 
 //****************************************************
 
@@ -1276,7 +1284,8 @@ CalibrManager::CalibrManager(config_defs::joint_id id, ExoData* exo_data)
 
 }
 
-float CalibrManager::calc_motor_cmd()//The calibration manager "controller" is a self-test tool designed for exo developers to verify the exoskeleton's status. By default, this controller does not use feedback torque control.
+//The calibration manager "controller" is a self-test tool designed for exo developers to verify the exoskeleton's status. By default, this controller does not use feedback torque control.
+float CalibrManager::calc_motor_cmd()
 {
 	float cmd;
 
@@ -1298,11 +1307,14 @@ float CalibrManager::calc_motor_cmd()//The calibration manager "controller" is a
             Serial.print(_side_data->ankle.joint_position);
             Serial.print("  |  Left torque: ");
             Serial.print(_joint_data->torque_reading);
-            //cmd = _controller_data->parameters[controller_defs::calibr_manager::calibr_cmd];
             cmd = 3.5;
-			if (_joint_data->motor.motor_type == (uint8_t)config_defs::motor::MaxonMotor) {
-				cmd = 100;//The range of PWM motor control signals differ from that of CAN motors
+
+            //The range of PWM motor control signals differ from that of CAN motors
+			if (_joint_data->motor.motor_type == (uint8_t)config_defs::motor::MaxonMotor)
+            {
+				cmd = 100;
 			}
+
             Serial.print("  |  Left cmd: ");
             Serial.print(cmd);
 			Serial.print("  |  Left microSD TRQ: ");
@@ -1317,9 +1329,13 @@ float CalibrManager::calc_motor_cmd()//The calibration manager "controller" is a
             Serial.print("  |  Right torque: ");
             Serial.print(_joint_data->torque_reading);
             cmd = 3.5;
-			if (_joint_data->motor.motor_type == (uint8_t)config_defs::motor::MaxonMotor) {
-				cmd = 100;//The range of PWM motor control signals differ from that of CAN motors
+
+            //The range of PWM motor control signals differ from that of CAN motors
+			if (_joint_data->motor.motor_type == (uint8_t)config_defs::motor::MaxonMotor)
+            {
+				cmd = 100;
 			}
+
             Serial.print("  |  Right cmd: ");
             Serial.print(cmd);
 			Serial.print("  |  Right microSD TRQ: ");
@@ -1489,17 +1505,17 @@ float Step::calc_motor_cmd()
 
         float current_time = millis();                              //Measure the current time
 
-        tt = (current_time - start_time) / 1000;            //Determine the time since the begining of the control iteration, converted to seconds
+        tt = (current_time - start_time) / 1000;                    //Determine the time since the begining of the control iteration, converted to seconds
 
-        if (tt <= Duration)                                       //If the time is less than the desired duration of the step
+        if (tt <= Duration)                                         //If the time is less than the desired duration of the step
         {
-            cmd_ff = Amplitude;                                        //Apply a torque at the desired magnitude 
+            cmd_ff = Amplitude;                                     //Apply a torque at the desired magnitude 
         }
         else
         {
-            cmd_ff = 0;                                                //Set the torque to 0
+            cmd_ff = 0;                                             //Set the torque to 0
 
-            if (previous_time <= Duration && tt > Duration)       //Calculate the time that the amplitude ended
+            if (previous_time <= Duration && tt > Duration)         //Calculate the time that the amplitude ended
             {
                 end_time = millis();
             }
@@ -1511,7 +1527,7 @@ float Step::calc_motor_cmd()
             }
         }
 
-        previous_time = tt;                                       //Record time to be used as previous time in next loop. 
+        previous_time = tt;                                         //Record time to be used as previous time in next loop. 
 
     }
     else
@@ -1551,7 +1567,6 @@ float Step::calc_motor_cmd()
     //{
     //    _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, 1);
     //}
-
 
     _controller_data->filtered_torque_reading = utils::ewma(_joint_data->torque_reading, _controller_data->filtered_torque_reading, (_controller_data->parameters[controller_defs::step::alpha_idx])/100);
 
@@ -1601,6 +1616,7 @@ float Step::calc_motor_cmd()
 }
 
 /*******************************/
+
 ProportionalHipMoment::ProportionalHipMoment(config_defs::joint_id id, ExoData* exo_data)
     : _Controller(id, exo_data)
 {
@@ -1932,6 +1948,7 @@ float ProportionalHipMoment::calc_motor_cmd()
 }
 
 //****************************************************
+
 SPV2::SPV2(config_defs::joint_id id, ExoData* exo_data)
 : _Controller(id, exo_data)
 {
@@ -1939,54 +1956,54 @@ SPV2::SPV2(config_defs::joint_id id, ExoData* exo_data)
         logger::println("SPV2::Constructor");
     #endif
 }
+
 float SPV2::calc_motor_cmd()
 {
-	
-	
-	// Calculate Generic Contribution
+	//Calculate Generic Contribution
 	float plantar_setpoint = _controller_data->parameters[controller_defs::spv2::plantar_scaling];
 	float dorsi_setpoint = _controller_data->parameters[controller_defs::spv2::dorsi_scaling];
 	float threshold = constrain(_controller_data->parameters[controller_defs::spv2::timing_threshold]/100, 0, 99);
 	float percent_grf = constrain(_side_data->toe_fsr, 0, 1.2);
 	float percent_grf_heel = constrain(_side_data->heel_fsr, 0, 1.2);
 	float cmd_ff = _pjmc_generic(percent_grf, threshold, dorsi_setpoint, -plantar_setpoint);
-	// if (!_joint_data->is_left){
-		// Serial.print("\nRunning SPV2...");
-		// Serial.print(cmd_ff);
-	// }
-        // low pass filter on torque_reading
+
+	//if (!_joint_data->is_left)
+    //{
+	//	Serial.print("\nRunning SPV2...");
+	//	Serial.print(cmd_ff);
+	//}
+
+    //Low pass filter torque_reading
     const float torque = _joint_data->torque_reading;
-	// const float torque = _joint_data->torque_reading_microSD;
     const float alpha = 0.5;
-    _controller_data->filtered_torque_reading = utils::ewma(torque, 
-            _controller_data->filtered_torque_reading, alpha);
+    _controller_data->filtered_torque_reading = utils::ewma(torque, _controller_data->filtered_torque_reading, alpha);
 	
-		float cmd;
-		if (!_joint_data->is_left){
-			if (cmd_ff < -6) {
-				cmd = cmd_ff + _pid(cmd_ff, _controller_data->filtered_torque_reading,
-					20 * _controller_data->parameters[controller_defs::spv2::kp],
-					80 * _controller_data->parameters[controller_defs::spv2::ki], 
-					20 * _controller_data->parameters[controller_defs::spv2::kd]);
-			}
-			else {
-				cmd = cmd_ff + _pid(cmd_ff, _controller_data->filtered_torque_reading,
-					10 * _controller_data->parameters[controller_defs::spv2::kp],
-					80 * _controller_data->parameters[controller_defs::spv2::ki], 
-					20 * _controller_data->parameters[controller_defs::spv2::kd]);
-			}
+	float cmd;
+
+    //Only Designed for One Leg at the Moment
+	if (!_joint_data->is_left)
+    {
+		if (cmd_ff < -6)
+        {
+			cmd = cmd_ff + _pid(cmd_ff, _controller_data->filtered_torque_reading, 20 * _controller_data->parameters[controller_defs::spv2::kp], 80 * _controller_data->parameters[controller_defs::spv2::ki], 20 * _controller_data->parameters[controller_defs::spv2::kd]);
 		}
-		else {
-			cmd = 0;
+		else
+        {
+			cmd = cmd_ff + _pid(cmd_ff, _controller_data->filtered_torque_reading, 10 * _controller_data->parameters[controller_defs::spv2::kp], 80 * _controller_data->parameters[controller_defs::spv2::ki], 20 * _controller_data->parameters[controller_defs::spv2::kd]);
 		}
-			
+	}
+	else
+    {
+		cmd = 0;
+	}	
 	
+    //Establish Setpoints
 	_controller_data->ff_setpoint = cmd_ff; 
 	_controller_data->setpoint = cmd;
     _controller_data->filtered_setpoint = cmd;
 
     #ifdef CONTROLLER_DEBUG
-    logger::println("SPV2::calc_motor_cmd : stop");
+        logger::println("SPV2::calc_motor_cmd : stop");
     #endif
 	
 	//Current issue: The exo doesn't know when the ratchet engages. Upon toe strike, the down motion of the servo is too slow?
@@ -1996,26 +2013,30 @@ float SPV2::calc_motor_cmd()
 	//Proposed solutions: Lowering the servo arm towards the end of the swing phase.
 	
 	uint16_t exo_status = _data->get_status();
-    bool active_trial = (exo_status == status_defs::messages::trial_on) || 
-        (exo_status == status_defs::messages::fsr_calibration) ||
-        (exo_status == status_defs::messages::fsr_refinement);
+    bool active_trial = (exo_status == status_defs::messages::trial_on) || (exo_status == status_defs::messages::fsr_calibration) || (exo_status == status_defs::messages::fsr_refinement);
 
 	int servoOutput;	
 	bool servo_switch = _controller_data->parameters[controller_defs::spv2::do_use_servo];
 	float servo_fsr_threshold = 0.01 * _controller_data->parameters[controller_defs::spv2::fsr_servo_threshold];
 	uint8_t servo_home = _controller_data->parameters[controller_defs::spv2::servo_origin];
 	uint8_t servo_target = _controller_data->parameters[controller_defs::spv2::servo_terminal];
-	bool SD_content_imported = (((servo_home == 0)&&(servo_target == 0)&&(servo_fsr_threshold == 0))?false: true);	
-	// if (!_joint_data->is_left) {
-		// Serial.print("\nheel fsr threshold: ");
-		// Serial.print(_controller_data->parameters[controller_defs::spv2::fsr_servo_threshold]);
-	// }
+	bool SD_content_imported = (((servo_home == 0)&&(servo_target == 0)&&(servo_fsr_threshold == 0))?false: true);
+
+	//if (!_joint_data->is_left)
+    //{
+	//	Serial.print("\nheel fsr threshold: ");
+	//	Serial.print(_controller_data->parameters[controller_defs::spv2::fsr_servo_threshold]);
+	//}
+
 	if (_data->user_paused || !active_trial)
 	{
-		if (!_joint_data->is_left) {
-			if (SD_content_imported) {
+		if (!_joint_data->is_left)
+        {
+			if (SD_content_imported)
+            {
 				servoOutput = _servo_runner(27, 1, servo_target, servo_home);
 			}
+
 			// Serial.print("\nCASE 1. servo_target: ");
 			// Serial.print(servo_target);
 			// Serial.print("  |  servo_home: ");
@@ -2023,10 +2044,9 @@ float SPV2::calc_motor_cmd()
 			// Serial.print("  |  PID kp: ");
 			// Serial.print(_controller_data->parameters[controller_defs::spv2::kp]);
 		}
-
-		
 	}
-	else {
+	else
+    {
 		
 		// Serial.print("\nCASE 2. servo_target: ");
 		// Serial.print(servo_target);
@@ -2035,86 +2055,107 @@ float SPV2::calc_motor_cmd()
 		// Serial.print("  |  PID kp: ");
 		// Serial.print(_controller_data->parameters[controller_defs::spv2::kp]);
 		
-		if (!servo_switch) {
+		if (!servo_switch)
+        {
 			servoOutput = _servo_runner(27, 1, servo_target, servo_home);
 		}
-		if (exo_status == status_defs::messages::fsr_refinement) {
-			if (!_joint_data->is_left) {
+
+		if (exo_status == status_defs::messages::fsr_refinement)
+        {
+			if (!_joint_data->is_left)
+            {
 				// Serial.print("\npercent_grf_heel: ");
 				// Serial.print(percent_grf_heel);
-//Servo movement
-//// When does the arm go DOWN?////
-				//reset only after toe FSR drops below a threshold
-				if ((percent_grf_heel + percent_grf > servo_fsr_threshold) && (!_controller_data->servo_did_go_down)) {
-					if (servo_switch) {
-					_controller_data->servo_get_ready = true;
-					_controller_data->servo_departure_time = millis();
+                
+                //Servo movement
+                //When does the arm go DOWN?//
+				//Reset only after toe FSR drops below a threshold
+				if ((percent_grf_heel + percent_grf > servo_fsr_threshold) && (!_controller_data->servo_did_go_down))
+                {
+					if (servo_switch)
+                    {
+					    _controller_data->servo_get_ready = true;
+					    _controller_data->servo_departure_time = millis();
 					}
 				}
-				if (percent_grf_heel + percent_grf < servo_fsr_threshold) {
+
+				if (percent_grf_heel + percent_grf < servo_fsr_threshold)
+                {
 					_controller_data->servo_did_go_down = false;
 				}
 				
-				if (_controller_data->servo_get_ready){
-					if (millis() - _controller_data->servo_departure_time < 200) {
-						servoOutput = _servo_runner(27, 1, servo_home, servo_target);//servo goes to the target position (DOWN)
+				if (_controller_data->servo_get_ready)
+                {
+					if (millis() - _controller_data->servo_departure_time < 200)
+                    {
+						servoOutput = _servo_runner(27, 1, servo_home, servo_target);   //Servo goes to the target position (DOWN)
 						_controller_data->servo_did_go_down = true;
 					}
-					else {	
+					else
+                    {	
 						_controller_data->servo_get_ready = false;
 					}
 				}
-				else {
-					servoOutput = _servo_runner(27, 1, servo_target, servo_home);//servo goes back to the home position (UP)
+				else
+                {
+					servoOutput = _servo_runner(27, 1, servo_target, servo_home);       //Servo goes back to the home position (UP)
 				}
 			}
 		}	
 	}
-////Turn of the motor////
+
+    //Turn of the motor//
 	//When do we turn the motor OFF?
-	if (!_joint_data->is_left) {
-		//limit post-PID motor command for dorsiflexion torque
-		// if (cmd_ff >= 0) {
-			// cmd = constrain(cmd, -200, 200);
-		// }
+	if (!_joint_data->is_left)
+    {
+		//Limit post-PID motor command for dorsiflexion torque
+		//if (cmd_ff >= 0)
+        //{
+		//	cmd = constrain(cmd, -200, 200);
+		//}
 		
-		//if ((cmd_ff<_controller_data->parameters[controller_defs::propulsive_assistive::dorsi_scaling])&&((_controller_data->filtered_torque_reading - cmd_ff) < 0)) {
-		// if ((servo_switch) && (percent_grf_heel > servo_fsr_threshold) && (_controller_data->filtered_torque_reading - cmd_ff) < 0){
-		// if ((servo_switch) && (cmd_ff < 0) && (_controller_data->filtered_torque_reading - cmd_ff) < 0){
-		if ((servo_switch) && (_controller_data->servo_did_go_down) && (_controller_data->filtered_torque_reading - cmd_ff) < 0){
-			cmd = _pid(0, 0, 0, 0, 0);//reset the PID error sum by sending a 0 I gain
-			cmd = 0;//send 0 Nm torque command to "turn off" the motor to extend the battery life
-			}
+		if ((servo_switch) && (_controller_data->servo_did_go_down) && (_controller_data->filtered_torque_reading - cmd_ff) < 0)
+        {
+			cmd = _pid(0, 0, 0, 0, 0);  //Reset the PID error sum by sending a 0 I gain
+			cmd = 0;                    //Send 0 Nm torque command to "turn off" the motor to extend the battery life
+		}
 	}
 		
-		
-		// if (maxon_standby) {
-			// _controller_data->plotting_scalar = -1;
-			//return;
-		// }
-		// else {
-			// _controller_data->plotting_scalar = 1;
-		// }
-		// if (_joint_data->is_left) {
-			//analogWrite(A8,cmdMaxon);//Left motor: A8; Right motor: A9
-		// }
-		// else {
-			// analogWrite(A9,cmdMaxon);//Left motor: A8; Right motor: A9
-		// }
+	//if (maxon_standby)
+ //   {
+	//	_controller_data->plotting_scalar = -1;
+	//return;
+	//}
+	//else
+ //   {
+	//	_controller_data->plotting_scalar = 1;
+	//}
+ //        
+	//if (_joint_data->is_left)
+ //   {
+	//analogWrite(A8,cmdMaxon);       //Left motor: A8; Right motor: A9
+	//}
+	//else
+ //   {
+	//	analogWrite(A9,cmdMaxon);   //Left motor: A8; Right motor: A9
+	//}
 	
-	if (!_joint_data->is_left) {
+	if (!_joint_data->is_left)
+    {
 		// Serial.print("\ncmd = ");
 		// Serial.print(cmd);
 		// Serial.print("  |  filtered_torque_reading - cmd_ff: ");
 		// Serial.print(_controller_data->filtered_torque_reading - cmd_ff);
+        // 
 		//Debugging for the motor id stuff
-		//(uint8_t)config_defs::motor::MaxonMotor
+		// (uint8_t)config_defs::motor::MaxonMotor
 		// Serial.print("\n_joint_data->motor.motor_type: ");
 		// Serial.print(_joint_data->motor.motor_type);
 		// Serial.print("  |  ");
 		// Serial.print((uint8_t)config_defs::motor::MaxonMotor);
 		// Serial.print("  |  ==?: ");
 		// Serial.print(_joint_data->motor.motor_type == (uint8_t)config_defs::motor::MaxonMotor);
+
 		return cmd;
 	}
 	else

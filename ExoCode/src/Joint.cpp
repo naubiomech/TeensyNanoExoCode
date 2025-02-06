@@ -9,7 +9,7 @@
 //Arduino compiles everything in the src folder even if not included so it causes and error for the nano if this is not included.
 #if defined(ARDUINO_TEENSY36)  || defined(ARDUINO_TEENSY41) 
 
-//Initialize the used joint counters that will be used to select the TorqueSensor pin.  If you don't do it it won't work.
+//Initialize the used joint counters that will be used to select the TorqueSensor pin. If you don't do it it won't work.
 uint8_t _Joint::left_torque_sensor_used_count = 0;
 uint8_t _Joint::right_torque_sensor_used_count = 0;
 
@@ -27,6 +27,7 @@ _Joint::_Joint(config_defs::joint_id id, ExoData* exo_data)
 {
     // logger::print("_Joint::right_torque_sensor_used_count : ");
     // logger::println(_Joint::right_torque_sensor_used_count);
+
     #ifdef JOINT_DEBUG
         logger::println("_Joint :: Constructor : entered"); 
     #endif
@@ -83,11 +84,11 @@ void _Joint::read_data()
 	
 	//To bypass the torque calibration process at the beginning of each trial, modify the torque offset placeholder "255" on the SD card
 	//Example: If the true offset is 1.19, use 119; if the true offset is 0.95, use 95.
-	if (_joint_data->torque_offset != 255) {
+	if (_joint_data->torque_offset != 255)
+    {
 		_joint_data->torque_reading = _joint_data->torque_reading_microSD;
 	}
 };
-
 
 void _Joint::check_calibration()  
 {
@@ -125,7 +126,7 @@ unsigned int _Joint::get_torque_sensor_pin(config_defs::joint_id id, ExoData* ex
         {
             if (utils::get_is_left(id) && exo_data->left_side.hip.is_used && exo_data->hip_torque_flag == 1)  //Check if the left side is used and we want to use the torque sensor
             {
-                if (_Joint::left_torque_sensor_used_count < logic_micro_pins::num_available_joints) // If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
+                if (_Joint::left_torque_sensor_used_count < logic_micro_pins::num_available_joints) //If we still have available pins send the next one and increment the counter. If we don't send the not connected pin.
                 {
                     return logic_micro_pins::torque_sensor_left[_Joint::left_torque_sensor_used_count++];
                 }
@@ -384,7 +385,6 @@ unsigned int _Joint::get_motor_enable_pin(config_defs::joint_id id, ExoData* exo
     }
 };
 
-
 void _Joint::set_motor(_Motor* new_motor)
 {
     _motor = new_motor;
@@ -517,10 +517,7 @@ void HipJoint::run_joint()
         for (int i=0; i < _error_manager.errorQueueSize(); i++)
         {
             _motor->set_error();
-            ErrorReporter::get_instance()->report(
-                _error_manager.popError(),
-                _id
-            );
+            ErrorReporter::get_instance()->report(_error_manager.popError(),_id);
         }
     }
 
@@ -715,10 +712,7 @@ void KneeJoint::run_joint()
         // end all errors to the other microcontroller
         for (int i=0; i < _error_manager.errorQueueSize(); i++)
         {
-            ErrorReporter::get_instance()->report(
-                _error_manager.popError(),
-                _id
-            );
+            ErrorReporter::get_instance()->report(_error_manager.popError(),_id);
         }
     }
 
@@ -930,10 +924,7 @@ void AnkleJoint::run_joint()
         //Send all errors to the other microcontroller
         for (int i=0; i < _error_manager.errorQueueSize(); i++)
         {
-            ErrorReporter::get_instance()->report(
-                _error_manager.popError(),
-                _id
-            );
+            ErrorReporter::get_instance()->report(_error_manager.popError(),_id);
         }
     }
 
@@ -1141,10 +1132,7 @@ void ElbowJoint ::run_joint()
         //Send all errors to the other microcontroller
         for (int i = 0; i < _error_manager.errorQueueSize(); i++)
         {
-            ErrorReporter::get_instance()->report(
-                _error_manager.popError(),
-                _id
-            );
+            ErrorReporter::get_instance()->report(_error_manager.popError(),_id);
         }
     }
 
