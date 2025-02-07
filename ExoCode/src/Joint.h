@@ -190,7 +190,6 @@ class KneeJoint : public _Joint
         //Objects for joint specific controllers	
         ZeroTorque _zero_torque;                /**< Zero torque controller */
         ConstantTorque _constant_torque;        /**< Constant torque controller */
-        ElbowMinMax _elbow_min_max;             /**< Elbow Flexion/Extension Controller for Lifting */
         Chirp _chirp;                           /**< Chirp Controller for Device Characterization */ 
         Step _step;                             /**< Step Controller for Device Characterization */
 };
@@ -232,7 +231,6 @@ class AnkleJoint : public _Joint
         ZhangCollins _zhang_collins;                            /**< Zhang Collins controller */
         ConstantTorque _constant_torque;                        /**< Constant torque controller*/
         TREC _trec;                                             /**< TREC */
-		ElbowMinMax _elbow_min_max;                             /**< Elbow Flexion/Extension Controller for Lifting */
 		CalibrManager _calibr_manager;                          /**< Calibration Manager "Controller" */
         Chirp _chirp;                                           /**< Chirp Controller for Device Characterization */
         Step _step;                                             /**< Step Controller for Device Characterization */

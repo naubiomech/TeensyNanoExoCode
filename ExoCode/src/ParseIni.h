@@ -152,9 +152,8 @@ namespace config_defs
         disabled = 1,
         zero_torque = 2,
         constant_torque = 3,
-        elbow_min_max = 4,
-        chirp = 5,
-        step = 6,
+        chirp = 4,
+        step = 5,
     };
         
     enum class ankle_controllers : uint8_t  //Ankle Controller IDs
@@ -165,11 +164,10 @@ namespace config_defs
         zhang_collins = 4,
         constant_torque = 5,
         trec = 6,
-		elbow_min_max = 7,
-		calibr_manager = 8,
-        chirp = 9,
-        step = 10,
-		spv2 = 11,
+		calibr_manager = 7,
+        chirp = 8,
+        step = 9,
+		spv2 = 10,
     };
 
     enum class elbow_controllers : uint8_t  //Elbow Controller IDs
@@ -422,7 +420,6 @@ namespace config_defs
             {"0", (uint8_t)config_defs::knee_controllers::disabled}, 
             {"zeroTorque", (uint8_t)config_defs::knee_controllers::zero_torque}, 
             {"constantTorque", (uint8_t)config_defs::knee_controllers::constant_torque},
-            {"elbowMinMax", (uint8_t)config_defs::knee_controllers::elbow_min_max},
             {"chirp", (uint8_t)config_defs::knee_controllers::chirp},
             {"step", (uint8_t)config_defs::knee_controllers::step},
         };
@@ -435,7 +432,6 @@ namespace config_defs
             {"zhangCollins", (uint8_t)config_defs::ankle_controllers::zhang_collins},
             {"constantTorque", (uint8_t)config_defs::ankle_controllers::constant_torque},
             {"TREC", (uint8_t)config_defs::ankle_controllers::trec},
-			{"elbowMinMax", (uint8_t)config_defs::ankle_controllers::elbow_min_max},
 			{"calibrManager", (uint8_t)config_defs::ankle_controllers::calibr_manager},
             {"chirp", (uint8_t)config_defs::ankle_controllers::chirp},
             {"step", (uint8_t)config_defs::ankle_controllers::step},

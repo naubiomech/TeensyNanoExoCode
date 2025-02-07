@@ -589,7 +589,6 @@ KneeJoint::KneeJoint(config_defs::joint_id id, ExoData* exo_data)
 : _Joint(id, exo_data) // <-- Initializer list
 , _zero_torque(id, exo_data)
 , _constant_torque(id, exo_data)
-, _elbow_min_max(id, exo_data)
 , _chirp(id, exo_data)
 , _step(id, exo_data)
 {
@@ -754,9 +753,6 @@ void KneeJoint::set_controller(uint8_t controller_id)  //Changes the high level 
         case (uint8_t)config_defs::knee_controllers::constant_torque:
             _controller = &_constant_torque;
             break;
-        case (uint8_t)config_defs::knee_controllers::elbow_min_max:
-            _controller = &_elbow_min_max;
-            break;
         case (uint8_t)config_defs::knee_controllers::chirp:
             _controller = &_chirp;
             break;
@@ -779,7 +775,6 @@ AnkleJoint::AnkleJoint(config_defs::joint_id id, ExoData* exo_data)
 , _zhang_collins(id, exo_data)
 , _constant_torque(id, exo_data)
 , _trec(id, exo_data)
-, _elbow_min_max(id, exo_data)
 , _calibr_manager(id, exo_data)
 , _chirp(id, exo_data)
 , _step(id, exo_data)
@@ -974,9 +969,6 @@ void AnkleJoint::set_controller(uint8_t controller_id)  //Changes the high level
             break;
         case (uint8_t)config_defs::ankle_controllers::trec:
             _controller = &_trec;
-            break;
-		case (uint8_t)config_defs::ankle_controllers::elbow_min_max:
-            _controller = &_elbow_min_max;
             break;
 		case (uint8_t)config_defs::ankle_controllers::calibr_manager:
             _controller = &_calibr_manager;
